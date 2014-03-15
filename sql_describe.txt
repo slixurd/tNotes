@@ -1,0 +1,44 @@
+CREATE DATABASE tnotes;
+
+USE tnotes;
+//用户表只设置用户名,密码,随机盐三项
+CREATE TABLE user(
+    username varchar(80) NOT NULL,
+    pass varchar(80) NOT NULL,
+    salt varchar(30) NOT NULL,
+    PRIMARY KEY(username)
+)CHARSET=utf8;
+//目录表设置ID,父亲结点ID,目录名
+//对于用户名(用于判断目录属于哪个用户,这里不采用外键,编写的时候自己处理)
+//另外有两个时间戳,一个是创建时间,数据库自动处理
+//另外一个是修改时间,暂时不作使用,如果需要显示最后修改时间就另作处理
+CREATE TABLE node(
+    nodeID int(11) NOT NULL AUTO_INCREMENT,
+    parentID int(11) NOT NULL DEFAULT 0,
+    username varchar(80) NOT NULL,
+    name varchar(80) NOT NULL,
+    createTime timestamp DEFAULT CURRENT_TIMESTAMP,
+    modifiedTime timestamp DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(nodeID)
+)AUTO_INCREMENT = 10000;
+
+//正文表只有3项,ID,name,正文
+//采用LONGTEXT,支持4294967295个字符,能够满足绝大部分需求
+CREATE TABLE article()(
+    articleID int(11) NOT NULL AUTO_INCREMENT,
+    name varchar(80) NOT NULL,
+    context LONGTEXT,
+    PRIMARY KEY(articleID)
+);
+//关联表.姑且还是拆开,保证3NF吧
+CREATE TABLE articleLocation(
+    articleID int(11) NOT NULL,
+    nodeID int (11) NOT NULL,
+);
+
+CREATE TABLE tmpArticle(
+    articleID int(11) NOT NULL,
+    name varchar(80) NOT NULL,
+    context LONGTEXT,
+    PRIMARY KEY(articleID)
+);
