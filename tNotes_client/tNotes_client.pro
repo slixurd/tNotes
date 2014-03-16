@@ -13,6 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        tnotesmainwindow.cpp
+        tnotesmainwindow.cpp \
+    tnotestexteditor.cpp \
+    tnotesbookcategory.cpp \
+    tnotescategory.cpp \
+    tnotessearchtool.cpp
 
-HEADERS  += tnotesmainwindow.h
+HEADERS  += tnotesmainwindow.h \
+    tnotestexteditor.h \
+    tnotesbookcategory.h \
+    tnotescategory.h \
+    tnotessearchtool.h
