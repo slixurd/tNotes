@@ -6,6 +6,7 @@ CREATE TABLE user(
     username varchar(80) NOT NULL,
     pass varchar(80) NOT NULL,
     salt varchar(30) NOT NULL,
+    session varchar(30),
     PRIMARY KEY(username)
 )CHARSET=utf8;
 
@@ -24,6 +25,8 @@ CREATE TABLE article()(
     articleID int(11) NOT NULL AUTO_INCREMENT,
     name varchar(80) NOT NULL,
     context LONGTEXT,
+    createTime timestamp DEFAULT CURRENT_TIMESTAMP,
+    modifiedTime timestamp DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(articleID)
 );
 
