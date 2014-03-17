@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QSizePolicy>
 #include <QGroupBox>
+#include <QSplitter>
 
 #include "tnotesmainwindow.h"
 #include "tnotestexteditor.h"
@@ -25,21 +26,39 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
 			QSizePolicy::Expanding);
 	
 	notesBookCategory = new tNotesBookCategory;
+	notesBookCategory->setMinimumSize(150, 300);
 	notesTextEditor = new tNotesTextEditor;
+	notesTextEditor->setMinimumSize(300, 300);
 	searchTool = new tNotesSearchTool;
 	notesCategory = new tNotesCategory;
+	notesCategory->setMinimumSize(150, 300);
 
 	/*
 	 * set layout
 	 */
-	QVBoxLayout *editorLayout = new QVBoxLayout;
-	editorLayout->addWidget(searchTool, 1);
-	editorLayout->addWidget(notesTextEditor, 10);
+	QHBoxLayout *toolLayout = new QHBoxLayout;
+	toolLayout->addStretch(3);
+	toolLayout->addWidget(searchTool, 1);
 
-	QHBoxLayout *mainLayout = new QHBoxLayout;
-	mainLayout->addWidget(notesBookCategory, 1);
-	mainLayout->addWidget(notesCategory, 1);
-	mainLayout->addLayout(editorLayout, 2);
+	QHBoxLayout *noteLayout = new QHBoxLayout;
+	splitter = new QSplitter;
+	splitter->setChildrenCollapsible(false);
+	splitter->addWidget(notesBookCategory);
+	splitter->setStretchFactor(splitter->indexOf(notesBookCategory), 1);
+	splitter->addWidget(notesCategory);
+	splitter->setStretchFactor(splitter->indexOf(notesCategory), 1);
+	splitter->addWidget(notesTextEditor);
+	splitter->setStretchFactor(splitter->indexOf(notesTextEditor), 5);
+	noteLayout->addWidget(splitter);
+	/*  
+	noteLayout->addWidget(notesBookCategory, 1);
+	noteLayout->addWidget(notesCategory, 1);
+	noteLayout->addWidget(notesTextEditor, 2);
+	*/
+
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	mainLayout->addLayout(toolLayout, 1);
+	mainLayout->addLayout(noteLayout, 9);
 	
 	centralWidget->setLayout(mainLayout);
 }

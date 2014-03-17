@@ -5,7 +5,7 @@
 #include <QMap>
 #include <QPointer>
 
-
+class QSplitter;
 class tNotesTextEditor;
 class QGroupBox;
 class tNotesBookCategory;
@@ -25,6 +25,7 @@ public:
 private:
 		void setMainWindowsSize();
 
+		QSplitter *splitter;
 		QGroupBox *centralWidget;
     tNotesTextEditor *notesTextEditor;
 		QWidget *editToolBar;
