@@ -14,6 +14,11 @@ git clone https://github.com/slixurd/tNotes.git
 git config --global user.name "your github name here"
 git config --global user.email "your github email here"
 ```
+如果希望可以直接提交push,还需要在自己的机器上生成SSH_KEY,然后将公钥写入github账号中
+
+设置在 [github setting](https://github.com/settings/ssh) 中.教程在 [Generating SSH Keys](https://help.github.com/articles/generating-ssh-keys)上,根据自己电脑的操作系统选择.
+
+
 3.然后每个小组切换到自己的branch下工作
 
 除了master分别有3个分支.web/client/server.例如切换到web分支下
