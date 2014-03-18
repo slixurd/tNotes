@@ -3,50 +3,67 @@
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="C:\Users\xiao\Desktop\tNotes\bootstrap\css\bootstrap.css" />
-<link rel="stylesheet" href="css/fontello.css">
-<link rel="stylesheet" href="css/animation.css">
+<script language="JavaScript" type="text/javascript" src=".\bootstrap\js\bootstrap.js"></script>
+<script language="JavaScript" type="text/javascript" src=".\bootstrap\js\jquery.js"></script>
+<script language="JavaScript" type="text/javascript" src=".\bootstrap\js\bootstrap-transition.js"></script>
+<script language="JavaScript" type="text/javascript" src=".\bootstrap\js\bootstrap-alert.js"></script>
+
+<link rel="stylesheet" type="text/css" href=".\bootstrap\css\bootstrap.css" />
 <link rel="stylesheet" href="css/tNotes.css">
 </head>
 <body>
+
 <header>
 <div id="menubar">
+<div class="icon_circle_white" title="登录"><i class="icon-user"><a  href="#login" data-toggle="modal"></a></i></div>
+<div class="icon_circle_white" title="新建文件"><i class="icon-file"></i></div>
+<div class="icon_circle_white" title="删除文件"><i class="icon-trash"></i></div>
+<div class="icon_circle_white" title="同步"><i class="icon-refresh"></i></div>
 <div class="pull-right article_search">
 <form action="" method="post" class="form-horizontal">
-<input type="text" placeholder="请输入、、"  name="search" class="form-search"/>
-<input type="submit" value="搜索"/>
-<i class="icon-user"></i>
+<input type="text" placeholder="Search"  name="search" class="form-search"/>
+<input type="submit" value="搜索" class="btn-primary"/>
 </div>
 </div>
 </header>
+
+
 <aside id="aside">
 <div id="allnote">
 <div class="list_content">
-<i class="icon-list-alt"></i>
+<i class="icon-th-large"></i>
 <span class="icon_name">All Notes</span>
+</div>
+</div>
+
+<div class="newnode">
+<div class="list_content">
+<i class="icon-folder-close"></i>
+<span class="icon_name">new notbook...</span>
 </div>
 </div>
 
 <div class="node">
 <div class="list_content">
-<i class="icon-folder"></i>
+<i class="icon-folder-close"></i>
 <span class="icon_name">html学习</span>
 </div>
 </div>
 
 <div class="node">
 <div class="list_content">
-<i class="icon-folder"></i>
+<i class="icon-folder-close"></i>
 <span class="icon_name">CSS学习</span>
 </div>
 </div>
 
 <div class="node">
 <div class="list_content">
-<i class="icon-folder"></i>
+<i class="icon-folder-close"></i>
 <span class="icon_name">javascript学习</span>
 </div>
 </div>
+
 </aside>
 
 
@@ -95,8 +112,108 @@
 
 
 
-<section id="editor"></section>
+<section id="editor">
+<div id="title">
+<!--<input type="text" value="html5离线存储" disabled />-->
+<div id="editor_title" contenteditable="true">
+html5离线存储
+</div>
+<div id="start_edit">
+<div><i class="icon-tag"></i><span id="edit">edit</span>
+</div>
+<span>Today 00:24</span>
+</div>
+</div>
+
+<div id="toolsbar">
+
+<div class="icon_circle" title="加粗<strong>，CTRL+B">
+<i class="icon-bold icon-white"></i>
+</div>
+<div class="icon_circle" title="斜体<em>，CTRL+I">
+<i class=" icon-italic icon-white"></i>
+</div>
+<div class="icon_circle" title="左对齐，CTRL+L">
+<i class=" icon-align-left icon-white"></i>
+</div>
+<div class="icon_circle" title="居中对齐，CTRL+M">
+<i class="icon-align-center icon-white"></i>
+</div>
+<div class="icon_circle" title="右对齐，CTRL+R">
+<i class="icon-align-right icon-white"></i>
+</div>
+<div class="icon_circle" title="插入代码">
+<i class="icon-chevron-left icon-white"></i>
+<i class="icon-chevron-right icon-white" ></i>
+</div>
+<div class="icon_circle" title="水平线<hr>，CTRL+R">
+<i class="icon-minus icon-white"></i>
+</div>
+<div class="icon_circle pull-right" title="有疑问？">
+<i class="icon-question-sign icon-white"></i>
+</div>
+
+
+
+</div>
+<div id="editor_content" contenteditable="true">
+<!--<input type="text" value="H5的一个重要特性就是离线存储，所谓的离线存储就是将一些资源文件保存在本地" />-->
+</div>
+</section>
 <footer id="footer">
 </footer>
+
+
+
+	<!--登录modal-->
+	
+	<div class="modal hide" id="login">
+	<form action="" method="post" name="login"  class="form-horizontal">
+	<fieldset>
+		<div class="modal-header">
+		<a href="#" class="close" data-dismiss="modal">×</a>
+		<legend>用户登录</legend>
+		</div>
+		
+		<div class="modal-body">
+		<div class="control-group">
+		<label class="control-label" for="username">用户名：</label>
+		<div class="controls">
+		<input id="username" type="text" placeholder="请输入用户名" class="span3" name="username" required/>
+	
+		</div>
+		</div>
+	
+		
+		<div class="control-group">
+		<label class="control-label" for="password">密码：</label>
+		<div class="controls">
+		<input id="password" type="password" placeholder="请输入密码" class="span3" name="password" required/>
+		
+		</div>
+		</div>
+		
+		<div class="control-group form-inline">
+		<div class="controls">
+		<input type="radio" name="user_type" value="学生" checked/><label>学生</label>
+		<input type="radio" name="user_type" value="教师"/><label>教师</label>
+		<input type="radio" name="user_type" value="管理员"/><label>管理员</label>
+		</div>
+		</div>
+		</div>
+		</fieldset>
+		
+		
+		<div class="modal-footer">
+
+		<button type="submit" class="btn btn-primary">登录</button>
+		<input type="reset" value="重置"/>
+
+		</div>
+	</form>
+</div>
+
+
+
 </body>
 </html>
