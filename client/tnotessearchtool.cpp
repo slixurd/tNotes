@@ -6,6 +6,7 @@
 #include "tnotessearchtool.h"
 #include <QFile>
 #include <vector>
+#include "Operation.h"
 
 tNotesSearchTool::tNotesSearchTool(QWidget *parent) 
 	: QWidget(parent)
@@ -51,20 +52,23 @@ void tNotesSearchTool::searchbtn_click()
 {
     //获取包含查询词的文章列表的伪代码
 
-//    std::vector<T> list(searchAllnote());
-//    for(std::vector<T>::iterator iter=list.begin();iter!=ivec.end();)
+    std::vector<Article> list(searchAllArticle());
+    const char *p=list[0].context.c_str();
+    searchStateLabel->setText( p);
+//    for(std::vector<Article>::iterator iter=list.begin();iter!=list.end();)
 //    {
-//        if(!find(*iter.context))
+//        if(!find((*iter).context))
 //        {
+//            searchStateLabel->setText("find it");
 //            list.erase(iter);
 //        }
 //        else
+//        {
 //            iter++;
+//            searchStateLabel->setText("not find");
+//        }
 //    }
     //显示在界面的文章列表上
 
-
-
     //暂缺
-
 }

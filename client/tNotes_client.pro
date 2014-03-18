@@ -17,10 +17,33 @@ SOURCES += main.cpp\
     tnotestexteditor.cpp \
     tnotesbookcategory.cpp \
     tnotescategory.cpp \
-    tnotessearchtool.cpp
+    tnotessearchtool.cpp \
+    json/json_internalarray.inl \
+    json/json_internalmap.inl \
+    json/json_reader.cpp \
+    json/json_value.cpp \
+    json/json_valueiterator.inl \
+    json/json_writer.cpp \
+    operation.cpp
 
 HEADERS  += tnotesmainwindow.h \
     tnotestexteditor.h \
     tnotesbookcategory.h \
     tnotescategory.h \
-    tnotessearchtool.h
+    tnotessearchtool.h \
+    json/autolink.h \
+    json/config.h \
+    json/features.h \
+    json/forwards.h \
+    json/json.h \
+    json/json_batchallocator.h \
+    json/reader.h \
+    json/value.h \
+    json/writer.h \
+    Directory.h \
+    Operation.h \
+    Article.h
+
+OTHER_FILES += \
+    json/sconscript
+

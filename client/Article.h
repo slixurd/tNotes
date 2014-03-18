@@ -1,6 +1,6 @@
-/*
-     ндубюЮ Article
-     ╟Э╨╛кЫпХр╙йЩ╬щ
+О╩©/*
+     Ф√┤Г╚═Г╠╩ Article
+     Е▄┘Е░╚Ф┴─И°─Х╕│Ф∙╟Ф█╝
 */
 #include<string>
 using namespace std;
@@ -9,12 +9,12 @@ using namespace std;
 class Article
 {
 public:
-    string articleId;                //ндубid,сК╥ЧнЯфВм╛╡╫й╧сц
-    string name;                     //ндуб╠ЙлБ
-    string context;                  //ндубдзхщ
-    string createTime;               //ндуб╢╢╫╗й╠╪Д
-    string modifiedTime;             //ндубпч╦дй╠╪Д
-    bool isSyn;                      //йг╥Ям╛╡╫╣╫тф╤к
+    string articleId;                //Ф√┤Г╚═id,Д╦▌Ф°█Е┼║Е≥╗Е░▄Ф╜╔Д╫©Г■╗
+    string name;                     //Ф√┤Г╚═Ф═┤И╒≤
+    string context;                  //Ф√┤Г╚═Е├┘Е╝╧
+    string createTime;               //Ф√┤Г╚═Е┬⌡Е╩╨Ф≈╤И≈╢
+    string modifiedTime;             //Ф√┤Г╚═Д©╝Ф■╧Ф≈╤И≈╢
+    bool isSyn;                      //Ф≤╞Е░╕Е░▄Ф╜╔Е┬╟Д╨▒Г╚╞
     Article(string articleId,string name,string context,string createTime,string modifiedTime,bool isSyn)
     {
         this->articleId=articleId;

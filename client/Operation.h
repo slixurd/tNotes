@@ -1,6 +1,6 @@
-/*
-     ╨Сл╗╡ывВюЮ Operation
-     ╟Э╨╛тЖё╛и╬ё╛╡И╡ывВ
+О╩©/*
+     Е░▌Е▐╟Ф⌠█Д╫°Г╠╩ Operation
+     Е▄┘Е░╚Е╒·О╪▄Е┬═О╪▄Ф÷╔Ф⌠█Д╫°
 */
 #include "json/json.h"
 #include "Article.h"
@@ -9,16 +9,16 @@
 #include<algorithm>
 #ifndef OPERATION_H
 #define OPERATION_H
-bool createRoot(Directory dir);        //╢╢╫╗д©б╪ё╛╢╚хКд©б╪юЮ
-bool changeRoot(string iRoot,Directory dir);        //д©б╪жьцЭцШё╛╢╚хКд©б╪юЮ
-bool createArticle(string iRoot,Article art);     //╢╢╫╗ндубё╛╢╚хКд©б╪кВрЩ╨мндубюЮё╛
-bool changeArticle(string iRoot,string iArticle,Article art);//пч╦дндуб
-bool deleteRoot(string index);         //и╬ЁЩд©б╪ё╛╢╚хКд©б╪кВрЩ
-bool deleteArticle(string iRoot,string iArticle); //и╬ЁЩндубё╛╢╚хКд©б╪╨мндубкВрЩ
-vector<Directory> searchAllRoot();//╡ИуркЫспд©б╪ё╛╥╣╩ьд©б╪ап╠М
-vector<Article> searchRootArticle(string iRoot);  //╡ИурдЁ╦Жд©б╪обкЫспндубё╛╢╚хКд©б╪кВрЩё╛╥╣╩ьндубап╠М
-vector<Article> searchAllArticle();  //╥╣╩ькЫспндуб
-Article searchArticle(string iRoot,string iArticle);  //╡ИурдЁ╦Жд©б╪обль╤╗ндубё╛╢╚хКд©б╪╨мндубкВрЩё╛╥╣╩ьндубюЮ,хТур╡╩╣╫╥╣╩ьр╩╦Ж©у╤тоС║ё
-Json::Value returnRoot();  //╥╣╩ьjsonуШ╦Жнд╪Чё╛хТнд╪Ч╡╩╢Фтзё╛╥╣╩ьnull
-bool writeInJson(Json::Value root);         //п╢хКjsonнд╪Ч
+bool createRoot(Directory dir);        //Е┬⌡Е╩╨Г⌡╝Е╫∙О╪▄Д╪═Е┘╔Г⌡╝Е╫∙Г╠╩
+bool changeRoot(string iRoot,Directory dir);        //Г⌡╝Е╫∙И┤█Е▒╫Е░█О╪▄Д╪═Е┘╔Г⌡╝Е╫∙Г╠╩
+bool createArticle(string iRoot,Article art);     //Е┬⌡Е╩╨Ф√┤Г╚═О╪▄Д╪═Е┘╔Г⌡╝Е╫∙Г╢╒Е╪∙Е▓▄Ф√┤Г╚═Г╠╩О╪▄
+bool changeArticle(string iRoot,string iArticle,Article art);//Д©╝Ф■╧Ф√┤Г╚═
+bool deleteRoot(string index);         //Е┬═И≥╓Г⌡╝Е╫∙О╪▄Д╪═Е┘╔Г⌡╝Е╫∙Г╢╒Е╪∙
+bool deleteArticle(string iRoot,string iArticle); //Е┬═И≥╓Ф√┤Г╚═О╪▄Д╪═Е┘╔Г⌡╝Е╫∙Е▓▄Ф√┤Г╚═Г╢╒Е╪∙
+vector<Directory> searchAllRoot();//Ф÷╔Ф┴╬Ф┴─Ф°┴Г⌡╝Е╫∙О╪▄Х©■Е⌡·Г⌡╝Е╫∙Е┬≈Х║╗
+vector<Article> searchRootArticle(string iRoot);  //Ф÷╔Ф┴╬Ф÷░Д╦╙Г⌡╝Е╫∙Д╦▀Ф┴─Ф°┴Ф√┤Г╚═О╪▄Д╪═Е┘╔Г⌡╝Е╫∙Г╢╒Е╪∙О╪▄Х©■Е⌡·Ф√┤Г╚═Е┬≈Х║╗
+vector<Article> searchAllArticle();  //Х©■Е⌡·Ф┴─Ф°┴Ф√┤Г╚═
+Article searchArticle(string iRoot,string iArticle);  //Ф÷╔Ф┴╬Ф÷░Д╦╙Г⌡╝Е╫∙Д╦▀Г┴╧Е╝ Ф√┤Г╚═О╪▄Д╪═Е┘╔Г⌡╝Е╫∙Е▓▄Ф√┤Г╚═Г╢╒Е╪∙О╪▄Х©■Е⌡·Ф√┤Г╚═Г╠╩,Х▀╔Ф┴╬Д╦█Е┬╟Х©■Е⌡·Д╦─Д╦╙Г╘╨Е╞╧Х╠║Ц─┌
+Json::Value returnRoot();  //Х©■Е⌡·jsonФ∙╢Д╦╙Ф√┤Д╩╤О╪▄Х▀╔Ф√┤Д╩╤Д╦█Е╜≤Е°╗О╪▄Х©■Е⌡·null
+bool writeInJson(Json::Value root);         //Е├≥Е┘╔jsonФ√┤Д╩╤
 #endif
