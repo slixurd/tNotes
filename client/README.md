@@ -1,4 +1,4 @@
-tNotes客户端
+﻿tNotes客户端
 =====
 
 成员
@@ -16,5 +16,9 @@ tNotes客户端
   基于cpp-markdown编写的动态库，作用为将markdown语法翻译为html，可以使用testdll进行测试，
   编译后直接运行。效率可能有些低。
 
+
+2  Qt下json配置
+   只需要将json文件下所有文件导入项目工程即可。
+   调用客户端后台函数只需包含#include "Operation.h"即可，详细函数说明请看"Operation.h"中函数说明。
 
 
