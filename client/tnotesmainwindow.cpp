@@ -30,7 +30,7 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
 	notesTextEditor = new tNotesTextEditor;
 	notesTextEditor->setMinimumSize(300, 300);
 	searchTool = new tNotesSearchTool;
-	searchTool->setStyleSheet("width:120px;height:25px;");
+	searchTool->setStyleSheet("width:25%;height:25px;");
 	notesCategory = new tNotesCategory;
 	notesCategory->setMinimumSize(150, 300);
 
@@ -69,8 +69,9 @@ void tNotesMainWindow::setMainWindowLayout()
 	toolLayout->addWidget(buttonNewNotebook);
 	toolLayout->addWidget(buttonSettings);
 	toolLayout->addWidget(buttonSync);
-	toolLayout->addSpacing(500);
-	toolLayout->addWidget(searchTool, 0, Qt::AlignRight);
+	toolLayout->addSpacing(400);
+	//toolLayout->addWidget(searchTool, 0, Qt::AlignRight);
+	toolLayout->addWidget(searchTool);
 	topWidget->setStyleSheet("background-color:#44ddff;height:50px;");
 	topWidget->setLayout(toolLayout);
 
