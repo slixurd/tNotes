@@ -24,10 +24,6 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
 	setMainWindowsSize();
 
 	/* initialization */
-	/*  
-	centralWidget = new QWidget;
-	setCentralWidget(centralWidget);
-	*/
 	
 	notesBookCategory = new tNotesBookCategory;
 	notesBookCategory->setMinimumSize(150, 300);
@@ -49,28 +45,6 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
 	 * set layout
 	 */
 	setMainWindowLayout();
-	/*  
-	QHBoxLayout *toolLayout = new QHBoxLayout;
-	toolLayout->addStretch(3);
-	toolLayout->addWidget(searchTool, 1);
-
-	QHBoxLayout *noteLayout = new QHBoxLayout;
-	splitter = new QSplitter;
-	splitter->setChildrenCollapsible(false);
-	splitter->addWidget(notesBookCategory);
-	splitter->setStretchFactor(splitter->indexOf(notesBookCategory), 1);
-	splitter->addWidget(notesCategory);
-	splitter->setStretchFactor(splitter->indexOf(notesCategory), 1);
-	splitter->addWidget(notesTextEditor);
-	splitter->setStretchFactor(splitter->indexOf(notesTextEditor), 5);
-	noteLayout->addWidget(splitter);
-
-	QVBoxLayout *mainLayout = new QVBoxLayout;
-	mainLayout->addLayout(toolLayout, 1);
-	mainLayout->addLayout(noteLayout, 9);
-	
-	centralWidget->setLayout(mainLayout);
-	*/
 }
 
 tNotesMainWindow::~tNotesMainWindow()
@@ -112,6 +86,8 @@ void tNotesMainWindow::setMainWindowLayout()
 	noteLayout->addWidget(splitter);
 
 	QVBoxLayout *mainLayout = new QVBoxLayout;
+	mainLayout->setSpacing(0);
+	mainLayout->setMargin(0);
 	mainLayout->addWidget(topWidget, 1);
 	mainLayout->addLayout(noteLayout, 9);
 	
