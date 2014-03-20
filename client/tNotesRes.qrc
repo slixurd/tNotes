@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/myres">
+        <file alias="settings.png">medias/icons/settings.png</file>
+        <file alias="sync.png">medias/icons/sync.png</file>
+        <file alias="login.png">medias/icons/login.png</file>
+        <file alias="newnotebook.png">medias/icons/folder_new.png</file>
+    </qresource>
+</RCC>
