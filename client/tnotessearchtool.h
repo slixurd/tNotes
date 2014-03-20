@@ -6,6 +6,7 @@ class QGroupBox;
 class QLineEdit;
 class QPushButton;
 class QLabel;
+class tNotesButton;
 
 class tNotesSearchTool : public QWidget
 {
@@ -17,7 +18,7 @@ public:
 private:
 		QGroupBox *searchToolGroupBox;
 		QLineEdit *searchToolLineEdit;
-        QPushButton *searchbtn;
+    tNotesButton *searchbtn;
         QLabel *searchStateLabel;
 private slots:
     void searchbtn_click();

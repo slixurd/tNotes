@@ -11,7 +11,7 @@ class tNotesButton : public QPushButton
 
 public:
 		tNotesButton(const QString &image_path, 
-				int width = 25, int height = 25,
+				int width = 28, int height = 28,
 				QWidget *parent = 0);
 
 };

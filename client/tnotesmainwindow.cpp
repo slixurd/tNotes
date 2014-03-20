@@ -29,14 +29,16 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
 	notesBookCategory->setMinimumSize(150, 300);
 	notesTextEditor = new tNotesTextEditor;
 	notesTextEditor->setMinimumSize(300, 300);
-	searchTool = new tNotesSearchTool;
-	searchTool->setStyleSheet("width:25%;height:25px;");
 	notesCategory = new tNotesCategory;
 	notesCategory->setMinimumSize(150, 300);
 
 
+	searchTool = new tNotesSearchTool;
+	searchTool->setStyleSheet("width:25%;height:25px;");
 
-	buttonLogin = new tNotesButton(tr("/myres/login.png"), 50, 25);
+
+
+	buttonLogin = new tNotesButton(tr("/myres/login.png"), 56, 28);
 	buttonNewNotebook = new tNotesButton(tr("/myres/newnotebook.png"));
 	buttonSettings = new tNotesButton(tr("/myres/settings.png"));
 	buttonSync = new tNotesButton(tr("/myres/sync.png"));
@@ -72,25 +74,30 @@ void tNotesMainWindow::setMainWindowLayout()
 	toolLayout->addSpacing(400);
 	//toolLayout->addWidget(searchTool, 0, Qt::AlignRight);
 	toolLayout->addWidget(searchTool);
-	topWidget->setStyleSheet("background-color:#44ddff;height:50px;");
+	toolLayout->setContentsMargins(0, 0, 0, 0);
 	topWidget->setLayout(toolLayout);
+	topWidget->setStyleSheet("background-color:#44ddff;height:100px;");
 
 	QHBoxLayout *noteLayout = new QHBoxLayout;
 	splitter = new QSplitter;
 	splitter->setChildrenCollapsible(false);
+	notesBookCategory->setStyleSheet("height:520px;");
 	splitter->addWidget(notesBookCategory);
 	splitter->setStretchFactor(splitter->indexOf(notesBookCategory), 1);
+	notesCategory->setStyleSheet("height:520px;");
+	
 	splitter->addWidget(notesCategory);
-	splitter->setStretchFactor(splitter->indexOf(notesCategory), 1);
+	splitter->setStretchFactor(splitter->indexOf(notesCategory), 2);
+	notesTextEditor->setStyleSheet("height:520px;");
 	splitter->addWidget(notesTextEditor);
-	splitter->setStretchFactor(splitter->indexOf(notesTextEditor), 5);
+	splitter->setStretchFactor(splitter->indexOf(notesTextEditor), 3);
 	noteLayout->addWidget(splitter);
 
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	mainLayout->setSpacing(0);
 	mainLayout->setMargin(0);
-	mainLayout->addWidget(topWidget, 1);
-	mainLayout->addLayout(noteLayout, 9);
+	mainLayout->addWidget(topWidget);
+	mainLayout->addLayout(noteLayout);
 	
 	centralWidget->setLayout(mainLayout);
 }

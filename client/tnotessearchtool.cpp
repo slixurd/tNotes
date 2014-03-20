@@ -7,12 +7,13 @@
 #include <QFile>
 #include <vector>
 #include "Operation.h"
+#include "tnotesbutton.h"
 
 tNotesSearchTool::tNotesSearchTool(QWidget *parent) 
 	: QWidget(parent)
 {
 	searchToolLineEdit = new QLineEdit;
-    searchbtn=new QPushButton("查找",this);
+    searchbtn=new tNotesButton("/myres/find.png");
     searchStateLabel=new QLabel(this);
     searchToolLineEdit->setPlaceholderText("search");
 	QHBoxLayout *layout = new QHBoxLayout;

@@ -12,6 +12,9 @@ class QLabel;
 class QToolButton;
 class QToolBar;
 class QAction;
+class QFrame;
+
+class tNotesButton;
 
 class tNotesTextEditor : public QWidget
 {
@@ -28,6 +31,9 @@ private:
 		QGroupBox *noteEditorGroupBox;
 		QTextEdit *noteEditor;
 		QAction *actionUndo;
+		QFrame *horizonLine;
+
+		tNotesButton *buttonEdit;
 
 private:
 

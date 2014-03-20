@@ -10,7 +10,9 @@
 #include <QDateTime>
 #include <QFont>
 #include <QAction>
+#include <QFrame>
 #include "tnotestexteditor.h"
+#include "tnotesbutton.h"
 
 
 tNotesTextEditor::tNotesTextEditor(QWidget *parent)
@@ -22,7 +24,9 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	//noteEditorGroupBox = new QGroupBox(tr("noteEditor"), this);
 	noteEditor = new QTextEdit;
 	
+	QFont titleFont("Arial", 18, QFont::Bold);
 	noteTitle = new QLabel(getTitle());
+	noteTitle->setFont(titleFont);
 
 	QFont timeFont("Arial", 8, QFont::Bold);
 	noteCreatedTime = new QLabel("Created: " + getCreatedTime());
@@ -30,25 +34,33 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	noteLastModifiedTime = new QLabel("updated: " + getLastModifiedTime());
 	noteLastModifiedTime->setFont(timeFont);
 
-	noteToolBar = new QToolBar;
+	horizonLine = new QFrame();
+	horizonLine->setFrameShape(QFrame::HLine);
+	horizonLine->setFrameShadow(QFrame::Sunken);
 
-	connect(noteEditor->document(), SIGNAL(undoAvailable(bool)),
-			actionUndo, SLOT(setEnabled(bool)));
+	buttonEdit = new tNotesButton("/myres/edit.png");
 
-	actionUndo->setEnabled(noteEditor->document()->isUndoAvailable());
+	/*  
+	QHBoxLayout *tmpLayout = new QHBoxLayout;
+	tmpLayout->addWidget(buttonEdit);
+	*/
 
-	connect(actionUndo, SIGNAL(triggered()), noteEditor, SLOT(undo()));
-
-
+	QWidget *titleWidget = new QWidget;
 	QGridLayout *titleLayout = new QGridLayout;
 	titleLayout->addWidget(noteTitle, 0, 0, 0, 2);
-	titleLayout->addWidget(noteToolBar, 0, 2);
-	titleLayout->addWidget(noteCreatedTime, 1, 0);
-	titleLayout->addWidget(noteLastModifiedTime, 1, 1);
+	titleLayout->addWidget(noteCreatedTime, 0, 1, 0, 2, Qt::AlignJustify);
+	//titleLayout->addLayout(tmpLayout, 0, 2, 0, 2);
+	titleLayout->addWidget(buttonEdit, 0, 3, 0, 2, Qt::AlignRight);
+	titleLayout->addWidget(horizonLine, 1, 0, 2, 0);
+	titleLayout->addWidget(noteLastModifiedTime, 2, 4, Qt::AlignRight);
+	titleLayout->setContentsMargins(0, 0, 0, 2);
+	titleWidget->setLayout(titleLayout);
+	titleWidget->setMinimumSize(470, 80);
 
 	QVBoxLayout *layout = new QVBoxLayout;
-	layout->addLayout(titleLayout, 1);
-	layout->addWidget(noteEditor, 9);
+	layout->addWidget(titleWidget);
+	layout->addWidget(noteEditor);
+	
 
 	setLayout(layout);
 }
@@ -79,10 +91,10 @@ QString tNotesTextEditor::getTitle()
 
 QString tNotesTextEditor::getCreatedTime()
 {
-	return QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss");
+	return QDate::currentDate().toString("yyyy.MM.dd");
 }
 
 QString tNotesTextEditor::getLastModifiedTime()
 {
-	return QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss");
+	return QDate::currentDate().toString("yyyy.MM.dd");
 }
