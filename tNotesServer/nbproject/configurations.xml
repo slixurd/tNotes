@@ -2,10 +2,13 @@
 <configurationDescriptor version="90">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
+      <itemPath>DummyHandler.h</itemPath>
+      <itemPath>Exception.hpp</itemPath>
       <itemPath>Handler.h</itemPath>
       <itemPath>SimpleFactory.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+      <itemPath>DummyHandler.cpp</itemPath>
       <itemPath>Handler.cpp</itemPath>
       <itemPath>SimpleFactory.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -37,9 +40,16 @@
           <linkerLibItems>
             <linkerLibLibItem>fcgi++</linkerLibLibItem>
             <linkerLibLibItem>fcgi</linkerLibLibItem>
+            <linkerLibLibItem>json_linux-gcc-4.6_libmt</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="DummyHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DummyHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Exception.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Handler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Handler.h" ex="false" tool="3" flavor2="0">
@@ -71,6 +81,12 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="DummyHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DummyHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Exception.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Handler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Handler.h" ex="false" tool="3" flavor2="0">

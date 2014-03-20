@@ -13,6 +13,7 @@
 #include <fcgio.h>
 
 #include "SimpleFactory.h"
+
 /*
  * CGI Main
  */
@@ -36,15 +37,15 @@ int main(int argc, char** argv) {
 
     while (FCGX_Accept_r(&request) == 0) {
 
+        fcgi_streambuf cin_fcgi_streambuf(request.in);
+        fcgi_streambuf cout_fcgi_streambuf(request.out);
+        fcgi_streambuf cerr_fcgi_streambuf(request.err);
+
+        cin.rdbuf(&cin_fcgi_streambuf);
+        cout.rdbuf(&cout_fcgi_streambuf);
+        cerr.rdbuf(&cerr_fcgi_streambuf);
+
         try {
-
-            fcgi_streambuf cin_fcgi_streambuf(request.in);
-            fcgi_streambuf cout_fcgi_streambuf(request.out);
-            fcgi_streambuf cerr_fcgi_streambuf(request.err);
-
-            cin.rdbuf(&cin_fcgi_streambuf);
-            cout.rdbuf(&cout_fcgi_streambuf);
-            cerr.rdbuf(&cerr_fcgi_streambuf);
 
             string scriptName = FCGX_GetParam("SCRIPT_NAME", request.envp);
             string method = FCGX_GetParam("REQUEST_METHOD", request.envp);
@@ -72,16 +73,19 @@ int main(int argc, char** argv) {
             delete handler;
 
             /*just 4 test*/
-            cout << "Content-type: text/html\r\n"
-                    << "\r\n"
-                    << "FastCGI Hello! "
-                    << "FileName:" << scriptName << ";"
-                    << "Context_type:" << contextType << ";"
-                    << "Method:" << method << ";"
-                    << "Post:" << postInfo;
+//            cout << "Content-type: text/html\r\n"
+//                    << "\r\n"
+//                    << "FastCGI Hello! "
+//                    << "FileName:" << scriptName << ";"
+//                    << "Context_type:" << contextType << ";"
+//                    << "Method:" << method << ";"
+//                    << "Post:" << postInfo;
             // Note: the fcgi_streambuf destructor will auto flush
 
         } catch (exception const& e) {
+            cout << "Content-type: text/html\r\n"
+                    << "\r\n"
+                    << e.what();
             delete handler;
         }
 

@@ -10,10 +10,15 @@
 
 #include <string>
 
+#include "json/json.h"
+
 class Handler {
 public:
     Handler();
     virtual ~Handler();
+    
+    void String2Json(std::string const&, Json::Value&);
+    std::string Json2String(Json::Value const&);
     
     virtual std::string Handle(std::string const&) = 0;
 private:

@@ -13,3 +13,5 @@
 *.a
 /tNodesServer/build/
 /tNodesServer/dist/
+/tNotesServer/build/
+/tNotesServer/dist/
