@@ -7,4 +7,7 @@
         <file alias="edit.png">medias/icons/write.png</file>
         <file alias="find.png">medias/icons/find.png</file>
     </qresource>
+    <qresource prefix="/libs">
+        <file alias="markdown2html.dll">libs/markdown2html.dll</file>
+    </qresource>
 </RCC>

@@ -11,6 +11,13 @@
 #include <QFont>
 #include <QAction>
 #include <QFrame>
+#include <QLibrary>
+#include <QMessageBox>
+
+#include <windows.h>
+#include <iostream>
+#include <string.h>
+
 #include "tnotestexteditor.h"
 #include "tnotesbutton.h"
 
@@ -19,7 +26,6 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	: QWidget(parent)
 {
 
-	setupEditActions();
 
 	//noteEditorGroupBox = new QGroupBox(tr("noteEditor"), this);
 	noteEditor = new QTextEdit;
@@ -64,13 +70,14 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	layout->addWidget(noteEditor);
 	
 
+    setupEditActions();
 	setLayout(layout);
 }
 
 void tNotesTextEditor::setupEditActions()
 {
-	connect(buttonEdit, SIGNAL(clicked()), noteEditor,
-			SLOT(editModeChange()));
+    connect(buttonEdit, SIGNAL(clicked()), noteEditor,
+            SLOT(editModeChange()));
 }
 
 QString tNotesTextEditor::getTitle()
@@ -87,6 +94,28 @@ QString tNotesTextEditor::getCreatedTime()
 QString tNotesTextEditor::getLastModifiedTime()
 {
 	return QDate::currentDate().toString("yyyy.MM.dd");
+}
+
+
+QString markdown2html(QString articleContents){
+    QLibrary convertLib("/libs/markdown2html.dll");
+    std::string result;
+    if(convertLib.load()){
+        QMessageBox::information(NULL, "OK", "DLL load is OK!");
+        typedef std::string (*Fun)(std::string);
+        Fun convertFunc = (Fun)convertLib.resolve("markdown2HTML");
+        if(convertFunc){
+            QMessageBox::information(NULL, "OK", "Function is found");
+            result = convertFunc((const char*)articleContents.toLocal8Bit());
+            return QString::fromLocal8Bit(result.c_str());
+        } else {
+
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+
 }
 
 void tNotesTextEditor::editModeChange()
