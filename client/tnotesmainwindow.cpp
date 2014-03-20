@@ -32,21 +32,18 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
 	notesCategory = new tNotesCategory;
 	notesCategory->setMinimumSize(150, 300);
 
-
 	searchTool = new tNotesSearchTool;
 	searchTool->setStyleSheet("width:25%;height:25px;");
-
-
 
 	buttonLogin = new tNotesButton(tr("/myres/login.png"), 56, 28);
 	buttonNewNotebook = new tNotesButton(tr("/myres/newnotebook.png"));
 	buttonSettings = new tNotesButton(tr("/myres/settings.png"));
 	buttonSync = new tNotesButton(tr("/myres/sync.png"));
-
 	/*
 	 * set layout
 	 */
 	setMainWindowLayout();
+	setupActions();
 }
 
 tNotesMainWindow::~tNotesMainWindow()
@@ -100,4 +97,9 @@ void tNotesMainWindow::setMainWindowLayout()
 	mainLayout->addLayout(noteLayout);
 	
 	centralWidget->setLayout(mainLayout);
+}
+
+
+void tNotesMainWindow::setupActions()
+{
 }

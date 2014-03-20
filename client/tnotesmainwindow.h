@@ -29,6 +29,7 @@ public:
 private:
 		void setMainWindowsSize();
 		void setMainWindowLayout();
+		void setupActions();
 
 		QWidget *centralWidget;
 
@@ -38,7 +39,6 @@ private:
 		tNotesButton *buttonSync;
 		
 		tNotesSearchTool *searchTool;
-
 
 		QSplitter *splitter;
 		tNotesBookCategory *notesBookCategory;

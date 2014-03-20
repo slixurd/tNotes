@@ -40,7 +40,9 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 
 	buttonEdit = new tNotesButton("/myres/edit.png");
 
-	/*  
+
+	editMode = VIEW_MODE;
+	/*   
 	QHBoxLayout *tmpLayout = new QHBoxLayout;
 	tmpLayout->addWidget(buttonEdit);
 	*/
@@ -67,20 +69,8 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 
 void tNotesTextEditor::setupEditActions()
 {
-	QToolBar *tb = new QToolBar();
-	
-	tb->setWindowTitle(tr("Edit Action"));
-
-	QAction *a;
-	/*  
-	a = actionUndo = new QAction(QIcon::fromTheme("edit-undo"),
-				tr("&Undo"), this);
-	*/
-
-	actionUndo = new QAction("&Undo", this);
-
-	actionUndo->setShortcut(QKeySequence::Undo);
-	tb->addAction(actionUndo);
+	connect(buttonEdit, SIGNAL(clicked()), noteEditor,
+			SLOT(editModeChange()));
 }
 
 QString tNotesTextEditor::getTitle()
@@ -97,4 +87,11 @@ QString tNotesTextEditor::getCreatedTime()
 QString tNotesTextEditor::getLastModifiedTime()
 {
 	return QDate::currentDate().toString("yyyy.MM.dd");
+}
+
+void tNotesTextEditor::editModeChange()
+{
+	if(editMode == EDIT_MODE){
+	editMode = VIEW_MODE;
+	}
 }
