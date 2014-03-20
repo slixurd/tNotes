@@ -2,6 +2,7 @@
 #define DB_CONFIG
 #include<string>
 #define MAX_LEN 65535
+#define PASS_LEN 25
 const std::string CONFIG_HOST = "localhost";
 const std::string CONFIG_USER = "root";
 const std::string CONFIG_PASS = "root";

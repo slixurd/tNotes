@@ -3,7 +3,7 @@ USE tnotes;
 CREATE TABLE user(
     username varchar(80) NOT NULL,
     pass varchar(80) NOT NULL,
-    salt varchar(30) NOT NULL,
+    salt varchar(80) NOT NULL,
     session varchar(30),
     PRIMARY KEY(username)
 )CHARSET=utf8;
