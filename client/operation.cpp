@@ -1,30 +1,39 @@
 ﻿#include "Operation.h"
 #include<fstream>
+string articlePath="";
+/************************************************************************/
+/* 返回文章路径，路径构成为文章ID+.json                                                                    */
+/************************************************************************/
+void getArticlePath(string articleId)
+{
+    articlePath=articleId+".json";
+}
 /************************************************************************/
 /* 打开json文件，返回json根                                                                     */
 /************************************************************************/
-Json::Value returnRoot()
+Json::Value returnRoot(string path)
 {
+    
     Json::Reader reader;
     Json::Value root;
     ifstream ifs;
-    ifs.open("tnote.json");
-    reader.parse(ifs,root);
+    ifs.open(path);
+    reader.parse(ifs,root,false);
     if(ifs.is_open())
     {
-         ifs.close();       
+    ifs.close();       
     }
-    return root;
+   return root;
 }
 
 /************************************************************************/
 /* 将json树写入json文件，若文件不存在，则创建一个新文件，工作目录下命名为"tnote.json"                                                                     */
 /************************************************************************/
-bool writeInJson(Json::Value root)
+bool writeInJson(Json::Value root,string path)
 {
     Json::FastWriter writer;
     ofstream ofs;
-    ofs.open("tnote.json");
+    ofs.open(path);
     if(ofs.is_open())
     {
         string json_file = writer.write(root);
@@ -42,7 +51,7 @@ bool writeInJson(Json::Value root)
 /************************************************************************/
 bool createRoot(Directory dir)
 {
-    Json::Value root=returnRoot();
+    Json::Value root=returnRoot(rootPath);
     Json::Value d;
     d["name"] = dir.name;
     d["createTime"] = dir.createTime;
@@ -51,43 +60,55 @@ bool createRoot(Directory dir)
    
     
     root[dir.nodeId]=d;
-    if(writeInJson(root))return 1;
+    if(writeInJson(root,rootPath))return 1;
     else return 0;
 }
 
 /************************************************************************/
 /* 新建文章，传入目录ID和文章类
 新建文章只需将前台该文章信息封装成一个类作为参数即可
-操作成功返回1，否则返回0
-*/
+操作成功返回1，否则返回0*/
+
 /************************************************************************/
 bool createArticle(string iRoot,Article art)
 {
-    Json::Value root=returnRoot();
-    Json::Value a;
+    Json::Value root=returnRoot(rootPath);
+    if(!root[iRoot].isNull())
+    {
+        Json::Value a;
+        Json::Value b;
 
+        b["context"] = art.context;
+        a["name"] = art.name;
+        a["createTime"] = art.createTime;
+        a["modifiedTime"]=art.modifiedTime;
+        a["isSyn"]=art.isSyn;
 
-    a["context"] = art.context;
-    a["name"] = art.name;
-    a["createTime"] = art.createTime;
-    a["modifiedTime"]=art.modifiedTime;
-    a["isSyn"]=art.isSyn;
-
-    root[iRoot]["array"][art.articleId]=a;
-
-    if(writeInJson(root))return 1;
+        root[iRoot]["array"][art.articleId]=a;
+        getArticlePath(art.articleId);
+        if(writeInJson(root,rootPath)&&writeInJson(b,articlePath))
+        {
+            return 1;    
+        }
+        else return 0;
+    }   
     else return 0;
 }
 
-/************************************************************************/
-/* 删除目录，传入目录ID，删除该目录及目录下所有文章，操作成功返回1，否则返回0                                                                     */
+/************************************************************************
+* 删除目录，传入目录ID，删除该目录及目录下所有文章，操作成功返回1，否则返回0   *                                                                  */
 /************************************************************************/
 bool deleteRoot(string index)
 {
-    Json::Value root=returnRoot();
-    
+    Json::Value root=returnRoot(rootPath);
+    vector<string>articleLsit=root[index]["array"].getMemberNames();
+    for(int i=0;i<(int)articleLsit.size();i++)
+    {
+        getArticlePath(articleLsit[i]);
+        remove(articlePath.c_str());
+    }
     root.removeMember(index);
-    if(writeInJson(root))return 1;
+    if(writeInJson(root,rootPath))return 1;
     else return 0;
 }
 
@@ -97,21 +118,22 @@ bool deleteRoot(string index)
 /************************************************************************/
 bool deleteArticle(string iRoot,string iArticle)
 {
-    Json::Value root=returnRoot();
+    Json::Value root=returnRoot(rootPath);
 
     root[iRoot]["array"].removeMember(iArticle);
+    getArticlePath(iArticle);
+    remove(articlePath.c_str());
 
-
-    if(writeInJson(root))return 1;
+    if(writeInJson(root,rootPath))return 1;
     else return 0;
 }
 
-/************************************************************************/
-/* 查找所有目录信息，返回目录列表，若不存在目录，则返回一个空列表                                                                     */
+/************************************************************************
+* 查找所有目录信息，返回目录列表，若不存在目录，则返回一个空列表 *                                                                  */
 /************************************************************************/
 vector<Directory> searchAllRoot()
 {
-    Json::Value root=returnRoot();
+    Json::Value root=returnRoot(rootPath);
     vector<string> listRoot=root.getMemberNames();
     vector<Directory> allRoot;
     Directory obj;
@@ -130,12 +152,12 @@ vector<Directory> searchAllRoot()
     return allRoot;
 }
 
-/************************************************************************/
-/* 查找特定目录下所有文章，传入目录ID，返回文章列表，若该目录下无文章，返回一个空列表                                                                     */
+/************************************************************************
+* 查找特定目录下所有文章，传入目录ID，返回文章列表，若该目录下无文章，返回一个空列表                                                                     */
 /************************************************************************/
 vector<Article> searchRootArticle(string iRoot)
 {
-    Json::Value root=returnRoot();
+    Json::Value root=returnRoot(rootPath);
     Json::Value allArticle=root[iRoot]["array"];
     vector<string> listRootArticle=allArticle.getMemberNames();
     vector<Article> allRootArticle;
@@ -144,24 +166,26 @@ vector<Article> searchRootArticle(string iRoot)
     for(int i=0;i<(int)listRootArticle.size();i++)
     {
         articleId=listRootArticle[i];
+        getArticlePath(articleId);
+        Json::Value article=returnRoot(articlePath);
         obj.articleId=articleId;
         obj.createTime=allArticle[articleId]["createTime"].asString();
         obj.name=allArticle[articleId]["name"].asString();
         obj.modifiedTime=allArticle[articleId]["modifiedTime"].asString();
         obj.isSyn=allArticle[articleId]["isSyn"].asBool();
-        obj.context=allArticle[articleId]["context"].asString();
+        obj.context=article["context"].asString();
         allRootArticle.push_back(obj);
     }
 
     return allRootArticle;
 }
 
-/************************************************************************/
-/* 查找所有文章，前台搜索调用，返回所有文章列表，若无文章，返回空队列                                                                     */
+/************************************************************************
+ *查找所有文章，前台搜索调用，返回所有文章列表，若无文章，返回空队列                                                                  */
 /************************************************************************/
 vector<Article> searchAllArticle()
 {
-    Json::Value root=returnRoot();
+    Json::Value root=returnRoot(rootPath);
     vector<string>listRoot=root.getMemberNames();
     vector<Article>allArticle;
     vector<Article>rootArticle;
@@ -177,19 +201,20 @@ vector<Article> searchAllArticle()
     return allArticle;
 }
 
-/************************************************************************/
-/* 查找特定目录下特定文章，传入目录ID和文章ID，返回文章类，若无该文章，返回空对象                                                                     */
+/************************************************************************
+* 查找特定目录下特定文章，传入目录ID和文章ID，返回文章类，若无该文章，返回空对象 *                                                                    */
 /************************************************************************/
 Article searchArticle(string iRoot,string iArticle)
 {
-    Json::Value root=returnRoot();
+    Json::Value root=returnRoot(rootPath);
     Json::Value art=root[iRoot]["array"][iArticle];
     Article article;
     if(!art.isNull())
     {
-       
+        getArticlePath(iArticle);
+        Json::Value articleContext=returnRoot(articlePath);
         article.articleId=iArticle;
-        article.context=art["context"].asString();
+        article.context=articleContext["context"].asString();
         article.name=art["name"].asString();
         article.createTime=art["createTime"].asString();
         article.modifiedTime=art["modifiedTime"].asString();
@@ -199,14 +224,14 @@ Article searchArticle(string iRoot,string iArticle)
     return article;
 }
 
-/************************************************************************/
-/* 修改目录,包括目录名，ID，时间戳。 
+/**********************************************************************
+ * 修改目录,包括目录名，ID，时间戳。 
    传入原目录ID和新目录类
-   若查找到原目录，则返回1，否则返回0
+   若查找到原目录，则返回1，否则返回0*
 *************************************************************************/
 bool changeRoot(string iRoot ,Directory dir)
 {
-    Json::Value root=returnRoot();
+    Json::Value root=returnRoot(rootPath);
     Json::Value obj=root[iRoot];
     if(!obj.isNull())
     {
@@ -221,7 +246,7 @@ bool changeRoot(string iRoot ,Directory dir)
            
         }
         root[dir.nodeId]=obj;
-        writeInJson(root);
+        writeInJson(root,rootPath);
         return 1;
     }
     else return 0;
@@ -231,28 +256,32 @@ bool changeRoot(string iRoot ,Directory dir)
 /************************************************************************/
 /* 修改文章,包括文章名，ID，时间戳，内容。 
    传入原文章所属目录ID和原文章ID和新文章类
-   若查找到原文章，则返回1，否则返回0
-*************************************************************************/
+   若查找到原文章，则返回1，否则返回0*/
+/*************************************************************************/
 bool changeArticle(string iRoot,string iArticle,Article art)
 {
-    Json::Value root=returnRoot();
+    Json::Value root=returnRoot(rootPath);
     Json::Value obj=root[iRoot]["array"][iArticle];
     if(!obj.isNull())
     {
-       
+        getArticlePath(iArticle);
         obj["name"]=art.name;
-        obj["context"]=art.context;
         obj["createTime"]=art.createTime;
         obj["isSyn"]=art.isSyn;
         obj["modifiedTime"]=art.modifiedTime;
         if(iArticle!=art.articleId)
         {
             root[iRoot]["array"].removeMember(iArticle);
+            remove(articlePath.c_str());
         }
         root[iRoot]["array"][art.articleId]=obj;
-        writeInJson(root);
+        getArticlePath(art.articleId);
+        Json::Value articleContext;
+        articleContext["context"]=art.context;
+        writeInJson(root,rootPath);
+        writeInJson(articleContext,articlePath);
         return 1;
     }
     else return 0;
-   
+
 }
