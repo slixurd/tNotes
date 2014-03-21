@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <iostream>
 
-#define SESSION_CACHE_CAPCITY 10
 #include "SessionCache.h"
+#include "SessionGenerator.h"
 
 /*
  * Simple C++ Test 4 SeesionCache
@@ -17,27 +17,31 @@
 
 void test1() {
     SessionCache* cache = SessionCache::GetInstant();
+    SessionGenerator gen;
+    std::string keys[SESSION_CACHE_CAPCITY+20];
+    std::cout << SESSION_CACHE_CAPCITY << std::endl;
     
-    for(char c = 'a'; c <= 'z'; c++)
+    for(int i = 0; i<SESSION_CACHE_CAPCITY+20; i++)
     {
-        std::string str = "";
-        str.push_back(c);
         SessionInfo si;
-        si.user = str+str;
-        cache->SetSession(str,si);
-        if(!cache->IsSessionExist(str)
-                ||cache->GetSession(str).user!=str+str)
+        keys[i] = gen.Generate();
+
+        if(cache->IsSessionExist(keys[i]))
+            std::cout <<keys[i]<< std::endl;
+        
+        si.user = keys[i];
+        cache->SetSession(keys[i] ,si);
+        if(!cache->IsSessionExist(keys[i])
+                ||cache->GetSession(keys[i]).user!=keys[i])
         {
             std::cout << "%TEST_FAILED% time=0 testname=test1 (UnitTest4SessionCache) message=Cache Store Error" << std::endl;
         }
     }
     
-    for(char c = 'a'; c <= 'z'; c++)
+    for(int i = 0; i<SESSION_CACHE_CAPCITY+20; i++)
     {
-        std::string str = "";
-        str.push_back(c);
-        if(c<='z'-SESSION_CACHE_CAPCITY && cache->IsSessionExist(str)
-                ||c>'z'-SESSION_CACHE_CAPCITY && !cache->IsSessionExist(str))
+        if(i>=20 && !cache->IsSessionExist(keys[i])
+                ||i<20 && cache->IsSessionExist(keys[i]))
         {
             std::cout << "%TEST_FAILED% time=0 testname=test1 (UnitTest4SessionCache) message=Cache Erase Error" << std::endl;
         }
@@ -46,24 +50,16 @@ void test1() {
     std::cout << "UnitTest4SessionCache test 1" << std::endl;
 }
 
-void test2() {
-    std::cout << "UnitTest4SessionCache test 2" << std::endl;
-    std::cout << "%TEST_FAILED% time=0 testname=test2 (UnitTest4SessionCache) message=error message sample" << std::endl;
-}
-
 int main(int argc, char** argv) {
     std::cout << "%SUITE_STARTING% UnitTest4SessionCache" << std::endl;
+    
     std::cout << "%SUITE_STARTED%" << std::endl;
 
     std::cout << "%TEST_STARTED% test1 (UnitTest4SessionCache)" << std::endl;
     test1();
     std::cout << "%TEST_FINISHED% time=0 test1 (UnitTest4SessionCache)" << std::endl;
 
-//    std::cout << "%TEST_STARTED% test2 (UnitTest4SessionCache)\n" << std::endl;
-//    test2();
-//    std::cout << "%TEST_FINISHED% time=0 test2 (UnitTest4SessionCache)" << std::endl;
-//
-//    std::cout << "%SUITE_FINISHED% time=0" << std::endl;
+    std::cout << "%SUITE_FINISHED% time=0" << std::endl;
 
     return (EXIT_SUCCESS);
 }
