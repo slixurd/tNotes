@@ -6,6 +6,13 @@
         <file alias="newnotebook.png">medias/icons/folder_new.png</file>
         <file alias="edit.png">medias/icons/write.png</file>
         <file alias="find.png">medias/icons/find.png</file>
+        <file alias="bold.png">medias/icons/bold.png</file>
+        <file alias="undo.png">medias/icons/undo.png</file>
+        <file alias="redo.png">medias/icons/redo.png</file>
+        <file alias="quotes.png">medias/icons/quotes-left.png</file>
+        <file alias="code.png">medias/icons/code.png</file>
+        <file alias="link.png">medias/icons/link.png</file>
+        <file alias="italic.png">medias/icons/italic.png</file>
     </qresource>
     <qresource prefix="/libs">
         <file alias="markdown2html.dll">libs/markdown2html.dll</file>

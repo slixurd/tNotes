@@ -39,6 +39,14 @@ private:
 
 		tNotesButton *buttonEdit;
 
+		tNotesButton *buttonBold;
+		tNotesButton *buttonItalic;
+		tNotesButton *buttonQuotes;
+		tNotesButton *buttonUndo;
+		tNotesButton *buttonRedo;
+		tNotesButton *buttonCode;
+		tNotesButton *buttonLink;
+
 		bool editMode;
 
 private:
@@ -47,10 +55,13 @@ private:
 		QString getCreatedTime();
 		QString getLastModifiedTime();
 
+		void setTextEditorLayout();
 		void setupEditActions();
 
 private slots:
+
 		void editModeChange();
+		void setBold();
 
 
 };
