@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux-x86
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux-x86
-CND_ARTIFACT_NAME_Debug=tnodesserver
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux-x86/tnodesserver
+CND_ARTIFACT_NAME_Debug=tnotesserver
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux-x86/tnotesserver
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux-x86/package
-CND_PACKAGE_NAME_Debug=tnodesserver.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux-x86/package/tnodesserver.tar
+CND_PACKAGE_NAME_Debug=tnotesserver.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux-x86/package/tnotesserver.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux-x86
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux-x86
-CND_ARTIFACT_NAME_Release=tnodesserver
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux-x86/tnodesserver
+CND_ARTIFACT_NAME_Release=tnotesserver
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux-x86/tnotesserver
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux-x86/package
-CND_PACKAGE_NAME_Release=tnodesserver.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux-x86/package/tnodesserver.tar
+CND_PACKAGE_NAME_Release=tnotesserver.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux-x86/package/tnotesserver.tar
 #
 # include compiler specific variables
 #

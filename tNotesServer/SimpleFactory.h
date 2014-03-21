@@ -17,7 +17,7 @@ public:
     SimpleFactory();
     virtual ~SimpleFactory();
     
-    Handler *CreatHandler(std::string const&);
+    Handler *CreatHandler(std::string const& scriptName);
 private:
 
 };

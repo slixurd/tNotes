@@ -10,12 +10,13 @@
 
 #include "Handler.h"
 
+/* DummyHandler is a feature handler example. */
 class DummyHandler: public Handler {
 public:
     DummyHandler();
     virtual ~DummyHandler();
     
-    std::string Handle(std::string const&);
+    std::string Handle(std::string const& postStr);
 };
 
 #endif	/* DUMMYHANDLER_H */
