@@ -14,6 +14,7 @@
 #include "tnotescategory.h"
 #include "tnotessearchtool.h"
 #include "tnotesbutton.h"
+#include "tnoteslogindialog.h"
 
 
 tNotesMainWindow::tNotesMainWindow(QWidget *parent)
@@ -102,4 +103,11 @@ void tNotesMainWindow::setMainWindowLayout()
 
 void tNotesMainWindow::setupActions()
 {
+	connect(buttonLogin, SIGNAL(clicked()), this, SLOT(openLoginDialog()));
+}
+
+void tNotesMainWindow::openLoginDialog()
+{
+	dialogLogin = new tNotesLoginDialog();
+	dialogLogin->exec();
 }

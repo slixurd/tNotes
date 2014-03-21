@@ -15,6 +15,7 @@ class tNotesTextEditor;
 class tNotesBookCategory;
 class tNotesCategory;
 class tNotesSearchTool;
+class tNotesLoginDialog;
 
 class tNotesMainWindow : public QMainWindow
 {
@@ -24,14 +25,14 @@ public:
     tNotesMainWindow(QWidget *parent = 0);
     ~tNotesMainWindow();
 
-
-
 private:
 		void setMainWindowsSize();
 		void setMainWindowLayout();
 		void setupActions();
 
 		QWidget *centralWidget;
+
+		tNotesLoginDialog *dialogLogin;
 
 		tNotesButton *buttonLogin;
 		tNotesButton *buttonNewNotebook;
@@ -44,6 +45,10 @@ private:
 		tNotesBookCategory *notesBookCategory;
     tNotesTextEditor *notesTextEditor;
 		tNotesCategory *notesCategory;
+
+private slots:
+		void openLoginDialog();
+
 };
 
 #endif // TNOTESMAINWINDOW_H

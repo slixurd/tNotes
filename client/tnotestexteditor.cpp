@@ -14,7 +14,7 @@
 #include <QLibrary>
 #include <QMessageBox>
 
-#include <windows.h>
+//#include <windows.h>
 #include <iostream>
 #include <string.h>
 
