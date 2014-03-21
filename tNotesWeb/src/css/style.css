@@ -1,0 +1,29 @@
+/* tag */
+body {
+    background-attachment: fixed;
+    padding-top: 60px;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar-thumb{
+   background-color: #3e444c;
+   height: 50px;
+}  
+
+::-webkit-scrollbar-thumb:hover{
+   background-color: #f89406;  
+}  
+ 
+::-webkit-scrollbar {
+   width: 10px;
+   background-color: #a7a7a7;
+}
+
+/* class */
+.disabled {
+    opacity: 0.5;
+}
+
+.display-none {
+    display: none;
+}

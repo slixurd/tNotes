@@ -1,0 +1,110 @@
+#content .change-style {
+    opacity: 0.5;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+#content .change-style:hover {
+    opacity: 1;
+    border-color: #f89406;
+}
+
+#content .panel-title .controls
+{
+    display: block;
+    font-size: 12px;
+
+    padding: 3px 10px;
+
+    background-color: #3e444c;
+    margin-top: 5px;
+    border-top: 1px solid rgba(0,0,0,0.6);
+}
+
+#content .panel-title .controls a {
+    text-decoration: none;
+    margin: 0 5px;
+    display: inline-block;
+    color: #c8c8c8;
+}
+
+#content .panel-title .controls a:hover {
+    color: #f89406;
+}
+
+#content .panel-title .controls a.disabled:hover {
+    color: #c8c8c8;
+}
+
+#content .panel-heading {
+    padding: 0;
+}
+
+#content.fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+#note-title {
+    min-height: 18px;
+    padding: 5px 15px 2px 15px;
+    display: block;
+    font-size: 25px;
+}
+
+#note-content {
+    min-height: 55px;
+    font-size: 18px;
+}
+
+/* 显示样式 */
+#note-content.default {
+    background-color: #3e444c;
+}
+
+#note-content.default h1,
+#note-content.default h2,
+#note-content.default h3,
+#note-content.default h4,
+#note-content.default h5,
+#note-content.default a,
+#note-content.default em,
+#note-content.default pre,
+#note-content.default code {
+    color: #f89406;
+}
+
+#note-content.default blockquote {
+    border-left-color: #f89406;
+}
+
+#note-content.default pre {
+    background-color: transparent;
+}
+
+#note-content.bright {
+    background-color: #fff;
+    color: #000;
+}
+
+#note-content.bright h1,
+#note-content.bright h2,
+#note-content.bright h3,
+#note-content.bright h4,
+#note-content.bright h5,
+#note-content.bright a,
+#note-content.bright em,
+#note-content.bright pre,
+#note-content.bright code {
+    color: #62c462;
+}
+
+#note-content.bright blockquote {
+    border-left-color: #62c462;
+}
+
+#note-content.bright pre {
+    background-color: transparent;
+}
