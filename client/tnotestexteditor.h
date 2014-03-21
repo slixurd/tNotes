@@ -12,6 +12,12 @@ class QLabel;
 class QToolButton;
 class QToolBar;
 class QAction;
+class QFrame;
+
+class tNotesButton;
+
+#define EDIT_MODE 0
+#define VIEW_MODE 1
 
 class tNotesTextEditor : public QWidget
 {
@@ -21,6 +27,7 @@ public:
 		tNotesTextEditor(QWidget *parent = 0);
 
 private:
+
 		QLabel *noteTitle;
 		QToolBar *noteToolBar;
 		QLabel *noteCreatedTime;
@@ -28,6 +35,11 @@ private:
 		QGroupBox *noteEditorGroupBox;
 		QTextEdit *noteEditor;
 		QAction *actionUndo;
+		QFrame *horizonLine;
+
+		tNotesButton *buttonEdit;
+
+		bool editMode;
 
 private:
 
@@ -36,6 +48,9 @@ private:
 		QString getLastModifiedTime();
 
 		void setupEditActions();
+
+private slots:
+		void editModeChange();
 
 
 };

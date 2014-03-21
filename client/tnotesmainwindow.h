@@ -6,8 +6,12 @@
 #include <QPointer>
 
 class QSplitter;
-class tNotesTextEditor;
+class QPushButton;
 class QGroupBox;
+class QIcon;
+
+class tNotesButton;
+class tNotesTextEditor;
 class tNotesBookCategory;
 class tNotesCategory;
 class tNotesSearchTool;
@@ -24,14 +28,22 @@ public:
 
 private:
 		void setMainWindowsSize();
+		void setMainWindowLayout();
+		void setupActions();
+
+		QWidget *centralWidget;
+
+		tNotesButton *buttonLogin;
+		tNotesButton *buttonNewNotebook;
+		tNotesButton *buttonSettings;
+		tNotesButton *buttonSync;
+		
+		tNotesSearchTool *searchTool;
 
 		QSplitter *splitter;
-		QGroupBox *centralWidget;
-    tNotesTextEditor *notesTextEditor;
-		QWidget *editToolBar;
 		tNotesBookCategory *notesBookCategory;
+    tNotesTextEditor *notesTextEditor;
 		tNotesCategory *notesCategory;
-		tNotesSearchTool *searchTool;
 };
 
 #endif // TNOTESMAINWINDOW_H

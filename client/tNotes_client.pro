@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     json/json_value.cpp \
     json/json_valueiterator.inl \
     json/json_writer.cpp \
-    operation.cpp
+    operation.cpp \
+    tnotesbutton.cpp
 
 HEADERS  += tnotesmainwindow.h \
     tnotestexteditor.h \
@@ -42,8 +43,14 @@ HEADERS  += tnotesmainwindow.h \
     json/writer.h \
     Directory.h \
     Operation.h \
-    Article.h
+    Article.h \
+    tnotesbutton.h
 
 OTHER_FILES += \
-    json/sconscript
+    json/sconscript \
+    medias/icons/settings.png \
+    medias/icons/sync.png
+
+RESOURCES += \
+    tNotesRes.qrc
 
