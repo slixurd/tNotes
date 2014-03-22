@@ -31,6 +31,14 @@ public:
     }
 };
 
+/* Incorrect URL Exception */
+class IncorrectURLException: public Exception{
+public:
+    const char* what() const throw(){
+        return "Incorrect URL";
+    }
+};
+
 /* Incorrect Data Format Exception 4 Handling Json Data */
 class IncorrectDataFormatException: public Exception{
 public:

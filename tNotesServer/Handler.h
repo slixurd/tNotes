@@ -26,5 +26,12 @@ private:
 
 };
 
+/* Macro Helper */
+ 
+#define CREATE_HANDLER(HandlerName,SctiptName)          \
+ if(scriptName==SctiptName){                            \
+       return new HandlerName();                        \
+ }else  
+
 #endif	/* HANDLER_H */
 

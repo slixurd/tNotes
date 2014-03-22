@@ -5,16 +5,17 @@
       <itemPath>DummyHandler.h</itemPath>
       <itemPath>Exception.hpp</itemPath>
       <itemPath>Handler.h</itemPath>
+      <itemPath>HandlerFactory.h</itemPath>
+      <itemPath>HandlerFactoryConfigure.h</itemPath>
       <itemPath>SessionCache.h</itemPath>
       <itemPath>SessionGenerator.h</itemPath>
-      <itemPath>SimpleFactory.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
       <itemPath>DummyHandler.cpp</itemPath>
       <itemPath>Handler.cpp</itemPath>
+      <itemPath>HandlerFactory.cpp</itemPath>
       <itemPath>SessionCache.cpp</itemPath>
       <itemPath>SessionGenerator.cpp</itemPath>
-      <itemPath>SimpleFactory.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
@@ -64,6 +65,12 @@
       </item>
       <item path="Handler.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="HandlerFactory.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="HandlerFactory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="HandlerFactoryConfigure.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SessionCache.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SessionCache.h" ex="false" tool="3" flavor2="0">
@@ -71,10 +78,6 @@
       <item path="SessionGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SessionGenerator.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="SimpleFactory.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SimpleFactory.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>
@@ -133,6 +136,12 @@
       </item>
       <item path="Handler.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="HandlerFactory.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="HandlerFactory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="HandlerFactoryConfigure.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SessionCache.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SessionCache.h" ex="false" tool="3" flavor2="0">
@@ -140,10 +149,6 @@
       <item path="SessionGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SessionGenerator.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="SimpleFactory.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SimpleFactory.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>

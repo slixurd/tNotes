@@ -37,9 +37,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/DummyHandler.o \
 	${OBJECTDIR}/Handler.o \
+	${OBJECTDIR}/HandlerFactory.o \
 	${OBJECTDIR}/SessionCache.o \
 	${OBJECTDIR}/SessionGenerator.o \
-	${OBJECTDIR}/SimpleFactory.o \
 	${OBJECTDIR}/main.o
 
 # Test Directory
@@ -83,6 +83,11 @@ ${OBJECTDIR}/Handler.o: Handler.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Handler.o Handler.cpp
 
+${OBJECTDIR}/HandlerFactory.o: HandlerFactory.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HandlerFactory.o HandlerFactory.cpp
+
 ${OBJECTDIR}/SessionCache.o: SessionCache.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -92,11 +97,6 @@ ${OBJECTDIR}/SessionGenerator.o: SessionGenerator.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionGenerator.o SessionGenerator.cpp
-
-${OBJECTDIR}/SimpleFactory.o: SimpleFactory.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimpleFactory.o SimpleFactory.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -145,6 +145,19 @@ ${OBJECTDIR}/Handler_nomain.o: ${OBJECTDIR}/Handler.o Handler.cpp
 	    ${CP} ${OBJECTDIR}/Handler.o ${OBJECTDIR}/Handler_nomain.o;\
 	fi
 
+${OBJECTDIR}/HandlerFactory_nomain.o: ${OBJECTDIR}/HandlerFactory.o HandlerFactory.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/HandlerFactory.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HandlerFactory_nomain.o HandlerFactory.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/HandlerFactory.o ${OBJECTDIR}/HandlerFactory_nomain.o;\
+	fi
+
 ${OBJECTDIR}/SessionCache_nomain.o: ${OBJECTDIR}/SessionCache.o SessionCache.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/SessionCache.o`; \
@@ -169,19 +182,6 @@ ${OBJECTDIR}/SessionGenerator_nomain.o: ${OBJECTDIR}/SessionGenerator.o SessionG
 	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionGenerator_nomain.o SessionGenerator.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/SessionGenerator.o ${OBJECTDIR}/SessionGenerator_nomain.o;\
-	fi
-
-${OBJECTDIR}/SimpleFactory_nomain.o: ${OBJECTDIR}/SimpleFactory.o SimpleFactory.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/SimpleFactory.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimpleFactory_nomain.o SimpleFactory.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/SimpleFactory.o ${OBJECTDIR}/SimpleFactory_nomain.o;\
 	fi
 
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp 

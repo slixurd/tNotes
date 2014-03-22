@@ -12,7 +12,7 @@
 
 #include <fcgio.h>
 
-#include "SimpleFactory.h"
+#include "HandlerFactory.h"
 
 /*
  * CGI Main
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     FCGX_Init();
     FCGX_InitRequest(&request, 0, 0);
 
-    SimpleFactory simpleFactory;
+    HandlerFactory simpleFactory;
     Handler* handler = NULL;
 
     while (FCGX_Accept_r(&request) == 0) {
