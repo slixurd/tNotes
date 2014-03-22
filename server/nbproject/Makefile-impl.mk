@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=tNotesServer
+PROJECTNAME=note
 
 # Active Configuration
 DEFAULTCONF=Debug
