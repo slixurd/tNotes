@@ -17,7 +17,7 @@
 
 /* Session Infomation */
 struct SessionInfo {
-    std::string user;
+    std::string User;
 };
 
 /* SessionCache is a LRU Cache, which is also a singleton */

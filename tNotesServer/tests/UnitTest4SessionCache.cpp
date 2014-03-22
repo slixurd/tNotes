@@ -29,10 +29,10 @@ void test1() {
         if(cache->IsSessionExist(keys[i]))
             std::cout <<keys[i]<< std::endl;
         
-        si.user = keys[i];
+        si.User = keys[i];
         cache->SetSession(keys[i] ,si);
         if(!cache->IsSessionExist(keys[i])
-                ||cache->GetSession(keys[i]).user!=keys[i])
+                ||cache->GetSession(keys[i]).User!=keys[i])
         {
             std::cout << "%TEST_FAILED% time=0 testname=test1 (UnitTest4SessionCache) message=Cache Store Error" << std::endl;
         }
