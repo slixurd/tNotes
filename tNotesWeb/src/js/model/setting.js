@@ -16,8 +16,9 @@ var SettingModel = Backbone.Model.extend({
 
     initialize: function () {
         // 保证每次数据改变后自动存储
-        _.bindAll(this, 'save');
-        this.bind('change', this.save);
+        this.bind('change', function () {
+            this.save();
+        });
     }
 
 });

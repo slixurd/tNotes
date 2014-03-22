@@ -30,7 +30,7 @@ require.config({
 });
 
 // 程序的主入口，加载各视图的Router模块，同时作一些通用性的初始化
-define(['contentViewerRouter', 'folderListRouter',
+require(['contentViewerRouter', 'folderListRouter',
         'noteListRouter', 'navbarRouter'], 
         function (contentViewerRouter, folderListRouter,
         noteListRouter, navbarRouter) {

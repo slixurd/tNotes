@@ -1,6 +1,6 @@
 // contentView路由模块
 
-define(['hint'], function (hint) {
+define(['contentViewer', 'hint'], function (contentViewer, hint) {
 
 var Router = Backbone.Router.extend({
 

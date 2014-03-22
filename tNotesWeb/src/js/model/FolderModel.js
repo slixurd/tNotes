@@ -10,7 +10,6 @@ var FolderModel = Backbone.Model.extend({
 
     defaults: {
         id          : 0,    // 本地存储的id
-        realId      : null, // 服务器端的真实id
         name        : '',   // 文件夹名
         notes       : [],   // 笔记
         createTime  : 0,    // 创建时间
@@ -23,7 +22,7 @@ var FolderModel = Backbone.Model.extend({
             var id        = setting.get('folderId'),
                 timeStamp = _.now();
             this.set({
-                id          : id,
+                id          : -id, // 使用负数标明其为本地id
                 createTime  : timeStamp,
                 modifiedTime: timeStamp
             });
@@ -32,7 +31,9 @@ var FolderModel = Backbone.Model.extend({
 
         // 保证每次数据改变后自动存储
         _.bindAll(this, 'save');
-        this.bind('change', this.save);
+        this.bind('change', function () {
+            this.save();
+        });
     }
 
 });

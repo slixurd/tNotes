@@ -10,7 +10,6 @@ var NoteModel = Backbone.Model.extend({
 
     defaults: {
         id          : 0,    // 本地存储的id
-        realId      : null, // 服务器端的真实id
         title       : '',   // 笔记标题
         content     : '',   // 笔记内容
         createTime  : 0,    // 创建时间
@@ -23,7 +22,7 @@ var NoteModel = Backbone.Model.extend({
             var id        = setting.get('noteId'),
                 timeStamp = _.now();
             this.set({
-                id          : id,
+                id          : -id, // 使用负数表明其为本地ip
                 createTime  : timeStamp,
                 modifiedTime: timeStamp
             });
@@ -32,7 +31,9 @@ var NoteModel = Backbone.Model.extend({
 
         // 保证每次数据改变后自动存储
         _.bindAll(this, 'save');
-        this.bind('change', this.save);
+        this.bind('change', function () {
+            this.save();
+        });
     }
 
 });

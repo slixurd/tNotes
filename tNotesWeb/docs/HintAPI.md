@@ -4,10 +4,10 @@
 
 ### 列表
 - [close](#close)
-- [setAutoDismiss](#setAutoDismiss)
-- [setContent](#setContent)
-- [setTitle](#setTitle)
-- [setType](#setType)
+- [setAutoDismiss](#setautodismiss)
+- [setContent](#setcontent)
+- [setTitle](#settitle)
+- [setType](#settype)
 - [show](#show)
 
 -----------------------------------
