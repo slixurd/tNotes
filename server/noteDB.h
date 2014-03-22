@@ -1,11 +1,16 @@
+/* 
+ * Author: slixurd(xiexiaopeng) 
+ */
 #ifndef NOTE_DB
 #define NOTE_DB
 
 #include <iostream>
 #include <map>
 #include <string>
+
+#include <cstdlib>
 #include <cstdio>
-#include <mysql.h>
+#include <mysql/mysql.h>
 #include <iomanip>
 #include <ctime>
 #include <sstream>
@@ -24,14 +29,15 @@ public:
     void init_all_data();
     void pull_note();
     void backup_note();
-    void create_note();
+    long create_note(string,string,long);
     void save_note();
-    void create_dir();
-    void remove_dir();
+    long create_dir(string,string);
+    void remove_dir(long);
+    bool remove_dir(string,long);
     void sync_dir();
     string sha1(const string&);
     bool check_user_exist(const string);
-
+    bool check_node_exist(const long );
     string get_salt(const string);
 private:
     MYSQL database;

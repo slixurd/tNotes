@@ -105,7 +105,6 @@ ${OBJECTDIR}/main.o: main.cpp
 
 # Subprojects
 .build-subprojects:
-
 # Build Test Targets
 .build-tests-conf: .build-conf ${TESTFILES}
 ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/UnitTest4SessionCache.o ${OBJECTFILES:%.o=%_nomain.o}
