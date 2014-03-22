@@ -39,5 +39,13 @@ public:
     }
 };
 
+/* Session Failure Exception */
+class SessionFailureException: public Exception{
+public:
+    const char* what() const throw(){
+        return "Session Failure";
+    }
+};
+
 #endif	/* EXCEPTION_HPP */
 

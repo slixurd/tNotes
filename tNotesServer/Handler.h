@@ -12,15 +12,16 @@
 
 #include "jsoncpp/json/json.h"
 
+/* Base Handler 4 Features */
 class Handler {
 public:
     Handler();
     virtual ~Handler();
     
-    void String2Json(std::string const&, Json::Value&);
-    std::string Json2String(Json::Value const&);
+    void String2Json(std::string const& str, Json::Value& val);
+    std::string Json2String(Json::Value const& val);
     
-    virtual std::string Handle(std::string const&) = 0;
+    virtual std::string Handle(std::string const& postStr) = 0;
 private:
 
 };

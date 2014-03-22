@@ -16,8 +16,8 @@ SimpleFactory::SimpleFactory() {
 SimpleFactory::~SimpleFactory() {
 }
 
-Handler* SimpleFactory::CreatHandler(std::string const& name){
-    if(name=="/dummy.cgi")
+Handler* SimpleFactory::CreatHandler(std::string const& scriptName){
+    if(scriptName=="/dummy.cgi")
         return new DummyHandler();
     
     return NULL;

@@ -15,10 +15,10 @@ DummyHandler::DummyHandler() {
 DummyHandler::~DummyHandler() {
 }
 
-std::string DummyHandler::Handle(std::string const& str)
+std::string DummyHandler::Handle(std::string const& postStr)
 {
     Json::Value val;
-    String2Json(str,val);
+    String2Json(postStr,val);
     return Json2String(val);
 }
 
