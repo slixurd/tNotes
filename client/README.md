@@ -24,6 +24,18 @@
 <<<<<<< HEAD
 3 测试数据使用
   将测试数据文件夹下的文件拷到工程目录下即可使用，注意不要建文件夹，因为我用的是相对路径
+
+4. 索引使用例子
+
+    search *b=new search("D:/friso.ini");
+    b->connect("demo.db");
+    b->init();
+    b->insert((char*)"1",(char*)"hello",(char*)"今天的天气很差，没下雨，阳光明媚。");
+    b->insert((char*)"2",(char*)"hello",(char*)"今天的天气很好，没下雨，阳光明媚。");
+    b->insert((char*)"3",(char*)"hello",(char*)"昨天的天气很好，没下雨，阳光明媚。");
+    b->select((char*)"昨天");
+
+
 =======
 图片
 -----
