@@ -47,6 +47,37 @@
     width: 100%;
 }
 
+#img-preview {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5000;
+    background-image: url(../img/semi-black.png);
+}
+
+#img-preview img {
+    display: block;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+#markdownHelpModal table {
+    margin-bottom: 0;
+}
+
+#markdownHelpModal tr th:nth-child(2) {
+    width: 80px;
+}
+
+#markdownHelpModal tr th:nth-child(4) {
+    width: 280px;
+}
+
 #note-title {
     min-height: 18px;
     padding: 5px 15px 2px 15px;
@@ -56,19 +87,21 @@
 
 #note-content {
     min-height: 55px;
-    font-size: 18px;
+    font-size: 15px;
+    overflow: hidden;
 }
 
-/* 显示样式 */
+#note-content img {
+    max-width: 100%;
+    cursor: pointer;
+}
+
+/* 默认样式 */
 #note-content.default {
     background-color: #3e444c;
+    color: #a7a7a7;
 }
 
-#note-content.default h1,
-#note-content.default h2,
-#note-content.default h3,
-#note-content.default h4,
-#note-content.default h5,
 #note-content.default a,
 #note-content.default em,
 #note-content.default pre,
@@ -76,33 +109,63 @@
     color: #f89406;
 }
 
+#note-content.default img {
+    border: 1px solid #dddddd;
+    padding: 4px;
+    border-radius: 4px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+#note-content.default img:hover {
+    opacity: 1;
+}
+
+#note-content.default a {
+    text-decoration: underline;
+}
+
+#note-content.default a:hover {
+    background-color: #a7a7a7;
+    color: #fff;
+    text-decoration: none;
+}
+
 #note-content.default blockquote {
     border-left-color: #f89406;
+    background-color: #f8f8f8;
+    color: #000;
 }
 
 #note-content.default pre {
     background-color: transparent;
 }
 
+/* 明亮样式 */
 #note-content.bright {
     background-color: #fff;
     color: #000;
 }
 
-#note-content.bright h1,
-#note-content.bright h2,
-#note-content.bright h3,
-#note-content.bright h4,
-#note-content.bright h5,
 #note-content.bright a,
 #note-content.bright em,
 #note-content.bright pre,
 #note-content.bright code {
-    color: #62c462;
+    color: #4183c4;
+}
+
+#note-content.bright img {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+#note-content.bright img:hover {
+    opacity: 1;
 }
 
 #note-content.bright blockquote {
-    border-left-color: #62c462;
+    border-left-color: #4183c4;
+    background-color: #f8f8f8;
 }
 
 #note-content.bright pre {

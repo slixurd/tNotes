@@ -38,4 +38,10 @@ require(['contentViewerRouter', 'folderListRouter',
 // 开启路由功能
 Backbone.history.start();
 
+// 绑定一般处理事件
+$('body').on('click', 'a.disabled', function (e) {
+    // 阻止被设置为disabled的链接产生作用
+    e.preventDefault();
+});
+
 });

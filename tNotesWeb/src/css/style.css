@@ -4,6 +4,10 @@ body {
     padding-top: 60px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    text-shadow: none;
+}
+
 /* 滚动条 */
 ::-webkit-scrollbar-thumb{
    background-color: #3e444c;

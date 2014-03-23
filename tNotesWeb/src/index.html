@@ -147,12 +147,14 @@
                                 <a id="edit-btn" class="disabled" href="#editNote"><span class="glyphicon glyphicon-pencil"></span> 编辑</a>
                                 <a id="delete-btn" class="disabled" href="#" data-target="#deleteNoteModal"><span class="glyphicon glyphicon-trash"></span> 删除</a>
                                 <a id="export-btn" class="disabled" href="#" download="tNotes.md"><span class="glyphicon glyphicon-export"></span> 导出</a>
-                                <a id="expand-btn" href="#expandContentViewer"><span class="glyphicon glyphicon-resize-full"></span> 展开</a>
+                                <a id="expand-btn" href="#toggleContentViewerSize"><span class="glyphicon glyphicon-resize-full"></span> 展开</a>
                                 <a href="#" data-toggle="modal" data-target="#changeStyleModal"><span class="glyphicon glyphicon-eye-open"></span> 样式</a>
+                                <a href="#" data-toggle="modal" data-target="#markdownHelpModal"><span class="glyphicon glyphicon-question-sign"></span> 帮助</a>
                             </div>
                         </div>
                     </div>
-                    <div id="note-content" class="panel-body bright"></div>
+                    <div id="note-content" class="panel-body default"></div>
+                    <div id="note-footer" class="panel-footer"></div>
                 </div>
                 <div id="deleteNoteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteNoteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
@@ -183,6 +185,97 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div id="markdownHelpModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="markdownHelpModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 id="markdownHelpModalLabel" class="modal-title">Markdown基本语法</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-striped table-hover">
+                                    <head>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>名称</th>
+                                            <th>说明</th>
+                                            <th>范例</th>
+                                        </tr>
+                                    </head>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>段落和换行</td>
+                                            <td>段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行</td>
+                                            <td>无</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>标题</td>
+                                            <td>在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶</td>
+                                            <td># 这是 H1 <br> ## 这是 H2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>区块引用</td>
+                                            <td>在每行的最前面加上 &gt;</td>
+                                            <td>&gt; 这是一个区块引用</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>列表</td>
+                                            <td>无序列表使用星号、加号或是减号作为列表标记<br />有序列表则使用数字接着一个英文句点</td>
+                                            <td>- Red<br />- Green<br/>- Blue</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>代码区块</td>
+                                            <td>简单地缩进4个空格或是1个制表符</td>
+                                            <td>这是一个普通段落<br />&nbsp;&nbsp;&nbsp;&nbsp;这是一个代码区块</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>分隔线</td>
+                                            <td>可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西</td>
+                                            <td>-------------------------</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td>链接</td>
+                                            <td>只要在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可</td>
+                                            <td>[示例](http://example.com/ "Title")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td>强调</td>
+                                            <td>使用星号（*）和底线（_）作为标记强调字词的符号，被 * 或 _ 包围的字词会被转成用&lt;em&gt; 标签包围，用两个 * 或 _ 包起来的话，则会被转成&lt;strong&gt;</td>
+                                            <td>*强调*</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9</td>
+                                            <td>代码</td>
+                                            <td>如果要标记一小段行内代码，你可以用反引号把它包起来（`）</td>
+                                            <td>`printf()`</td>
+                                        </tr>
+                                        <tr>
+                                            <td>10</td>
+                                            <td>图片</td>
+                                            <td>跟链接相似，只不过前面还要加上叹号，并且方括号里的是Alt文字</td>
+                                            <td>![Alt text](/path/to/img.jpg "Optional title")</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <a class="btn" href="http://wowubuntu.com/markdown/" target="_blank">详细Markdown语法</a>
+                                <button href="#" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="img-preview" class="display-none">
+                    <img src="img/intro.jpg" />
                 </div>
             </div>
 
