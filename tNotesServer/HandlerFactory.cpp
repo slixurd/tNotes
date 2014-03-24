@@ -2,7 +2,7 @@
  * File:   HandlerFactory.cpp
  * Author: wo1fsea
  * 
- * Created on 2014年3月20日, 上午1:22
+ * Created on March 20, 2014, 1:22 AM
  */
 
 #include "HandlerFactory.h"

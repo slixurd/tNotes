@@ -1,8 +1,8 @@
 /* 
  * File:   UnitTest4SessionCache.cpp
  * Author: wo1fsea
- *
- * Created on 2014-3-21, 19:07:55
+ * 
+ * Created on March 21, 2014, 7:07 PM
  */
 
 #include <stdlib.h>

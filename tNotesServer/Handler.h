@@ -1,8 +1,8 @@
 /* 
  * File:   Handler.h
  * Author: wo1fsea
- *
- * Created on 2014年3月20日, 上午1:26
+ * 
+ * Created on March 20, 2014, 1:26 AM
  */
 
 #ifndef HANDLER_H

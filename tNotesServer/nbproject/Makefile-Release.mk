@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/HandlerFactory.o \
 	${OBJECTDIR}/SessionCache.o \
 	${OBJECTDIR}/SessionGenerator.o \
+	${OBJECTDIR}/SigninHandler.o \
 	${OBJECTDIR}/main.o
 
 # Test Directory
@@ -97,6 +98,11 @@ ${OBJECTDIR}/SessionGenerator.o: SessionGenerator.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionGenerator.o SessionGenerator.cpp
+
+${OBJECTDIR}/SigninHandler.o: SigninHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SigninHandler.o SigninHandler.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -182,6 +188,19 @@ ${OBJECTDIR}/SessionGenerator_nomain.o: ${OBJECTDIR}/SessionGenerator.o SessionG
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionGenerator_nomain.o SessionGenerator.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/SessionGenerator.o ${OBJECTDIR}/SessionGenerator_nomain.o;\
+	fi
+
+${OBJECTDIR}/SigninHandler_nomain.o: ${OBJECTDIR}/SigninHandler.o SigninHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SigninHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SigninHandler_nomain.o SigninHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SigninHandler.o ${OBJECTDIR}/SigninHandler_nomain.o;\
 	fi
 
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp 

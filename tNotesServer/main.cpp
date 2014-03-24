@@ -1,8 +1,8 @@
 /* 
  * File:   main.cpp
  * Author: wo1fsea (Quanyong Huang)
- *
- * Created on 2014年3月19日, 上午11:05
+ * 
+ * Created on March 19, 2014, 11:05 AM
  */
 
 #include <iostream>

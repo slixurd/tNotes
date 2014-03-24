@@ -2,7 +2,7 @@
  * File:   HandlerFactoryConfigure.h
  * Author: wo1fsea
  *
- * Created on 2014年3月22日, 下午10:46
+ * Created on March 22, 2014, 10:56 PM
  */
 
 #ifndef HANDLERFACTORYCONFIGURE_H

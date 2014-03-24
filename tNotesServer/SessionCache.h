@@ -1,8 +1,8 @@
 /* 
  * File:   SessionCache.h
  * Author: wo1fsea
- *
- * Created on 2014年3月21日, 下午3:57
+ * 
+ * Created on March 21, 2014, 3:57 PM
  */
 
 #ifndef SESSIONCACHE_H

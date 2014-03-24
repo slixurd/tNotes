@@ -2,7 +2,7 @@
  * File:   SessionGenerator.cpp
  * Author: wo1fsea
  * 
- * Created on 2014年3月21日, 下午10:27
+ * Created on March 21, 2014, 10:27 PM
  */
 
 #include "SessionGenerator.h"

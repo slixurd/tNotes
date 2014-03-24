@@ -2,7 +2,7 @@
  * File:   Exception.hpp
  * Author: wo1fsea
  *
- * Created on 2014年3月20日, 下午10:14
+ * Created on March 20, 2014, 10:14 PM
  */
 
 #ifndef EXCEPTION_HPP

@@ -2,7 +2,7 @@
  * File:   DummyHandler.cpp
  * Author: wo1fsea
  * 
- * Created on 2014年3月20日, 下午11:59
+ * Created on March 20, 2014, 11:59 PM
  */
 
 #include "DummyHandler.h"
