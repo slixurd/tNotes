@@ -16,7 +16,7 @@ var FolderModel = Backbone.Model.extend({
         modifiedTime: 0     // 修改时间
     },
 
-    initialize: function (val) {
+    initialize: function (value) {
         // 如果传值没有id，则说明是创建新对象，赋予新的id
         if (!value.id) {
             var id        = setting.get('folderId'),

@@ -1,13 +1,13 @@
 // 笔记集合，返回Note集合类实例
 
-define(['NoteModel', 'NoteDb'], function (NoteModel, database) {
+define(['NoteModel', 'noteDb'], function (NoteModel, database) {
 
 var NoteCollection = Backbone.Collection.extend({
 
     model: NoteModel,
     
     database: database,
-    storName: database.storeName
+    storeName: database.storeName
 
 });
 

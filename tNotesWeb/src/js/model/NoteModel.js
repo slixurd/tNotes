@@ -10,13 +10,14 @@ var NoteModel = Backbone.Model.extend({
 
     defaults: {
         id          : 0,    // 本地存储的id
+        folderId    : 0,    // 所属文件夹id
         title       : '',   // 笔记标题
         content     : '',   // 笔记内容
         createTime  : 0,    // 创建时间
         modifiedTime: 0     // 修改时间
     },
 
-    initialize: function (val) {
+    initialize: function (value) {
         // 如果传值没有id，则说明是创建新对象，赋予新的id
         if (!value.id) {
             var id        = setting.get('noteId'),

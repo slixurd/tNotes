@@ -2,15 +2,15 @@
 
 define(function () {
 
-var Database = function (id, description, version, store) {
+var Database = function (id, description, version, storeName) {
     return {
         id: id,
         description: description,
-        storeName: store,
+        storeName: storeName,
         migrations: [{
             version: version,
             migrate: function (transaction, next) {
-                var store = transaction.db.createObjectStore(store);
+                var store = transaction.db.createObjectStore(storeName);
                 next();
             }
         }]

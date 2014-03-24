@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>tNotes</title>
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/prettify.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/folderList.css">
@@ -149,6 +150,7 @@
                                 <a id="export-btn" class="disabled" href="#" download="tNotes.md"><span class="glyphicon glyphicon-export"></span> 导出</a>
                                 <a id="expand-btn" href="#toggleContentViewerSize"><span class="glyphicon glyphicon-resize-full"></span> 展开</a>
                                 <a href="#" data-toggle="modal" data-target="#changeStyleModal"><span class="glyphicon glyphicon-eye-open"></span> 样式</a>
+                                <a id="print-btn" href="#"><span class="glyphicon glyphicon-print"></span> 打印</a>
                                 <a href="#" data-toggle="modal" data-target="#markdownHelpModal"><span class="glyphicon glyphicon-question-sign"></span> 帮助</a>
                             </div>
                         </div>
@@ -156,6 +158,33 @@
                     <div id="note-content" class="panel-body default"></div>
                     <div id="note-footer" class="panel-footer"></div>
                 </div>
+                <!-- 编辑工具 -->
+                <div id="edit-tool" class="popover top">
+                    <div class="arrow"></div>
+                    <div class="popover-content">
+                        <button id="bold-btn" class="btn btn-default"><span class="glyphicon glyphicon-bold"></span></button>
+                        <button id="italic-btn"class="btn btn-default"><span class="glyphicon glyphicon-italic"></span></button>
+                        <button class="btn btn-default" data-toggle="modal" data-target="#insertLinkModal"><span class="glyphicon glyphicon-link"></span></button>
+                    </div>
+                </div>
+                <!-- 插入链接模态框 -->
+                <div id="insertLinkModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="insertLinkModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 id="insertLinkModalLabel" class="modal-title">插入链接</h4>
+                            </div>
+                            <div class="modal-body">
+                                <input id="link" class="form-control" type="text" placeholder="链接地址"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="insert-link-confirm-btn" href="#" class="btn btn-primary" data-dismiss="modal">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 删除笔记模态框 -->
                 <div id="deleteNoteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteNoteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
@@ -172,6 +201,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 更改样式模态框 -->
                 <div id="changeStyleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="changeStyleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
@@ -186,6 +216,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Markdown语法帮助模态框 -->
                 <div id="markdownHelpModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="markdownHelpModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -268,12 +299,12 @@
                                 </table>
                             </div>
                             <div class="modal-footer">
-                                <a class="btn" href="http://wowubuntu.com/markdown/" target="_blank">详细Markdown语法</a>
-                                <button href="#" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                <a class="btn btn-primary" href="http://wowubuntu.com/markdown/" target="_blank">详细Markdown语法</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- 图片预览层 -->
                 <div id="img-preview" class="display-none">
                     <img src="img/intro.jpg" />
                 </div>
@@ -292,6 +323,7 @@
     <script src="js/lib/backbone-indexeddb.js"></script>
     <script src="js/lib/backbone.localStorage.js"></script>
     <script src="js/lib/showdown.js"></script>
+    <script src="js/lib/prettify/prettify.js"></script>
     <script data-main="js/main" src="js/lib/require.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 // 文章内容显示视图
 
-define(['setting'], function (setting) {
+define(['setting', 'noteCollection', 'util'], function (setting, noteCollection, util) {
 
 var ContentViewer = Backbone.View.extend({
 
@@ -14,6 +14,7 @@ var ContentViewer = Backbone.View.extend({
     $exportBtn: $('#export-btn'),
     $expandBtn: $('#expand-btn'),
     $imgPreview: $('#img-preview'),
+    $editTool: $('#edit-tool'),
 
     markdownConverter: new Showdown.converter(),
     defaultTitle: 'tNotes',
@@ -23,21 +24,32 @@ var ContentViewer = Backbone.View.extend({
                     '- *Markdown支持*：支持基本的Markdown语法，多种显示样式\n\n' +
                     '> Developed By *腾讯广研创新班邮箱组*',
     size: -1, // -1表示小，1表示大
+    selectedText: '', // 选中的文本内容
+    range: null, // 替换选中域
+    isEditing: false, // 是否正处于编辑状态
 
     currentNote: null, // 存放当前Note模型，如果为null，则表示没有与任何Note相关联
+    noteCollection: noteCollection,
 
     events: {
         'click .change-style': 'changeStyleClicked',
         'click #img-preview': 'closeImgPreview',
-        'click #note-content img': 'showImgPreview'
+        'click #note-content img': 'showImgPreview',
+        'click #print-btn': 'print',
+        'click #edit-btn:not(.disabled)': 'editNote'
     },
 
     initialize: function () {
         // 加载样式
         var style = setting.get('contentViewerStyle');
         this.changeStyle(style);
-
+        this.initEditor();
         this.reset();
+
+        // 测试用
+        setTimeout($.proxy(function () {
+            this.setNote(3);
+        }, this), 2000);
     },
 
     // 改变样式
@@ -57,6 +69,82 @@ var ContentViewer = Backbone.View.extend({
     // 关闭图片预览
     closeImgPreview: function () {
         this.$imgPreview.fadeOut('fast');
+    },
+
+    // 关闭编辑模式
+    disableEdit: function () {
+        this.$noteTitle.removeAttr('contentEditable');
+        this.$noteContent.removeAttr('contentEditable');
+    },
+
+    // 编辑笔记
+    editNote: function () {
+        var note = this.currentNote;
+        this.isEditing = true;
+        this.enalbleEdit();
+        this.$noteTitle.html(note.get('title'));
+        this.$noteContent.html(util.textToHtml(note.get('content')));
+    },
+
+    // 开启编辑模式
+    enalbleEdit: function () {
+        this.$noteTitle.attr('contentEditable', 'true').html();
+        this.$noteContent.attr('contentEditable', 'true');
+        this.setBtnState({
+            'save': true,
+            'edit': false,
+            'delete': false,
+            'export': false,
+        });
+    },
+
+    // 初始化编辑器
+    initEditor: function () {
+        // 改变div编辑时回车加<div>的默认形为，变成添加<br/>，方便转换
+        this.$noteContent.on('keypress', function (e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                document.execCommand('InsertHTML', true, '<br>');
+            }
+        }).on('mouseup', $.proxy(function () {
+            // 选中文字时弹出编辑工具
+            if (this.isEditing === true) {
+                this.selectedText = util.getSelectionHtml();
+                if ($.trim(this.selectedText) !== '') {
+                    var pos = util.getSelectionPos();
+                    this.$editTool.css('left', (pos.x - 78) + 'px')
+                        .css('top', (pos.y - 70) + 'px')
+                        .fadeIn('fast');
+                    this.range = util.getSelectionRange();
+                }
+            }
+        }, this)).on('mousedown blur', $.proxy(function () {
+            this.$editTool.fadeOut('fast');
+        }, this));
+        // 编辑按钮功能
+        $('#bold-btn').on('click', $.proxy(function () {
+            var replacement = '**' + this.selectedText + '**';
+            this.replaceSelectionText(replacement);
+        }, this));
+        $('#italic-btn').on('click', $.proxy(function () {
+            var replacement = '*' + this.selectedText + '*';
+            this.replaceSelectionText(replacement);
+        }, this));
+        $('#insert-link-confirm-btn').on('click', $.proxy(function () {
+            var replacement = '[' + this.selectedText + ']' + '(' + $('#link').val() +')';
+            this.replaceSelectionText(replacement);
+        }, this));
+    },
+
+    // 打印
+    print: function () {
+        window.print();
+    },
+
+    // 替换选中文字
+    replaceSelectionText: function (str) {
+        this.range.deleteContents();
+        this.range.insertNode(document.createTextNode(str));
     },
 
     // 重置
@@ -109,6 +197,12 @@ var ContentViewer = Backbone.View.extend({
         this.$noteFooter.html(str);
     },
 
+    // 设置笔记
+    setNote: function (id) {
+        this.currentNote = this.noteCollection.get(id);
+        this.showNote();
+    },
+
     // 设置标题和内容
     setTitleAndContent: function (o) {
         this.$noteTitle.html(o.title);
@@ -120,6 +214,32 @@ var ContentViewer = Backbone.View.extend({
         var $img = $(e.target);
         this.$imgPreview.find('img').attr('src', $img.attr('src'));
         this.$imgPreview.fadeIn('fast');
+    },
+
+    // 显示笔记
+    showNote: function () {
+        var note = this.currentNote;
+
+        this.disableEdit();
+        this.setTitleAndContent({
+            title: note.get('title'),
+            content: this.markdownConverter.makeHtml(note.get('content'))
+        });
+        // 加载下载数据
+        this.$exportBtn.attr('download', note.get('title') + '.md')
+            .attr('href', URL.createObjectURL(new Blob([note.get('content').replace(/\n/g, '\r\n')],
+            {type: 'text/plain'})));
+
+        this.setBtnState({
+            'save': false,
+            'edit': true,
+            'delete': true,
+            'export': true,
+        });
+
+        // 代码高亮
+        this.$noteContent.find('pre').addClass('prettyprint linenums');
+        prettyPrint();
     },
 
     // 改变页面大小
