@@ -48,6 +48,7 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 
 
 	editMode = VIEW_MODE;
+    noteEditor->setReadOnly(true);
 	/*   
 	QHBoxLayout *tmpLayout = new QHBoxLayout;
 	tmpLayout->addWidget(buttonEdit);
@@ -76,7 +77,7 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 
 void tNotesTextEditor::setupEditActions()
 {
-    connect(buttonEdit, SIGNAL(clicked()), noteEditor,
+    connect(buttonEdit, SIGNAL(clicked()), this,
             SLOT(editModeChange()));
 }
 
@@ -97,30 +98,45 @@ QString tNotesTextEditor::getLastModifiedTime()
 }
 
 
-QString markdown2html(QString articleContents){
-    QLibrary convertLib("/libs/markdown2html.dll");
+QString tNotesTextEditor::markdown2html(QString articleContents){
+
+    QLibrary convertLib(tr("markdown2html.dll"));
     std::string result;
+    std::string in = "helloworld";
     if(convertLib.load()){
-        QMessageBox::information(NULL, "OK", "DLL load is OK!");
-        typedef std::string (*Fun)(std::string);
+        typedef std::string (__cdecl *Fun)(std::string);
         Fun convertFunc = (Fun)convertLib.resolve("markdown2HTML");
         if(convertFunc){
-            QMessageBox::information(NULL, "OK", "Function is found");
-            result = convertFunc((const char*)articleContents.toLocal8Bit());
-            return QString::fromLocal8Bit(result.c_str());
+            //QMessageBox::information(NULL, "OK", "Function is found");
+            in = articleContents.toLocal8Bit().constData();
+            //QMessageBox::information(NULL, "OK", QString::fromLocal8Bit(in.c_str()));
+            result = convertFunc(in);
+            //QMessageBox::information(NULL, "OK", "Function works well");
+            //QMessageBox::information(NULL, "OK", QString::fromLocal8Bit(result.c_str()));
+            return QString::fromStdString(result.c_str());
         } else {
-
+            //QMessageBox::information(NULL, "OK", "Function not found");
             return NULL;
         }
     } else {
+        QMessageBox::information(NULL, "OK", "Lib not found");
         return NULL;
     }
-
 }
+
 
 void tNotesTextEditor::editModeChange()
 {
-	if(editMode == EDIT_MODE){
-	editMode = VIEW_MODE;
-	}
+    if(editMode == EDIT_MODE){
+        editMode = VIEW_MODE;
+        //QMessageBox::information(NULL, "OK", noteEditor->toPlainText());
+        plainText = noteEditor->toPlainText();
+
+        noteEditor->setHtml(markdown2html(plainText));
+        noteEditor->setReadOnly(true);
+    } else {
+        editMode = EDIT_MODE;
+        noteEditor->setReadOnly(false);
+        noteEditor->setPlainText(plainText);
+    }
 }

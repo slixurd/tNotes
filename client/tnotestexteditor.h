@@ -37,6 +37,8 @@ private:
 		QAction *actionUndo;
 		QFrame *horizonLine;
 
+        QString plainText;
+        QString htmlText;
 		tNotesButton *buttonEdit;
 
 		bool editMode;
@@ -46,6 +48,7 @@ private:
 		QString getTitle();
 		QString getCreatedTime();
 		QString getLastModifiedTime();
+        QString markdown2html(QString articleContents);
 
 		void setupEditActions();
 

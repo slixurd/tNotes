@@ -1,5 +1,5 @@
 ﻿#include "Operation.h"
-#include<fstream>
+#include <fstream>
 string articlePath="";
 /************************************************************************/
 /* 返回文章路径，路径构成为文章ID+.json                                                                    */
@@ -17,7 +17,7 @@ Json::Value returnRoot(string path)
     Json::Reader reader;
     Json::Value root;
     ifstream ifs;
-    ifs.open(path);
+    ifs.open(path.c_str());
     reader.parse(ifs,root,false);
     if(ifs.is_open())
     {
@@ -33,7 +33,7 @@ bool writeInJson(Json::Value root,string path)
 {
     Json::FastWriter writer;
     ofstream ofs;
-    ofs.open(path);
+    ofs.open(path.c_str());
     if(ofs.is_open())
     {
         string json_file = writer.write(root);
