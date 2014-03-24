@@ -63,7 +63,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lfcgi++ -lfcgi -ljson_linux-gcc-4.6_libmt
+LDLIBSOPTIONS=-lfcgi++ -lfcgi -ljsoncpp
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
