@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     json/json_writer.cpp \
     operation.cpp \
     tnotesbutton.cpp \
-    tnoteslogindialog.cpp
+    tnoteslogindialog.cpp \
+    search.cpp
 
 HEADERS  += tnotesmainwindow.h \
     tnotestexteditor.h \
@@ -46,7 +47,10 @@ HEADERS  += tnotesmainwindow.h \
     Operation.h \
     Article.h \
     tnotesbutton.h \
-    tnoteslogindialog.h
+    tnoteslogindialog.h \
+    friso.h \
+    friso_API.h \
+    search.h
 
 OTHER_FILES += \
     json/sconscript \
@@ -56,3 +60,5 @@ OTHER_FILES += \
 RESOURCES += \
     tNotesRes.qrc
 
+#请把"C:/Users/smallway/Qt/untitled6/"修改为本机friso.lib文件的绝对地址
+LIBS+= -LD:\Tencent\tNotes\client\libs -lfriso

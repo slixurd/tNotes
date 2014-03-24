@@ -41,6 +41,14 @@ private:
         QString htmlText;
 		tNotesButton *buttonEdit;
 
+		tNotesButton *buttonBold;
+		tNotesButton *buttonItalic;
+		tNotesButton *buttonQuotes;
+		tNotesButton *buttonUndo;
+		tNotesButton *buttonRedo;
+		tNotesButton *buttonCode;
+		tNotesButton *buttonLink;
+
 		bool editMode;
 
 private:
@@ -50,10 +58,13 @@ private:
 		QString getLastModifiedTime();
         QString markdown2html(QString articleContents);
 
+		void setTextEditorLayout();
 		void setupEditActions();
 
 private slots:
+
 		void editModeChange();
+		void setBold();
 
 
 };

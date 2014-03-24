@@ -45,7 +45,14 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	horizonLine->setFrameShadow(QFrame::Sunken);
 
 	buttonEdit = new tNotesButton("/myres/edit.png");
-
+	buttonBold = new tNotesButton("/myres/bold.png", 15, 15);
+	buttonItalic = new tNotesButton("/myres/italic.png", 15, 15);
+	buttonQuotes = new tNotesButton("/myres/quotes.png", 15, 15);
+	buttonLink = new tNotesButton("/myres/link.png", 15, 15);
+	buttonCode = new tNotesButton("/myres/code.png", 15, 15);
+	buttonUndo = new tNotesButton("/myres/undo.png", 15, 15);
+	buttonRedo = new tNotesButton("/myres/redo.png", 15, 15);
+	
 
 	editMode = VIEW_MODE;
     noteEditor->setReadOnly(true);
@@ -53,6 +60,29 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	QHBoxLayout *tmpLayout = new QHBoxLayout;
 	tmpLayout->addWidget(buttonEdit);
 	*/
+	setTextEditorLayout();
+	setupEditActions();
+}
+
+void print(QString s)
+{
+	QMessageBox::information(NULL, "OK", s);
+}
+
+void tNotesTextEditor::setTextEditorLayout()
+{
+
+	QHBoxLayout *toolButtonsLayout = new QHBoxLayout;
+
+	toolButtonsLayout->addWidget(buttonBold);
+	toolButtonsLayout->addWidget(buttonItalic);
+	toolButtonsLayout->addWidget(buttonLink);
+	toolButtonsLayout->addWidget(buttonQuotes);
+	toolButtonsLayout->addWidget(buttonCode);
+	toolButtonsLayout->addWidget(buttonUndo);
+	toolButtonsLayout->addWidget(buttonRedo);
+	toolButtonsLayout->addStretch();
+
 
 	QWidget *titleWidget = new QWidget;
 	QGridLayout *titleLayout = new QGridLayout;
@@ -61,6 +91,7 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	//titleLayout->addLayout(tmpLayout, 0, 2, 0, 2);
 	titleLayout->addWidget(buttonEdit, 0, 3, 0, 2, Qt::AlignRight);
 	titleLayout->addWidget(horizonLine, 1, 0, 2, 0);
+	titleLayout->addLayout(toolButtonsLayout, 2, 0);
 	titleLayout->addWidget(noteLastModifiedTime, 2, 4, Qt::AlignRight);
 	titleLayout->setContentsMargins(0, 0, 0, 2);
 	titleWidget->setLayout(titleLayout);
@@ -69,16 +100,18 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	QVBoxLayout *layout = new QVBoxLayout;
 	layout->addWidget(titleWidget);
 	layout->addWidget(noteEditor);
-	
 
-    setupEditActions();
 	setLayout(layout);
 }
 
 void tNotesTextEditor::setupEditActions()
 {
-    connect(buttonEdit, SIGNAL(clicked()), this,
-            SLOT(editModeChange()));
+
+		connect(buttonEdit, SIGNAL(clicked()), this,
+				SLOT(editModeChange()));
+		connect(buttonBold, SIGNAL(clicked()), this,
+				SLOT(setBold()));
+
 }
 
 QString tNotesTextEditor::getTitle()
@@ -139,4 +172,12 @@ void tNotesTextEditor::editModeChange()
         noteEditor->setReadOnly(false);
         noteEditor->setPlainText(plainText);
     }
+}
+
+void tNotesTextEditor::setBold()
+{
+	QString s = noteEditor->textCursor().selectedText();
+	s = "**" + s + "**";
+	noteEditor->textCursor().insertText(s); 
+	print(s);
 }
