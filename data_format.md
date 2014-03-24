@@ -1,184 +1,362 @@
-#数据交换格式
-无论是web端还是客户端统一采用JSON作为数据交换格式
+#数据交换格式#
 
-与后台进行数据传输的时候发起GET/POST请求
+web端和客户端统一采用JSON作为数据交换格式
 
-可以先参考[JSON标准](http://www.json.org/json-zh.html),并找到对应需要的JSON解析库.(JS可以直接解析JSON,不需要另外使用JSON库)
+与后台进行数据传输的时候向后台CGI接口POST数据
 
-##基本数据格式
 
-###提交用户注册信息
-提交URL:未定
+##基本数据格式定义##
 
-不采用JSON,直接通过表单进行数据POST.需要两个值,username以及pass
+###0. 定义服务器异常返回###
+向服务器POST数据时，当所发送数据有误或因服务器原因无法处理时，服务器会将异常返回。
+服务器异常返回格式，如下
+
+	{
+		'exception':'exception description'	
+	}
+
+
+1. session失效，需重新登陆
+1. 访问了错误的URL
+1. 发送了错误格式的Json数据
+1. 因为某些原因服务器挂了
+
+>每个cgi接口都可能返回异常提示
+>建议对服务器返回先检查Json有没有exception这个值，判断session是不是有效或者服务器挂了没
+
+
+###1. 用户注册###
+
+>URL: host/signup.cgi
+
+使用如下数据结构：
+
+	{
+		'user':'user',
+  		'pass':'pass'
+	}
 
 返回数据:
-```
-{
-	'status':'status'
-  //有以下几种状态:1."user_name_not_unique",用户名已被占用
-  //2.success.注册成功
-  //本地还需要判断没有网络响应的情况
-}
-```
 
-###提交用户登陆信息
-提交URL:未定
-
-同上,不采用JSON,直接通过表单进行数据POST.需要两个值,username以及pass
-
-```
-{
-	'status':'status'
-  //有以下几种状态:1."pass_wrong",密码不匹配
-  //2.success.登陆成功
-}
-```
-
-###初始化所有数据
-请求URL:
-这里需要考虑一次性传输所有数据,数据量太大的问题
-
-采用一次性初始化所有目录结构.笔记一次取出前N个字作为brief,其余的在点击的时候加载.
-
-客户端可以继续轮询读取所有的笔记内容
-
-```
-{
-  
-  'node':[
-    {
-      'name':"name",
-      'id':id
-    },{
-      'name':"name",
-      'id':id
-    },{
-     ...
-    }
-  ],
-  'article':[
-    {
-      'name':"name",
-      'id':id,
-      'time':"time"
-      'location':nodeId,
-      'brief':"short brief here"
-    },{
-     ...
-    }
-  ]
-}
-```
-###拉取笔记
-提交URL:
-```
-//提交数据.可以一次请求多条,例如点开笔记发现没有下载,现场拖笔记到本地,又例如客户端初始化之后,隔一段时间一次拉取10条,直到下载全部数据.这里数量需要有上限.否则数据量一样太大.
-{
-  'articleId':[
-  	id1,id2,id3
-  ]
-}
-```
-> 用途:
-
-> 1.继续下载没有下载的文章
+	{
+		'status':'status'
+	}
+	//'status'
+	//1.'success',注册成功
+	//2."used_username",用户名被占用
 
 
-```
-{
-  'article':[
-    {
-      'name':"name",
-      'id':id,
-      'time':"time"
-      'location':nodeId,
-      'content':"content"
-    },{
-    	...
-    }
-  ]
+###2.用户登陆###
 
-}
-```
-###临时备份单条笔记数据
-隔固定时间段自动上传备份数据
-```
-//提交格式
-{
-  'article':
-   {
-     'name':"name",
-     'id':id,
-     'location':nodeId,
-     'content':"content"
-   }
-}
-```
+>URL: host/signin.cgi
 
-###创建笔记
-创建一次提交一次请求.如果当前没有网络就随后提交
+使用如下数据结构：
 
-如果遇到结点和笔记都同时创建的情况.请务必先创建结点!!!并且在收到服务器返回信息以后再上传笔记.否则结点数据会出错!!!
-```
-//请求数据
-{
-  'create':'article',
-  'content':'content here',
-  'createTime':'time_stamp',  //最后保存仅为服务器时间.本地时间要加上时间差
-  'currentTime':'time_stamp' //用于正确匹配时间.提供时间差
-  'nodeId':nodeId
-}
-//返回数据
-{
-  'create':'article',
-  'status':'success',
-  'id':id,
-  'createTime':'time_stamp'
-}
-
-```
-
-###保存单条笔记
-web不提供一次性编辑多条的功能.切换到其他笔记的时候提示保存当前笔记,否则丢失数据
-
-客户端自行解决.反正这边只提供保存单条笔记的接口.此外保存的时候会清空临时保存的数据
-```
-{
-  'article':
-   {
-     'name':"name",
-     'id':id,
-     'location':nodeId,
-     'content':"content"
-   }
-}
-```
+	{
+		'user':'user',
+  		'pass':'pass'
+	}
 
 
+返回数据：
 
-###创建结点
-每次新建结点的同时就提交创建信息.一个结点作一次请求发送,接收到id以后客户端/web端各自保存数据
-```
-//提交格式
-{
-  'create':'node',
-  'name':'node name here'
-}
-//返回格式
-{
-  'create':'node',
-  'status':'success',
-  'time':'SERVER_TIME_STAMP',
-  'id':nodeId,
-}
-```
+	{
+		'status':'status'
+		'session':'session key'
+	}
+	//'status'
+	//1.'success',登陆成功
+	//2.'incorrect_password',密码错误
+	//'session'字符串
+	//用于标示已登录用户，除signup和signin接口，其他接口的Json数据中必须包含session
 
-###同步数据
-全局同步
-```
-{
-	//等先做完前面再来做这里吧= =
+> 客户端/web需保存session key，
+> 后面每此通讯里面的Json都必须有session来标示登录用户。
 
-}
-```
+
+###3.用户登出###
+
+>URL: host/signout.cgi
+
+登出时，发送
+
+	{
+  		'session':'session key'
+	}
+
+返回数据：
+
+	{
+		'status':'status'
+	}
+	//'status'
+	//1.'success',登出成功
+
+
+###4.请求目录###
+
+>URL: host/Fecthnodes.cgi 
+
+取得根节点下所有的文件夹节点
+
+发送
+
+	{
+	  	'session':'session key'		
+	}
+
+返回数据:
+
+	{
+		'node':[
+		    {
+		      'id':id,
+		      'name':"name",
+			  'stamp':'SERVER_TIME_STAMP',
+		    },{
+		      'id':id
+		      'name':"name",
+			  'stamp':'SERVER_TIME_STAMP',
+		    },
+		     ...
+	  ]
+	}
+	//'stamp'：服务器时间戳，指示服务器最后一次的修改时间
+
+
+###5.请求某一目录下所有文件名及摘要等信息###
+
+>URL：host/fecthbriefs.cgi 
+
+取得'id'为node_id的目录下所有文件名及摘要等信息
+
+发送
+
+	{
+	  	'session':'session key',
+		'id':node_id	
+	}
+
+返回数据:
+	
+	{
+	 'article':[
+	    {
+	      'id':id,
+	      'name':"name",
+	      'stamp':'SERVER_TIME_STAMP',
+	      'location':nodeId,
+	      'brief':"short brief here"
+	    },{
+	      'id':id,
+	      'name':"name",
+	      'stamp':'SERVER_TIME_STAMP',
+	      'location':nodeId,
+	      'brief':"short brief here"
+	    },
+		 ...
+	  ]
+	}
+	//'stamp'：服务器时间戳，指示服务器最后一次的修改时间
+	//'location':指示位于哪个目录下
+	//'brief'：二十字的摘要
+
+
+###6.请求指定id的文章全文###
+
+>URL：host/fectharticles.cgi 
+
+取得指定id的文章全文，id可以同时传送多个
+
+发送：
+
+	{
+	  	'session':'session key',
+		'id':[id1,id2,id3,...]
+	}
+
+返回数据:
+
+	{
+	 'article':[
+	    {
+	      'id':id,
+	      'name':"name",
+	      'stamp':'SERVER_TIME_STAMP',
+	      'location':nodeId,
+	      'content':"content"
+	    },{
+	      'id':id,
+	      'name':"name",
+	      'stamp':'SERVER_TIME_STAMP',
+	      'location':nodeId,
+	      'content':"content"
+	    },
+		 ...
+	  ]
+	}
+	//'stamp'：服务器时间戳，指示服务器最后一次的修改时间
+	//'location':指示位于哪个目录下
+	//'content':文章正文
+
+###7.新建目录###
+
+>URL：host/createnode.cgi 
+
+新建目录
+
+发送：
+
+	{
+	  	'session':'session key',
+		'name':'node name'
+	}
+
+成功时返回数据：
+
+*（不成功时，暂时考虑使用第0定义的异常状态）*
+	
+	{
+		'id':node_id,
+		'name':node_name,
+		'stamp':'SERVER_TIME_STAMP'
+	}
+
+###8.删除目录###
+
+>URL：host/deletenode.cgi 
+
+新建目录
+
+发送：
+
+	{
+	  	'session':'session key',
+		'id':node_id
+	}
+
+成功时返回数据：
+
+*（不成功时，暂时考虑使用第0定义的异常状态）*
+	
+	{
+		'status':'status'
+	}
+	//'status'
+	//1.'success',删除成功
+
+
+###9.修改目录名称###
+
+>URL：host/changenode.cgi 
+
+将id为node_id的目录名改为'node name'
+
+发送：
+
+	{
+	  	'session':'session key',
+		'id':node_id，
+		'name':'node name'
+	}
+
+成功时返回数据：
+
+*（不成功时，暂时考虑使用第0定义的异常状态）*
+	
+	{
+		'status':'status'
+	}
+	//'status'
+	//1.'success',修改成功
+
+
+###10.新建笔记###
+
+>URL：host/createarticle.cgi 
+
+新建文章。
+
+发送：
+
+	{
+	  'session':'session key',
+	  'name':'article name',
+	  'content':'article content',
+	  'location':nodeId
+	}
+
+成功时返回数据：
+
+*（不成功时，暂时考虑使用第0定义的异常状态）*
+
+	{
+		'id':article_id,
+		'name':node_name,
+	    'location':nodeId，
+		'stamp':'SERVER_TIME_STAMP'
+	}
+
+###11.删除笔记###
+
+>URL：host/deletearticle.cgi 
+
+删除指定id文章
+
+发送：
+
+	{
+	  'session':'session key',
+	  'id':article_id,
+	}
+
+成功时返回数据：
+
+*（不成功时，暂时考虑使用第0定义的异常状态）*
+
+	{
+		'status':'status'
+	}
+	//'status'
+	//1.'success',修改成功
+
+
+###12.修改笔记###
+
+>URL：host/changearticle.cgi 
+
+修改指定id文章，包括保存文章内容、修改名称、移动文章等等
+
+发送：
+
+	{
+	  'session':'session key',
+	  'id':article_id,
+	  'name':'article name',
+	  'content':'article content',
+	  'location':nodeId
+	}
+	//'name'，'content'，'location'，只发送要修改的，不修改的不要发送字段。
+
+例如，改名，发送：
+
+	{
+	  'session':'session key',
+	  'id':article_id,
+	  'name':'article name'
+	}
+
+成功时返回数据：
+
+*（不成功时，暂时考虑使用第0定义的异常状态）*
+
+	{
+		'status':'status'
+	}
+	//'status'
+	//1.'success',修改成功
+
+
+
+
+###同步协议待定###
