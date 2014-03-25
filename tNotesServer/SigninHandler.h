@@ -8,7 +8,9 @@
 #ifndef SIGNINHANDLER_H
 #define	SIGNINHANDLER_H
 
-class SigninHandler : public Handler{
+#include "Handler.h"
+
+class SigninHandler: public Handler{
 public:
     SigninHandler();
     virtual ~SigninHandler();
