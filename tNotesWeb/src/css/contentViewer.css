@@ -137,7 +137,11 @@
     cursor: pointer;
 }
 
-/* 默认样式 */
+#note-content pre {
+    background-color: #3e444c;
+}
+
+/* 默认 */
 #note-content.default
 {
     color: #a7a7a7;
@@ -153,7 +157,8 @@
 #note-content.default a,
 #note-content.default em,
 #note-content.default pre,
-#note-content.default code
+#note-content.default code,
+#note-content.default strong
 {
     color: #f89406;
 }
@@ -167,11 +172,15 @@
     opacity: .8;
     border: 1px solid #ddd;
     border-radius: 4px;
+
+    -webkit-filter: grayscale(0.5);
 }
 
 #note-content.default img:hover
 {
     opacity: 1;
+
+    -webkit-filter: none;
 }
 
 #note-content.default a
@@ -194,12 +203,7 @@
     background-color: #f8f8f8;
 }
 
-#note-content.default pre
-{
-    background-color: transparent;
-}
-
-/* 明亮样式 */
+/* 明亮 */
 #note-content.bright
 {
     color: #000;
@@ -215,7 +219,8 @@
 #note-content.bright a,
 #note-content.bright em,
 #note-content.bright pre,
-#note-content.bright code
+#note-content.bright code,
+#note-content.bright strong
 {
     color: #4183c4;
 }
@@ -238,12 +243,81 @@
     background-color: #f8f8f8;
 }
 
-#note-content.bright pre
+/* 外彩 */
+#note-content.colorful
 {
-    background-color: transparent;
+    color: #464545;
+    background-color: #fafafa;
 }
 
-/* 打印样式 */
+#note-content.colorful h1,
+#note-content.colorful h2,
+#note-content.colorful h3,
+#note-content.colorful h4,
+#note-content.colorful h5,
+#note-content.colorful h6 {
+    color: #375a7f;
+}
+
+#note-content.colorful a {
+    color: #3498db;
+}
+
+#note-content.colorful em,
+#note-content.colorful pre,
+#note-content.colorful code,
+#note-content.colorful strong
+{
+    color: #e74c3c;
+}
+
+#note-content.colorful li {
+    color: #f39c12
+}
+
+#note-content.colorful img
+{
+    transition: opacity .3s;
+
+    opacity: .8;
+    border: 10px solid #fff;
+    box-shadow: 0 0 3px #777;
+}
+
+#note-content.colorful img:hover
+{
+    opacity: 1;
+}
+
+#note-content.colorful blockquote
+{
+    border-left-color: #00bc8c;
+    background-color: #f8f8f8;
+}
+
+#assist-btns {
+    display: block;
+    background-color: #2e3338;
+    position: fixed;
+    padding: 6px;
+    border-radius: 6px;
+    right: 0px;
+    bottom: 0px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.2);
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+#assist-btns:hover {
+    opacity: 1;
+}
+
+#assist-btns .btn {
+    outline: none;
+}
+
+/* 打印 */
 @media print
 {
 
@@ -256,6 +330,10 @@
     #content, #content *
     {
         visibility: visible;
+    }
+
+    #note-title {
+        font-size: 50px;
     }
 
     #content .controls, #content .controls *

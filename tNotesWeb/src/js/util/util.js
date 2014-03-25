@@ -39,14 +39,22 @@ exports.getSelectionRange = function () {
     return range;
 };
 
-// 将html转为txt （将<br>替换为\n）
+// 将html转为txt
 exports.htmlToText = function (str) {
-    return str.replace(/<br>/g, '\n');
+    return str.replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ');
 };
 
 // 将txt转为html（将\n替换为<br>）
 exports.textToHtml = function (str) {
-    return str.replace(/\n/g, '<br>');
+    return str.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;');
+};
+
+// 将timeStamp转换为时间
+exports.timestampToTime = function (timestamp) {
+    var t = new Date(timestamp);
+    return t.getFullYear() + '-' + (t.getMonth() + 1) +
+           '-' + t.getDate() + ' ' + t.getHours() + ':'
+           + t.getMinutes() + ':' + t.getSeconds(); 
 };
 
 return exports;

@@ -10,6 +10,7 @@ var ContentViewer = Backbone.View.extend({
     $noteFooter: $('#note-footer'),
     $saveBtn: $('#save-btn'),
     $editBtn: $('#edit-btn'),
+    $saveQuitBtn: $('#save-quit-btn'),
     $deleteBtn: $('#delete-btn'),
     $exportBtn: $('#export-btn'),
     $expandBtn: $('#expand-btn'),
@@ -36,7 +37,9 @@ var ContentViewer = Backbone.View.extend({
         'click #img-preview': 'closeImgPreview',
         'click #note-content img': 'showImgPreview',
         'click #print-btn': 'print',
-        'click #edit-btn:not(.disabled)': 'editNote'
+        'click #edit-btn:not(.disabled)': 'editNote',
+        'click #delete-note-confirm-btn': 'closeDeleteNoteModal',
+        'keyup #note-content': 'updateOnTyping'
     },
 
     initialize: function () {
@@ -48,7 +51,7 @@ var ContentViewer = Backbone.View.extend({
 
         // 测试用
         setTimeout($.proxy(function () {
-            this.setNote(3);
+            this.setNote(7);
         }, this), 2000);
     },
 
@@ -66,15 +69,29 @@ var ContentViewer = Backbone.View.extend({
         this.changeStyle(style);
     },
 
+    // 关闭删除笔记模态框
+    closeDeleteNoteModal: function () {
+        $('#deleteNoteModal').modal('hide');
+    },
+
     // 关闭图片预览
     closeImgPreview: function () {
         this.$imgPreview.fadeOut('fast');
+    },
+
+    // 删除笔记
+    deleteNote: function () {
+        this.currentNote.destroy();
+        this.reset();
     },
 
     // 关闭编辑模式
     disableEdit: function () {
         this.$noteTitle.removeAttr('contentEditable');
         this.$noteContent.removeAttr('contentEditable');
+        this.isEditing = false;
+        this.$saveQuitBtn.addClass('hidden');
+        this.$editBtn.removeClass('hidden');
     },
 
     // 编辑笔记
@@ -88,10 +105,12 @@ var ContentViewer = Backbone.View.extend({
 
     // 开启编辑模式
     enalbleEdit: function () {
-        this.$noteTitle.attr('contentEditable', 'true').html();
+        this.$noteTitle.attr('contentEditable', 'true');
         this.$noteContent.attr('contentEditable', 'true');
+        this.$saveQuitBtn.removeClass('hidden');
+        this.$editBtn.addClass('hidden');
         this.setBtnState({
-            'save': true,
+            'save': false,
             'edit': false,
             'delete': false,
             'export': false,
@@ -104,7 +123,17 @@ var ContentViewer = Backbone.View.extend({
         this.$noteContent.on('keypress', function (e) {
             if (e.which === 13) {
                 e.preventDefault();
-                document.execCommand('InsertHTML', true, '<br>');
+                if (window.getSelection) {
+                  var selection = window.getSelection(),
+                      range = selection.getRangeAt(0),
+                      br = document.createElement("br");
+                  range.deleteContents();
+                  range.insertNode(br);
+                  range.setStartAfter(br);
+                  range.setEndAfter(br);
+                  selection.removeAllRanges();
+                  selection.addRange(range);
+                }
             }
         }).on('mouseup', $.proxy(function () {
             // 选中文字时弹出编辑工具
@@ -121,6 +150,7 @@ var ContentViewer = Backbone.View.extend({
         }, this)).on('mousedown blur', $.proxy(function () {
             this.$editTool.fadeOut('fast');
         }, this));
+
         // 编辑按钮功能
         $('#bold-btn').on('click', $.proxy(function () {
             var replacement = '**' + this.selectedText + '**';
@@ -132,8 +162,21 @@ var ContentViewer = Backbone.View.extend({
         }, this));
         $('#insert-link-confirm-btn').on('click', $.proxy(function () {
             var replacement = '[' + this.selectedText + ']' + '(' + $('#link').val() +')';
+            // 如果勾选了图片选项则添叹号
+            if ($('#is-img-link').is(':checked') === true) {
+                replacement = '!' + replacement;
+            }
             this.replaceSelectionText(replacement);
         }, this));
+
+        // 辅助按钮
+        $('.scroll').on('click', function () {
+            $.smoothScroll({
+                scrollTarget: $(this).attr('data-target'),
+                speed: 300,
+                easing: 'linear'
+            }); 
+        });
     },
 
     // 打印
@@ -163,6 +206,18 @@ var ContentViewer = Backbone.View.extend({
         });
     },
 
+    // 保存笔记
+    saveNote: function () {
+        this.currentNote.set({
+            title: this.$noteTitle.text(),
+            content: util.htmlToText(this.$noteContent.html()),
+            modifiedTime: _.now()
+        });
+        this.setBtnState({
+            'save': false
+        });
+    },
+
     // 设置按钮可用性
     setBtnState: function (o) {
         function setState($e, state, modalOrNot) {
@@ -178,16 +233,16 @@ var ContentViewer = Backbone.View.extend({
                 }
             }
         }
-        if (o['save']) {
+        if (typeof o['save'] !== 'undefined') {
             setState(this.$saveBtn, o['save'], false);
         }
-        if (o['edit']) {
+        if (typeof o['edit'] !== 'undefined') {
             setState(this.$editBtn, o['edit'], false);
         }
-        if (o['delete']) {
+        if (typeof o['delete'] !== 'undefined') {
             setState(this.$deleteBtn, o['delete'], true);
         }
-        if (o['export']) {
+        if (typeof o['export'] !== 'undefined') {
             setState(this.$exportBtn, o['export'], false);
         }
     },
@@ -223,8 +278,9 @@ var ContentViewer = Backbone.View.extend({
         this.disableEdit();
         this.setTitleAndContent({
             title: note.get('title'),
-            content: this.markdownConverter.makeHtml(note.get('content'))
+            content: this.markdownConverter.makeHtml(_.unescape(note.get('content')))
         });
+        this.setFooter('修改时间：' + util.timestampToTime(note.get('modifiedTime')));
         // 加载下载数据
         this.$exportBtn.attr('download', note.get('title') + '.md')
             .attr('href', URL.createObjectURL(new Blob([note.get('content').replace(/\n/g, '\r\n')],
@@ -256,6 +312,17 @@ var ContentViewer = Backbone.View.extend({
             this.size = -1;
             this.$el.toggleClass('fill');
             return false;
+        }
+    },
+
+    // 更改文字时触发
+    updateOnTyping: function () {
+        if (this.isEditing === true) {
+            var charNum = this.$noteContent.text().length;
+            this.setFooter('字数：' + charNum);
+            this.setBtnState({
+                'save': true
+            });
         }
     }
 

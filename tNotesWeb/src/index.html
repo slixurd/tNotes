@@ -144,10 +144,11 @@
                         <div class="panel-title">
                             <div id="note-title"></div>
                             <div class="controls">
-                                <a id="save-btn" class="disabled" href="#saveNote"><span class="glyphicon glyphicon-save"></span> 保存</a>
-                                <a id="edit-btn" class="disabled" href="#editNote"><span class="glyphicon glyphicon-pencil"></span> 编辑</a>
-                                <a id="delete-btn" class="disabled" href="#" data-target="#deleteNoteModal"><span class="glyphicon glyphicon-trash"></span> 删除</a>
-                                <a id="export-btn" class="disabled" href="#" download="tNotes.md"><span class="glyphicon glyphicon-export"></span> 导出</a>
+                                <a id="save-btn" href="#saveNote"><span class="glyphicon glyphicon-save"></span> 保存</a>
+                                <a id="edit-btn" href="#editNote"><span class="glyphicon glyphicon-pencil"></span> 编辑</a>
+                                <a id="save-quit-btn" class="hidden" href="#saveAndQuitEditing"><span class="glyphicon glyphicon-ok"></span> 完成</a>
+                                <a id="delete-btn" href="#" data-target="#deleteNoteModal"><span class="glyphicon glyphicon-trash"></span> 删除</a>
+                                <a id="export-btn" href="#" download="tNotes.md"><span class="glyphicon glyphicon-export"></span> 导出</a>
                                 <a id="expand-btn" href="#toggleContentViewerSize"><span class="glyphicon glyphicon-resize-full"></span> 展开</a>
                                 <a href="#" data-toggle="modal" data-target="#changeStyleModal"><span class="glyphicon glyphicon-eye-open"></span> 样式</a>
                                 <a id="print-btn" href="#"><span class="glyphicon glyphicon-print"></span> 打印</a>
@@ -157,6 +158,8 @@
                     </div>
                     <div id="note-content" class="panel-body default"></div>
                     <div id="note-footer" class="panel-footer"></div>
+                    <!-- 滚动页面用 -->
+                    <footer></footer>
                 </div>
                 <!-- 编辑工具 -->
                 <div id="edit-tool" class="popover top">
@@ -177,6 +180,9 @@
                             </div>
                             <div class="modal-body">
                                 <input id="link" class="form-control" type="text" placeholder="链接地址"/>
+                                <div class="checkbox">
+                                    <label><input id="is-img-link" type="checkbox"> 图片</label>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button id="insert-link-confirm-btn" href="#" class="btn btn-primary" data-dismiss="modal">确定</button>
@@ -212,6 +218,7 @@
                             <div class="modal-body">
                                 <img class="img-thumbnail change-style" src="img/style-default.jpg" data-style="default" data-dismiss="modal" />
                                 <img class="img-thumbnail change-style" src="img/style-bright.jpg" data-style="bright" data-dismiss="modal" />
+                                <img class="img-thumbnail change-style" src="img/style-colorful.jpg" data-style="colorful" data-dismiss="modal" />
                             </div>
                         </div>
                     </div>
@@ -304,6 +311,11 @@
                         </div>
                     </div>
                 </div>
+                <!-- 浏览辅助按钮 -->
+                <div id="assist-btns">
+                    <button class="btn btn-default scroll" data-target="body"><span class="glyphicon glyphicon-arrow-up"></button>
+                    <button class="btn btn-default scroll" data-target="footer"><span class="glyphicon glyphicon-arrow-down"></button>
+                </div>
                 <!-- 图片预览层 -->
                 <div id="img-preview" class="display-none">
                     <img src="img/intro.jpg" />
@@ -324,6 +336,7 @@
     <script src="js/lib/backbone.localStorage.js"></script>
     <script src="js/lib/showdown.js"></script>
     <script src="js/lib/prettify/prettify.js"></script>
+    <script src="js/lib/jquery.smooth-scroll.js"></script>
     <script data-main="js/main" src="js/lib/require.js"></script>
 </body>
 </html>
