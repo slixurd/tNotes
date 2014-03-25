@@ -23,7 +23,6 @@ SOURCES += main.cpp\
     json/json_valueiterator.inl \
     json/json_writer.cpp \
     operation.cpp \
-    tnotesbutton.cpp \
     tnoteslogindialog.cpp \
     search.cpp \
     tnotestitlebar.cpp \
@@ -31,7 +30,9 @@ SOURCES += main.cpp\
     tnotescontentwidget.cpp \
     tnotesbookcaterorylist.cpp \
     tnotescategorylist.cpp \
-    tnotesstatusbar.cpp
+    tnotesstatusbar.cpp \
+    tnotesbutton.cpp \
+    MyQItemDelegate.cpp
 
 HEADERS  += tnotesmainwindow.h \
     tnotestexteditor.h \
@@ -48,7 +49,6 @@ HEADERS  += tnotesmainwindow.h \
     Directory.h \
     Operation.h \
     Article.h \
-    tnotesbutton.h \
     tnoteslogindialog.h \
     friso.h \
     friso_API.h \
@@ -58,7 +58,9 @@ HEADERS  += tnotesmainwindow.h \
     tnotescontentwidget.h \
     tnotescategorylist.h \
     tnotesbookcategorylist.h \
-    tnotesstatusbar.h
+    tnotesstatusbar.h \
+    tnotesbutton.h \
+    MyQItemDelegate.h
 
 OTHER_FILES += \
     json/sconscript \
@@ -69,4 +71,4 @@ RESOURCES += \
     tNotesRes.qrc
 
 #请把"C:/Users/smallway/Qt/untitled6/"修改为本机friso.lib文件的绝对地址
-LIBS+= -LD:\Tencent\tNotes\client\libs -lfriso
+LIBS+= -LD:\Documents\GitHub\tNotes\client\libs -lfriso

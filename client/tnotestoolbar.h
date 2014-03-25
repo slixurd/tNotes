@@ -1,10 +1,12 @@
 #ifndef TNOTESTOOLBAR_H
 #define TNOTESTOOLBAR_H
 
-#include <QtWidgets/QMainWindow>
-#include<QVBoxLayout>
-#include <QLineEdit>
+#include"Operation.h"
 
+#include <QtWidgets/QMainWindow>
+#include <QVBoxLayout>
+#include <QLineEdit>
+#include <QPushButton>
 
 class tNotesButton;
 class tNotesSearchTool;
@@ -21,13 +23,13 @@ private:
     void setupActions();
 
 	QHBoxLayout* mainLayout;
-    tNotesButton* loginButton;
-    tNotesButton* newnoteButton;
-    tNotesButton* trashButton;
-    tNotesButton* sysButton;
+    QPushButton* loginButton;
+    QPushButton* newnoteButton;
+    QPushButton* trashButton;
+    QPushButton* sysButton;
     tNotesSearchTool* searchTool;
 	QLineEdit *searchLineEditsearch;
-    tNotesButton* searchButton;
+    QPushButton* searchButton;
 
     tNotesLoginDialog *dialogLogin;
 

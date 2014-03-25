@@ -1,4 +1,4 @@
-#ifndef TNOTESBUTTON_H
+﻿#ifndef TNOTESBUTTON_H
 #define TNOTESBUTTON_H
 
 #include <QWidget>

@@ -1,4 +1,4 @@
-ï»¿#include "MyQItemDelegate.h"
+#include "MyQItemDelegate.h"
 
 
 MyQItemDelegate::MyQItemDelegate(void)
@@ -12,17 +12,17 @@ MyQItemDelegate::~MyQItemDelegate(void)
 void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, const QModelIndex&index)const  
 {  
 	QStyleOptionViewItem myOption=option; 
-	QFont qf(s2q("å¾®è½¯é›…é»‘"));
-	QFont qfNormal(s2q("å¾®è½¯é›…é»‘"));
+	QFont qf(s2q("Î¢ÈíÑÅºÚ"));
+	QFont qfNormal(s2q("Î¢ÈíÑÅºÚ"));
 	qf.setPixelSize(14);
 	qf.setBold(true);
 
 
-	QString content = index.model()->data(index, Qt::DisplayRole).toString(); // å–åˆ°æ¨¡åž‹ä¸­åŽŸæ¥çš„å†…å®¹
+	QString content = index.model()->data(index, Qt::DisplayRole).toString(); // È¡µ½Ä£ÐÍÖÐÔ­À´µÄÄÚÈÝ
 
-	QString qstrName=s2q("ä»Šå¤©çš„å·¥ä½œ");
+	QString qstrName=s2q("½ñÌìµÄ¹¤×÷");
 	QString qstrDate=s2q("2014/3/14");
-	QString qstrContent=s2q("1æˆ‘2æˆ‘3æˆ‘4æˆ‘5æˆ‘6æˆ‘æˆ‘7æˆ‘8æˆ‘9æˆ‘æˆ‘10æˆ‘æˆ‘11æˆ‘æˆ‘12æˆ‘æˆ‘13æˆ‘æˆ‘14æˆ‘æˆ‘15æˆ‘æˆ‘16æˆ‘æˆ‘æˆ‘17æˆ‘æˆ‘æˆ‘æˆ‘æˆ‘æˆ‘æˆ‘æˆ‘æˆ‘æˆ‘æˆ‘æˆ‘æˆ‘1æˆ‘2æˆ‘3æˆ‘4æˆ‘5æˆ‘6æˆ‘æˆ‘7æˆ‘8æˆ‘9æˆ‘æˆ‘10æˆ‘æˆ‘11æˆ‘æˆ‘1æˆ‘2æˆ‘3æˆ‘4æˆ‘5æˆ‘6æˆ‘æˆ‘7æˆ‘8æˆ‘9æˆ‘æˆ‘10æˆ‘æˆ‘11æˆ‘æˆ‘");
+	QString qstrContent=s2q("1ÎÒ2ÎÒ3ÎÒ4ÎÒ5ÎÒ6ÎÒÎÒ7ÎÒ8ÎÒ9ÎÒÎÒ10ÎÒÎÒ11ÎÒÎÒ12ÎÒÎÒ13ÎÒÎÒ14ÎÒÎÒ15ÎÒÎÒ16ÎÒÎÒÎÒ17ÎÒÎÒÎÒÎÒÎÒÎÒÎÒÎÒÎÒÎÒÎÒÎÒÎÒ1ÎÒ2ÎÒ3ÎÒ4ÎÒ5ÎÒ6ÎÒÎÒ7ÎÒ8ÎÒ9ÎÒÎÒ10ÎÒÎÒ11ÎÒÎÒ1ÎÒ2ÎÒ3ÎÒ4ÎÒ5ÎÒ6ÎÒÎÒ7ÎÒ8ÎÒ9ÎÒÎÒ10ÎÒÎÒ11ÎÒÎÒ");
 
 	QRect drawRectTextName=QRect(option.rect.topLeft(), QSize(option.rect.size().width()/2,option.rect.size().height()/4));
 	QRect drawRectTextDate=QRect(option.rect.topLeft()+QPoint(option.rect.size().width()/2,0), QSize(option.rect.size().width()/2,option.rect.size().height()/4));
@@ -46,7 +46,7 @@ void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, 
 	painter->drawLine(option.rect.bottomLeft(),option.rect.bottomRight());
 
 
-	myOption.displayAlignment = Qt::AlignRight | Qt::AlignVCenter; // å¤„ç†æ–‡æœ¬çš„å¯¹é½æ–¹å¼ (ä¸é‡è¦)  
+	myOption.displayAlignment = Qt::AlignRight | Qt::AlignVCenter; // ´¦ÀíÎÄ±¾µÄ¶ÔÆë·½Ê½ (²»ÖØÒª)  
 	drawFocus(painter,option,option.rect);  
 }  
 
@@ -59,7 +59,7 @@ void MyQItemDelegate::updateEditorGeometry( QWidget *editor, const QStyleOptionV
 
 void MyQItemDelegate::drawFocus( QPainter *painter, const QStyleOptionViewItem &option, const QRect &rect ) const
 {
-	//å¦‚æžœæœ‰æŽ§ä»¶è¢«é€‰ä¸­ï¼Œæˆ‘ä»¬å°±è®©é€‰ä¸­çš„æŽ§ä»¶å˜äº®
+	//Èç¹ûÓÐ¿Ø¼þ±»Ñ¡ÖÐ£¬ÎÒÃÇ¾ÍÈÃÑ¡ÖÐµÄ¿Ø¼þ±äÁÁ
 	if (option.state & QStyle::State_Selected){
 		painter->setBrush(QBrush(QColor(157,206,122,122)));
 		painter->setPen(QColor(157,206,122,122));

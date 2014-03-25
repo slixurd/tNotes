@@ -60,16 +60,12 @@ void tNotesMainWindow::setMainWindowsSize()
 
 void tNotesMainWindow::initWidgets()
 {
-
     currentDir = new Directory();
-
     titleBar = new tNotesTitleBar();
     toolBar = new tNotesToolBar();
     contentWidget = new tNotesContentWidget();
     statusBar = new tNotesStatusBar();
     dialogLogin = new tNotesLoginDialog();
-
-
 }
 
 void tNotesMainWindow::setMainWindowLayout()

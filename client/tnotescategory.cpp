@@ -1,4 +1,4 @@
-#include <QTableView>
+﻿#include <QTableView>
 #include <QStandardItemModel>
 #include <QVBoxLayout>
 #include <QGroupBox>

@@ -15,21 +15,15 @@ tNotesSearchTool::tNotesSearchTool(QWidget *parent)
 	searchToolLineEdit = new QLineEdit;
     searchbtn=new tNotesButton("/myres/search.png");
 
-    searchToolLineEdit->setStyleSheet("min-width:280px;min-height: 30px;color:black;border-image:url(:/myres/searchedit.png);");
+    searchToolLineEdit->setStyleSheet(readFile(":/qss/searchLineEdit.qss"));
     searchToolLineEdit->setPlaceholderText("search");
+
 	QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(searchToolLineEdit);
     layout->addWidget(searchbtn);
 
     layout->setContentsMargins(0, 0, 0, 0);
 
-//    QFile file("~/tNotes/my.qss");
-//    // 只读方式打开该文件
-//    file.open(QFile::ReadOnly);
-//    // 读取文件全部内容，使用tr()函数将其转换为QString类型
-//    QString styleSheet = tr(file.readAll());
-//    // 为QApplication设置样式表
-//    searchbtn->setStyleSheet(styleSheet);
     setLayout(layout);
     connect(searchbtn,SIGNAL(clicked()),this,SLOT(searchbtn_click()));
 }

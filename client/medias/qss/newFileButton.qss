@@ -1,0 +1,12 @@
+QPushButton{
+	min-width: 40px;
+	min-height: 30px;
+	color:black;
+	border-image:url(:/myres/newnote.png);
+}
+QPushButton:hover{
+	border-image:url(:/myres/newnotepressed.png);
+}
+QPushButton:pressed{
+	border-image:url(:/myres/newnotepressed.png);
+}

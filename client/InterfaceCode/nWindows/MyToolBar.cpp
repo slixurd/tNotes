@@ -3,7 +3,6 @@
 
 MyToolBar::MyToolBar(QWidget *parent): QWidget(parent)
 {
-	
 	setStyleSheet("background-color:#c5e398;max-height: 36px;");
 	QIcon manIco("asset/man.png");
 	QIcon newIco("asset/new.png");

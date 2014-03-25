@@ -1,15 +1,17 @@
 #include "tnotestitlebar.h"
+#include "operation.h"
 #include<QStyle>
 #include<QLabel>
 #include<QMouseEvent>
 #include <QPushButton>
+
 tNotesTitleBar::tNotesTitleBar(QWidget *parent)
 {
 	mParent=parent;
 	selfWidget=this;
     QWidget *titleWidget = new QWidget();
-	//setStyleSheet("background-image: url(asset/Titleback2.png);");
-    setStyleSheet("background-color:#518e30;max-height: 36px;");
+
+    setStyleSheet(readFile(":/qss/mytitlebar.qss"));
 	m_pMainLayout = new QHBoxLayout();
 
 
@@ -36,10 +38,8 @@ tNotesTitleBar::tNotesTitleBar(QWidget *parent)
 	label->setStyleSheet("color:#ffffff;font-size:24px;");
 	label->setText("tNotes");
 
-	//titleico.png
-	
 	QPushButton*icoButton= new QPushButton();
-	icoButton->setStyleSheet("top:2px;min-width: 25px;min-height: 25px;color:black;border-image:url(asset/titleico.png);");
+    icoButton->setStyleSheet("top:2px;min-width: 25px;min-height: 25px;color:black;border-image:url(:/myres/titleico.png);");
 	m_pMainLayout->addWidget(icoButton);
 	m_pMainLayout->addWidget(label);
 	m_pMainLayout->addWidget(label);
@@ -56,11 +56,8 @@ tNotesTitleBar::tNotesTitleBar(QWidget *parent)
     titleLayout->setContentsMargins(0,0,0,0);
     setLayout(titleLayout);
 
-	maxNormal = false;
-	//selfWidget->showSmall();
+    maxNormal = false;
     setupActions();
-
-
 }
 
 
@@ -85,10 +82,8 @@ void tNotesTitleBar::showMaxRestore()
 {
     emit maxmizeRestoreWindow(maxNormal);
 	if (maxNormal) {
-
 		maxNormal = !maxNormal;
 		maxmizeButton->setIcon(maxPix);
-
 	} else {
 		maxNormal = !maxNormal;
 		maxmizeButton->setIcon(restorePix);
@@ -109,7 +104,6 @@ void tNotesTitleBar::mousePressEvent(QMouseEvent *me)
 void tNotesTitleBar::mouseMoveEvent(QMouseEvent *me)
 {
 	if (maxNormal)
-		return;
-    //parentWidget()->move(me->globalPos() - clickPos);
+        return;
     emit moveEnd(me->globalPos());
 }

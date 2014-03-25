@@ -1,4 +1,4 @@
-#ifndef TNOTESCATEGORYLIST_H
+ï»¿#ifndef TNOTESCATEGORYLIST_H
 #define TNOTESCATEGORYLIST_H
 
 #include <QtGui> 
@@ -9,9 +9,9 @@ class tNotesCategoryList :public QListView
 {  
 public:  
     tNotesCategoryList();
-	void mouseDoubleClickEvent(QMouseEvent *event);   //Êó±êµã»÷ÏìÓ¦
+	void mouseDoubleClickEvent(QMouseEvent *event);   //é¼ æ ‡ç‚¹å‡»å“åº”
 private:
-	//QStandardItemModelÊÇÒ»¸ö¶àÓÃÍ¾µÄmodel,¿ÉÓÃÓÚ±íÊ¾list,table,tree viewsËùĞèÒªµÄ¸÷ÖÖ²»Í¬µÄÊı¾İ½á¹¹¡£
+	//QStandardItemModelæ˜¯ä¸€ä¸ªå¤šç”¨é€”çš„model,å¯ç”¨äºè¡¨ç¤ºlist,table,tree viewsæ‰€éœ€è¦çš„å„ç§ä¸åŒçš„æ•°æ®ç»“æ„ã€‚
 	QStandardItemModel *model;
 };
 

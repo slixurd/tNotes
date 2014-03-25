@@ -19,8 +19,26 @@
         <file alias="sys.png">medias/icons/sys.png</file>
         <file alias="notebook.png">medias/icons/notebook.png</file>
         <file alias="note.png">medias/icons/note.png</file>
+        <file alias="loginpressed.png">medias/icons/manpressed.png</file>
+        <file alias="newnotepressed.png">medias/icons/newpressed.png</file>
+        <file alias="trashpressed.png">medias/icons/rubpressed.png</file>
+        <file alias="searchpressed.png">medias/icons/searchpressed.png</file>
+        <file alias="syspressed.png">medias/icons/syspressed.png</file>
+        <file alias="titleico.png">medias/icons/titleico.png</file>
     </qresource>
     <qresource prefix="/libs">
         <file alias="markdown2html.dll">libs/markdown2html.dll</file>
+    </qresource>
+    <qresource prefix="/qss">
+        <file alias="deleteFileButton.qss">medias/qss/deleteFileButton.qss</file>
+        <file alias="loginButton.qss">medias/qss/loginButton.qss</file>
+        <file alias="myedittoolbar.qss">medias/qss/myedittoolbar.qss</file>
+        <file alias="mystatusbar.qss">medias/qss/mystatusbar.qss</file>
+        <file alias="mytitlebar.qss">medias/qss/mytitlebar.qss</file>
+        <file alias="newFileButton.qss">medias/qss/newFileButton.qss</file>
+        <file alias="searchButton.qss">medias/qss/searchButton.qss</file>
+        <file alias="searchLineEdit.qss">medias/qss/searchLineEdit.qss</file>
+        <file alias="sysButton.qss">medias/qss/sysButton.qss</file>
+        <file alias="mytoolbar.qss">medias/qss/mytoolba.qss</file>
     </qresource>
 </RCC>

@@ -4,7 +4,6 @@ MyTitleBar::MyTitleBar(QWidget *parent)
 {
 	mParent=parent;
 	selfWidget=this;
-	//setStyleSheet("background-image: url(asset/Titleback2.png);");
 	setStyleSheet(readFile("asset/qss/mytitlebar.qss"));
 	m_pMainLayout = new QHBoxLayout();
 

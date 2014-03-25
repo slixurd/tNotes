@@ -1,6 +1,8 @@
 ﻿#include "Operation.h"
 #include <fstream>
+#include <QFile>
 #include <QMessageBox>
+#include <QTextStream>
 string articlePath="";
 
 void print(QString s)
@@ -18,7 +20,13 @@ string q2s(const QString &s)
 {
     return string((const char *)s.toLocal8Bit());
 }
-
+QString readFile(QString filePath)
+{
+    QFile file(filePath);
+    file.open(QFile::ReadOnly);
+    QString styleSheet = file.readAll();
+    return styleSheet;
+}
 /************************************************************************/
 /* 返回文章路径，路径构成为文章ID+.json                                                                    */
 /************************************************************************/
@@ -31,7 +39,6 @@ void getArticlePath(string articleId)
 /************************************************************************/
 Json::Value returnRoot(string path)
 {
-    
     Json::Reader reader;
     Json::Value root;
     ifstream ifs;

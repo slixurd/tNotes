@@ -23,6 +23,7 @@ class tNotesToolBar;
 class tNotesContentWidget;
 class tNotesStatusBar;
 
+
 class tNotesMainWindow : public QMainWindow
 {
     Q_OBJECT

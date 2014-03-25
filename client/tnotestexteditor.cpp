@@ -112,15 +112,12 @@ void tNotesTextEditor::setTextEditorLayout()
 
 void tNotesTextEditor::setupEditActions()
 {
-
-
     connect(buttonEdit, SIGNAL(clicked()), this,
 				SLOT(editModeChange()));
     connect(buttonBold, SIGNAL(clicked()), this,
 				SLOT(setBold()));
     connect(buttonItalic, SIGNAL(clicked()), this,
                 SLOT(setItalic()));
-
 }
 
 QString tNotesTextEditor::getTitle()

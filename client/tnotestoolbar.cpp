@@ -7,17 +7,21 @@
 tNotesToolBar::tNotesToolBar(void)
 {
     QWidget *toolWidget = new QWidget();
-    setStyleSheet("background-color:#c5e398;max-height: 40px;");
+    setStyleSheet(readFile(":/qss/mytoolbar.qss"));
 
 
-    loginButton = new tNotesButton("/myres/login.png", 30, 30);
-    newnoteButton = new tNotesButton("/myres/newnote.png", 30, 30);
-    trashButton = new tNotesButton("/myres/trash.png", 30, 30);
-    sysButton = new tNotesButton("/myres/sys.png", 30, 30);
+    loginButton = new QPushButton();
+    loginButton->setStyleSheet(readFile(":/qss/loginButton.qss"));
+    newnoteButton = new QPushButton();
+    newnoteButton->setStyleSheet(readFile(":/qss/newFileButton.qss"));
+    trashButton = new QPushButton();
+    trashButton->setStyleSheet(readFile(":/qss/deleteFileButton.qss"));
+    sysButton = new QPushButton();
+    sysButton->setStyleSheet(readFile(":/qss/sysButton.qss"));
     searchTool = new tNotesSearchTool();
 
-    setupActions();
 
+    setupActions();
     QHBoxLayout *toolLayout = new QHBoxLayout();
     mainLayout = new QHBoxLayout();
 
@@ -33,7 +37,6 @@ tNotesToolBar::tNotesToolBar(void)
 
 
     toolWidget->setLayout(mainLayout);
-
     toolLayout->addWidget(toolWidget);
     toolLayout->setContentsMargins(0,0,0,0);
     setLayout(toolLayout);

@@ -2,8 +2,8 @@
 #define TNOTESTITLEBAR_H
 #include <QToolButton>
 #include <QtWidgets/QMainWindow>
-#include<QVBoxLayout>
-
+#include <QVBoxLayout>
+#include "tnotesmainwindow.h"
 class QPoint;
 class tNotesTitleBar:public QWidget
 {
