@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
             // Note: the fcgi_streambuf destructor will auto flush
 
         } catch (exception const& e) {
-            cout << "Content-type: text/html\r\n"
+            cout << "Content-type: application/json\r\n"
                     << "\r\n"
                     << ExceptionJsonString(e.what());
             delete handler;

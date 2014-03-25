@@ -43,6 +43,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/SessionCache.o \
 	${OBJECTDIR}/SessionManager.o \
 	${OBJECTDIR}/SigninHandler.o \
+	${OBJECTDIR}/SignoutHandler.o \
+	${OBJECTDIR}/SignupHandler.o \
 	${OBJECTDIR}/main.o
 
 # Test Directory
@@ -71,11 +73,11 @@ LDLIBSOPTIONS=-lfcgi++ -lfcgi -ljsoncpp -lmysqlclient
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${TESTDIR}/TestFiles/f2
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver
 
-${TESTDIR}/TestFiles/f2: ${OBJECTFILES}
-	${MKDIR} -p ${TESTDIR}/TestFiles
-	${LINK.cc} -o ${TESTDIR}/TestFiles/f2 ${OBJECTFILES} ${LDLIBSOPTIONS}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver: ${OBJECTFILES}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/DB/noteDB.o: DB/noteDB.cpp 
 	${MKDIR} -p ${OBJECTDIR}/DB
@@ -116,6 +118,16 @@ ${OBJECTDIR}/SigninHandler.o: SigninHandler.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SigninHandler.o SigninHandler.cpp
+
+${OBJECTDIR}/SignoutHandler.o: SignoutHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignoutHandler.o SignoutHandler.cpp
+
+${OBJECTDIR}/SignupHandler.o: SignupHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignupHandler.o SignupHandler.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -252,6 +264,32 @@ ${OBJECTDIR}/SigninHandler_nomain.o: ${OBJECTDIR}/SigninHandler.o SigninHandler.
 	    ${CP} ${OBJECTDIR}/SigninHandler.o ${OBJECTDIR}/SigninHandler_nomain.o;\
 	fi
 
+${OBJECTDIR}/SignoutHandler_nomain.o: ${OBJECTDIR}/SignoutHandler.o SignoutHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SignoutHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignoutHandler_nomain.o SignoutHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SignoutHandler.o ${OBJECTDIR}/SignoutHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/SignupHandler_nomain.o: ${OBJECTDIR}/SignupHandler.o SignupHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SignupHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignupHandler_nomain.o SignupHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SignupHandler.o ${OBJECTDIR}/SignupHandler_nomain.o;\
+	fi
+
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/main.o`; \
@@ -278,7 +316,7 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${TESTDIR}/TestFiles/f2
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver
 
 # Subprojects
 .clean-subprojects:

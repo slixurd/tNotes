@@ -16,6 +16,8 @@
 #include "Handler.h"
 #include "DummyHandler.h"
 #include "SigninHandler.h"
+#include "SignoutHandler.h"
+#include "SignupHandler.h"
 
 /* For a new feature handler, add the macro here. */
 /* For example: 
@@ -23,7 +25,9 @@
  */
 #define CREATE_HANDLERS                                 \
  CREATE_HANDLER(DummyHandler,"/dummy.cgi")              \
- CREATE_HANDLER(SigninHandler,"/signin.cgi") 
-
+ CREATE_HANDLER(SigninHandler,"/signin.cgi")            \
+ CREATE_HANDLER(SignoutHandler,"/signout.cgi")          \
+ CREATE_HANDLER(SignupHandler,"/signup.cgi") 
+         
 #endif	/* HANDLERFACTORYCONFIGURE_H */
 

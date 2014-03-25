@@ -9,13 +9,16 @@
 #include <iostream>
 
 #include "SigninHandler.h"
+#include "SignupHandler.h"
 
 /*
  * Simple C++ Test Suite
  */
 
 void test1() {
-    std::string post = "{\n \"user\":\"test\",\"pass\":\"test\"}"; 
+    std::string post = "{\n \"user\":\"test\",\"pass\":\"test\"}";
+    SignupHandler suhandler;
+    std::string re0 = suhandler.Handle(post);
     SigninHandler handler;
     std::string re = handler.Handle(post);
     std::cout << "UnitTest4SigninHandler test 1" << std::endl;

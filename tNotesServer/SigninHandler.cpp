@@ -33,17 +33,18 @@ std::string SigninHandler::Handle(std::string const& postStr)
         throw IncorrectDataFormatException();
     }
     
-    if(user=="test"
-            &&pass=="test")
+    if(_DB->login(user,pass))
     {
         SessionInfo info;
-        info.User = "user";
+        info.User = user;
+        result["status"] = "success";
         result["session"] = _sessionManager.CreateSession(info);
-        return Json2String(result);
     }
     else
     {
-        throw IncorrectDataFormatException();
+        result["status"] = "incorrect_password";
     }
+    
+    return Json2String(result);
 }
 

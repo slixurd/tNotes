@@ -43,6 +43,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/SessionCache.o \
 	${OBJECTDIR}/SessionManager.o \
 	${OBJECTDIR}/SigninHandler.o \
+	${OBJECTDIR}/SignoutHandler.o \
+	${OBJECTDIR}/SignupHandler.o \
 	${OBJECTDIR}/main.o
 
 # Test Directory
@@ -116,6 +118,16 @@ ${OBJECTDIR}/SigninHandler.o: SigninHandler.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SigninHandler.o SigninHandler.cpp
+
+${OBJECTDIR}/SignoutHandler.o: SignoutHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignoutHandler.o SignoutHandler.cpp
+
+${OBJECTDIR}/SignupHandler.o: SignupHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignupHandler.o SignupHandler.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -250,6 +262,32 @@ ${OBJECTDIR}/SigninHandler_nomain.o: ${OBJECTDIR}/SigninHandler.o SigninHandler.
 	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SigninHandler_nomain.o SigninHandler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/SigninHandler.o ${OBJECTDIR}/SigninHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/SignoutHandler_nomain.o: ${OBJECTDIR}/SignoutHandler.o SignoutHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SignoutHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignoutHandler_nomain.o SignoutHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SignoutHandler.o ${OBJECTDIR}/SignoutHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/SignupHandler_nomain.o: ${OBJECTDIR}/SignupHandler.o SignupHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SignupHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignupHandler_nomain.o SignupHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SignupHandler.o ${OBJECTDIR}/SignupHandler_nomain.o;\
 	fi
 
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp 

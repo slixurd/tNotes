@@ -10,6 +10,7 @@
 
 #include "Handler.h"
 
+/* Sign In Feature */
 class SigninHandler: public Handler{
 public:
     SigninHandler();

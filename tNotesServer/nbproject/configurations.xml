@@ -10,6 +10,8 @@
       <itemPath>SessionCache.h</itemPath>
       <itemPath>SessionManager.h</itemPath>
       <itemPath>SigninHandler.h</itemPath>
+      <itemPath>SignoutHandler.h</itemPath>
+      <itemPath>SignupHandler.h</itemPath>
       <itemPath>SingletonAdapter.hpp</itemPath>
       <itemPath>DB/config.h</itemPath>
       <itemPath>DB/noteDB.h</itemPath>
@@ -21,6 +23,8 @@
       <itemPath>SessionCache.cpp</itemPath>
       <itemPath>SessionManager.cpp</itemPath>
       <itemPath>SigninHandler.cpp</itemPath>
+      <itemPath>SignoutHandler.cpp</itemPath>
+      <itemPath>SignupHandler.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>DB/noteDB.cpp</itemPath>
       <itemPath>DB/sha1.cpp</itemPath>
@@ -71,7 +75,6 @@
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f2</output>
           <linkerLibItems>
             <linkerLibLibItem>fcgi++</linkerLibLibItem>
             <linkerLibLibItem>fcgi</linkerLibLibItem>
@@ -115,6 +118,14 @@
       <item path="SigninHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SigninHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SignoutHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SignoutHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SignupHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SignupHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SingletonAdapter.hpp" ex="false" tool="3" flavor2="0">
       </item>
@@ -224,6 +235,14 @@
       <item path="SigninHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SigninHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SignoutHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SignoutHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SignupHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SignupHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SingletonAdapter.hpp" ex="false" tool="3" flavor2="0">
       </item>
