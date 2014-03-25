@@ -22,5 +22,12 @@ int main(){
    //cout<<n.login(name,pass)<<endl;
    string dirname = "study";
    //cout<<n.create_note(dirname,name,1);
+   string a;
+   string b;
+   DIR_INFO *info;
+   //int t = n.get_all_dir(name,info);
+   ARTICLE_INFO * as;
+   cout<<n.get_brief(2l,as);
+   cout<<as[0].content;
     return 0;
 }

@@ -2,11 +2,7 @@
  * Author: slixurd(xiexiaopeng) 
  */
 
-
-
-#include "config.h"
-#include "noteDB.h"
-
+#include "../noteDB.h"
 
 NotesDB::NotesDB(){
     mysql_init(&database);
@@ -92,29 +88,7 @@ bool NotesDB::check_user_exist(const string name){
 }
 
 
-bool NotesDB::check_node_exist(const long id){
-    
-    unsigned int len;
-    char query_sql[MAX_LEN];
-    len = snprintf(query_sql,MAX_LEN,
-                "SELECT * FROM node WHERE nodeID = %ld",
-                id);
-    int err = mysql_real_query(&database,query_sql,len);
-    if(err != 0)
-        cerr<<"database error";
-    else{
-    
-        MYSQL_RES* res = mysql_store_result(&database);
-        int num = mysql_num_rows(res); 
-        mysql_free_result(res);
-        if(num == 0)
-            return false;
-        else 
-            return true;
-    }
-    return false;
-    
-}
+
 /*
  * 添加用户,传入参数:用户名,密码.均不需要处理
  * 如果数据库错误或者用户名已被使用无法注册,均返回false
@@ -228,104 +202,3 @@ bool NotesDB::login(string name,string pass){
 
 }
 
-/***
- * 创建笔记
- * 如果返回0,说明插入错误
- */
-long NotesDB::create_note(string title,string content,long parentid){
-    unsigned int len;
-    char query_sql[MAX_LEN];
-    char escape[CONTENT_LEN];
-    mysql_real_escape_string(&database,escape,title.substr(0,TITLE_LEN).c_str(),title.length()); 
-    string _title = escape;
-    mysql_real_escape_string(&database,escape,content.c_str(),content.length()); 
-    string _content = escape;
-    len = snprintf(query_sql,CONTENT_LEN,
-                "INSERT INTO article(name,content,modifiedTime) VALUE('%s','%s',CURRENT_TIMESTAMP)",
-                _title.c_str(),_content.c_str());
-    //cerr<<query_sql<<endl;
-    mysql_real_query(&database,query_sql,len);
-    long autoId = mysql_insert_id(&database);
-    
-    long pid;
-    //如果pid不存在,那么直接放入根目录中
-    if(check_node_exist(parentid) == false)
-        pid = 0;
-    else
-        pid = parentid;
-    
-    
-    len = snprintf(query_sql,MAX_LEN,
-                "INSERT INTO articleLocation(articleID,nodeID) VALUE('%ld','%ld')",
-                autoId,pid);
-    //cerr<<query_sql<<endl;
-    mysql_real_query(&database,query_sql,len);
-    return autoId;
-}
-
-/***
- * 保存笔记
- * 
- * 
- */
-void NotesDB::save_note(){
-     
- 
-}
-
-/***
- * 创建目录
- * 如果返回0,说明插入错误
- * 
- */
-long NotesDB::create_dir(string title,string user){
-    unsigned int len;
-    char query_sql[MAX_LEN];
-    char escape[TITLE_LEN];
-    mysql_real_escape_string(&database,escape,title.substr(0,TITLE_LEN).c_str(),title.length()); 
-    string _title = escape;
-    mysql_real_escape_string(&database,escape,user.c_str(),user.length()); 
-    string _name = escape;
-    len = snprintf(query_sql,MAX_LEN,
-                "INSERT INTO node(name,username,modifiedTime) VALUE('%s','%s',CURRENT_TIMESTAMP)",
-                _title.c_str(),_name.c_str());
-    //cerr<<query_sql<<endl;
-    mysql_real_query(&database,query_sql,len);
-    return mysql_insert_id(&database);
-        
-}
-
-/***
- * 删除目录
- * 
- */
-void NotesDB::remove_dir(long id){
-    unsigned int len;
-    char query_sql[MAX_LEN];
-    len = snprintf(query_sql,MAX_LEN,
-                "DELETE FROM node WHERE nodeID = %ld",
-                id);
-    //cerr<<query_sql<<endl;
-    mysql_real_query(&database,query_sql,len);
-}
-
-/***
- * 删除目录
- * 提供2个参数的删除
- * 防止修改POST删除别人的数据
- */
-bool NotesDB::remove_dir(string username,long id){
-    unsigned int len;
-    char query_sql[MAX_LEN];
-    char escape[MAX_LEN];
-    mysql_real_escape_string(&database,escape,username.c_str(),username.length()); 
-    string _username = escape;
-    len = snprintf(query_sql,MAX_LEN,
-                "DELETE FROM node WHERE nodeID = %ld AND username = '%s' ",
-                id,_username.c_str());
-    //cerr<<query_sql<<endl;
-    mysql_real_query(&database,query_sql,len);
-    if(mysql_affected_rows(&database) == 0 || mysql_affected_rows(&database) == -1)
-        return false;
-    return true;
-}

@@ -35,9 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/noteDB.o \
-	${OBJECTDIR}/sha1.o
+	${OBJECTDIR}/database/dirRelated.o \
+	${OBJECTDIR}/database/noteDB.o \
+	${OBJECTDIR}/database/noteRelated.o \
+	${OBJECTDIR}/database/sha1.o \
+	${OBJECTDIR}/main.o
 
 
 # C Compiler Flags
@@ -64,20 +66,30 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/note: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/note ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/database/dirRelated.o: database/dirRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/dirRelated.o database/dirRelated.cpp
+
+${OBJECTDIR}/database/noteDB.o: database/noteDB.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/noteDB.o database/noteDB.cpp
+
+${OBJECTDIR}/database/noteRelated.o: database/noteRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/noteRelated.o database/noteRelated.cpp
+
+${OBJECTDIR}/database/sha1.o: database/sha1.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/sha1.o database/sha1.cpp
+
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
-
-${OBJECTDIR}/noteDB.o: noteDB.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/noteDB.o noteDB.cpp
-
-${OBJECTDIR}/sha1.o: sha1.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sha1.o sha1.cpp
 
 # Subprojects
 .build-subprojects:
