@@ -2,14 +2,19 @@
 #define MYTITLE_H
 #include <QToolButton>
 #include <QtWidgets/QMainWindow>
-#include<QVBoxLayout>
+#include <QVBoxLayout>
+#include <QStyle>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QPushButton>
+#include <QDialog>
 class MyTitleBar:public QWidget
 {
 public:
 	MyTitleBar(QWidget *parent);
 	~MyTitleBar(void);
 	QHBoxLayout* m_pMainLayout;
-private:
+
 	MyTitleBar *selfWidget;
 	QWidget *mParent;
 	QPoint startPos;
@@ -20,10 +25,7 @@ private:
 	QToolButton *maxmizeButton;
 	QToolButton *closeButton;
 
-	public slots:
-		void showSmall();
-	public slots:
-		void showMaxRestore();
+	
 protected:
 	void mousePressEvent(QMouseEvent *me);
 	void mouseMoveEvent(QMouseEvent *me);

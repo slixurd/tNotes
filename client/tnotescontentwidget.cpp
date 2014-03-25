@@ -22,9 +22,7 @@ tNotesContentWidget::tNotesContentWidget(void)
     splitter->setStretchFactor(splitter->indexOf(mListView2), 0.6);
     splitter->setStretchFactor(splitter->indexOf(mEditPart), 0.6);
     m_pMainLayout->addWidget(splitter);
-
 	setLayout(m_pMainLayout);
-
 }
 
 

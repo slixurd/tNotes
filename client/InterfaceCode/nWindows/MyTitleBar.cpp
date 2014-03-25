@@ -1,14 +1,11 @@
 #include "MyTitleBar.h"
-#include<QStyle>
-#include<QLabel>
-#include<QMouseEvent>
-#include <QPushButton>
+#include "nwindows.h"
 MyTitleBar::MyTitleBar(QWidget *parent)
 {
 	mParent=parent;
 	selfWidget=this;
 	//setStyleSheet("background-image: url(asset/Titleback2.png);");
-	setStyleSheet("background-color:#518e30;max-height: 36px;");
+	setStyleSheet(readFile("asset/qss/mytitlebar.qss"));
 	m_pMainLayout = new QHBoxLayout();
 
 
@@ -38,7 +35,7 @@ MyTitleBar::MyTitleBar(QWidget *parent)
 	//titleico.png
 	
 	QPushButton*icoButton= new QPushButton();
-	icoButton->setStyleSheet("top:2px;min-width: 25px;min-height: 25px;color:black;border-image:url(asset/titleico.png);");
+	icoButton->setStyleSheet("top:2px;min-width: 25px;min-height: 25px;color:black;border-image:url(asset/image/titleico.png);");
 	m_pMainLayout->addWidget(icoButton);
 	m_pMainLayout->addWidget(label);
 	m_pMainLayout->addWidget(label);
@@ -52,34 +49,12 @@ MyTitleBar::MyTitleBar(QWidget *parent)
 	setLayout(m_pMainLayout);
 
 	maxNormal = false;
-	//selfWidget->showSmall();
-
-	connect(minimizeButton, SIGNAL(clicked()), parent, SLOT(showMinimized()));
-	connect(closeButton, SIGNAL(clicked()), parent, SLOT(close()));
-	connect(maxmizeButton, SIGNAL(clicked()), parent, SLOT(showMaximized()));
 }
 
 
 MyTitleBar::~MyTitleBar(void)
 {
 
-}
-void MyTitleBar::showSmall()
-{
-	mParent->showMinimized();
-}
-
-void MyTitleBar::showMaxRestore()
-{
-	if (maxNormal) {
-		mParent->showNormal();
-		maxNormal = !maxNormal;
-		maxmizeButton->setIcon(maxPix);
-	} else {
-		mParent->showMaximized();
-		maxNormal = !maxNormal;
-		maxmizeButton->setIcon(restorePix);
-	}
 }
 
 void MyTitleBar::mousePressEvent(QMouseEvent *me)

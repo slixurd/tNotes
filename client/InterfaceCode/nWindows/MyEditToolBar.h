@@ -10,7 +10,7 @@ class MyEditToolBar:public QWidget
 public:
 	MyEditToolBar(void);
 	~MyEditToolBar(void);
-private:
+
 	QHBoxLayout*mainLayout;
 	QPushButton* bButton;
 	QPushButton* iButton;

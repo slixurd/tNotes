@@ -126,6 +126,7 @@ bool tNotesMainWindow::saveArticle()
     currentArticle->createTime = q2s(QDate::currentDate().toString("yyyy.MM.dd"));
     currentArticle->isSyn = true;
     createArticle("foo", *currentArticle);
+	return true;
 }
 
 

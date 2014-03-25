@@ -5,20 +5,21 @@
 #include<QVBoxLayout>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QDialog>
 class MyToolBar:public QWidget
 {
+	
 public:
-	MyToolBar(void);
+	MyToolBar(QWidget*parent=0);
 	~MyToolBar(void);
-private:
+
 	QHBoxLayout* mainLayout;
-	QPushButton* manButton;
-	QPushButton* newButton;
-	QPushButton* rubbishButton;
+	QPushButton* loginButton;
+	QPushButton* newFileButton;
+	QPushButton* deleteFileButton;
 	QPushButton* sysButton;
-	QLineEdit *searchLineEditsearch;
+	QLineEdit *searchLineEdit;
 	QPushButton* searchButton;
-
-
 };
+
 #endif

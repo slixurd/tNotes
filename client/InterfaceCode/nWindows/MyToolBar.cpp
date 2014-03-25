@@ -1,8 +1,9 @@
 #include "MyToolBar.h"
+#include "nwindows.h"
 
-
-MyToolBar::MyToolBar(void)
+MyToolBar::MyToolBar(QWidget *parent): QWidget(parent)
 {
+	
 	setStyleSheet("background-color:#c5e398;max-height: 36px;");
 	QIcon manIco("asset/man.png");
 	QIcon newIco("asset/new.png");
@@ -10,30 +11,29 @@ MyToolBar::MyToolBar(void)
 	QIcon sysIco("asset/sys.png");
 	QIcon searchIco("asset/search.png");
 	mainLayout = new QHBoxLayout();
-	manButton = new QPushButton();
-	manButton->setStyleSheet("min-width: 30px;min-height: 30px;color:black;border-image:url(asset/man.png);");
+	loginButton = new QPushButton();
+	loginButton->setStyleSheet(readFile("asset/qss/loginButton.qss"));
 
-	newButton= new QPushButton();
-	newButton->setStyleSheet("min-width: 30px;min-height: 30px;color:black;border-image:url(asset/new.png);");
+	newFileButton= new QPushButton(this);
+	newFileButton->setStyleSheet(readFile("asset/qss/newFileButton.qss"));
 
-	rubbishButton= new QPushButton();
-	rubbishButton->setStyleSheet("min-width: 30px;min-height: 30px;color:black;border-image:url(asset/rub.png);");
+	deleteFileButton= new QPushButton();
+	deleteFileButton->setStyleSheet(readFile("asset/qss/deleteFileButton.qss"));
 
 	sysButton= new QPushButton();
-	sysButton->setStyleSheet("min-width: 30px;min-height: 30px;color:black;border-image:url(asset/sys.png);");
+	sysButton->setStyleSheet(readFile("asset/qss/sysButton.qss"));
 
-	searchLineEditsearch = new QLineEdit();
-	searchLineEditsearch->setStyleSheet("min-width:300px;min-height: 30px;color:black;border-image:url(asset/searchEdit.png);");
+	searchLineEdit = new QLineEdit();
+	searchLineEdit->setStyleSheet(readFile("asset/qss/searchLineEdit.qss"));
 
 	searchButton= new QPushButton();
-	searchButton->setStyleSheet("min-width: 30px;min-height: 30px;color:black;border-image:url(asset/search.png);");
+	searchButton->setStyleSheet(readFile("asset/qss/searchButton.qss"));
 
-
-	mainLayout->addWidget(manButton);
-	mainLayout->addWidget(newButton);
-	mainLayout->addWidget(rubbishButton);
+	mainLayout->addWidget(loginButton);
+	mainLayout->addWidget(newFileButton);
+	mainLayout->addWidget(deleteFileButton);
 	mainLayout->addWidget(sysButton);
-	mainLayout->addWidget(searchLineEditsearch);
+	mainLayout->addWidget(searchLineEdit);
 	mainLayout->addWidget(searchButton);
 
 	mainLayout->insertStretch(4, 500);
@@ -45,4 +45,7 @@ MyToolBar::MyToolBar(void)
 
 MyToolBar::~MyToolBar(void)
 {
+	
 }
+
+

@@ -1,15 +1,15 @@
 #include "MyEditToolBar.h"
-
+#include "nwindows.h"
 
 MyEditToolBar::MyEditToolBar(void)
 {
-	setStyleSheet("background-color:#9dce7a;max-height:50px;");
+	setStyleSheet(readFile("asset/qss/myedittoolbar.qss"));
 	mainLayout = new QHBoxLayout();
 	bButton = new QPushButton();
-	bButton->setStyleSheet("min-width: 40px;min-height: 40px;max-width: 40px;max-height: 40px;color:black;border-image:url(asset/b.png);");
+	bButton->setStyleSheet("min-width: 40px;min-height: 40px;max-width: 40px;max-height: 40px;color:black;border-image:url(asset/image/b.png);");
 
 	iButton = new QPushButton();
-	iButton->setStyleSheet("min-width: 40px;min-height: 40px;max-width: 40px;max-height: 40px;color:black;border-image:url(asset/i.png);");
+	iButton->setStyleSheet("min-width: 40px;min-height: 40px;max-width: 40px;max-height: 40px;color:black;border-image:url(asset/image/i.png);");
 
 
 	mainLayout->addWidget(bButton,1);
