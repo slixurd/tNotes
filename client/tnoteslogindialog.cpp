@@ -78,7 +78,7 @@ void tNotesLoginDialog::setUpLoginGUI()
 	connect(loginButtons->button(QDialogButtonBox::Cancel),
 			SIGNAL(clicked()), this, SLOT(close()));
 	connect(loginButtons->button(QDialogButtonBox::Ok),
-			SIGNAL(clicked()), this, SLOT(slotAccetpLogin()));
+            SIGNAL(clicked()), this, SLOT(slotAcceptLogin()));
 
 	formGridLayout->addWidget(labelUsername, 0, 0);
 	formGridLayout->addWidget(comboUsername, 0, 1);

@@ -1,6 +1,13 @@
 ﻿#include "Operation.h"
 #include <fstream>
+#include <QMessageBox>
 string articlePath="";
+
+void print(QString s)
+{
+    QMessageBox::information(NULL, "OK", s);
+}
+
 
 QString s2q(const string &s)
 {

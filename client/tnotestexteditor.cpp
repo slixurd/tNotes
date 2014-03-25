@@ -20,6 +20,7 @@
 
 #include "tnotestexteditor.h"
 #include "tnotesbutton.h"
+#include "Operation.h"
 
 
 tNotesTextEditor::tNotesTextEditor(QWidget *parent)
@@ -38,10 +39,6 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	setupEditActions();
 }
 
-void print(QString s)
-{
-	QMessageBox::information(NULL, "OK", s);
-}
 
 
 void tNotesTextEditor::initWidgets()

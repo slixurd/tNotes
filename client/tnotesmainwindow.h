@@ -35,6 +35,7 @@ private:
 		void setMainWindowLayout();
 		void setupActions();
         void initWidgets();
+        void initNotesByUser(QString &name);
         void pointValid(int x, int y);
 
 		QWidget *centralWidget;
@@ -65,10 +66,16 @@ private:
         tNotesLoginDialog *dialogLogin;
 
 private slots:
+
+        void userAuthenticated(QString &username, QString &pass, int &Sindex);
 		void openLoginDialog();
         bool createDirectory();
         bool saveArticle();
 
+signals:
+        void initNotebooks(Directory *dirList);
+        void initNotes(Article *articleList);
+        void initNotesContents(Article article);
 
 };
 

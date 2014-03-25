@@ -26,9 +26,10 @@ tNotesToolBar::tNotesToolBar(void)
 	mainLayout->addWidget(sysButton);
     mainLayout->addWidget(searchTool);
 
-	mainLayout->insertStretch(4, 500);
-	mainLayout->setSpacing(0);
+    mainLayout->insertStretch(4, 500);
+    mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0, 0, 0, 0);
+
 
 	setLayout(mainLayout);
 }

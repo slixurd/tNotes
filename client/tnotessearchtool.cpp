@@ -20,7 +20,7 @@ tNotesSearchTool::tNotesSearchTool(QWidget *parent)
 	QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(searchToolLineEdit);
     layout->addWidget(searchbtn);
-    layout->addWidget(searchStateLabel);
+
     layout->setContentsMargins(0, 0, 0, 0);
 
 //    QFile file("~/tNotes/my.qss");

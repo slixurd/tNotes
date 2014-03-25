@@ -27,4 +27,5 @@ bool writeInJson(Json::Value root,string path);         //写入json文件
 void getArticlePath(string articleId);//返回文章路径
 QString s2q(const string &s);
 string q2s(const QString &s);
+void print(QString s);
 #endif
