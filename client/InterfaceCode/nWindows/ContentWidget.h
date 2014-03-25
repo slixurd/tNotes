@@ -11,7 +11,7 @@ class MyContentWidget:public QWidget
 public:
 	MyContentWidget(void);
 	~MyContentWidget(void);
-public:
+
 	QHBoxLayout* m_pMainLayout;
 	MyListView* mListView;
 	MyListView2* mListView2;

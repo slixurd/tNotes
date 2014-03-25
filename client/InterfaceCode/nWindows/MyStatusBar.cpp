@@ -1,9 +1,9 @@
 #include "MyStatusBar.h"
-
+#include "nwindows.h"
 
 MyStatusBar::MyStatusBar(void)
 {
-	setStyleSheet("background-color:#518e30;max-height: 24px;");
+	setStyleSheet(readFile("asset/qss/mystatusbar.qss"));
 }
 
 

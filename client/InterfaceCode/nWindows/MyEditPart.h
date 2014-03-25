@@ -10,7 +10,7 @@ class MyEditPart:public QWidget
 public:
 	MyEditPart(void);
 	~MyEditPart(void);
-public:
+
 	QVBoxLayout* mainLayout;
 	MyEditToolBar* myEditToolBar;
 	QTextEdit* textEdit;

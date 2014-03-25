@@ -17,7 +17,7 @@ namespace Json {
 // ////////////////////////////////
 
 Features::Features()
-   : allowComments_( true )
+: allowComments_( true )
    , strictRoot_( false )
 {
 }
