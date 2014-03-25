@@ -4,11 +4,14 @@
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
       <itemPath>config.h</itemPath>
       <itemPath>noteDB.h</itemPath>
+      <itemPath>structs.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+      <itemPath>database/dirRelated.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
-      <itemPath>noteDB.cpp</itemPath>
-      <itemPath>sha1.cpp</itemPath>
+      <itemPath>database/noteDB.cpp</itemPath>
+      <itemPath>database/noteRelated.cpp</itemPath>
+      <itemPath>database/sha1.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
     </logicalFolder>
@@ -39,13 +42,19 @@
       </compileType>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="database/dirRelated.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="noteDB.cpp" ex="false" tool="1" flavor2="0">
+      <item path="database/noteDB.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/noteRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/sha1.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="noteDB.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="sha1.cpp" ex="false" tool="1" flavor2="0">
+      <item path="structs.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -70,13 +79,19 @@
       </compileType>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="database/dirRelated.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="noteDB.cpp" ex="false" tool="1" flavor2="0">
+      <item path="database/noteDB.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/noteRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/sha1.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="noteDB.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="sha1.cpp" ex="false" tool="1" flavor2="0">
+      <item path="structs.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
