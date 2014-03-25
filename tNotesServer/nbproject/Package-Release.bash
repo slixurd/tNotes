@@ -13,8 +13,8 @@ CND_BUILDDIR=build
 CND_DLIB_EXT=so
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver
-OUTPUT_BASENAME=tnotesserver
+OUTPUT_PATH=${TESTDIR}/TestFiles/f2
+OUTPUT_BASENAME=f2
 PACKAGE_TOP_DIR=tnotesserver/
 
 # Functions

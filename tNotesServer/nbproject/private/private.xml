@@ -7,10 +7,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/wo1fsea/tNotes/tNotesServer/HandlerFactory.cpp</file>
-            <file>file:/home/wo1fsea/tNotes/tNotesServer/HandlerFactory.h</file>
-            <file>file:/home/wo1fsea/tNotes/tNotesServer/Handler.h</file>
-            <file>file:/home/wo1fsea/tNotes/tNotesServer/HandlerFactoryConfigure.h</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/tests/UnitTest4SigninHandler.cpp</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/Handler.h</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/SingletonAdapter.h</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/SigninHandler.h</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/DummyHandler.cpp</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/SessionManager.h</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/SigninHandler.cpp</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/HandlerFactoryConfigure.h</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/Exception.hpp</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/main.cpp</file>
+            <file>file:/home/wo1fsea/Project/tNotes/tNotesServer/tests/UnitTest4SessionCache.cpp</file>
         </group>
     </open-files>
 </project-private>

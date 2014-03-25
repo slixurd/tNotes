@@ -35,6 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/DB/noteDB.o \
+	${OBJECTDIR}/DB/sha1.o \
 	${OBJECTDIR}/DummyHandler.o \
 	${OBJECTDIR}/Handler.o \
 	${OBJECTDIR}/HandlerFactory.o \
@@ -69,46 +71,56 @@ LDLIBSOPTIONS=-lfcgi++ -lfcgi -ljson_linux-gcc-4.6_libmt
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${TESTDIR}/TestFiles/f2
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver: ${OBJECTFILES}
-	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver ${OBJECTFILES} ${LDLIBSOPTIONS}
+${TESTDIR}/TestFiles/f2: ${OBJECTFILES}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f2 ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/DB/noteDB.o: DB/noteDB.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteDB.o DB/noteDB.cpp
+
+${OBJECTDIR}/DB/sha1.o: DB/sha1.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/sha1.o DB/sha1.cpp
 
 ${OBJECTDIR}/DummyHandler.o: DummyHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp
 
 ${OBJECTDIR}/Handler.o: Handler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Handler.o Handler.cpp
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Handler.o Handler.cpp
 
 ${OBJECTDIR}/HandlerFactory.o: HandlerFactory.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HandlerFactory.o HandlerFactory.cpp
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HandlerFactory.o HandlerFactory.cpp
 
 ${OBJECTDIR}/SessionCache.o: SessionCache.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionCache.o SessionCache.cpp
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionCache.o SessionCache.cpp
 
 ${OBJECTDIR}/SessionManager.o: SessionManager.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionManager.o SessionManager.cpp
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionManager.o SessionManager.cpp
 
 ${OBJECTDIR}/SigninHandler.o: SigninHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SigninHandler.o SigninHandler.cpp
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SigninHandler.o SigninHandler.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
@@ -127,14 +139,40 @@ ${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/UnitTest4SigninHandler.o ${OBJECTFILES
 ${TESTDIR}/tests/UnitTest4SessionCache.o: tests/UnitTest4SessionCache.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4SessionCache.o tests/UnitTest4SessionCache.cpp
+	$(COMPILE.cc) -O2 -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4SessionCache.o tests/UnitTest4SessionCache.cpp
 
 
 ${TESTDIR}/tests/UnitTest4SigninHandler.o: tests/UnitTest4SigninHandler.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4SigninHandler.o tests/UnitTest4SigninHandler.cpp
+	$(COMPILE.cc) -O2 -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4SigninHandler.o tests/UnitTest4SigninHandler.cpp
 
+
+${OBJECTDIR}/DB/noteDB_nomain.o: ${OBJECTDIR}/DB/noteDB.o DB/noteDB.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/noteDB.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteDB_nomain.o DB/noteDB.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/DB/noteDB.o ${OBJECTDIR}/DB/noteDB_nomain.o;\
+	fi
+
+${OBJECTDIR}/DB/sha1_nomain.o: ${OBJECTDIR}/DB/sha1.o DB/sha1.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/sha1.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/sha1_nomain.o DB/sha1.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/DB/sha1.o ${OBJECTDIR}/DB/sha1_nomain.o;\
+	fi
 
 ${OBJECTDIR}/DummyHandler_nomain.o: ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -144,7 +182,7 @@ ${OBJECTDIR}/DummyHandler_nomain.o: ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummyHandler_nomain.o DummyHandler.cpp;\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummyHandler_nomain.o DummyHandler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/DummyHandler.o ${OBJECTDIR}/DummyHandler_nomain.o;\
 	fi
@@ -157,7 +195,7 @@ ${OBJECTDIR}/Handler_nomain.o: ${OBJECTDIR}/Handler.o Handler.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Handler_nomain.o Handler.cpp;\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Handler_nomain.o Handler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Handler.o ${OBJECTDIR}/Handler_nomain.o;\
 	fi
@@ -170,7 +208,7 @@ ${OBJECTDIR}/HandlerFactory_nomain.o: ${OBJECTDIR}/HandlerFactory.o HandlerFacto
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HandlerFactory_nomain.o HandlerFactory.cpp;\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/HandlerFactory_nomain.o HandlerFactory.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/HandlerFactory.o ${OBJECTDIR}/HandlerFactory_nomain.o;\
 	fi
@@ -183,7 +221,7 @@ ${OBJECTDIR}/SessionCache_nomain.o: ${OBJECTDIR}/SessionCache.o SessionCache.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionCache_nomain.o SessionCache.cpp;\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionCache_nomain.o SessionCache.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/SessionCache.o ${OBJECTDIR}/SessionCache_nomain.o;\
 	fi
@@ -196,7 +234,7 @@ ${OBJECTDIR}/SessionManager_nomain.o: ${OBJECTDIR}/SessionManager.o SessionManag
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionManager_nomain.o SessionManager.cpp;\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SessionManager_nomain.o SessionManager.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/SessionManager.o ${OBJECTDIR}/SessionManager_nomain.o;\
 	fi
@@ -209,7 +247,7 @@ ${OBJECTDIR}/SigninHandler_nomain.o: ${OBJECTDIR}/SigninHandler.o SigninHandler.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SigninHandler_nomain.o SigninHandler.cpp;\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SigninHandler_nomain.o SigninHandler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/SigninHandler.o ${OBJECTDIR}/SigninHandler_nomain.o;\
 	fi
@@ -222,7 +260,7 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.cpp;\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
 	fi
@@ -240,7 +278,7 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver
+	${RM} ${TESTDIR}/TestFiles/f2
 
 # Subprojects
 .clean-subprojects:

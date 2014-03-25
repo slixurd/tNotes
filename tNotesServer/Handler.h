@@ -13,7 +13,8 @@
 #include "jsoncpp/json/json.h"
 
 #include "SessionManager.h"
-
+#include "SingletonAdapter.h"
+#include "DB/noteDB.h"
 
 /* Base Handler 4 Features */
 class Handler {
@@ -28,7 +29,8 @@ public:
 
 protected:
      SessionManager _sessionManager;
-    
+     SingletonAdapter<NotesDB> _DB;
+     
 private:
 
 };

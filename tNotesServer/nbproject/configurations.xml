@@ -10,6 +10,9 @@
       <itemPath>SessionCache.h</itemPath>
       <itemPath>SessionManager.h</itemPath>
       <itemPath>SigninHandler.h</itemPath>
+      <itemPath>SingletonAdapter.h</itemPath>
+      <itemPath>DB/config.h</itemPath>
+      <itemPath>DB/noteDB.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
       <itemPath>DummyHandler.cpp</itemPath>
@@ -19,6 +22,8 @@
       <itemPath>SessionManager.cpp</itemPath>
       <itemPath>SigninHandler.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>DB/noteDB.cpp</itemPath>
+      <itemPath>DB/sha1.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
     </logicalFolder>
@@ -55,14 +60,34 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
         <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
           <linkerLibItems>
             <linkerLibLibItem>fcgi++</linkerLibLibItem>
             <linkerLibLibItem>fcgi</linkerLibLibItem>
             <linkerLibLibItem>jsoncpp</linkerLibLibItem>
+            <linkerLibLibItem>mysqlclient</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="DB/config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DB/noteDB.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DB/noteDB.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DB/sha1.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="DummyHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DummyHandler.h" ex="false" tool="3" flavor2="0">
@@ -91,6 +116,8 @@
       </item>
       <item path="SigninHandler.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SingletonAdapter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <folder path="TestFiles/f1">
         <cTool>
           <incDir>
@@ -104,21 +131,6 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f2">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f2</output>
         </linkerTool>
       </folder>
       <folder path="TestFiles/f3">
@@ -152,9 +164,15 @@
       <compileType>
         <cTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -163,6 +181,7 @@
           <developmentMode>5</developmentMode>
         </asmTool>
         <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
           <linkerLibItems>
             <linkerLibLibItem>fcgi++</linkerLibLibItem>
             <linkerLibLibItem>fcgi</linkerLibLibItem>
@@ -170,6 +189,14 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="DB/config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DB/noteDB.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DB/noteDB.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DB/sha1.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="DummyHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DummyHandler.h" ex="false" tool="3" flavor2="0">
@@ -198,6 +225,8 @@
       </item>
       <item path="SigninHandler.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SingletonAdapter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <folder path="TestFiles/f1">
         <cTool>
           <incDir>
@@ -211,21 +240,6 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f2">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f2</output>
         </linkerTool>
       </folder>
       <folder path="TestFiles/f3">
