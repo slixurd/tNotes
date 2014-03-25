@@ -10,13 +10,22 @@
 #include <string>
 #include <exception>
 
-#include <fcgio.h>
+#include "fcgio.h"
+#include "jsoncpp/json/json.h"
 
 #include "HandlerFactory.h"
+#include "Exception.hpp"
 
 /*
  * CGI Main
  */
+
+std::string ExceptionJsonString(std::string what)
+{
+    Json::Value value;
+    value["exception"] = what;
+    return value.toStyledString();
+} 
 
 using namespace std;
 
@@ -85,7 +94,7 @@ int main(int argc, char** argv) {
         } catch (exception const& e) {
             cout << "Content-type: text/html\r\n"
                     << "\r\n"
-                    << e.what();
+                    << ExceptionJsonString(e.what());
             delete handler;
         }
 
