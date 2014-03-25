@@ -7,14 +7,19 @@
 #include <QPushButton>
 #include <QSize>
 #include <QIcon>
+#include <QDate>
 
 #include "tnotesmainwindow.h"
 #include "tnotestexteditor.h"
-#include "tnotesbookcategory.h"
-#include "tnotescategory.h"
 #include "tnotessearchtool.h"
 #include "tnotesbutton.h"
 #include "tnoteslogindialog.h"
+
+#include "tnotestitlebar.h"
+#include "tnotestoolbar.h"
+#include "tnotescontentwidget.h"
+#include "tnotesstatusbar.h"
+
 
 
 tNotesMainWindow::tNotesMainWindow(QWidget *parent)
@@ -23,9 +28,11 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
 	/* set window size */
 
 	setMainWindowsSize();
-
+    setWindowFlags(Qt::FramelessWindowHint);
 	/* initialization */
-	
+    initWidgets();
+    setMouseTracking(true);
+    /*
 	notesBookCategory = new tNotesBookCategory;
 	notesBookCategory->setMinimumSize(150, 300);
 	notesTextEditor = new tNotesTextEditor;
@@ -40,10 +47,13 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
 	buttonNewNotebook = new tNotesButton(tr("/myres/newnotebook.png"));
 	buttonSettings = new tNotesButton(tr("/myres/settings.png"));
 	buttonSync = new tNotesButton(tr("/myres/sync.png"));
-	/*
+    currentDir = new Directory();
+    */
+    /*
 	 * set layout
 	 */
 	setMainWindowLayout();
+    pointValid(1, 2);
 	setupActions();
 }
 
@@ -53,16 +63,50 @@ tNotesMainWindow::~tNotesMainWindow()
 
 }
 
+
+
+
 void tNotesMainWindow::setMainWindowsSize()
 {
-	this->resize(950, 600);
+    QDesktopWidget dw;
+    int x = dw.width()*0.8;
+    int y = dw.height()*0.8;
+    //this->resize(950, 600);
+    this->resize(x, y);
+}
+
+void tNotesMainWindow::initWidgets()
+{
+/*
+    notesBookCategory = new tNotesBookCategory;
+    notesBookCategory->setMinimumSize(150, 300);
+    notesTextEditor = new tNotesTextEditor;
+    notesTextEditor->setMinimumSize(300, 300);
+    notesCategory = new tNotesCategory;
+    notesCategory->setMinimumSize(150, 300);
+
+    searchTool = new tNotesSearchTool;
+    searchTool->setStyleSheet("width:25%;height:25px;");
+
+    buttonLogin = new tNotesButton(tr("/myres/login.png"), 56, 28);
+    buttonNewNotebook = new tNotesButton(tr("/myres/newnotebook.png"));
+    buttonSettings = new tNotesButton(tr("/myres/settings.png"));
+    buttonSync = new tNotesButton(tr("/myres/sync.png"));
+*/
+    currentDir = new Directory();
+
+    titleBar = new tNotesTitleBar();
+    toolBar = new tNotesToolBar();
+    contentWidget = new tNotesContentWidget();
+    statusBar = new tNotesStatusBar();
+
 }
 
 void tNotesMainWindow::setMainWindowLayout()
 {	
 	centralWidget = new QWidget;
 	this->setCentralWidget(centralWidget);
-	
+    /*
 	QWidget *topWidget = new QWidget;
 	QHBoxLayout *toolLayout = new QHBoxLayout;
 	toolLayout->addWidget(buttonLogin);
@@ -96,14 +140,25 @@ void tNotesMainWindow::setMainWindowLayout()
 	mainLayout->setMargin(0);
 	mainLayout->addWidget(topWidget);
 	mainLayout->addLayout(noteLayout);
-	
+    */
+
+    QVBoxLayout *mainLayout = new QVBoxLayout();
+    mainLayout->addWidget(titleBar);
+    mainLayout->addWidget(toolBar, 2);
+    mainLayout->addWidget(contentWidget, 10);
+    mainLayout->addWidget(statusBar, 2);
+    mainLayout->setSpacing(0);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->setSpacing(0);
 	centralWidget->setLayout(mainLayout);
 }
 
 
 void tNotesMainWindow::setupActions()
 {
-	connect(buttonLogin, SIGNAL(clicked()), this, SLOT(openLoginDialog()));
+    connect(toolBar, SIGNAL(openLoginDialog()), this, SLOT(openLoginDialog()));
+//    connect(buttonNewNotebook, SIGNAL(clicked()), this, SLOT(createDirectory()));
+//    connect(buttonSettings, SIGNAL(clicked()), this, SLOT(saveArticle()));
 }
 
 void tNotesMainWindow::openLoginDialog()
@@ -111,3 +166,33 @@ void tNotesMainWindow::openLoginDialog()
 	dialogLogin = new tNotesLoginDialog();
 	dialogLogin->exec();
 }
+
+bool tNotesMainWindow::createDirectory()
+{
+    currentDir->name = "foo";
+    currentDir->modifiedTime = q2s(QDate::currentDate().toString("yyyy.MM.dd"));
+    currentDir->createTime = q2s(QDate::currentDate().toString("yyyy.MM.dd"));
+    currentDir->isSyn = true;
+    createRoot(*currentDir);
+    return true;
+}
+
+bool tNotesMainWindow::saveArticle()
+{
+    currentArticle->context = "helloworld!";
+    currentArticle->name = "bar";
+    currentArticle->createTime = q2s(QDate::currentDate().toString("yyyy.MM.dd"));
+    currentArticle->createTime = q2s(QDate::currentDate().toString("yyyy.MM.dd"));
+    currentArticle->isSyn = true;
+    createArticle("foo", *currentArticle);
+}
+
+void tNotesMainWindow::pointValid(int x, int y)
+{
+
+    QRect qrTemp = geometry();
+    int x1, x2, y1, y2;
+    qrTemp.getCoords(&x1, &x2, &y1, &y2);
+}
+
+

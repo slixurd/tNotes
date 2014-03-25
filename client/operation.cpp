@@ -1,6 +1,17 @@
 ﻿#include "Operation.h"
 #include <fstream>
 string articlePath="";
+
+QString s2q(const string &s)
+{
+    return QString(QString::fromLocal8Bit(s.c_str()));
+}
+
+string q2s(const QString &s)
+{
+    return string((const char *)s.toLocal8Bit());
+}
+
 /************************************************************************/
 /* 返回文章路径，路径构成为文章ID+.json                                                                    */
 /************************************************************************/
@@ -33,6 +44,7 @@ bool writeInJson(Json::Value root,string path)
 {
     Json::FastWriter writer;
     ofstream ofs;
+    std::cout << path << std::endl;
     ofs.open(path.c_str());
     if(ofs.is_open())
     {

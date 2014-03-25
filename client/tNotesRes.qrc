@@ -2,8 +2,6 @@
     <qresource prefix="/myres">
         <file alias="settings.png">medias/icons/settings.png</file>
         <file alias="sync.png">medias/icons/sync.png</file>
-        <file alias="login.png">medias/icons/login.png</file>
-        <file alias="newnotebook.png">medias/icons/folder_new.png</file>
         <file alias="edit.png">medias/icons/write.png</file>
         <file alias="find.png">medias/icons/find.png</file>
         <file alias="bold.png">medias/icons/bold.png</file>
@@ -13,6 +11,14 @@
         <file alias="code.png">medias/icons/code.png</file>
         <file alias="link.png">medias/icons/link.png</file>
         <file alias="italic.png">medias/icons/italic.png</file>
+        <file alias="login.png">medias/icons/man.png</file>
+        <file alias="newnote.png">medias/icons/new.png</file>
+        <file alias="trash.png">medias/icons/rub.png</file>
+        <file alias="search.png">medias/icons/search.png</file>
+        <file alias="searchedit.png">medias/icons/searchEdit.png</file>
+        <file alias="sys.png">medias/icons/sys.png</file>
+        <file alias="notebook.png">medias/icons/notebook.png</file>
+        <file alias="note.png">medias/icons/note.png</file>
     </qresource>
     <qresource prefix="/libs">
         <file alias="markdown2html.dll">libs/markdown2html.dll</file>

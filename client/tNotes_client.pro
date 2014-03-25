@@ -15,8 +15,6 @@ TEMPLATE = app
 SOURCES += main.cpp\
         tnotesmainwindow.cpp \
     tnotestexteditor.cpp \
-    tnotesbookcategory.cpp \
-    tnotescategory.cpp \
     tnotessearchtool.cpp \
     json/json_internalarray.inl \
     json/json_internalmap.inl \
@@ -27,12 +25,16 @@ SOURCES += main.cpp\
     operation.cpp \
     tnotesbutton.cpp \
     tnoteslogindialog.cpp \
-    search.cpp
+    search.cpp \
+    tnotestitlebar.cpp \
+    tnotestoolbar.cpp \
+    tnotescontentwidget.cpp \
+    tnotesbookcaterorylist.cpp \
+    tnotescategorylist.cpp \
+    tnotesstatusbar.cpp
 
 HEADERS  += tnotesmainwindow.h \
     tnotestexteditor.h \
-    tnotesbookcategory.h \
-    tnotescategory.h \
     tnotessearchtool.h \
     json/autolink.h \
     json/config.h \
@@ -50,7 +52,13 @@ HEADERS  += tnotesmainwindow.h \
     tnoteslogindialog.h \
     friso.h \
     friso_API.h \
-    search.h
+    search.h \
+    tnotestitlebar.h \
+    tnotestoolbar.h \
+    tnotescontentwidget.h \
+    tnotescategorylist.h \
+    tnotesbookcategorylist.h \
+    tnotesstatusbar.h
 
 OTHER_FILES += \
     json/sconscript \

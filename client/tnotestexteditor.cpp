@@ -28,38 +28,12 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 
 
 	//noteEditorGroupBox = new QGroupBox(tr("noteEditor"), this);
-	noteEditor = new QTextEdit;
-	
-	QFont titleFont("Arial", 18, QFont::Bold);
-	noteTitle = new QLabel(getTitle());
-	noteTitle->setFont(titleFont);
 
-	QFont timeFont("Arial", 8, QFont::Bold);
-	noteCreatedTime = new QLabel("Created: " + getCreatedTime());
-	noteCreatedTime->setFont(timeFont);
-	noteLastModifiedTime = new QLabel("updated: " + getLastModifiedTime());
-	noteLastModifiedTime->setFont(timeFont);
-
-	horizonLine = new QFrame();
-	horizonLine->setFrameShape(QFrame::HLine);
-	horizonLine->setFrameShadow(QFrame::Sunken);
-
-	buttonEdit = new tNotesButton("/myres/edit.png");
-	buttonBold = new tNotesButton("/myres/bold.png", 15, 15);
-	buttonItalic = new tNotesButton("/myres/italic.png", 15, 15);
-	buttonQuotes = new tNotesButton("/myres/quotes.png", 15, 15);
-	buttonLink = new tNotesButton("/myres/link.png", 15, 15);
-	buttonCode = new tNotesButton("/myres/code.png", 15, 15);
-	buttonUndo = new tNotesButton("/myres/undo.png", 15, 15);
-	buttonRedo = new tNotesButton("/myres/redo.png", 15, 15);
-	
-
-	editMode = VIEW_MODE;
-    noteEditor->setReadOnly(true);
-	/*   
+    /*
 	QHBoxLayout *tmpLayout = new QHBoxLayout;
 	tmpLayout->addWidget(buttonEdit);
 	*/
+    initWidgets();
 	setTextEditorLayout();
 	setupEditActions();
 }
@@ -67,6 +41,41 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 void print(QString s)
 {
 	QMessageBox::information(NULL, "OK", s);
+}
+
+
+void tNotesTextEditor::initWidgets()
+{
+    noteEditor = new QTextEdit;
+    noteEditor->setStyleSheet("background-color:#FFFFFF");
+
+    QFont titleFont("Arial", 18, QFont::Bold);
+    noteTitle = new QLabel(getTitle());
+    noteTitle->setFont(titleFont);
+
+    QFont timeFont("Arial", 8, QFont::Bold);
+    noteCreatedTime = new QLabel("Created: " + getCreatedTime());
+    noteCreatedTime->setFont(timeFont);
+    noteLastModifiedTime = new QLabel("updated: " + getLastModifiedTime());
+    noteLastModifiedTime->setFont(timeFont);
+
+    horizonLine = new QFrame();
+    horizonLine->setFrameShape(QFrame::HLine);
+    horizonLine->setFrameShadow(QFrame::Sunken);
+
+    buttonEdit = new tNotesButton("/myres/edit.png");
+    buttonBold = new tNotesButton("/myres/bold.png", 15, 15);
+    buttonItalic = new tNotesButton("/myres/italic.png", 15, 15);
+    buttonQuotes = new tNotesButton("/myres/quotes.png", 15, 15);
+    buttonLink = new tNotesButton("/myres/link.png", 15, 15);
+    buttonCode = new tNotesButton("/myres/code.png", 15, 15);
+    buttonUndo = new tNotesButton("/myres/undo.png", 15, 15);
+    buttonRedo = new tNotesButton("/myres/redo.png", 15, 15);
+
+
+    editMode = VIEW_MODE;
+    noteEditor->setReadOnly(true);
+    toolsEnabled(false);
 }
 
 void tNotesTextEditor::setTextEditorLayout()
@@ -107,10 +116,13 @@ void tNotesTextEditor::setTextEditorLayout()
 void tNotesTextEditor::setupEditActions()
 {
 
-		connect(buttonEdit, SIGNAL(clicked()), this,
+
+    connect(buttonEdit, SIGNAL(clicked()), this,
 				SLOT(editModeChange()));
-		connect(buttonBold, SIGNAL(clicked()), this,
+    connect(buttonBold, SIGNAL(clicked()), this,
 				SLOT(setBold()));
+    connect(buttonItalic, SIGNAL(clicked()), this,
+                SLOT(setItalic()));
 
 }
 
@@ -157,6 +169,14 @@ QString tNotesTextEditor::markdown2html(QString articleContents){
     }
 }
 
+void tNotesTextEditor::toolsEnabled(bool flag)
+{
+    buttonBold->setEnabled(flag);
+    buttonItalic->setEnabled(flag);
+    buttonCode->setEnabled(flag);
+    buttonLink->setEnabled(flag);
+    buttonQuotes->setEnabled(flag);
+}
 
 void tNotesTextEditor::editModeChange()
 {
@@ -164,20 +184,32 @@ void tNotesTextEditor::editModeChange()
         editMode = VIEW_MODE;
         //QMessageBox::information(NULL, "OK", noteEditor->toPlainText());
         plainText = noteEditor->toPlainText();
-
         noteEditor->setHtml(markdown2html(plainText));
         noteEditor->setReadOnly(true);
+        toolsEnabled(false);
     } else {
         editMode = EDIT_MODE;
+        toolsEnabled(true);
         noteEditor->setReadOnly(false);
         noteEditor->setPlainText(plainText);
+
     }
 }
 
 void tNotesTextEditor::setBold()
 {
 	QString s = noteEditor->textCursor().selectedText();
-	s = "**" + s + "**";
+    s = "**" + s + "**";
 	noteEditor->textCursor().insertText(s); 
-	print(s);
+    //print(s);
 }
+
+void tNotesTextEditor::setItalic()
+{
+    QString s = noteEditor->textCursor().selectedText();
+    s = "*" + s + "*";
+    noteEditor->textCursor().insertText(s);
+    //print(s);
+}
+
+

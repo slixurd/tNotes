@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMap>
 #include <QPointer>
+#include "Operation.h"
 
 class QSplitter;
 class QPushButton;
@@ -16,6 +17,10 @@ class tNotesBookCategory;
 class tNotesCategory;
 class tNotesSearchTool;
 class tNotesLoginDialog;
+class tNotesTitleBar;
+class tNotesToolBar;
+class tNotesContentWidget;
+class tNotesStatusBar;
 
 class tNotesMainWindow : public QMainWindow
 {
@@ -29,11 +34,18 @@ private:
 		void setMainWindowsSize();
 		void setMainWindowLayout();
 		void setupActions();
+        void initWidgets();
+        void pointValid(int x, int y);
 
 		QWidget *centralWidget;
 
-		tNotesLoginDialog *dialogLogin;
+        tNotesTitleBar *titleBar;
+        tNotesToolBar *toolBar;
+        tNotesContentWidget *contentWidget;
+        tNotesStatusBar *statusBar;
 
+
+/*
 		tNotesButton *buttonLogin;
 		tNotesButton *buttonNewNotebook;
 		tNotesButton *buttonSettings;
@@ -43,11 +55,20 @@ private:
 
 		QSplitter *splitter;
 		tNotesBookCategory *notesBookCategory;
-    tNotesTextEditor *notesTextEditor;
+        tNotesTextEditor *notesTextEditor;
 		tNotesCategory *notesCategory;
+*/
+        Directory *currentDir;
+        Article *currentArticle;
+
+
+        tNotesLoginDialog *dialogLogin;
 
 private slots:
 		void openLoginDialog();
+        bool createDirectory();
+        bool saveArticle();
+
 
 };
 

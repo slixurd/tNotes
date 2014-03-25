@@ -13,14 +13,15 @@ tNotesSearchTool::tNotesSearchTool(QWidget *parent)
 	: QWidget(parent)
 {
 	searchToolLineEdit = new QLineEdit;
-    searchbtn=new tNotesButton("/myres/find.png");
-    searchStateLabel=new QLabel(this);
+    searchbtn=new tNotesButton("/myres/search.png");
+
+    searchToolLineEdit->setStyleSheet("min-width:280px;min-height: 30px;color:black;border-image:url(:/myres/searchedit.png);");
     searchToolLineEdit->setPlaceholderText("search");
 	QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(searchToolLineEdit);
     layout->addWidget(searchbtn);
     layout->addWidget(searchStateLabel);
-
+    layout->setContentsMargins(0, 0, 0, 0);
 
 //    QFile file("~/tNotes/my.qss");
 //    // 只读方式打开该文件

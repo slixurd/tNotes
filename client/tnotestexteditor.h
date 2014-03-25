@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QPointer>
 #include <QString>
+#include "Operation.h"
 
 class QTextEdit;
 class QGroupBox;
@@ -51,6 +52,7 @@ private:
 
 		bool editMode;
 
+
 private:
 
 		QString getTitle();
@@ -58,13 +60,17 @@ private:
 		QString getLastModifiedTime();
         QString markdown2html(QString articleContents);
 
+        void initWidgets();
 		void setTextEditorLayout();
 		void setupEditActions();
+        void toolsEnabled(bool flags = false);
 
 private slots:
 
 		void editModeChange();
 		void setBold();
+        void setItalic();
+        //bool createArticle();
 
 
 };
