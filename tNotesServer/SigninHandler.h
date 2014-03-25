@@ -8,13 +8,12 @@
 #ifndef SIGNINHANDLER_H
 #define	SIGNINHANDLER_H
 
-class SigninHandler {
+class SigninHandler : public Handler{
 public:
     SigninHandler();
-    SigninHandler(const SigninHandler& orig);
     virtual ~SigninHandler();
-private:
-
+    
+    std::string Handle(std::string const& postStr);
 };
 
 #endif	/* SIGNINHANDLER_H */

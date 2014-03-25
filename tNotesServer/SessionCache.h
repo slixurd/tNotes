@@ -11,25 +11,31 @@
 #include <string>
 #include <map>
 
+#include "stdlib.h"
+
 #ifndef SESSION_CACHE_CAPCITY
-#define SESSION_CACHE_CAPCITY 1024*10
+#define SESSION_CACHE_CAPCITY 100 //1024*10
 #endif
+
+/* Define std::string as SessionKeyType */
+typedef std::string SessionKeyType;
 
 /* Session Infomation */
 struct SessionInfo {
     std::string User;
+    time_t Signin;
+    time_t LastVisit;
 };
 
 /* SessionCache is a LRU Cache, which is also a singleton */
 class SessionCache {
 public:
-    /* Define std::string as SessionKeyType */
-    typedef std::string SessionKeyType;
     static SessionCache* GetInstant();
 
-    bool IsSessionExist(SessionKeyType const& sessionKey);
-    SessionInfo GetSession(SessionKeyType const& sessionKey);
-    void SetSession(SessionKeyType const& sessionKey, SessionInfo const& sessionInfo);
+    bool IsExist(SessionKeyType const& sessionKey);
+    SessionInfo & Get(SessionKeyType const& sessionKey);
+    void Set(SessionKeyType const& sessionKey, SessionInfo const& sessionInfo);
+    void Erase(SessionKeyType const& sessionKey);
     
     virtual ~SessionCache();
 

@@ -10,9 +10,13 @@
 SigninHandler::SigninHandler() {
 }
 
-SigninHandler::SigninHandler(const SigninHandler& orig) {
+SigninHandler::~SigninHandler() {
 }
 
-SigninHandler::~SigninHandler() {
+std::string SigninHandler::Handle(std::string const& postStr)
+{
+    Json::Value val;
+    String2Json(postStr,val);
+    return Json2String(val);
 }
 

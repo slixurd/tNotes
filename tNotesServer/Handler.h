@@ -12,6 +12,9 @@
 
 #include "jsoncpp/json/json.h"
 
+#include "SessionManager.h"
+
+
 /* Base Handler 4 Features */
 class Handler {
 public:
@@ -22,6 +25,10 @@ public:
     std::string Json2String(Json::Value const& val);
     
     virtual std::string Handle(std::string const& postStr) = 0;
+
+protected:
+     SessionManager _sessionManager;
+    
 private:
 
 };

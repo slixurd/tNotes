@@ -25,12 +25,12 @@ SessionCache* SessionCache::GetInstant() {
     return __singleton;
 }
 
-bool SessionCache::IsSessionExist(SessionKeyType const& sessionKey) {
+bool SessionCache::IsExist(SessionKeyType const& sessionKey) {
     Map::iterator it = __map.find(sessionKey);
     return it != __map.end();
 }
 
-SessionInfo SessionCache::GetSession(SessionKeyType const& sessionKey) {
+SessionInfo & SessionCache::Get(SessionKeyType const& sessionKey) {
     Map::iterator it = __map.find(sessionKey);
     if (it == __map.end()){
         /* Session Failure */
@@ -53,7 +53,7 @@ SessionInfo SessionCache::GetSession(SessionKeyType const& sessionKey) {
     }
 }
 
-void SessionCache::SetSession(SessionKeyType const& sessionKey, SessionInfo const& sessionInfo) {
+void SessionCache::Set(SessionKeyType const& sessionKey, SessionInfo const& sessionInfo) {
     Map::iterator it = __map.find(sessionKey);
     
     if (it == __map.end()) {
@@ -87,6 +87,24 @@ void SessionCache::SetSession(SessionKeyType const& sessionKey, SessionInfo cons
         __tail = __head.Next;
 }
 
-
+void SessionCache::Erase(SessionKeyType const& sessionKey)
+{
+    Map::iterator it = __map.find(sessionKey);
+    
+    if (it != __map.end()) {
+        /* Session exists */
+        it->second.Link.Prev->Next = it->second.Link.Next;
+        if (it->second.Link.Next == NULL) {
+            __tail = it->second.Link.Prev;
+        } else
+            it->second.Link.Next->Prev = it->second.Link.Prev;
+        
+        __map.erase(it);
+        __size--;
+    }else{
+        /* Session Failure */
+        throw SessionFailureException();
+    }
+}
 
 

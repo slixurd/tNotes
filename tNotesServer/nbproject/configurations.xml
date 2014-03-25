@@ -8,7 +8,7 @@
       <itemPath>HandlerFactory.h</itemPath>
       <itemPath>HandlerFactoryConfigure.h</itemPath>
       <itemPath>SessionCache.h</itemPath>
-      <itemPath>SessionGenerator.h</itemPath>
+      <itemPath>SessionManager.h</itemPath>
       <itemPath>SigninHandler.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
@@ -16,7 +16,7 @@
       <itemPath>Handler.cpp</itemPath>
       <itemPath>HandlerFactory.cpp</itemPath>
       <itemPath>SessionCache.cpp</itemPath>
-      <itemPath>SessionGenerator.cpp</itemPath>
+      <itemPath>SessionManager.cpp</itemPath>
       <itemPath>SigninHandler.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -77,9 +77,9 @@
       </item>
       <item path="SessionCache.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="SessionGenerator.cpp" ex="false" tool="1" flavor2="0">
+      <item path="SessionManager.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="SessionGenerator.h" ex="false" tool="3" flavor2="0">
+      <item path="SessionManager.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SigninHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -152,9 +152,9 @@
       </item>
       <item path="SessionCache.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="SessionGenerator.cpp" ex="false" tool="1" flavor2="0">
+      <item path="SessionManager.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="SessionGenerator.h" ex="false" tool="3" flavor2="0">
+      <item path="SessionManager.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SigninHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>

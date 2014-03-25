@@ -9,39 +9,70 @@
 #include <iostream>
 
 #include "SessionCache.h"
-#include "SessionGenerator.h"
+#include "SessionManager.h"
 
 /*
  * Simple C++ Test 4 SeesionCache
  */
 
+std::string Generate() {
+    using std::string;
+
+    static int seed = 0;
+    char sessionKey[32+1];
+    
+    srand(seed);
+    seed = rand();
+    for (int i = 0; i < 32; i++) {
+        srand(seed);
+        seed = rand();
+        sessionKey[i] = seed % 26 + 'A';
+    }
+    sessionKey[32] = '\0';
+
+    return string(sessionKey);
+}
+
 void test1() {
     SessionCache* cache = SessionCache::GetInstant();
-    SessionGenerator gen;
-    std::string keys[SESSION_CACHE_CAPCITY+20];
-    std::cout << SESSION_CACHE_CAPCITY << std::endl;
+    std::string keys[200];
     
-    for(int i = 0; i<SESSION_CACHE_CAPCITY+20; i++)
+    for(int i = 0; i<200; i++)
     {
         SessionInfo si;
-        keys[i] = gen.Generate();
+        keys[i] = Generate();
 
-        if(cache->IsSessionExist(keys[i]))
+        if(cache->IsExist(keys[i]))
             std::cout <<keys[i]<< std::endl;
         
         si.User = keys[i];
-        cache->SetSession(keys[i] ,si);
-        if(!cache->IsSessionExist(keys[i])
-                ||cache->GetSession(keys[i]).User!=keys[i])
+        cache->Set(keys[i] ,si);
+        if(!cache->IsExist(keys[i])
+                ||cache->Get(keys[i]).User!=keys[i])
         {
             std::cout << "%TEST_FAILED% time=0 testname=test1 (UnitTest4SessionCache) message=Cache Store Error" << std::endl;
         }
     }
     
-    for(int i = 0; i<SESSION_CACHE_CAPCITY+20; i++)
+    for(int i = 0; i<200; i++)
     {
-        if(i>=20 && !cache->IsSessionExist(keys[i])
-                ||i<20 && cache->IsSessionExist(keys[i]))
+        if(i>=100 && !cache->IsExist(keys[i])
+                ||i<100 && cache->IsExist(keys[i]))
+        {
+            std::cout << "%TEST_FAILED% time=0 testname=test1 (UnitTest4SessionCache) message=Cache Rank Error" << std::endl;
+        }
+    }
+    
+    for(int i = 100; i<200; i++)
+    {
+        if(i%2==0)
+            cache->Erase(keys[i]);
+    }
+    
+    for(int i = 100; i<200; i++)
+    {
+        if(i%2==0 && cache->IsExist(keys[i])
+                ||i%2!=0 && !cache->IsExist(keys[i]))
         {
             std::cout << "%TEST_FAILED% time=0 testname=test1 (UnitTest4SessionCache) message=Cache Erase Error" << std::endl;
         }
