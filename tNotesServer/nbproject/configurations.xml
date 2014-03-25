@@ -10,6 +10,7 @@
       <itemPath>SessionCache.h</itemPath>
       <itemPath>SessionManager.h</itemPath>
       <itemPath>SigninHandler.h</itemPath>
+      <itemPath>SingletonAdapter.hpp</itemPath>
       <itemPath>DB/config.h</itemPath>
       <itemPath>DB/noteDB.h</itemPath>
     </logicalFolder>
@@ -49,7 +50,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>SingletonAdapter.hpp</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
