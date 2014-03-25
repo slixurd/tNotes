@@ -13,7 +13,7 @@
 #include "jsoncpp/json/json.h"
 
 #include "SessionManager.h"
-#include "SingletonAdapter.h"
+#include "SingletonAdapter.hpp"
 #include "DB/noteDB.h"
 
 /* Base Handler 4 Features */
