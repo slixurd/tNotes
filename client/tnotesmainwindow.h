@@ -10,6 +10,7 @@ class QSplitter;
 class QPushButton;
 class QGroupBox;
 class QIcon;
+class QPoint;
 
 class tNotesButton;
 class tNotesTextEditor;
@@ -36,6 +37,9 @@ private:
 		void setupActions();
         void initWidgets();
         void initNotesByUser(QString &name);
+
+
+        void showMaxRestore();
         void pointValid(int x, int y);
 
 		QWidget *centralWidget;
@@ -64,13 +68,18 @@ private:
 
 
         tNotesLoginDialog *dialogLogin;
+        QPoint moveStartPoint;
 
 private slots:
 
+        void minimizeWindow();
+        void maxmizeRestoreWindow(bool maxRestore);
         void userAuthenticated(QString &username, QString &pass, int &Sindex);
 		void openLoginDialog();
         bool createDirectory();
         bool saveArticle();
+        void moveStart(QPoint);
+        void moveEnd(QPoint);
 
 signals:
         void initNotebooks(Directory *dirList);

@@ -8,6 +8,7 @@
 #include <QSize>
 #include <QIcon>
 #include <QDate>
+#include <QPoint>
 
 #include "tnotesmainwindow.h"
 #include "tnotestexteditor.h"
@@ -68,6 +69,7 @@ void tNotesMainWindow::initWidgets()
     statusBar = new tNotesStatusBar();
     dialogLogin = new tNotesLoginDialog();
 
+
 }
 
 void tNotesMainWindow::setMainWindowLayout()
@@ -93,7 +95,12 @@ void tNotesMainWindow::setupActions()
 {
     connect(toolBar, SIGNAL(openLoginDialog()), this, SLOT(openLoginDialog()));
     connect(dialogLogin, SIGNAL(acceptLogin(QString&,QString&,int&)), this, SLOT(userAuthenticated(QString&,QString&,int&)));
-//    connect(buttonNewNotebook, SIGNAL(clicked()), this, SLOT(createDirectory()));
+    connect(titleBar, SIGNAL(minimizeWindow()), this, SLOT(minimizeWindow()));
+    connect(titleBar, SIGNAL(maxmizeRestoreWindow(bool)), this, SLOT(maxmizeRestoreWindow(bool)));
+    connect(titleBar, SIGNAL(closeWindow()), this, SLOT(close()));
+    connect(titleBar, SIGNAL(moveStart(QPoint)), this, SLOT(moveStart(QPoint)));
+    connect(titleBar, SIGNAL(moveEnd(QPoint)), this, SLOT(moveEnd(QPoint)));
+    //    connect(buttonNewNotebook, SIGNAL(clicked()), this, SLOT(createDirectory()));
 //    connect(buttonSettings, SIGNAL(clicked()), this, SLOT(saveArticle()));
 }
 
@@ -143,5 +150,35 @@ void tNotesMainWindow::pointValid(int x, int y)
     int x1, x2, y1, y2;
     qrTemp.getCoords(&x1, &x2, &y1, &y2);
 }
+
+/*
+ * actions to change window size.
+ *
+ */
+
+
+void tNotesMainWindow::minimizeWindow()
+{
+    showMinimized();
+}
+void tNotesMainWindow::maxmizeRestoreWindow(bool maxRestore)
+{
+    if(!maxRestore){
+        showMaximized();
+    } else {
+        showNormal();
+    }
+}
+
+void tNotesMainWindow::moveStart(QPoint startPoint)
+{
+    moveStartPoint = startPoint;
+}
+
+void tNotesMainWindow::moveEnd(QPoint endPoint)
+{
+    move(endPoint - moveStartPoint);
+}
+
 
 

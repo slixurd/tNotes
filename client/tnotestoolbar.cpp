@@ -6,7 +6,7 @@
 
 tNotesToolBar::tNotesToolBar(void)
 {
-
+    QWidget *toolWidget = new QWidget();
     setStyleSheet("background-color:#c5e398;max-height: 40px;");
 
 
@@ -18,6 +18,7 @@ tNotesToolBar::tNotesToolBar(void)
 
     setupActions();
 
+    QHBoxLayout *toolLayout = new QHBoxLayout();
     mainLayout = new QHBoxLayout();
 
     mainLayout->addWidget(loginButton);
@@ -31,7 +32,11 @@ tNotesToolBar::tNotesToolBar(void)
     mainLayout->setContentsMargins(0, 0, 0, 0);
 
 
-	setLayout(mainLayout);
+    toolWidget->setLayout(mainLayout);
+
+    toolLayout->addWidget(toolWidget);
+    toolLayout->setContentsMargins(0,0,0,0);
+    setLayout(toolLayout);
 }
 
 

@@ -7,8 +7,9 @@ tNotesTitleBar::tNotesTitleBar(QWidget *parent)
 {
 	mParent=parent;
 	selfWidget=this;
+    QWidget *titleWidget = new QWidget();
 	//setStyleSheet("background-image: url(asset/Titleback2.png);");
-	setStyleSheet("background-color:#518e30;max-height: 36px;");
+    setStyleSheet("background-color:#518e30;max-height: 36px;");
 	m_pMainLayout = new QHBoxLayout();
 
 
@@ -48,15 +49,18 @@ tNotesTitleBar::tNotesTitleBar(QWidget *parent)
 
 	m_pMainLayout->insertStretch(2, 500);
 	m_pMainLayout->setSpacing(0);
-	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	setLayout(m_pMainLayout);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    titleWidget->setLayout(m_pMainLayout);
+    QHBoxLayout *titleLayout = new QHBoxLayout;
+    titleLayout->addWidget(titleWidget);
+    titleLayout->setContentsMargins(0,0,0,0);
+    setLayout(titleLayout);
 
 	maxNormal = false;
 	//selfWidget->showSmall();
+    setupActions();
 
-	connect(minimizeButton, SIGNAL(clicked()), parent, SLOT(showMinimized()));
-	connect(closeButton, SIGNAL(clicked()), parent, SLOT(close()));
-	connect(maxmizeButton, SIGNAL(clicked()), parent, SLOT(showMaximized()));
+
 }
 
 
@@ -64,32 +68,48 @@ tNotesTitleBar::~tNotesTitleBar(void)
 {
 
 }
-void tNotesTitleBar::showSmall()
+
+void tNotesTitleBar::setupActions()
 {
-	mParent->showMinimized();
+    connect(minimizeButton, SIGNAL(clicked()), this, SLOT(showMinimized()));
+    connect(closeButton, SIGNAL(clicked()), this, SLOT(closeMainWindow()));
+    connect(maxmizeButton, SIGNAL(clicked()), this, SLOT(showMaxRestore()));
+
+}
+void tNotesTitleBar::showMinimized()
+{
+    emit minimizeWindow();
 }
 
 void tNotesTitleBar::showMaxRestore()
 {
+    emit maxmizeRestoreWindow(maxNormal);
 	if (maxNormal) {
-		mParent->showNormal();
+
 		maxNormal = !maxNormal;
 		maxmizeButton->setIcon(maxPix);
+
 	} else {
-		mParent->showMaximized();
 		maxNormal = !maxNormal;
 		maxmizeButton->setIcon(restorePix);
 	}
+}
+
+void tNotesTitleBar::closeMainWindow()
+{
+    emit closeWindow();
 }
 
 void tNotesTitleBar::mousePressEvent(QMouseEvent *me)
 {
 	startPos = me->globalPos();
 	clickPos = mapToParent(me->pos());
+    emit moveStart(clickPos);
 }
 void tNotesTitleBar::mouseMoveEvent(QMouseEvent *me)
 {
 	if (maxNormal)
 		return;
-	parentWidget()->move(me->globalPos() - clickPos);
+    //parentWidget()->move(me->globalPos() - clickPos);
+    emit moveEnd(me->globalPos());
 }
