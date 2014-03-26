@@ -5,6 +5,7 @@
 #include <QListView>
 #include <string>
 #include <QString>
+#include "Operation.h"
 
 class tNotesBookCategoryList :public QListView
 {  
@@ -15,6 +16,7 @@ public:
 private:
     //QStandardItemModel是一个多用途的model,可用于表示list,table,tree views所需要的各种不同的数据结构。
 	QStandardItemModel *model;
+    void appendNotebook(Directory dir);
 
 public slots:
     void updateNotebooks(QString path);
