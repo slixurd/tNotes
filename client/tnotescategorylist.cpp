@@ -22,10 +22,9 @@ void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
     }
 }
 
-bool tNotesCategoryList::updateListView(string id){
+bool tNotesCategoryList::updateListView(QString id){
     dirVector.clear();
-    model->clear();
-    dirVector = searchRootArticle(id);
+    dirVector = searchRootArticle(q2s(id));
     for (int i=0;i<dirVector.size();i++)
     {
         QStandardItem *itemTemp=new QStandardItem(s2q(dirVector[i].name));
@@ -38,4 +37,3 @@ QString tNotesCategoryList::addCategory(QString name){
     itemTemp->setSizeHint(QSize(150,70));
     model->appendRow(itemTemp);
 }
-

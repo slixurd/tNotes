@@ -82,16 +82,12 @@ private slots:
         bool saveArticle();
         void moveStart(QPoint);
         void moveEnd(QPoint);
-        void clickedBook(const QModelIndex &index);
-        void clickedNote(const QModelIndex &index);
-        void newDirectory();
 
 signals:
         void initNotebooks(Directory *dirList);
         void initNotes(Article *articleList);
         void initNotesContents(Article article);
         void updateNotebooks(QString path);
-        void updateEditor(string articleId);
 
 };
 
