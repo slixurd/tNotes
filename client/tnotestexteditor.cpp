@@ -13,6 +13,7 @@
 #include <QFrame>
 #include <QLibrary>
 #include <QMessageBox>
+#include <QLineEdit>
 
 //#include <windows.h>
 #include <iostream>
@@ -20,6 +21,7 @@
 
 #include "tnotestexteditor.h"
 #include "tnotesbutton.h"
+#include "tnoteseditlinkdialog.h"
 #include "Operation.h"
 
 
@@ -43,12 +45,17 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 
 void tNotesTextEditor::initWidgets()
 {
+    editLinkDialog = new tNotesEditLinkDialog();
+    linkCounter = 0;
+
     noteEditor = new QTextEdit;
     noteEditor->setStyleSheet("background-color:#FFFFFF");
 
     QFont titleFont("Arial", 18, QFont::Bold);
     noteTitle = new QLabel(getTitle());
     noteTitle->setFont(titleFont);
+    titleLineEdit = new QLineEdit();
+    titleLineEdit->setVisible(false);
 
     QFont timeFont("Arial", 8, QFont::Bold);
     noteCreatedTime = new QLabel("Created: " + getCreatedTime());
@@ -68,6 +75,9 @@ void tNotesTextEditor::initWidgets()
     buttonCode = new tNotesButton("/myres/code.png", 15, 15);
     buttonUndo = new tNotesButton("/myres/undo.png", 15, 15);
     buttonRedo = new tNotesButton("/myres/redo.png", 15, 15);
+
+    buttonUndo->setEnabled(noteEditor->document()->isUndoAvailable());
+    buttonRedo->setEnabled(noteEditor->document()->isRedoAvailable());
 
 
     editMode = VIEW_MODE;
@@ -90,12 +100,13 @@ void tNotesTextEditor::setTextEditorLayout()
 	toolButtonsLayout->addStretch();
 
 
-	QWidget *titleWidget = new QWidget;
-	QGridLayout *titleLayout = new QGridLayout;
-	titleLayout->addWidget(noteTitle, 0, 0, 0, 2);
-	titleLayout->addWidget(noteCreatedTime, 0, 1, 0, 2, Qt::AlignJustify);
+    titleWidget = new QWidget;
+    titleLayout = new QGridLayout;
+    titleLayout->addWidget(noteTitle, 0, 0, 2, 1);
+    titleLayout->addWidget(titleLineEdit, 0, 0, 2, 1);
+    titleLayout->addWidget(noteCreatedTime, 0, 1, 2, 1, Qt::AlignJustify);
 	//titleLayout->addLayout(tmpLayout, 0, 2, 0, 2);
-	titleLayout->addWidget(buttonEdit, 0, 3, 0, 2, Qt::AlignRight);
+    titleLayout->addWidget(buttonEdit, 0, 4, 2, 1, Qt::AlignRight);
 	titleLayout->addWidget(horizonLine, 1, 0, 2, 0);
 	titleLayout->addLayout(toolButtonsLayout, 2, 0);
 	titleLayout->addWidget(noteLastModifiedTime, 2, 4, Qt::AlignRight);
@@ -118,6 +129,26 @@ void tNotesTextEditor::setupEditActions()
 				SLOT(setBold()));
     connect(buttonItalic, SIGNAL(clicked()), this,
                 SLOT(setItalic()));
+    connect(buttonLink, SIGNAL(clicked()), this,
+            SLOT(openLinkDialog()));
+    connect(buttonCode, SIGNAL(clicked()), this,
+            SLOT(setCode()));
+    connect(buttonQuotes, SIGNAL(clicked()), this,
+            SLOT(setQuote()));
+    connect(editLinkDialog, SIGNAL(acceptLink(QString)), this,
+            SLOT(setLink(QString)));
+
+
+    connect(noteEditor->document(), SIGNAL(undoAvailable(bool)), buttonUndo,
+            SLOT(setEnabled(bool)));
+    connect(noteEditor->document(), SIGNAL(redoAvailable(bool)), buttonRedo,
+            SLOT(setEnabled(bool)));
+
+    connect(buttonUndo, SIGNAL(clicked()), noteEditor,
+            SLOT(undo()));
+    connect(buttonRedo, SIGNAL(clicked()), noteEditor,
+            SLOT(redo()));
+
 }
 
 QString tNotesTextEditor::getTitle()
@@ -175,14 +206,33 @@ void tNotesTextEditor::toolsEnabled(bool flag)
 void tNotesTextEditor::editModeChange()
 {
     if(editMode == EDIT_MODE){
+
+
         editMode = VIEW_MODE;
+
+
+        noteTitle->setText(titleLineEdit->text());
+        //print(titleLineEdit->text());
+        titleLineEdit->setVisible(false);
+        noteTitle->setVisible(true);
+
         //QMessageBox::information(NULL, "OK", noteEditor->toPlainText());
+
+
         plainText = noteEditor->toPlainText();
         noteEditor->setHtml(markdown2html(plainText));
         noteEditor->setReadOnly(true);
         toolsEnabled(false);
     } else {
         editMode = EDIT_MODE;
+
+        //titleLayout->removeWidget(noteTitle);
+        noteTitle->setVisible(false);
+        titleLineEdit->setText(noteTitle->text());
+        titleLineEdit->setVisible(true);
+        //titleLayout->addWidget(titleLineEdit, 0, 0, 2, 1);
+        //titleWidget->setLayout(titleLayout);
+
         toolsEnabled(true);
         noteEditor->setReadOnly(false);
         noteEditor->setPlainText(plainText);
@@ -205,5 +255,56 @@ void tNotesTextEditor::setItalic()
     noteEditor->textCursor().insertText(s);
     //print(s);
 }
+
+void tNotesTextEditor::setCode()
+{
+    QString s = noteEditor->textCursor().selectedText();
+    s = "`" + s + "`";
+    noteEditor->textCursor().insertText(s);
+    //print(s);
+}
+
+void tNotesTextEditor::setQuote()
+{
+    QString s = noteEditor->textCursor().selectedText();
+    s = "> " + s ;
+    noteEditor->textCursor().insertText(s);
+    //print(s);
+}
+
+
+
+void tNotesTextEditor::openLinkDialog()
+{
+    editLinkDialog->exec();
+}
+
+void tNotesTextEditor::setLink(QString link)
+{
+    QString s = noteEditor->textCursor().selectedText();
+
+    char buffer[20];
+    _itoa( ++linkCounter, buffer, 10 );
+    string count(buffer);
+
+
+    if(s == NULL){
+        s = "[edit alias here]["+ s2q(count) + "]";
+    } else {
+        s = "["+s+"][" + s2q(count) + "]";
+    }
+
+    QString linkText = "  [" + s2q(count) + "]: " + link;
+    noteEditor->textCursor().insertText(s);
+    noteEditor->append(linkText);
+}
+
+void tNotesTextEditor::updateArticle(Article article)
+{
+    noteTitle->setText(s2q(article.name));
+    QString content = s2q(article.context);
+    noteEditor->setHtml(markdown2html(content));
+}
+
 
 

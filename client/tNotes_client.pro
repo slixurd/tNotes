@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     tnotescategorylist.cpp \
     tnotesstatusbar.cpp \
     tnotesbutton.cpp \
-    MyQItemDelegate.cpp
+    MyQItemDelegate.cpp \
+    tnoteseditlinkdialog.cpp
 
 HEADERS  += tnotesmainwindow.h \
     tnotestexteditor.h \
@@ -60,7 +61,8 @@ HEADERS  += tnotesmainwindow.h \
     tnotesbookcategorylist.h \
     tnotesstatusbar.h \
     tnotesbutton.h \
-    MyQItemDelegate.h
+    MyQItemDelegate.h \
+    tnoteseditlinkdialog.h
 
 OTHER_FILES += \
     json/sconscript \

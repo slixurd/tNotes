@@ -14,8 +14,11 @@ class QToolButton;
 class QToolBar;
 class QAction;
 class QFrame;
+class QGridLayout;
+class QLineEdit;
 
 class tNotesButton;
+class tNotesEditLinkDialog;
 
 #define EDIT_MODE 0
 #define VIEW_MODE 1
@@ -50,6 +53,14 @@ private:
 		tNotesButton *buttonCode;
 		tNotesButton *buttonLink;
 
+        QString title;
+        QLineEdit *titleLineEdit;
+        QWidget *titleWidget;
+        QGridLayout *titleLayout;
+
+        tNotesEditLinkDialog *editLinkDialog;
+        int linkCounter;
+
 		bool editMode;
 
 
@@ -70,6 +81,13 @@ private slots:
 		void editModeChange();
 		void setBold();
         void setItalic();
+        void setCode();
+        void setQuote();
+
+        void openLinkDialog();
+        void setLink(QString);
+        void updateArticle(Article);
+
         //bool createArticle();
 
 
