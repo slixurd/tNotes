@@ -20,7 +20,8 @@ void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, 
 
 	QString content = index.model()->data(index, Qt::DisplayRole).toString(); // 取到模型中原来的内容
 
-	QString qstrName=s2q("今天的工作");
+    QString qstrName=content;
+
 	QString qstrDate=s2q("2014/3/14");
 	QString qstrContent=s2q("1我2我3我4我5我6我我7我8我9我我10我我11我我12我我13我我14我我15我我16我我我17我我我我我我我我我我我我我1我2我3我4我5我6我我7我8我9我我10我我11我我1我2我3我4我5我6我我7我8我9我我10我我11我我");
 
