@@ -10,16 +10,17 @@
 class tNotesCategoryList :public QListView
 {  
 public:  
-    bool updateListView(QString id);
+    bool updateListView(string id);
     QString addCategory(QString name);
     tNotesCategoryList();
 	void mouseDoubleClickEvent(QMouseEvent *event);   //鼠标点击响应
+    vector<Article> dirVector;
 private:
 	//QStandardItemModel是一个多用途的model,可用于表示list,table,tree views所需要的各种不同的数据结构。
 	QStandardItemModel *model;
     QIcon qic;
     MyQItemDelegate *myqit;
-    vector<Article> dirVector;
+
 };
 
 #endif

@@ -1,4 +1,4 @@
-﻿#ifndef MYQITEMDE_H
+#ifndef MYQITEMDE_H
 #define MYQITEMDE_H
 #include <QItemDelegate>
 #include <QStyledItemDelegate>
