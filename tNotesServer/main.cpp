@@ -42,10 +42,11 @@ int main(int argc, char** argv) {
     FCGX_InitRequest(&request, 0, 0);
 
     HandlerFactory simpleFactory;
-    Handler* handler = NULL;
+    Handler* handler;
 
     while (FCGX_Accept_r(&request) == 0) {
-
+        handler = NULL;
+        
         fcgi_streambuf cin_fcgi_streambuf(request.in);
         fcgi_streambuf cout_fcgi_streambuf(request.out);
         fcgi_streambuf cerr_fcgi_streambuf(request.err);

@@ -27,7 +27,8 @@
  CREATE_HANDLER(DummyHandler,"/dummy.cgi")              \
  CREATE_HANDLER(SigninHandler,"/signin.cgi")            \
  CREATE_HANDLER(SignoutHandler,"/signout.cgi")          \
- CREATE_HANDLER(SignupHandler,"/signup.cgi") 
+ CREATE_HANDLER(SignupHandler,"/signup.cgi")            \
+ 
          
 #endif	/* HANDLERFACTORYCONFIGURE_H */
 
