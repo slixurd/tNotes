@@ -1,4 +1,4 @@
-#ifndef TNOTESBOOKCATEGORY_H
+﻿#ifndef TNOTESBOOKCATEGORY_H
 #define TNOTESBOOKCATEGORY_H
 
 #include <QStandardItemModel>
