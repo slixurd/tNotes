@@ -18,13 +18,12 @@ class tNotesToolBar:public QWidget
 public:
     tNotesToolBar(void);
     ~tNotesToolBar(void);
+    QPushButton* newnoteButton;
 private:
 
     void setupActions();
-
 	QHBoxLayout* mainLayout;
     QPushButton* loginButton;
-    QPushButton* newnoteButton;
     QPushButton* trashButton;
     QPushButton* sysButton;
     tNotesSearchTool* searchTool;

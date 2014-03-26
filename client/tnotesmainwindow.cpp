@@ -91,7 +91,9 @@ void tNotesMainWindow::setMainWindowLayout()
 void tNotesMainWindow::setupActions()
 {
     connect(toolBar, SIGNAL(openLoginDialog()), this, SLOT(openLoginDialog()));
-    connect(dialogLogin, SIGNAL(acceptLogin(QString&,QString&,int&)), this, SLOT(userAuthenticated(QString&,QString&,int&)));
+	connect(toolBar->newnoteButton, SIGNAL(clicked()), this, SLOT(newDirectory()));
+	
+   connect(dialogLogin, SIGNAL(acceptLogin(QString&,QString&,int&)), this, SLOT(userAuthenticated(QString&,QString&,int&)));
 
     connect(titleBar, SIGNAL(minimizeWindow()), this, SLOT(minimizeWindow()));
     connect(titleBar, SIGNAL(maxmizeRestoreWindow(bool)), this, SLOT(maxmizeRestoreWindow(bool)));
@@ -102,7 +104,31 @@ void tNotesMainWindow::setupActions()
     connect(this, SIGNAL(updateNotebooks(QString)), contentWidget, SLOT(updateContents(QString)));
     //    connect(buttonNewNotebook, SIGNAL(clicked()), this, SLOT(createDirectory()));
 //    connect(buttonSettings, SIGNAL(clicked()), this, SLOT(saveArticle()));
+
+	connect(contentWidget->mListView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(clickedBook(QModelIndex)));
+    connect(contentWidget->mListView2, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(clickedNote(QModelIndex)));
+
 }
+
+/////////////笔记本组ListView1视图响应函数////////////////
+ 	
+//点击了QModelIndex项
+void tNotesMainWindow::clickedBook(const QModelIndex &index){
+    string id = contentWidget->mListView->dirVectory[index.row()].nodeId;
+    contentWidget->mListView2->updateListView(id);
+}
+
+/////////////笔记本ListView2视图响应函数////////////////
+void tNotesMainWindow::clickedNote(const QModelIndex &index){
+    //ok
+    string articleId = contentWidget->mListView2->dirVector[index.row()].articleId;
+    emit updateEditor(articleId);
+}
+
+
+
 
 void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &index)
 {
@@ -183,5 +209,11 @@ void tNotesMainWindow::moveEnd(QPoint endPoint)
     move(endPoint - moveStartPoint);
 }
 
+
+
+void tNotesMainWindow::newDirectory(){
+    Directory dirTemp("999",string("newNotes"),"2014/2/1","2014/2/1",false);
+    contentWidget->mListView->appendNotebook(dirTemp);
+}
 
 

@@ -22,9 +22,10 @@ void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
     }
 }
 
-bool tNotesCategoryList::updateListView(QString id){
+bool tNotesCategoryList::updateListView(string id){
     dirVector.clear();
-    dirVector = searchRootArticle(q2s(id));
+	model->clear();
+	dirVector = searchRootArticle(id);
     for (int i=0;i<dirVector.size();i++)
     {
         QStandardItem *itemTemp=new QStandardItem(s2q(dirVector[i].name));
