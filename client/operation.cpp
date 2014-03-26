@@ -5,6 +5,7 @@
 #include <QTextStream>
 string articlePath="";
 
+extern string rootPath = "";
 void print(QString s)
 {
     QMessageBox::information(NULL, "OK", s);
@@ -28,6 +29,13 @@ QString readFile(QString filePath)
     return styleSheet;
 }
 /************************************************************************/
+/*设置用户数据文件夹，传入文件夹路径                                                                  */
+/************************************************************************/
+void setupRootPath(string path)
+{
+    rootPath = path + "\\root.json";
+}
+/************************************************************************/
 /* 返回文章路径，路径构成为文章ID+.json                                                                    */
 /************************************************************************/
 void getArticlePath(string articleId)
@@ -42,6 +50,7 @@ Json::Value returnRoot(string path)
     Json::Reader reader;
     Json::Value root;
     ifstream ifs;
+
     ifs.open(path.c_str());
     reader.parse(ifs,root,false);
     if(ifs.is_open())
@@ -159,17 +168,25 @@ bool deleteArticle(string iRoot,string iArticle)
 /************************************************************************/
 vector<Directory> searchAllRoot()
 {
-    Json::Value root=returnRoot(rootPath);
+
+    Json::Value root = returnRoot(rootPath);
+    if (root == NULL)
+    {
+        cout << "hello" <<endl;
+    }
     vector<string> listRoot=root.getMemberNames();
     vector<Directory> allRoot;
     Directory obj;
     string nodeId;
+    //std::cout << listRoot.size() << std::endl;
     for(int i=0;i<(int)listRoot.size();i++)
     {
         nodeId=listRoot[i];
         obj.nodeId=nodeId;
         obj.createTime=root[nodeId]["createTime"].asString();
         obj.name=root[nodeId]["name"].asString();
+
+       // std::cout << obj.name << std::endl;
         obj.modifiedTime=root[nodeId]["modifiedTime"].asString();
         obj.isSyn=root[nodeId]["isSyn"].asBool();
         allRoot.push_back(obj);

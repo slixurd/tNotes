@@ -44,6 +44,7 @@ private:
         void pointValid(int x, int y);
 
 		QWidget *centralWidget;
+        QString ROOT_PATH;
 
         tNotesTitleBar *titleBar;
         tNotesToolBar *toolBar;
@@ -75,7 +76,7 @@ private slots:
 
         void minimizeWindow();
         void maxmizeRestoreWindow(bool maxRestore);
-        void userAuthenticated(QString &username, QString &pass, int &Sindex);
+        void userAuthenticated(QString &username , QString &pass, int &Sindex);
 		void openLoginDialog();
         bool createDirectory();
         bool saveArticle();
@@ -86,6 +87,7 @@ signals:
         void initNotebooks(Directory *dirList);
         void initNotes(Article *articleList);
         void initNotesContents(Article article);
+        void updateNotebooks(QString path);
 
 };
 

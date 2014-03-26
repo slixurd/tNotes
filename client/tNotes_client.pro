@@ -71,4 +71,4 @@ RESOURCES += \
     tNotesRes.qrc
 
 #请把"C:/Users/smallway/Qt/untitled6/"修改为本机friso.lib文件的绝对地址
-LIBS+= -LD:\Documents\GitHub\tNotes\client\libs -lfriso
+LIBS+= -LD:\Tencent\tNotes\client\libs -lfriso

@@ -11,6 +11,7 @@
 class QSplitter;
 class tNotesContentWidget:public QWidget
 {
+    Q_OBJECT
 public:
     tNotesContentWidget(void);
     ~tNotesContentWidget(void);
@@ -20,5 +21,15 @@ public:
     tNotesBookCategoryList* mListView;
     tNotesCategoryList* mListView2;
     tNotesTextEditor* mEditPart;
+
+private:
+    void setupLayout();
+    void setupActions();
+
+signals:
+    void updateNotebooks(QString path);
+
+public slots:
+    void updateContents(QString path);
 };
 #endif
