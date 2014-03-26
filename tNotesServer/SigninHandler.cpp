@@ -22,13 +22,18 @@ std::string SigninHandler::Handle(std::string const& postStr)
     std::string user,pass;
     Json::Value result;
     
-    if(val.isMember("user")
-            &&val.isMember("pass"))
-    {
-        user = val["user"].asString();
-        pass = val["pass"].asString();
-    }
-    else
+    try{
+        if(val.isMember("user")
+                &&val.isMember("pass"))
+        {
+            user = val["user"].asString();
+            pass = val["pass"].asString();
+        }
+        else
+        {
+            throw IncorrectDataFormatException();
+        }
+    }catch(...)
     {
         throw IncorrectDataFormatException();
     }
