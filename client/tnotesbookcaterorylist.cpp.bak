@@ -1,4 +1,4 @@
-
+<<<<<<< HEAD
 #include "tnotesbookcategorylist.h"
 
 //#include "nwindows.h"
@@ -55,7 +55,20 @@ tNotesBookCategoryList::tNotesBookCategoryList() : QListView()
     */
     model->setItem(0, 0, item1);
 	this->setModel(model);
-
+=======
+﻿#include "tnotesbookcategorylist.h"
+#include "Operation.h"
+//#include "nwindows.h"
+tNotesBookCategoryList::tNotesBookCategoryList() : QListView()
+{
+    setIconSize(QSize(40,40));
+    setGridSize(QSize(150,40));
+    this->setStyleSheet("background-color:#F3F2EF;");
+    qbr.setColor("#FFFFFF");
+    qbr.setStyle(Qt::Dense3Pattern);
+    model = new QStandardItemModel();
+    this->setModel(model);
+>>>>>>> 4765451c53dfc4a5a80645f7ce374b303f968ffc
 }  
 
 void tNotesBookCategoryList::mouseDoubleClickEvent(QMouseEvent *event)

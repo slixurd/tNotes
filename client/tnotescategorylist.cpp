@@ -1,50 +1,18 @@
-#include "tnotescategorylist.h"
+ï»¿#include "tnotescategorylist.h"
 #include "Operation.h"
 //#include "nwindows.h"
 tNotesCategoryList::tNotesCategoryList() : QListView()
 {
+    qic = QIcon(":/myres/notebook.png");
     setGridSize(QSize(150,70));
     this->setStyleSheet("background-color:#FFFFFF;");
-    model = new QStandardItemModel(4,2);
-    model->setHeaderData(0, Qt::Horizontal, tr("Service"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Details"));
-
+    model = new QStandardItemModel();
     setWordWrap(true);
-    QStandardItem *item1 = new QStandardItem(s2q("ÌìÆø\nËæ×ÅÌìÆøµÄÖð½¥×ªÅ¯£¬±±¾©Â¥ÊÐ³É½»Á¿Ò²ÖðÖÜ»ØÉý£¬Í³¼ÆÊý¾ÝÏÔÊ¾¡£"));
-
-    item1->setIcon(QIcon(":/myres/notes.png"));
-    item1->setColumnCount(21);
-
-    QStandardItem *item2 = new QStandardItem(s2q("Ñ§Ï°\nËæ×ÅÌìÆøµÄÖð½¥×ªÅ¯£¬±±¾©Â¥ÊÐ³É½»Á¿Ò²ÖðÖÜ»ØÉý£¬Í³¼ÆÊý¾ÝÏÔÊ¾¡£"));
-    item2->setIcon(QIcon(":/myres/notes.png"));
-    QStandardItem *item3 = new QStandardItem(s2q("ÔË¶¯\nËæ×ÅÌìÆøµÄÖð½¥×ªÅ¯£¬±±¾©Â¥ÊÐ³É½»Á¿Ò²ÖðÖÜ»ØÉý£¬Í³¼ÆÊý¾ÝÏÔÊ¾¡£"));
-    item3->setIcon(QIcon(":/myres/notes.png"));
-    QStandardItem *item4 = new QStandardItem(s2q("ÅÝæ¤\nËæ×ÅÌìÆøµÄÖð½¥×ªÅ¯£¬±±¾©Â¥ÊÐ³É½»Á¿Ò²ÖðÖÜ»ØÉý£¬Í³¼ÆÊý¾ÝÏÔÊ¾¡£"));
-    item4->setIcon(QIcon(":/myres/notes.png"));
-
-    QStandardItem *item5 = new QStandardItem(s2q("ÅÝæ¤\nËæ×ÅÌìÆøµÄÖð½¥×ªÅ¯£¬±±¾©Â¥ÊÐ³É½»Á¿Ò²ÖðÖÜ»ØÉý£¬Í³¼ÆÊý¾ÝÏÔÊ¾¡£"));
-    item5->setIcon(QIcon(":/myres/notes.png"));
-
-    QStandardItem *item6 = new QStandardItem(s2q("ÅÝæ¤\nËæ×ÅÌìÆøµÄÖð½¥×ªÅ¯£¬±±¾©Â¥ÊÐ³É½»Á¿Ò²ÖðÖÜ»ØÉý£¬Í³¼ÆÊý¾ÝÏÔÊ¾¡£"));
-    item6->setIcon(QIcon(":/myres/notes.png"));
-
-    QStandardItem *item7 = new QStandardItem(s2q("ÅÝæ¤\nËæ×ÅÌìÆøµÄÖð½¥×ªÅ¯£¬±±¾©Â¥ÊÐ³É½»Á¿Ò²ÖðÖÜ»ØÉý£¬Í³¼ÆÊý¾ÝÏÔÊ¾¡£"));
-    item7->setIcon(QIcon(":/myres/notes.png"));
-
-    QStandardItem *item8 = new QStandardItem(s2q("ÅÝæ¤\nËæ×ÅÌìÆøµÄÖð½¥×ªÅ¯£¬±±¾©Â¥ÊÐ³É½»Á¿Ò²ÖðÖÜ»ØÉý£¬Í³¼ÆÊý¾ÝÏÔÊ¾¡£"));
-    item8->setIcon(QIcon(":/myres/notes.png"));
-
-    model->setItem(0, 0, item1);
-    model->setItem(1, 0, item2);
-    model->setItem(2, 0, item3);
-    model->setItem(3, 0, item4);
-    model->setItem(4, 0, item5);
-    model->setItem(5, 0, item6);
-    model->setItem(6, 0, item7);
-    model->setItem(7, 0, item8);
-
     this->setModel(model);
-}  
+    myqit = new MyQItemDelegate();
+    setItemDelegate(myqit);
+
+}
 
 void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
 {  
@@ -52,4 +20,20 @@ void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
         QModelIndex index0 = currentIndex();
         qDebug() << index0.data().toString();
     }
+}
+
+bool tNotesCategoryList::updateListView(QString id){
+    dirVector.clear();
+    dirVector = searchRootArticle(q2s(id));
+    for (int i=0;i<dirVector.size();i++)
+    {
+        QStandardItem *itemTemp=new QStandardItem(s2q(dirVector[i].name));
+        itemTemp->setSizeHint(QSize(150,70));
+        model->appendRow(itemTemp);
+    }
+}
+QString tNotesCategoryList::addCategory(QString name){
+    QStandardItem *itemTemp=new QStandardItem(name);
+    itemTemp->setSizeHint(QSize(150,70));
+    model->appendRow(itemTemp);
 }
