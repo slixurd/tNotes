@@ -11,7 +11,8 @@
 #include<iostream>
 #ifndef OPERATION_H
 #define OPERATION_H
-const string rootPath="D:/data/root.json";
+//const string rootPath="D:/data/";
+void setupRootPath(string username);
 bool createRoot(Directory dir);        //创建目录，传入目录类
 bool changeRoot(string iRoot,Directory dir);        //目录重命名，传入目录类
 bool createArticle(string iRoot,Article art);     //创建文章，传入目录索引和文章类，

@@ -4,8 +4,21 @@
 
 tNotesContentWidget::tNotesContentWidget(void)
 {
-	setStyleSheet("background-color:#c5e398;");
-	m_pMainLayout = new QHBoxLayout();
+    setupLayout();
+    setupActions();
+}
+
+
+tNotesContentWidget::~tNotesContentWidget(void)
+{
+
+}
+
+void tNotesContentWidget::setupLayout()
+{
+    setStyleSheet("background-color:#c5e398;");
+    QWidget *mainWidget = new QWidget();
+    m_pMainLayout = new QHBoxLayout();
     splitter = new QSplitter();
     mListView = new tNotesBookCategoryList();
     mListView->setMinimumSize(200, 400);
@@ -22,11 +35,19 @@ tNotesContentWidget::tNotesContentWidget(void)
     splitter->setStretchFactor(splitter->indexOf(mListView2), 0.6);
     splitter->setStretchFactor(splitter->indexOf(mEditPart), 0.6);
     m_pMainLayout->addWidget(splitter);
-	setLayout(m_pMainLayout);
+    mainWidget->setLayout(m_pMainLayout);
+
+    QHBoxLayout *mainLayout = new QHBoxLayout();
+    mainLayout->addWidget(mainWidget);
+    mainLayout->setContentsMargins(0,0,0,0);
+    setLayout(mainLayout);
+}
+void tNotesContentWidget::setupActions()
+{
+    connect(this, SIGNAL(updateNotebooks(QString)), mListView, SLOT(updateNotebooks(QString)));
 }
 
-
-tNotesContentWidget::~tNotesContentWidget(void)
+void tNotesContentWidget::updateContents(QString path)
 {
-
+    emit updateNotebooks(path);
 }

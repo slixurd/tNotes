@@ -34,6 +34,12 @@
     b->insert((char*)"3",(char*)"hello",(char*)"昨天的天气很好，没下雨，阳光明媚。");
     b->select((char*)"昨天");
 
+5. 读取root.json说明
+
+
+> 点击登录，输入用户名（注意修改mainwindow类里的ROOT_PATH变量至测试数据存储位置）
+> 将测试数据手动调整为ANSI编码（用editplus打开 -> 另存为 -> 选择编码）
+
 
 =======
 图片

@@ -27,6 +27,7 @@
 tNotesMainWindow::tNotesMainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    ROOT_PATH = "D:\\data\\";
 	/* set window size */
 
 	setMainWindowsSize();
@@ -91,11 +92,14 @@ void tNotesMainWindow::setupActions()
 {
     connect(toolBar, SIGNAL(openLoginDialog()), this, SLOT(openLoginDialog()));
     connect(dialogLogin, SIGNAL(acceptLogin(QString&,QString&,int&)), this, SLOT(userAuthenticated(QString&,QString&,int&)));
+
     connect(titleBar, SIGNAL(minimizeWindow()), this, SLOT(minimizeWindow()));
     connect(titleBar, SIGNAL(maxmizeRestoreWindow(bool)), this, SLOT(maxmizeRestoreWindow(bool)));
     connect(titleBar, SIGNAL(closeWindow()), this, SLOT(close()));
     connect(titleBar, SIGNAL(moveStart(QPoint)), this, SLOT(moveStart(QPoint)));
     connect(titleBar, SIGNAL(moveEnd(QPoint)), this, SLOT(moveEnd(QPoint)));
+
+    connect(this, SIGNAL(updateNotebooks(QString)), contentWidget, SLOT(updateContents(QString)));
     //    connect(buttonNewNotebook, SIGNAL(clicked()), this, SLOT(createDirectory()));
 //    connect(buttonSettings, SIGNAL(clicked()), this, SLOT(saveArticle()));
 }
@@ -136,7 +140,10 @@ bool tNotesMainWindow::saveArticle()
 void tNotesMainWindow::initNotesByUser(QString &name)
 {
     print(name);
-    emit initNotebooks(currentDir);
+    extern string rootPath;
+    setupRootPath(q2s(ROOT_PATH + name));
+    print(s2q(rootPath));
+    emit updateNotebooks(ROOT_PATH + name);
 }
 
 void tNotesMainWindow::pointValid(int x, int y)
