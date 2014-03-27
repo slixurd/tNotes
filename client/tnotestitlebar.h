@@ -38,6 +38,7 @@ signals:
     void moveEnd(QPoint);
 protected:
 	void mousePressEvent(QMouseEvent *me);
-	void mouseMoveEvent(QMouseEvent *me);
+    void mouseMoveEvent(QMouseEvent *me);
+    void mouseDoubleClickEvent(QMouseEvent *event);   //鼠标点击响应
 };
 #endif

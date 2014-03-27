@@ -1,15 +1,15 @@
-﻿#include "MyQItemDelegate.h"
+﻿#include "tnotesbookDelegate.h"
 
 
-MyQItemDelegate::MyQItemDelegate(void)
+tnotesbookDelegate::tnotesbookDelegate(void)
 {
 }
 
 
-MyQItemDelegate::~MyQItemDelegate(void)
+tnotesbookDelegate::~tnotesbookDelegate(void)
 {
 }
-void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, const QModelIndex&index)const  
+void tnotesbookDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, const QModelIndex&index)const
 {  
 	QStyleOptionViewItem myOption=option; 
 	QFont qf(s2q("微软雅黑"));
@@ -20,19 +20,10 @@ void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, 
 
 	QString content = index.model()->data(index, Qt::DisplayRole).toString(); // 取到模型中原来的内容
 
-    QStringList QList = content.split(";");
-    QString qstrName="";
-    QString qstrDate="";
-    QString qstrContent="";
+    QString qstrName=content;
 
-    if(QList.size()>0)
-        qstrName=QList[0];
-    if(QList.size()>1){
-
-        qstrDate=QList[1].mid(0,4)+"/"+QList[1].mid(4,2)+"/"+QList[1].mid(6,2);;
-    }
-    if(QList.size()>2)
-        qstrContent =QList[2];
+	QString qstrDate=s2q("2014/3/14");
+	QString qstrContent=s2q("1我2我3我4我5我6我我7我8我9我我10我我11我我12我我13我我14我我15我我16我我我17我我我我我我我我我我我我我1我2我3我4我5我6我我7我8我9我我10我我11我我1我2我3我4我5我6我我7我8我9我我10我我11我我");
 
 	QRect drawRectTextName=QRect(option.rect.topLeft(), QSize(option.rect.size().width()/2,option.rect.size().height()/4));
 	QRect drawRectTextDate=QRect(option.rect.topLeft()+QPoint(option.rect.size().width()/2,0), QSize(option.rect.size().width()/2,option.rect.size().height()/4));
@@ -62,12 +53,12 @@ void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, 
 
 
 
-void MyQItemDelegate::updateEditorGeometry( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const
+void tnotesbookDelegate::updateEditorGeometry( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
 	editor->setGeometry(option.rect);  
 }
 
-void MyQItemDelegate::drawFocus( QPainter *painter, const QStyleOptionViewItem &option, const QRect &rect ) const
+void tnotesbookDelegate::drawFocus( QPainter *painter, const QStyleOptionViewItem &option, const QRect &rect ) const
 {
 	//如果有控件被选中，我们就让选中的控件变亮
 	if (option.state & QStyle::State_Selected){

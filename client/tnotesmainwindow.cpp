@@ -36,8 +36,7 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
     initWidgets();
     setMouseTracking(true);
 
-	setMainWindowLayout();
-    pointValid(1, 2);
+    setMainWindowLayout();
 	setupActions();
 }
 
@@ -52,11 +51,10 @@ tNotesMainWindow::~tNotesMainWindow()
 
 void tNotesMainWindow::setMainWindowsSize()
 {
-    QDesktopWidget dw;
-    int x = dw.width()*0.8;
-    int y = dw.height()*0.8;
-    //this->resize(950, 600);
-    this->resize(x, y);
+    //因为那天跟投影仪链接的时候获得大小乘以0.8可能会有问题   改回0.8应该也行
+    setMinimumWidth(1200);
+    setMinimumHeight(680);
+    this->move(100,30);
 }
 
 void tNotesMainWindow::initWidgets()
@@ -102,32 +100,10 @@ void tNotesMainWindow::setupActions()
     connect(titleBar, SIGNAL(moveEnd(QPoint)), this, SLOT(moveEnd(QPoint)));
 
     connect(this, SIGNAL(updateNotebooks(QString)), contentWidget, SLOT(initContents(QString)));
-    //    connect(buttonNewNotebook, SIGNAL(clicked()), this, SLOT(createDirectory()));
-//    connect(buttonSettings, SIGNAL(clicked()), this, SLOT(saveArticle()));
-/*
-	connect(contentWidget->mListView, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(clickedBook(QModelIndex)));
-    connect(contentWidget->mListView2, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(clickedNote(QModelIndex)));
-*/
+
 }
 
-/////////////笔记本组ListView1视图响应函数////////////////
- /*
-//点击了QModelIndex项
-void tNotesMainWindow::clickedBook(const QModelIndex &index){
-    string id = contentWidget->mListView->dirVectory[index.row()].nodeId;
-    contentWidget->mListView2->updateListView(id);
-}
 
-/////////////笔记本ListView2视图响应函数////////////////
-void tNotesMainWindow::clickedNote(const QModelIndex &index){
-    //ok
-    string articleId = contentWidget->mListView2->dirVector[index.row()].articleId;
-    emit updateEditor(articleId);
-}
-
-*/
 
 
 void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &index)
@@ -172,13 +148,6 @@ void tNotesMainWindow::initNotesByUser(QString &name)
     emit updateNotebooks(ROOT_PATH + name);
 }
 
-void tNotesMainWindow::pointValid(int x, int y)
-{
-
-    QRect qrTemp = geometry();
-    int x1, x2, y1, y2;
-    qrTemp.getCoords(&x1, &x2, &y1, &y2);
-}
 
 /*
  * actions to change window size.
@@ -212,8 +181,112 @@ void tNotesMainWindow::moveEnd(QPoint endPoint)
 
 
 void tNotesMainWindow::newDirectory(){
-    Directory dirTemp("999",string("newNotes"),"2014/2/1","2014/2/1",false);
-    contentWidget->mListView->appendNotebook(dirTemp);
+    Directory dirTemp("99",string("newNotes"),"2014/2/1","2014/2/1",false);
+    contentWidget->mListView->newNotebook(dirTemp);
 }
 
+////////拉伸窗口代码：////////
+//void tNotesMainWindow::mousePressEvent(QMouseEvent *event)
+//{
+//    if (event->button() == Qt::LeftButton)
+//    {
+//        m_ptPressGlobal = event->globalPos();
+//        m_bLeftBtnPress = true;
+//    }
+//}
+////鼠标移动事件
+//void tNotesMainWindow::normalMoveEvent(QMouseEvent *me)
+//{
+//    if(!m_bLeftBtnPress)
+//    {
+//        m_eDirection = PointValid(event->windowPos());
+//        SetCursorStyle(m_eDirection);
+//    }
+//    else
+//    {
+//        int nXGlobal = event->globalX();
+//        int nYGlobal = event->globalY();
+//        SetDrayMove(nXGlobal,nYGlobal,m_eDirection);
+//        m_ptPressGlobal =QPoint(nXGlobal,nYGlobal);
+//    }
+//}
+////鼠标释放事件
+//void tNotesMainWindow::mouseReleaseEvent(QMouseEvent *event)
+//{
+//    if (event->button() == Qt::LeftButton)
+//    {
+//        m_bLeftBtnPress = false;
+//        m_eDirection = 8;
+//    }
+//}
+////双击变大事件在titilebar
+////鼠标样式
+//void tNotesMainWindow::SetCursorStyle(int direction)
+//{
+//    //设置上下左右以及右上、右下、左上、坐下的鼠标形状
+//    switch(direction)
+//    {
+//    case 1:
+//    case 5:
+//        setCursor(Qt::SizeVerCursor);
+//        break;
+//    case 3:
+//    case 7:
+//        setCursor(Qt::SizeHorCursor);
+//        break;
+//    case 2:
+//    case 6:
+//        setCursor(Qt::SizeBDiagCursor);
+//        break;
+//    case 4:
+//    case 0:
+//        setCursor(Qt::SizeFDiagCursor);
+//        break;
+//    default:
+//        setCursor(Qt::ArrowCursor);
+//        break;
+//    }
+//}
 
+//int tNotesMainWindow::PointValid(QPointF p)
+//{
+//    int temp=0;
+//    int PxW;
+//    QRect qr = geometry();
+//    if(p.x()>0&&p.x()<PxW){
+//        temp+=1;
+//    }
+//    if(p.x()>qr.width()-PxW&&p.x()<qr.width()){
+//        temp+=2;
+//    }
+//    if(p.y()>0&&p.y()<PxW){
+//        temp+=8;
+//    }
+//    if(p.x()>qr.height()-PxW&&p.x()<qr.height()){
+//        temp+=4;
+//    }
+//    switch(temp){
+//        case 9:return 0;
+//        break;
+//        case 8:return 1;
+//        break;
+//        case 10:return 2;
+//        break;
+//        case 2:return 3;
+//        break;
+//        case 6:return 4;
+//        break;
+//        case 4:return 5;
+//        break;
+//        case 5:return 6;
+//        break;
+//        case 1:return 7;
+//        break;
+//        default:return 8;
+//    }
+//}
+
+//void tNotesMainWindow::SetDrayMove(int x,int y,int d)
+//{
+
+//}

@@ -38,19 +38,13 @@ private:
 		void setupActions();
         void initWidgets();
         void initNotesByUser(QString &name);
-
-
         void showMaxRestore();
-        void pointValid(int x, int y);
-
 		QWidget *centralWidget;
         QString ROOT_PATH;
-
         tNotesTitleBar *titleBar;
         tNotesToolBar *toolBar;
         tNotesContentWidget *contentWidget;
         tNotesStatusBar *statusBar;
-
 
 /*
 		tNotesButton *buttonLogin;
@@ -72,8 +66,19 @@ private:
         tNotesLoginDialog *dialogLogin;
         QPoint moveStartPoint;
 
-private slots:
 
+
+
+//        ///////////拉伸窗口函数
+//        int PointValid(QPointF p);
+//        void SetDrayMove(int x,int y,int d);
+//        //0 1 2 3 4 5 6 7  左上角  上  右上角  右  右下角  下  左下角  左
+//        void SetCursorStyle(int direction);
+
+//        QPoint m_ptPressGlobal;
+//        bool m_bLeftBtnPress;
+//        int m_eDirection;
+private slots:
         void minimizeWindow();
         void maxmizeRestoreWindow(bool maxRestore);
         void userAuthenticated(QString &username , QString &pass, int &Sindex);
@@ -85,7 +90,6 @@ private slots:
         //void clickedBook(const QModelIndex &index);
         //void clickedNote(const QModelIndex &index);
         void newDirectory();
-
 		
 signals:
         void initNotebooks(Directory *dirList);

@@ -34,7 +34,9 @@ bool tNotesCategoryList::updateListView(string id){
 	dirVector = searchRootArticle(id);
     for (int i=0;i<dirVector.size();i++)
     {
-        QStandardItem *itemTemp=new QStandardItem(s2q(dirVector[i].name));
+        //传入名字、时间、内容
+        QStandardItem *itemTemp=new QStandardItem(s2q(dirVector[i].name+";"
+                                +dirVector[i].modifiedTime+";"+dirVector[i].context));
         itemTemp->setSizeHint(QSize(150,70));
         model->appendRow(itemTemp);
     }

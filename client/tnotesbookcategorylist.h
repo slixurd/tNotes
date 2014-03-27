@@ -11,17 +11,30 @@
 class tNotesBookCategoryList :public QListView
 {  
     Q_OBJECT
-public:  
+public:
+    Directory nowDire;
 	vector<Directory>dirVectory;
     tNotesBookCategoryList();
+
+    //添加文件  导入的时候使用
 	void appendNotebook(Directory dir);
+
+    //内存和文件上新建删除
+    void newNotebook(Directory dir);
     void deleteNoyebook(QModelIndex&index);
+
+
+
+
 	void mouseDoubleClickEvent(QMouseEvent *event);   //鼠标点击响应
 private:
-    //QStandardItemModel是一个多用途的model,可用于表示list,table,tree views所需要的各种不同的数据结构。
 	QStandardItemModel *model;
     QBrush qbr;
     void setupAction();
+
+
+
+
 
 signals:
     void initNotesCategory(string notebookId);

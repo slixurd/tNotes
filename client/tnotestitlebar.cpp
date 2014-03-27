@@ -107,3 +107,7 @@ void tNotesTitleBar::mouseMoveEvent(QMouseEvent *me)
         return;
     emit moveEnd(me->globalPos());
 }
+void tNotesTitleBar::mouseDoubleClickEvent(QMouseEvent *event)   //鼠标点击响应
+{
+    showMaxRestore();
+}
