@@ -35,8 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ChangeArticleHandler.o \
 	${OBJECTDIR}/CreateArticleHandler.o \
-	${OBJECTDIR}/DB/ChangeArticleHandler.o \
+	${OBJECTDIR}/CreateNodeHandler.o \
 	${OBJECTDIR}/DB/dirRelated.o \
 	${OBJECTDIR}/DB/noteDB.o \
 	${OBJECTDIR}/DB/noteRelated.o \
@@ -87,15 +88,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/ChangeArticleHandler.o: ChangeArticleHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ChangeArticleHandler.o ChangeArticleHandler.cpp
+
 ${OBJECTDIR}/CreateArticleHandler.o: CreateArticleHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CreateArticleHandler.o CreateArticleHandler.cpp
 
-${OBJECTDIR}/DB/ChangeArticleHandler.o: DB/ChangeArticleHandler.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
+${OBJECTDIR}/CreateNodeHandler.o: CreateNodeHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/ChangeArticleHandler.o DB/ChangeArticleHandler.cpp
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CreateNodeHandler.o CreateNodeHandler.cpp
 
 ${OBJECTDIR}/DB/dirRelated.o: DB/dirRelated.cpp 
 	${MKDIR} -p ${OBJECTDIR}/DB
@@ -208,6 +214,19 @@ ${TESTDIR}/tests/UnitTest4SigninHandler.o: tests/UnitTest4SigninHandler.cpp
 	$(COMPILE.cc) -g -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4SigninHandler.o tests/UnitTest4SigninHandler.cpp
 
 
+${OBJECTDIR}/ChangeArticleHandler_nomain.o: ${OBJECTDIR}/ChangeArticleHandler.o ChangeArticleHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/ChangeArticleHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ChangeArticleHandler_nomain.o ChangeArticleHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/ChangeArticleHandler.o ${OBJECTDIR}/ChangeArticleHandler_nomain.o;\
+	fi
+
 ${OBJECTDIR}/CreateArticleHandler_nomain.o: ${OBJECTDIR}/CreateArticleHandler.o CreateArticleHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/CreateArticleHandler.o`; \
@@ -221,17 +240,17 @@ ${OBJECTDIR}/CreateArticleHandler_nomain.o: ${OBJECTDIR}/CreateArticleHandler.o 
 	    ${CP} ${OBJECTDIR}/CreateArticleHandler.o ${OBJECTDIR}/CreateArticleHandler_nomain.o;\
 	fi
 
-${OBJECTDIR}/DB/ChangeArticleHandler_nomain.o: ${OBJECTDIR}/DB/ChangeArticleHandler.o DB/ChangeArticleHandler.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/ChangeArticleHandler.o`; \
+${OBJECTDIR}/CreateNodeHandler_nomain.o: ${OBJECTDIR}/CreateNodeHandler.o CreateNodeHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/CreateNodeHandler.o`; \
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/ChangeArticleHandler_nomain.o DB/ChangeArticleHandler.cpp;\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CreateNodeHandler_nomain.o CreateNodeHandler.cpp;\
 	else  \
-	    ${CP} ${OBJECTDIR}/DB/ChangeArticleHandler.o ${OBJECTDIR}/DB/ChangeArticleHandler_nomain.o;\
+	    ${CP} ${OBJECTDIR}/CreateNodeHandler.o ${OBJECTDIR}/CreateNodeHandler_nomain.o;\
 	fi
 
 ${OBJECTDIR}/DB/dirRelated_nomain.o: ${OBJECTDIR}/DB/dirRelated.o DB/dirRelated.cpp 

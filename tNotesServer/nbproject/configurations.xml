@@ -2,8 +2,8 @@
 <configurationDescriptor version="94">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
-      <itemPath>DB/ChangeArticleHandler.h</itemPath>
       <itemPath>CreateArticleHandler.h</itemPath>
+      <itemPath>CreateNodeHandler.h</itemPath>
       <itemPath>DeleteArticleHandler.h</itemPath>
       <itemPath>DummyHandler.h</itemPath>
       <itemPath>Exception.hpp</itemPath>
@@ -24,8 +24,8 @@
       <itemPath>DB/structs.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
-      <itemPath>DB/ChangeArticleHandler.cpp</itemPath>
       <itemPath>CreateArticleHandler.cpp</itemPath>
+      <itemPath>CreateNodeHandler.cpp</itemPath>
       <itemPath>DeleteArticleHandler.cpp</itemPath>
       <itemPath>DummyHandler.cpp</itemPath>
       <itemPath>FecthArticlesHandler.cpp</itemPath>
@@ -69,6 +69,8 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>ChangeArticleHandler.cpp</itemPath>
+    <itemPath>ChangeArticleHandler.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>DB</Elem>
@@ -101,13 +103,17 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="ChangeArticleHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ChangeArticleHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="CreateArticleHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CreateArticleHandler.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="DB/ChangeArticleHandler.cpp" ex="false" tool="1" flavor2="0">
+      <item path="CreateNodeHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="DB/ChangeArticleHandler.h" ex="false" tool="3" flavor2="0">
+      <item path="CreateNodeHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="DB/config.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -248,13 +254,17 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="ChangeArticleHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ChangeArticleHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="CreateArticleHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CreateArticleHandler.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="DB/ChangeArticleHandler.cpp" ex="false" tool="1" flavor2="0">
+      <item path="CreateNodeHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="DB/ChangeArticleHandler.h" ex="false" tool="3" flavor2="0">
+      <item path="CreateNodeHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="DB/config.h" ex="false" tool="3" flavor2="0">
       </item>
