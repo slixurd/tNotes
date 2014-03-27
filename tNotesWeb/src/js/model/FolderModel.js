@@ -2,10 +2,10 @@
 
 define(['setting', 'folderDb'], function (setting, database) {
 
-var FolderModel = Backbone.Model.extend({
+FolderModel = Backbone.Model.extend({
 
     // indexDb存储项
-    database : database,
+    database: database,
     storeName: database.storeName,
 
     defaults: {
@@ -18,15 +18,14 @@ var FolderModel = Backbone.Model.extend({
 
     initialize: function (value) {
         // 如果传值没有id，则说明是创建新对象，赋予新的id
-        if (!value.id) {
-            var id        = setting.get('folderId'),
-                timeStamp = _.now();
+        if(typeof(value.id) === 'undefined'){
+            var timeStamp = _.now();
             this.set({
-                id          : -id, // 使用负数标明其为本地id
-                createTime  : timeStamp,
+                id: -timeStamp,
+                name: (value.name == "") ? "新建文件夹" : value.name,
+                createTime: timeStamp,
                 modifiedTime: timeStamp
             });
-            setting.set('folderId', id + 1);
         }
 
         // 保证每次数据改变后自动存储
@@ -34,8 +33,39 @@ var FolderModel = Backbone.Model.extend({
         this.bind('change', function () {
             this.save();
         });
-    }
+    },
 
+    /* 添加文章 */
+    addNote: function(id){
+        this.get('notes').push(id);
+        this.updateModifiedTime();
+        this.trigger('change');
+    },
+
+    /* 删除文章 */
+    removeNote: function(id){
+        var notes = this.get('notes');
+        if(notes.indexOf(id) >= 0){
+            notes.splice(notes.indexOf(id), 1);
+            this.updateModifiedTime();
+            this.trigger('change');
+        }
+        
+    },
+
+    /* 清空文章 */
+    clearNote: function(){
+        var notes = this.get('notes');
+        notes.splice(0, notes.length);
+        this.updateModifiedTime();
+        this.trigger('change');
+    },
+
+    /* 更新修改时间 */
+    updateModifiedTime: function(time){
+        time = (typeof(time) === 'undefined') ? _.now() : time;
+        this.set({modifiedTime: time}); //更新修改时间, silent:true 不引起change事件
+    }
 });
 
 return FolderModel;

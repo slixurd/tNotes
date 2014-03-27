@@ -1,35 +1,41 @@
-// 设置模型，返回的是Setting模型类实例，保存在localStorage中
-
+// 设置模型
 define(function () {
 
-var SettingModel = Backbone.Model.extend({
-
-    localStorage: new Backbone.LocalStorage("setting"), // 本地localStorage存取实例
-
+var Setting = Backbone.Model.extend({
     defaults: {
-        id                : 0,         // 设置实例的id，不可修改
-        folderId          : 1,         // 文件夹自增id
-        noteId            : 1,         // 本地笔记自增id
-        style             : 'default', // 整站样式
-        contentViewerStyle: 'default'  // 编辑框样式
-    },
+        folderLastInsertId: 1, // 文件夹自增id记录
+        noteLastInsertId: 1, // 笔记自增id记录
+        id: 0, // 设置的id，不可修改
+        contentStyle: 'default', // 编写框样式
+        lastUsername: '',//上次用户登录名
+        lastPassword: '',//登录密码
+        globalStyle: '',//全局样式
+        session: ''  ,   //登录session
+        noteDeletedId: '',
+        folderDeletedId:'',
+        noteAddedId:'',
+        folderAddedId:'',
+        noteUpdatedID:'',
+        folerUpdatedID: ''
 
+    },
+    localStorage: new Backbone.LocalStorage("Setting"),
     initialize: function () {
-        // 保证每次数据改变后自动存储
+        // 绑定事件
         this.bind('change', function () {
-            this.save();
+            setting.save();
         });
     }
-
 });
 
-// 创建setting实例并获取数据
-var setting = new SettingModel;
-if (localStorage.setting) {
-    setting.fetch();
-} else {
+var setting = new Setting();
+
+// 如果没有初始化过则进行初始化
+if (!localStorage.Setting) {
     setting.save();
 }
+
+setting.fetch();
 
 return setting;
 

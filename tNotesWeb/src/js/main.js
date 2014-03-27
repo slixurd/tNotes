@@ -14,13 +14,13 @@ require.config({
         'noteCollection'  : 'collection/noteCollection',
 
         'contentViewer': 'view/contentViewer',
-        'folderList'   : 'view/folderList',
+        'folderView'   : 'view/folderView',
         'noteList'     : 'view/noteList',
         'navbar'       : 'view/navbar',
         'hint'         : 'view/hint',
 
         'contentViewerRouter': 'router/contentViewerRouter',
-        'folderListRouter'   : 'router/folderListRouter',
+        'folderRouter'       : 'router/folderRouter',
         'noteListRouter'     : 'router/noteListRouter',
         'navbarRouter'       : 'router/navbarRouter',
 
@@ -30,9 +30,9 @@ require.config({
 });
 
 // 程序的主入口，加载各视图的Router模块，同时作一些通用性的初始化
-require(['contentViewerRouter', 'folderListRouter',
-        'noteListRouter', 'navbarRouter', 'utils/test'], 
-        function (contentViewerRouter, folderListRouter,
+require(['contentViewerRouter', 'folderRouter',
+        'noteListRouter', 'navbarRouter', 'utils/test'],
+        function (contentViewerRouter, folderRouter,
         noteListRouter, navbarRouter, test) {
 
 // 开启路由功能

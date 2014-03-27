@@ -1,6 +1,6 @@
 // navBar路由模块
 
-define(function () {
+define(['hint','navbar'],function (hintView,navbar) {
 
 var Router = Backbone.Router.extend({
 
