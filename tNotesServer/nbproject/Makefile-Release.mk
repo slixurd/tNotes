@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/DB/dirRelated.o \
 	${OBJECTDIR}/DB/noteDB.o \
+	${OBJECTDIR}/DB/noteRelated.o \
 	${OBJECTDIR}/DB/sha1.o \
 	${OBJECTDIR}/DummyHandler.o \
 	${OBJECTDIR}/Handler.o \
@@ -79,10 +81,20 @@ ${TESTDIR}/TestFiles/f2: ${OBJECTFILES}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f2 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/DB/dirRelated.o: DB/dirRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/dirRelated.o DB/dirRelated.cpp
+
 ${OBJECTDIR}/DB/noteDB.o: DB/noteDB.cpp 
 	${MKDIR} -p ${OBJECTDIR}/DB
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteDB.o DB/noteDB.cpp
+
+${OBJECTDIR}/DB/noteRelated.o: DB/noteRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteRelated.o DB/noteRelated.cpp
 
 ${OBJECTDIR}/DB/sha1.o: DB/sha1.cpp 
 	${MKDIR} -p ${OBJECTDIR}/DB
@@ -160,6 +172,19 @@ ${TESTDIR}/tests/UnitTest4SigninHandler.o: tests/UnitTest4SigninHandler.cpp
 	$(COMPILE.cc) -O2 -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4SigninHandler.o tests/UnitTest4SigninHandler.cpp
 
 
+${OBJECTDIR}/DB/dirRelated_nomain.o: ${OBJECTDIR}/DB/dirRelated.o DB/dirRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/dirRelated.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/dirRelated_nomain.o DB/dirRelated.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/DB/dirRelated.o ${OBJECTDIR}/DB/dirRelated_nomain.o;\
+	fi
+
 ${OBJECTDIR}/DB/noteDB_nomain.o: ${OBJECTDIR}/DB/noteDB.o DB/noteDB.cpp 
 	${MKDIR} -p ${OBJECTDIR}/DB
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/noteDB.o`; \
@@ -171,6 +196,19 @@ ${OBJECTDIR}/DB/noteDB_nomain.o: ${OBJECTDIR}/DB/noteDB.o DB/noteDB.cpp
 	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteDB_nomain.o DB/noteDB.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/DB/noteDB.o ${OBJECTDIR}/DB/noteDB_nomain.o;\
+	fi
+
+${OBJECTDIR}/DB/noteRelated_nomain.o: ${OBJECTDIR}/DB/noteRelated.o DB/noteRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/noteRelated.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteRelated_nomain.o DB/noteRelated.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/DB/noteRelated.o ${OBJECTDIR}/DB/noteRelated_nomain.o;\
 	fi
 
 ${OBJECTDIR}/DB/sha1_nomain.o: ${OBJECTDIR}/DB/sha1.o DB/sha1.cpp 

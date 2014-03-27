@@ -54,7 +54,13 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>DB/dirRelated.cpp</itemPath>
+    <itemPath>DB/noteRelated.cpp</itemPath>
+    <itemPath>DB/structs.h</itemPath>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>DB</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
@@ -85,11 +91,17 @@
       </compileType>
       <item path="DB/config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="DB/dirRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="DB/noteDB.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DB/noteDB.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="DB/noteRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="DB/sha1.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DB/structs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="DummyHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -202,11 +214,17 @@
       </compileType>
       <item path="DB/config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="DB/dirRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="DB/noteDB.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DB/noteDB.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="DB/noteRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="DB/sha1.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DB/structs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="DummyHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
