@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/ChangeArticleHandler.o \
+	${OBJECTDIR}/ChangeNodeHandler.o \
 	${OBJECTDIR}/CreateArticleHandler.o \
 	${OBJECTDIR}/CreateNodeHandler.o \
 	${OBJECTDIR}/DB/dirRelated.o \
@@ -43,6 +44,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/DB/noteRelated.o \
 	${OBJECTDIR}/DB/sha1.o \
 	${OBJECTDIR}/DeleteArticleHandler.o \
+	${OBJECTDIR}/DeleteNodeHandler.o \
 	${OBJECTDIR}/DummyHandler.o \
 	${OBJECTDIR}/FecthArticlesHandler.o \
 	${OBJECTDIR}/FecthBriefsHandler.o \
@@ -93,6 +95,11 @@ ${OBJECTDIR}/ChangeArticleHandler.o: ChangeArticleHandler.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ChangeArticleHandler.o ChangeArticleHandler.cpp
 
+${OBJECTDIR}/ChangeNodeHandler.o: ChangeNodeHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ChangeNodeHandler.o ChangeNodeHandler.cpp
+
 ${OBJECTDIR}/CreateArticleHandler.o: CreateArticleHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -127,6 +134,11 @@ ${OBJECTDIR}/DeleteArticleHandler.o: DeleteArticleHandler.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DeleteArticleHandler.o DeleteArticleHandler.cpp
+
+${OBJECTDIR}/DeleteNodeHandler.o: DeleteNodeHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DeleteNodeHandler.o DeleteNodeHandler.cpp
 
 ${OBJECTDIR}/DummyHandler.o: DummyHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -227,6 +239,19 @@ ${OBJECTDIR}/ChangeArticleHandler_nomain.o: ${OBJECTDIR}/ChangeArticleHandler.o 
 	    ${CP} ${OBJECTDIR}/ChangeArticleHandler.o ${OBJECTDIR}/ChangeArticleHandler_nomain.o;\
 	fi
 
+${OBJECTDIR}/ChangeNodeHandler_nomain.o: ${OBJECTDIR}/ChangeNodeHandler.o ChangeNodeHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/ChangeNodeHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ChangeNodeHandler_nomain.o ChangeNodeHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/ChangeNodeHandler.o ${OBJECTDIR}/ChangeNodeHandler_nomain.o;\
+	fi
+
 ${OBJECTDIR}/CreateArticleHandler_nomain.o: ${OBJECTDIR}/CreateArticleHandler.o CreateArticleHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/CreateArticleHandler.o`; \
@@ -316,6 +341,19 @@ ${OBJECTDIR}/DeleteArticleHandler_nomain.o: ${OBJECTDIR}/DeleteArticleHandler.o 
 	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DeleteArticleHandler_nomain.o DeleteArticleHandler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/DeleteArticleHandler.o ${OBJECTDIR}/DeleteArticleHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/DeleteNodeHandler_nomain.o: ${OBJECTDIR}/DeleteNodeHandler.o DeleteNodeHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/DeleteNodeHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DeleteNodeHandler_nomain.o DeleteNodeHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/DeleteNodeHandler.o ${OBJECTDIR}/DeleteNodeHandler_nomain.o;\
 	fi
 
 ${OBJECTDIR}/DummyHandler_nomain.o: ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp 

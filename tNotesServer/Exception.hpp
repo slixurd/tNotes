@@ -63,5 +63,13 @@ public:
     }
 };
 
+/* Node Handling Failure Exception */
+class NodeHandlingFailureException: public Exception{
+public:
+    const char* what() const throw(){
+        return "Node Handling Failure";
+    }
+};
+
 #endif	/* EXCEPTION_HPP */
 

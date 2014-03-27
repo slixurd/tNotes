@@ -21,6 +21,12 @@
 #include "FecthNodesHandler.h"
 #include "FecthBriefsHandler.h"
 #include "FecthArticlesHandler.h"
+#include "CreateArticleHandler.h"
+#include "ChangeArticleHandler.h"
+#include "DeleteArticleHandler.h"
+#include "CreateNodeHandler.h"
+#include "ChangeNodeHandler.h"
+#include "DeleteNodeHandler.h"
 
 /* For a new feature handler, add the macro here. */
 /* For example: 
@@ -34,6 +40,12 @@
  CREATE_HANDLER(FecthNodesHandler,"/fecthnodes.cgi")        \
  CREATE_HANDLER(FecthBriefsHandler,"/fecthbriefs.cgi")      \
  CREATE_HANDLER(FecthArticlesHandler,"/fectharticles.cgi")  \
- 
+ CREATE_HANDLER(CreateArticleHandler,"/createarticle.cgi")  \
+ CREATE_HANDLER(ChangeArticleHandler,"/changearticle.cgi")  \
+ CREATE_HANDLER(DeleteArticleHandler,"/deletearticle.cgi")  \
+ CREATE_HANDLER(CreateNodeHandler,"/createnode.cgi")        \
+ CREATE_HANDLER(ChangeNodeHandler,"/changenode.cgi")        \
+ CREATE_HANDLER(DeleteNodeHandler,"/deletenode.cgi")        \
+         
 #endif	/* HANDLERFACTORYCONFIGURE_H */
 

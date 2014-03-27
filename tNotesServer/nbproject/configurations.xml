@@ -2,9 +2,12 @@
 <configurationDescriptor version="94">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
+      <itemPath>ChangeArticleHandler.h</itemPath>
+      <itemPath>ChangeNodeHandler.h</itemPath>
       <itemPath>CreateArticleHandler.h</itemPath>
       <itemPath>CreateNodeHandler.h</itemPath>
       <itemPath>DeleteArticleHandler.h</itemPath>
+      <itemPath>DeleteNodeHandler.h</itemPath>
       <itemPath>DummyHandler.h</itemPath>
       <itemPath>Exception.hpp</itemPath>
       <itemPath>FecthArticlesHandler.h</itemPath>
@@ -24,9 +27,12 @@
       <itemPath>DB/structs.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+      <itemPath>ChangeArticleHandler.cpp</itemPath>
+      <itemPath>ChangeNodeHandler.cpp</itemPath>
       <itemPath>CreateArticleHandler.cpp</itemPath>
       <itemPath>CreateNodeHandler.cpp</itemPath>
       <itemPath>DeleteArticleHandler.cpp</itemPath>
+      <itemPath>DeleteNodeHandler.cpp</itemPath>
       <itemPath>DummyHandler.cpp</itemPath>
       <itemPath>FecthArticlesHandler.cpp</itemPath>
       <itemPath>FecthBriefsHandler.cpp</itemPath>
@@ -69,8 +75,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>ChangeArticleHandler.cpp</itemPath>
-    <itemPath>ChangeArticleHandler.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>DB</Elem>
@@ -107,6 +111,10 @@
       </item>
       <item path="ChangeArticleHandler.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="ChangeNodeHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ChangeNodeHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="CreateArticleHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CreateArticleHandler.h" ex="false" tool="3" flavor2="0">
@@ -132,6 +140,10 @@
       <item path="DeleteArticleHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DeleteArticleHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DeleteNodeHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DeleteNodeHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="DummyHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -258,6 +270,10 @@
       </item>
       <item path="ChangeArticleHandler.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="ChangeNodeHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ChangeNodeHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="CreateArticleHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CreateArticleHandler.h" ex="false" tool="3" flavor2="0">
@@ -283,6 +299,10 @@
       <item path="DeleteArticleHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DeleteArticleHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DeleteNodeHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DeleteNodeHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="DummyHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>

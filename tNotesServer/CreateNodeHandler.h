@@ -8,12 +8,14 @@
 #ifndef CREATENODEHANDLER_H
 #define	CREATENODEHANDLER_H
 
-class CreateNodeHandler {
+#include "Handler.h"
+
+class CreateNodeHandler : public Handler{
 public:
     CreateNodeHandler();
-    CreateNodeHandler(const CreateNodeHandler& orig);
     virtual ~CreateNodeHandler();
-private:
+    
+    std::string Handle(std::string const& postStr);
 
 };
 
