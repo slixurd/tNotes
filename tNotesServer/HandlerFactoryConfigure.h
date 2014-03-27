@@ -18,17 +18,22 @@
 #include "SigninHandler.h"
 #include "SignoutHandler.h"
 #include "SignupHandler.h"
+#include "FecthNodesHandler.h"
+#include "FecthBriefsHandler.h"
+#include "FecthArticlesHandler.h"
 
 /* For a new feature handler, add the macro here. */
 /* For example: 
  *      CREATE_HANDLER(DummyHandler,"/dummy.cgi")  
  */
-#define CREATE_HANDLERS                                 \
- CREATE_HANDLER(DummyHandler,"/dummy.cgi")              \
- CREATE_HANDLER(SigninHandler,"/signin.cgi")            \
- CREATE_HANDLER(SignoutHandler,"/signout.cgi")          \
- CREATE_HANDLER(SignupHandler,"/signup.cgi")            \
+#define CREATE_HANDLERS                                     \
+ CREATE_HANDLER(DummyHandler,"/dummy.cgi")                  \
+ CREATE_HANDLER(SigninHandler,"/signin.cgi")                \
+ CREATE_HANDLER(SignoutHandler,"/signout.cgi")              \
+ CREATE_HANDLER(SignupHandler,"/signup.cgi")                \
+ CREATE_HANDLER(FecthNodesHandler,"/fecthnodes.cgi")        \
+ CREATE_HANDLER(FecthBriefsHandler,"/fecthbriefs.cgi")      \
+ CREATE_HANDLER(FecthArticlesHandler,"/fectharticles.cgi")  \
  
-         
 #endif	/* HANDLERFACTORYCONFIGURE_H */
 

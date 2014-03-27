@@ -2,7 +2,7 @@
  * Author: slixurd(xiexiaopeng) 
  */
 
-#include "../noteDB.h"
+#include "noteDB.h"
 
 /***
  * 创建目录

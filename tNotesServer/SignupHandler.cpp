@@ -28,10 +28,8 @@ std::string SignupHandler::Handle(std::string const& postStr){
 		std::string psw = val["pass"].asString();
 		
 		std::string status = "used_username";
-		if (!_DB->check_user_exist(username)){
-			if (_DB->add_user(username, psw)){
+		if (_DB->add_user(username, psw)){
 				status = "success";
-			}
 		}
 		Json::Value result;
 		result["status"] = status;

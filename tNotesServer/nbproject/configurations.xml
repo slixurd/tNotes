@@ -4,6 +4,9 @@
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
       <itemPath>DummyHandler.h</itemPath>
       <itemPath>Exception.hpp</itemPath>
+      <itemPath>FecthArticlesHandler.h</itemPath>
+      <itemPath>FecthBriefsHandler.h</itemPath>
+      <itemPath>FecthNodesHandler.h</itemPath>
       <itemPath>Handler.h</itemPath>
       <itemPath>HandlerFactory.h</itemPath>
       <itemPath>HandlerFactoryConfigure.h</itemPath>
@@ -15,9 +18,13 @@
       <itemPath>SingletonAdapter.hpp</itemPath>
       <itemPath>DB/config.h</itemPath>
       <itemPath>DB/noteDB.h</itemPath>
+      <itemPath>DB/structs.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
       <itemPath>DummyHandler.cpp</itemPath>
+      <itemPath>FecthArticlesHandler.cpp</itemPath>
+      <itemPath>FecthBriefsHandler.cpp</itemPath>
+      <itemPath>FecthNodesHandler.cpp</itemPath>
       <itemPath>Handler.cpp</itemPath>
       <itemPath>HandlerFactory.cpp</itemPath>
       <itemPath>SessionCache.cpp</itemPath>
@@ -25,8 +32,10 @@
       <itemPath>SigninHandler.cpp</itemPath>
       <itemPath>SignoutHandler.cpp</itemPath>
       <itemPath>SignupHandler.cpp</itemPath>
+      <itemPath>DB/dirRelated.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>DB/noteDB.cpp</itemPath>
+      <itemPath>DB/noteRelated.cpp</itemPath>
       <itemPath>DB/sha1.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
@@ -54,9 +63,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>DB/dirRelated.cpp</itemPath>
-    <itemPath>DB/noteRelated.cpp</itemPath>
-    <itemPath>DB/structs.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>DB</Elem>
@@ -108,6 +114,18 @@
       <item path="DummyHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Exception.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FecthArticlesHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FecthArticlesHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FecthBriefsHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FecthBriefsHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FecthNodesHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FecthNodesHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Handler.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -231,6 +249,18 @@
       <item path="DummyHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Exception.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FecthArticlesHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FecthArticlesHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FecthBriefsHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FecthBriefsHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FecthNodesHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FecthNodesHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Handler.cpp" ex="false" tool="1" flavor2="0">
       </item>

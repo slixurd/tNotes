@@ -1,8 +1,8 @@
 /* 
  * Author: slixurd(xiexiaopeng) 
  */
-#include "../config.h"
-#include "../noteDB.h"
+#include "config.h"
+#include "noteDB.h"
 /*
  * 循环移位
  */

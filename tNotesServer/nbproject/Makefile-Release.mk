@@ -40,6 +40,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/DB/noteRelated.o \
 	${OBJECTDIR}/DB/sha1.o \
 	${OBJECTDIR}/DummyHandler.o \
+	${OBJECTDIR}/FecthArticlesHandler.o \
+	${OBJECTDIR}/FecthBriefsHandler.o \
+	${OBJECTDIR}/FecthNodesHandler.o \
 	${OBJECTDIR}/Handler.o \
 	${OBJECTDIR}/HandlerFactory.o \
 	${OBJECTDIR}/SessionCache.o \
@@ -105,6 +108,21 @@ ${OBJECTDIR}/DummyHandler.o: DummyHandler.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp
+
+${OBJECTDIR}/FecthArticlesHandler.o: FecthArticlesHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthArticlesHandler.o FecthArticlesHandler.cpp
+
+${OBJECTDIR}/FecthBriefsHandler.o: FecthBriefsHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthBriefsHandler.o FecthBriefsHandler.cpp
+
+${OBJECTDIR}/FecthNodesHandler.o: FecthNodesHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthNodesHandler.o FecthNodesHandler.cpp
 
 ${OBJECTDIR}/Handler.o: Handler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -235,6 +253,45 @@ ${OBJECTDIR}/DummyHandler_nomain.o: ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp
 	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummyHandler_nomain.o DummyHandler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/DummyHandler.o ${OBJECTDIR}/DummyHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/FecthArticlesHandler_nomain.o: ${OBJECTDIR}/FecthArticlesHandler.o FecthArticlesHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/FecthArticlesHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthArticlesHandler_nomain.o FecthArticlesHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/FecthArticlesHandler.o ${OBJECTDIR}/FecthArticlesHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/FecthBriefsHandler_nomain.o: ${OBJECTDIR}/FecthBriefsHandler.o FecthBriefsHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/FecthBriefsHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthBriefsHandler_nomain.o FecthBriefsHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/FecthBriefsHandler.o ${OBJECTDIR}/FecthBriefsHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/FecthNodesHandler_nomain.o: ${OBJECTDIR}/FecthNodesHandler.o FecthNodesHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/FecthNodesHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthNodesHandler_nomain.o FecthNodesHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/FecthNodesHandler.o ${OBJECTDIR}/FecthNodesHandler_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Handler_nomain.o: ${OBJECTDIR}/Handler.o Handler.cpp 
