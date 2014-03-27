@@ -7,6 +7,14 @@ web端和客户端统一采用JSON作为数据交换格式
 
 ##基本数据格式定义##
 
+
+**文中所有SERVER_TIME_STAMP在C++中定义为unsigned int**
+
+**所有id相关在C++中定义为unsigned int**
+
+**其他Json结构类型为string**
+
+
 ###0. 定义服务器异常返回###
 向服务器POST数据时，当所发送数据有误或因服务器原因无法处理时，服务器会将异常返回。
 服务器异常返回格式，如下
@@ -16,13 +24,20 @@ web端和客户端统一采用JSON作为数据交换格式
 	}
 
 
-1. session失效，需重新登陆
-1. 访问了错误的URL
-1. 发送了错误格式的Json数据
-1. 因为某些原因服务器挂了
+exception description所有类型：
+
+1. "Undefined Exception" 未定义的错误。
+1. "Unimplemented Method" 服务器上相应接口未实现 
+1. "Incorrect URL" 访问了错误的URL
+1. "Incorrect Data Format" 错误的Json数据格式 
+1. "Session Failure" 无效的Session
+1. "Article Handling Failure" 处理文章失败，一般是增/删/改发生失败，如文章不存在
+1. "Node Handling Failure" 处理目录失败，同上
+
 
 >每个cgi接口都可能返回异常提示
->建议对服务器返回先检查Json有没有exception这个值，判断session是不是有效或者服务器挂了没
+>
+>建议对服务器返回先检查Json有没有exception这个值，判断session是不是有效或者有无其他异常发生
 
 
 ###1. 用户注册###
@@ -112,11 +127,11 @@ web端和客户端统一采用JSON作为数据交换格式
 		    {
 		      "id":id,
 		      "name":"name",
-			  "stamp":"SERVER_TIME_STAMP",
+			  "stamp":SERVER_TIME_STAMP,
 		    },{
 		      "id":id
 		      "name":"name",
-			  "stamp":"SERVER_TIME_STAMP",
+			  "stamp":SERVER_TIME_STAMP,
 		    },
 		     ...
 	  ]
@@ -144,13 +159,13 @@ web端和客户端统一采用JSON作为数据交换格式
 	    {
 	      "id":id,
 	      "name":"name",
-	      "stamp":"SERVER_TIME_STAMP",
+	      "stamp":SERVER_TIME_STAMP,
 	      "location":nodeId,
 	      "brief":"short brief here"
 	    },{
 	      "id":id,
 	      "name":"name",
-	      "stamp":"SERVER_TIME_STAMP",
+	      "stamp":SERVER_TIME_STAMP,
 	      "location":nodeId,
 	      "brief":"short brief here"
 	    },
@@ -182,13 +197,13 @@ web端和客户端统一采用JSON作为数据交换格式
 	    {
 	      "id":id,
 	      "name":"name",
-	      "stamp":"SERVER_TIME_STAMP",
+	      "stamp":SERVER_TIME_STAMP,
 	      "location":nodeId,
 	      "content":"content"
 	    },{
 	      "id":id,
 	      "name":"name",
-	      "stamp":"SERVER_TIME_STAMP",
+	      "stamp":SERVER_TIME_STAMP,
 	      "location":nodeId,
 	      "content":"content"
 	    },
@@ -214,19 +229,18 @@ web端和客户端统一采用JSON作为数据交换格式
 
 成功时返回数据：
 
-*（不成功时，暂时考虑使用第0定义的异常状态）*
+*（不成功时，返回Node Handling Failure异常状态）*
 	
 	{
 		"id":node_id,
-		"name":node_name,
-		"stamp":"SERVER_TIME_STAMP"
+		"stamp":SERVER_TIME_STAMP
 	}
 
 ###8.删除目录###
 
 >URL：host/deletenode.cgi 
 
-新建目录
+删除目录
 
 发送：
 
@@ -237,7 +251,7 @@ web端和客户端统一采用JSON作为数据交换格式
 
 成功时返回数据：
 
-*（不成功时，暂时考虑使用第0定义的异常状态）*
+*（不成功时，返回Node Handling Failure异常状态）*
 	
 	{
 		"status":"status"
@@ -262,13 +276,11 @@ web端和客户端统一采用JSON作为数据交换格式
 
 成功时返回数据：
 
-*（不成功时，暂时考虑使用第0定义的异常状态）*
+*（不成功时，返回Node Handling Failure异常状态）*
 	
 	{
-		"status":"status"
+		"stamp":SERVER_TIME_STAMP
 	}
-	//"status"
-	//1."success",修改成功
 
 
 ###10.新建笔记###
@@ -288,13 +300,11 @@ web端和客户端统一采用JSON作为数据交换格式
 
 成功时返回数据：
 
-*（不成功时，暂时考虑使用第0定义的异常状态）*
+*（不成功时，返回Article Handling Failure异常状态）*
 
 	{
 		"id":article_id,
-		"name":node_name,
-	    "location":nodeId，
-		"stamp":"SERVER_TIME_STAMP"
+		"stamp":SERVER_TIME_STAMP
 	}
 
 ###11.删除笔记###
@@ -312,7 +322,7 @@ web端和客户端统一采用JSON作为数据交换格式
 
 成功时返回数据：
 
-*（不成功时，暂时考虑使用第0定义的异常状态）*
+*（不成功时，返回Article Handling Failure异常状态）*
 
 	{
 		"status":"status"
@@ -348,13 +358,11 @@ web端和客户端统一采用JSON作为数据交换格式
 
 成功时返回数据：
 
-*（不成功时，暂时考虑使用第0定义的异常状态）*
+*（不成功时，返回Article Handling Failure异常状态）*
 
 	{
-		"status":"status"
+		"stamp":SERVER_TIME_STAMP
 	}
-	//"status"
-	//1."success",修改成功
 
 
 
