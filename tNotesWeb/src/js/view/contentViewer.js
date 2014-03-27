@@ -324,6 +324,15 @@ var ContentViewer = Backbone.View.extend({
                 'save': true
             });
         }
+    },
+
+    // 内容格式验证
+    validate: function () {
+        // 判断标题是否为空
+        if ($.trim(this.$noteTitle.text()) === '')  {
+            return '标题不能为空';
+        }
+        return true;
     }
 
 });

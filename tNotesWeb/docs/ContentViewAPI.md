@@ -3,6 +3,7 @@
 ### 列表
 - [reset](#reset)
 - [toggleSize](#togglesize)
+- [setNote](#setNote)
 
 ---------------------------
 
@@ -17,3 +18,11 @@
 描述：切换大小
 
 返回（boolean）：true表示最大化，false表示最小化
+
+### setNote
+概要：`setNote(id)`
+
+描述：设置并显示指定id的笔记
+
+参数：
+- id(number): 笔记的id

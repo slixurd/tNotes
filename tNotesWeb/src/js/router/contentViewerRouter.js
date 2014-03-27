@@ -24,15 +24,25 @@ var Router = Backbone.Router.extend({
 
     // 保存笔记
     saveNote: function () {
-        contentViewer.saveNote();
-        this.clearNav();
+        var validate = contentViewer.validate();
+        // 对数据合法性进行检测，目前是标题不能为空
+        if (validate === true) {
+            contentViewer.saveNote();
+            this.clearNav();
+            return true;
+        } else {
+            hint.setType('warning').setTitle('警告').setContent(validate).show();
+            this.clearNav();
+        }
     },
 
     // 保存并退出编辑模式
     saveAndQuitEditing: function () {
-        this.saveNote();
-        contentViewer.disableEdit();
-        contentViewer.showNote();
+        var result = this.saveNote();
+        if (result === true) {
+            contentViewer.disableEdit();
+            contentViewer.showNote();
+        }
     },
 
     // 扩展页面

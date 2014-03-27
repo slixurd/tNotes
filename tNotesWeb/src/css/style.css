@@ -6,11 +6,7 @@ body
     background-attachment: fixed;
 
     background-color: #313944;
-    background-position: center center;
-    background-attachment: fixed;
-    -webkit-background-size: cover;
-    background-size: cover;
-    background-image: url(../img/bg14.jpg);
+    background-image: url(../img/bg.png);
 }
 
 h1, h2, h3, h4, h5, h6

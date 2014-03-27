@@ -24,16 +24,16 @@ require.config({
         'noteListRouter'     : 'router/noteListRouter',
         'navbarRouter'       : 'router/navbarRouter',
 
-        'util': 'util/util'
+        'util': 'utils/util'
     }
 
 });
 
 // 程序的主入口，加载各视图的Router模块，同时作一些通用性的初始化
 require(['contentViewerRouter', 'folderListRouter',
-        'noteListRouter', 'navbarRouter'], 
+        'noteListRouter', 'navbarRouter', 'utils/test'], 
         function (contentViewerRouter, folderListRouter,
-        noteListRouter, navbarRouter) {
+        noteListRouter, navbarRouter, test) {
 
 // 开启路由功能
 Backbone.history.start();
