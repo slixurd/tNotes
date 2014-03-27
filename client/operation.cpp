@@ -3,6 +3,8 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QTextStream>
+
+extern string ROOTPATH = "";
 string articlePath="";
 
 extern string rootPath = "";
@@ -33,6 +35,7 @@ QString readFile(QString filePath)
 /************************************************************************/
 void setupRootPath(string path)
 {
+    ROOTPATH = path + "\\";
     rootPath = path + "\\root.json";
 }
 /************************************************************************/
@@ -40,7 +43,7 @@ void setupRootPath(string path)
 /************************************************************************/
 void getArticlePath(string articleId)
 {
-    articlePath=articleId+".json";
+    articlePath = ROOTPATH + articleId + ".json";
 }
 /************************************************************************/
 /* 打开json文件，返回json根                                                                     */
@@ -258,6 +261,7 @@ Article searchArticle(string iRoot,string iArticle)
         Json::Value articleContext=returnRoot(articlePath);
         article.articleId=iArticle;
         article.context=articleContext["context"].asString();
+        cout<<article.context<<endl;
         article.name=art["name"].asString();
         article.createTime=art["createTime"].asString();
         article.modifiedTime=art["modifiedTime"].asString();

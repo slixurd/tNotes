@@ -12,8 +12,14 @@ tNotesBookCategoryList::tNotesBookCategoryList() : QListView()
 	qbr.setColor("#FFFFFF");
 	qbr.setStyle(Qt::Dense3Pattern);
 	this->setModel(model);
+    setupAction();
 
 }  
+
+void tNotesBookCategoryList::setupAction()
+{
+    connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(notebookSelected(QModelIndex)));
+}
 
 void tNotesBookCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
 {  
@@ -23,7 +29,7 @@ void tNotesBookCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
     }
 }
 
-void tNotesBookCategoryList::updateNotebooks(QString path)
+void tNotesBookCategoryList::initNotebooks(QString path)
 {
 	
     extern string rootPath;
@@ -58,4 +64,10 @@ void tNotesBookCategoryList::appendNotebook(Directory dir)
     item->setIcon(QIcon(":/myres/notebook.png"));
     item->setBackground(qbr);
     model->appendRow(item);
+}
+
+void tNotesBookCategoryList::notebookSelected(const QModelIndex &index)
+{
+     string id = dirVectory[index.row()].nodeId;
+     emit initNotesCategory(id);
 }

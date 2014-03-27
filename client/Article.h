@@ -2,7 +2,7 @@
      文章类 Article
      包含所需要数据
 */
-#include<string>
+
 using namespace std;
 #ifndef ARTICLE_H
 #define ARTICLE_H

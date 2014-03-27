@@ -1,5 +1,5 @@
 ﻿#include "tnotescategorylist.h"
-#include "Operation.h"
+
 //#include "nwindows.h"
 tNotesCategoryList::tNotesCategoryList() : QListView()
 {
@@ -11,7 +11,13 @@ tNotesCategoryList::tNotesCategoryList() : QListView()
     this->setModel(model);
     myqit = new MyQItemDelegate();
     setItemDelegate(myqit);
+    setupActions();
+}
 
+
+void tNotesCategoryList::setupActions()
+{
+    connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(noteSelected(QModelIndex)));
 }
 
 void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
@@ -37,4 +43,16 @@ QString tNotesCategoryList::addCategory(QString name){
     QStandardItem *itemTemp=new QStandardItem(name);
     itemTemp->setSizeHint(QSize(150,70));
     model->appendRow(itemTemp);
+}
+
+void tNotesCategoryList::initNotesCategory(string dirId)
+{
+    currentNotebookId = dirId;
+    updateListView(dirId);
+}
+
+void tNotesCategoryList::noteSelected(const QModelIndex &index)
+{
+    string articleId = dirVector[index.row()].articleId;
+    emit initNotesEditor(currentNotebookId, articleId);
 }

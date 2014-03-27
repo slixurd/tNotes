@@ -179,11 +179,13 @@ QString tNotesTextEditor::markdown2html(QString articleContents){
         if(convertFunc){
             //QMessageBox::information(NULL, "OK", "Function is found");
             in = articleContents.toLocal8Bit().constData();
+            std::cout<< in <<std::endl;
             //QMessageBox::information(NULL, "OK", QString::fromLocal8Bit(in.c_str()));
             result = convertFunc(in);
             //QMessageBox::information(NULL, "OK", "Function works well");
             //QMessageBox::information(NULL, "OK", QString::fromLocal8Bit(result.c_str()));
-            return QString::fromStdString(result.c_str());
+            std::cout<< result << std::endl;
+            return s2q(result);// QString::fromStdString(result.c_str());
         } else {
             //QMessageBox::information(NULL, "OK", "Function not found");
             return NULL;
@@ -299,11 +301,17 @@ void tNotesTextEditor::setLink(QString link)
     noteEditor->append(linkText);
 }
 
-void tNotesTextEditor::updateArticle(Article article)
+void tNotesTextEditor::updateArticle(string dirId, string articleId)
 {
-    noteTitle->setText(s2q(article.name));
-    QString content = s2q(article.context);
+    currentArticle = searchArticle(dirId, articleId);
+    cout<<dirId<<" "<<articleId<<endl;
+    noteTitle->setText(s2q(currentArticle.name));
+    cout<<currentArticle.context<<endl;
+    QString content = s2q(currentArticle.context);
+    //print(content);
+    //noteEditor->setHtml("你好");
     noteEditor->setHtml(markdown2html(content));
+    cout<<q2s(markdown2html(content))<<endl;
 }
 
 

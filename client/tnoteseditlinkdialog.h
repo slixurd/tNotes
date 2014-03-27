@@ -32,7 +32,7 @@ private:
 signals:
     void acceptLink(QString link);
 
-public slots:
+private slots:
     void slotAcceptLink();
 
 };

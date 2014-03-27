@@ -63,6 +63,8 @@ private:
 
 		bool editMode;
 
+        Article currentArticle;
+
 
 private:
 
@@ -86,7 +88,7 @@ private slots:
 
         void openLinkDialog();
         void setLink(QString);
-        void updateArticle(Article);
+        void updateArticle(string dirId, string articleId);
 
         //bool createArticle();
 

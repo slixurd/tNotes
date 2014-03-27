@@ -21,9 +21,14 @@ private:
     //QStandardItemModel是一个多用途的model,可用于表示list,table,tree views所需要的各种不同的数据结构。
 	QStandardItemModel *model;
     QBrush qbr;
+    void setupAction();
 
-public slots:
-    void updateNotebooks(QString path);
+signals:
+    void initNotesCategory(string notebookId);
+
+private slots:
+    void initNotebooks(QString path);
+    void notebookSelected(const QModelIndex &index);
 };
 
 #endif

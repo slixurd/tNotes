@@ -27,9 +27,12 @@ private:
     void setupActions();
 
 signals:
-    void updateNotebooks(QString path);
+    void initNotebooksCategory(QString path);
+    void initNotesCategory();
 
-public slots:
-    void updateContents(QString path);
+private slots:
+    void initContents(QString path);
+    //void updateContentsCategory(QString path);
+    //void notebookSelected();
 };
 #endif

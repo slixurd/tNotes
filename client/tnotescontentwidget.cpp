@@ -42,12 +42,17 @@ void tNotesContentWidget::setupLayout()
     mainLayout->setContentsMargins(0,0,0,0);
     setLayout(mainLayout);
 }
+
 void tNotesContentWidget::setupActions()
 {
-    connect(this, SIGNAL(updateNotebooks(QString)), mListView, SLOT(updateNotebooks(QString)));
+    connect(this, SIGNAL(initNotebooksCategory(QString)), mListView, SLOT(initNotebooks(QString)));
+    connect(mListView, SIGNAL(initNotesCategory(string)), mListView2, SLOT(initNotesCategory(string)));
+    connect(mListView2, SIGNAL(initNotesEditor(string, string)), mEditPart, SLOT(updateArticle(string, string)));
 }
 
-void tNotesContentWidget::updateContents(QString path)
+
+
+void tNotesContentWidget::initContents(QString path)
 {
-    emit updateNotebooks(path);
+    emit initNotebooksCategory(path);
 }

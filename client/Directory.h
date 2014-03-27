@@ -2,7 +2,7 @@
      目录类 Directory
      包含所需要数据
 */
-#include<string>
+
 using namespace std;
 #ifndef DIRECTORY_H
 #define DIRECTORY_H

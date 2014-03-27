@@ -101,19 +101,19 @@ void tNotesMainWindow::setupActions()
     connect(titleBar, SIGNAL(moveStart(QPoint)), this, SLOT(moveStart(QPoint)));
     connect(titleBar, SIGNAL(moveEnd(QPoint)), this, SLOT(moveEnd(QPoint)));
 
-    connect(this, SIGNAL(updateNotebooks(QString)), contentWidget, SLOT(updateContents(QString)));
+    connect(this, SIGNAL(updateNotebooks(QString)), contentWidget, SLOT(initContents(QString)));
     //    connect(buttonNewNotebook, SIGNAL(clicked()), this, SLOT(createDirectory()));
 //    connect(buttonSettings, SIGNAL(clicked()), this, SLOT(saveArticle()));
-
+/*
 	connect(contentWidget->mListView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(clickedBook(QModelIndex)));
     connect(contentWidget->mListView2, SIGNAL(clicked(QModelIndex)),
             this, SLOT(clickedNote(QModelIndex)));
-
+*/
 }
 
 /////////////笔记本组ListView1视图响应函数////////////////
- 	
+ /*
 //点击了QModelIndex项
 void tNotesMainWindow::clickedBook(const QModelIndex &index){
     string id = contentWidget->mListView->dirVectory[index.row()].nodeId;
@@ -127,7 +127,7 @@ void tNotesMainWindow::clickedNote(const QModelIndex &index){
     emit updateEditor(articleId);
 }
 
-
+*/
 
 
 void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &index)
@@ -165,10 +165,10 @@ bool tNotesMainWindow::saveArticle()
 
 void tNotesMainWindow::initNotesByUser(QString &name)
 {
-    print(name);
+    //print(name);
     extern string rootPath;
     setupRootPath(q2s(ROOT_PATH + name));
-    print(s2q(rootPath));
+    //print(s2q(rootPath));
     emit updateNotebooks(ROOT_PATH + name);
 }
 
