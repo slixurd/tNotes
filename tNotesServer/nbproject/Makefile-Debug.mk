@@ -35,10 +35,13 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/CreateArticleHandler.o \
+	${OBJECTDIR}/DB/ChangeArticleHandler.o \
 	${OBJECTDIR}/DB/dirRelated.o \
 	${OBJECTDIR}/DB/noteDB.o \
 	${OBJECTDIR}/DB/noteRelated.o \
 	${OBJECTDIR}/DB/sha1.o \
+	${OBJECTDIR}/DeleteArticleHandler.o \
 	${OBJECTDIR}/DummyHandler.o \
 	${OBJECTDIR}/FecthArticlesHandler.o \
 	${OBJECTDIR}/FecthBriefsHandler.o \
@@ -84,6 +87,16 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tnotesserver ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/CreateArticleHandler.o: CreateArticleHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CreateArticleHandler.o CreateArticleHandler.cpp
+
+${OBJECTDIR}/DB/ChangeArticleHandler.o: DB/ChangeArticleHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/ChangeArticleHandler.o DB/ChangeArticleHandler.cpp
+
 ${OBJECTDIR}/DB/dirRelated.o: DB/dirRelated.cpp 
 	${MKDIR} -p ${OBJECTDIR}/DB
 	${RM} "$@.d"
@@ -103,6 +116,11 @@ ${OBJECTDIR}/DB/sha1.o: DB/sha1.cpp
 	${MKDIR} -p ${OBJECTDIR}/DB
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/sha1.o DB/sha1.cpp
+
+${OBJECTDIR}/DeleteArticleHandler.o: DeleteArticleHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DeleteArticleHandler.o DeleteArticleHandler.cpp
 
 ${OBJECTDIR}/DummyHandler.o: DummyHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -190,6 +208,32 @@ ${TESTDIR}/tests/UnitTest4SigninHandler.o: tests/UnitTest4SigninHandler.cpp
 	$(COMPILE.cc) -g -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4SigninHandler.o tests/UnitTest4SigninHandler.cpp
 
 
+${OBJECTDIR}/CreateArticleHandler_nomain.o: ${OBJECTDIR}/CreateArticleHandler.o CreateArticleHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/CreateArticleHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CreateArticleHandler_nomain.o CreateArticleHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/CreateArticleHandler.o ${OBJECTDIR}/CreateArticleHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/DB/ChangeArticleHandler_nomain.o: ${OBJECTDIR}/DB/ChangeArticleHandler.o DB/ChangeArticleHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}/DB
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/ChangeArticleHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/ChangeArticleHandler_nomain.o DB/ChangeArticleHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/DB/ChangeArticleHandler.o ${OBJECTDIR}/DB/ChangeArticleHandler_nomain.o;\
+	fi
+
 ${OBJECTDIR}/DB/dirRelated_nomain.o: ${OBJECTDIR}/DB/dirRelated.o DB/dirRelated.cpp 
 	${MKDIR} -p ${OBJECTDIR}/DB
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/dirRelated.o`; \
@@ -240,6 +284,19 @@ ${OBJECTDIR}/DB/sha1_nomain.o: ${OBJECTDIR}/DB/sha1.o DB/sha1.cpp
 	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/sha1_nomain.o DB/sha1.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/DB/sha1.o ${OBJECTDIR}/DB/sha1_nomain.o;\
+	fi
+
+${OBJECTDIR}/DeleteArticleHandler_nomain.o: ${OBJECTDIR}/DeleteArticleHandler.o DeleteArticleHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/DeleteArticleHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DeleteArticleHandler_nomain.o DeleteArticleHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/DeleteArticleHandler.o ${OBJECTDIR}/DeleteArticleHandler_nomain.o;\
 	fi
 
 ${OBJECTDIR}/DummyHandler_nomain.o: ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp 

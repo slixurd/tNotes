@@ -55,5 +55,13 @@ public:
     }
 };
 
+/* Article Handling Failure Exception */
+class ArticleHandlingFailureException: public Exception{
+public:
+    const char* what() const throw(){
+        return "Article Handling Failure";
+    }
+};
+
 #endif	/* EXCEPTION_HPP */
 
