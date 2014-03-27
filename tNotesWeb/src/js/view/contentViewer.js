@@ -51,7 +51,10 @@ var ContentViewer = Backbone.View.extend({
 
         // 测试用
         setTimeout($.proxy(function () {
-            this.setNote(7);
+            var models = this.noteCollection.where({
+                folderId: "5"
+            });
+            console.log(models);
         }, this), 2000);
     },
 
@@ -67,6 +70,12 @@ var ContentViewer = Backbone.View.extend({
         var $item = $(e.target);
             style = $item.attr('data-style');
         this.changeStyle(style);
+    },
+
+    // 清除内容
+    clear: function () {
+        this.$noteTitle.html('');
+        this.$noteContent.html('');
     },
 
     // 关闭删除笔记模态框
@@ -177,6 +186,13 @@ var ContentViewer = Backbone.View.extend({
                 easing: 'linear'
             }); 
         });
+    },
+
+    // 新笔记
+    newNote: function () {
+        this.currentNote = null;
+        this.clear();
+        this.enalbleEdit();
     },
 
     // 打印
