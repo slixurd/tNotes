@@ -114,7 +114,7 @@ int NotesDB::update_dir(string title, long id){
     mysql_real_escape_string(&database,escape,title.c_str(),title.length()); 
     string _title = escape;    
     len = snprintf(query_sql,MAX_LEN,
-                "UPDATE node SET name = '%s' WHERE articleID = %ld",
+                "UPDATE node SET modifiedTime = CURRENT_TIMESTAMP, name = '%s' WHERE articleID = %ld",
                 _title.c_str(),id);
     mysql_real_query(&database,query_sql,len);
     return mysql_affected_rows(&database);    
@@ -153,9 +153,7 @@ bool NotesDB::check_node_exist(const long id){
 int NotesDB::get_all_dir(string username,DIR_INFO*& info){
     unsigned int len;
     char query_sql[MAX_LEN];
-    char escape[MAX_LEN];
-    mysql_real_escape_string(&database,escape,username.c_str(),username.length()); 
-    string _username = escape;    
+    string _username = escape(username);
     len = snprintf(query_sql,MAX_LEN,
                 "SELECT nodeID,name,UNIX_TIMESTAMP(createTime) as ctime FROM node WHERE username = '%s'",
                 _username.c_str());
@@ -196,4 +194,64 @@ int NotesDB::get_all_dir(string username,DIR_INFO*& info){
     */
     mysql_free_result(result);
     return count;
+}
+
+/*
+ * 传入一个vector<int>.
+ * 笔记列表放在list中
+ * 返回值为总个数
+ */
+int  NotesDB::get_note_list(string username,long pid,vector<int>& list){
+    unsigned int len;
+    char query_sql[MAX_LEN];
+    string _username = escape(username);
+    len = snprintf(query_sql,MAX_LEN,
+                   "SELECT articleID FROM articleLocation \
+                    LEFT JOIN node ON articleLocation.nodeID = node.nodeID \
+                    WHERE articleLocation.nodeID = %ld AND username = '%s'",
+                pid,_username.c_str());
+    mysql_real_query(&database,query_sql,len);
+    
+    MYSQL_RES* result;
+    MYSQL_ROW row;
+    unsigned int count=0;
+    result = mysql_store_result(&database);
+    while ((row = mysql_fetch_row(result)))
+    {
+       count++;
+       list.push_back(atoi(row[0]));
+    }
+    mysql_free_result(result);
+    return count;
+    
+}
+
+/*
+ * 获取目录最后修改时间
+ * 返回值为ul型的时间戳
+ */
+unsigned long NotesDB::get_dir_mtime(string username,long pid){
+    unsigned int len;
+    char query_sql[MAX_LEN];
+    string _username = escape(username);
+    len = snprintf(query_sql,MAX_LEN,
+                   "SELECT UNIX_TIMESTAMP(modifiedTime) \
+                    FROM node WHERE nodeID = %ld AND username = '%s'",
+                pid,_username.c_str());
+    mysql_real_query(&database,query_sql,len);
+    MYSQL_RES* result;
+    MYSQL_ROW row;
+    result = mysql_store_result(&database);
+    row = mysql_fetch_row(result);
+    unsigned long tstamp = atoi(row[0]);
+    mysql_free_result(result);
+    return tstamp;    
+    
+}
+
+string NotesDB::escape(string s){
+    char escape[MAX_LEN];
+    mysql_real_escape_string(&database,escape,s.c_str(),s.length()); 
+    string _s = escape;
+    return _s;
 }

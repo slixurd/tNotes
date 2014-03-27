@@ -220,3 +220,21 @@ int NotesDB::get_brief(long id,ARTICLE_INFO*& ai){
     }
     return count;
 }
+
+unsigned long NotesDB::get_note_mtime(string username,long id){
+    unsigned int len;
+    char query_sql[MAX_LEN];
+    string _username = escape(username);
+    len = snprintf(query_sql,MAX_LEN,
+                   "SELECT UNIX_TIMESTAMP(modifiedTime) \
+                    FROM article WHERE articleID = %ld",
+                id);
+    mysql_real_query(&database,query_sql,len);
+    MYSQL_RES* result;
+    MYSQL_ROW row;
+    result = mysql_store_result(&database);
+    row = mysql_fetch_row(result);
+    unsigned long tstamp = atoi(row[0]);
+    mysql_free_result(result);
+    return tstamp;    
+}
