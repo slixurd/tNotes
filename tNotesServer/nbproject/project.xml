@@ -11,6 +11,7 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>DB</sourceRootElem>
+                <sourceRootElem>database</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

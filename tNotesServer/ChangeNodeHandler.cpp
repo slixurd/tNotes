@@ -38,12 +38,13 @@ std::string ChangeNodeHandler::Handle(std::string const& postStr){
     
     _sessionManager.VeritySession(sessionKey);
 
-    if(_DB->update_dir(name,id)==0)
+    if(_DB->update_dir(name,id)<=0)
     {
         throw NodeHandlingFailureException();
     }
     
-    result["status"] = "success";
+    result["stamp"] = (unsigned int)_DB->get_dir_mtime(_sessionManager.GetSessionInfo(sessionKey).User,id);
+
     return Json2String(result);
     
 }

@@ -62,6 +62,7 @@ std::string ChangeArticleHandler::Handle(std::string const& postStr)
         throw ArticleHandlingFailureException();
     }
     
-    result["status"] = "success";
+    result["stamp"] = (unsigned int)_DB->get_note_mtime(_sessionManager.GetSessionInfo(sessionKey).User,id);
+    
     return Json2String(result);
 }

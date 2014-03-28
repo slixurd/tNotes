@@ -39,10 +39,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/ChangeNodeHandler.o \
 	${OBJECTDIR}/CreateArticleHandler.o \
 	${OBJECTDIR}/CreateNodeHandler.o \
-	${OBJECTDIR}/DB/dirRelated.o \
-	${OBJECTDIR}/DB/noteDB.o \
-	${OBJECTDIR}/DB/noteRelated.o \
-	${OBJECTDIR}/DB/sha1.o \
 	${OBJECTDIR}/DeleteArticleHandler.o \
 	${OBJECTDIR}/DeleteNodeHandler.o \
 	${OBJECTDIR}/DummyHandler.o \
@@ -56,6 +52,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/SigninHandler.o \
 	${OBJECTDIR}/SignoutHandler.o \
 	${OBJECTDIR}/SignupHandler.o \
+	${OBJECTDIR}/database/dirRelated.o \
+	${OBJECTDIR}/database/noteDB.o \
+	${OBJECTDIR}/database/noteRelated.o \
+	${OBJECTDIR}/database/sha1.o \
 	${OBJECTDIR}/main.o
 
 # Test Directory
@@ -63,6 +63,9 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 
 # Test Files
 TESTFILES= \
+	${TESTDIR}/TestFiles/f4 \
+	${TESTDIR}/TestFiles/f2 \
+	${TESTDIR}/TestFiles/f5 \
 	${TESTDIR}/TestFiles/f1 \
 	${TESTDIR}/TestFiles/f3
 
@@ -109,26 +112,6 @@ ${OBJECTDIR}/CreateNodeHandler.o: CreateNodeHandler.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CreateNodeHandler.o CreateNodeHandler.cpp
-
-${OBJECTDIR}/DB/dirRelated.o: DB/dirRelated.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/dirRelated.o DB/dirRelated.cpp
-
-${OBJECTDIR}/DB/noteDB.o: DB/noteDB.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteDB.o DB/noteDB.cpp
-
-${OBJECTDIR}/DB/noteRelated.o: DB/noteRelated.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteRelated.o DB/noteRelated.cpp
-
-${OBJECTDIR}/DB/sha1.o: DB/sha1.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/sha1.o DB/sha1.cpp
 
 ${OBJECTDIR}/DeleteArticleHandler.o: DeleteArticleHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -195,6 +178,26 @@ ${OBJECTDIR}/SignupHandler.o: SignupHandler.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignupHandler.o SignupHandler.cpp
 
+${OBJECTDIR}/database/dirRelated.o: database/dirRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/dirRelated.o database/dirRelated.cpp
+
+${OBJECTDIR}/database/noteDB.o: database/noteDB.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/noteDB.o database/noteDB.cpp
+
+${OBJECTDIR}/database/noteRelated.o: database/noteRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/noteRelated.o database/noteRelated.cpp
+
+${OBJECTDIR}/database/sha1.o: database/sha1.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/sha1.o database/sha1.cpp
+
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -205,6 +208,18 @@ ${OBJECTDIR}/main.o: main.cpp
 
 # Build Test Targets
 .build-tests-conf: .build-conf ${TESTFILES}
+${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/UnitTest4CreateArticleHandler.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS} 
+
+${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/UnitTest4FecthArticlesHandler.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS} 
+
+${TESTDIR}/TestFiles/f5: ${TESTDIR}/tests/UnitTest4FecthBriefsHandler.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f5 $^ ${LDLIBSOPTIONS} 
+
 ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/UnitTest4SessionCache.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} 
@@ -212,6 +227,24 @@ ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/UnitTest4SessionCache.o ${OBJECTFILES:
 ${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/UnitTest4SigninHandler.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS} 
+
+
+${TESTDIR}/tests/UnitTest4CreateArticleHandler.o: tests/UnitTest4CreateArticleHandler.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4CreateArticleHandler.o tests/UnitTest4CreateArticleHandler.cpp
+
+
+${TESTDIR}/tests/UnitTest4FecthArticlesHandler.o: tests/UnitTest4FecthArticlesHandler.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4FecthArticlesHandler.o tests/UnitTest4FecthArticlesHandler.cpp
+
+
+${TESTDIR}/tests/UnitTest4FecthBriefsHandler.o: tests/UnitTest4FecthBriefsHandler.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4FecthBriefsHandler.o tests/UnitTest4FecthBriefsHandler.cpp
 
 
 ${TESTDIR}/tests/UnitTest4SessionCache.o: tests/UnitTest4SessionCache.cpp 
@@ -276,58 +309,6 @@ ${OBJECTDIR}/CreateNodeHandler_nomain.o: ${OBJECTDIR}/CreateNodeHandler.o Create
 	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CreateNodeHandler_nomain.o CreateNodeHandler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/CreateNodeHandler.o ${OBJECTDIR}/CreateNodeHandler_nomain.o;\
-	fi
-
-${OBJECTDIR}/DB/dirRelated_nomain.o: ${OBJECTDIR}/DB/dirRelated.o DB/dirRelated.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/dirRelated.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/dirRelated_nomain.o DB/dirRelated.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/DB/dirRelated.o ${OBJECTDIR}/DB/dirRelated_nomain.o;\
-	fi
-
-${OBJECTDIR}/DB/noteDB_nomain.o: ${OBJECTDIR}/DB/noteDB.o DB/noteDB.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/noteDB.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteDB_nomain.o DB/noteDB.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/DB/noteDB.o ${OBJECTDIR}/DB/noteDB_nomain.o;\
-	fi
-
-${OBJECTDIR}/DB/noteRelated_nomain.o: ${OBJECTDIR}/DB/noteRelated.o DB/noteRelated.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/noteRelated.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/noteRelated_nomain.o DB/noteRelated.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/DB/noteRelated.o ${OBJECTDIR}/DB/noteRelated_nomain.o;\
-	fi
-
-${OBJECTDIR}/DB/sha1_nomain.o: ${OBJECTDIR}/DB/sha1.o DB/sha1.cpp 
-	${MKDIR} -p ${OBJECTDIR}/DB
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/DB/sha1.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB/sha1_nomain.o DB/sha1.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/DB/sha1.o ${OBJECTDIR}/DB/sha1_nomain.o;\
 	fi
 
 ${OBJECTDIR}/DeleteArticleHandler_nomain.o: ${OBJECTDIR}/DeleteArticleHandler.o DeleteArticleHandler.cpp 
@@ -499,6 +480,58 @@ ${OBJECTDIR}/SignupHandler_nomain.o: ${OBJECTDIR}/SignupHandler.o SignupHandler.
 	    ${CP} ${OBJECTDIR}/SignupHandler.o ${OBJECTDIR}/SignupHandler_nomain.o;\
 	fi
 
+${OBJECTDIR}/database/dirRelated_nomain.o: ${OBJECTDIR}/database/dirRelated.o database/dirRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/database/dirRelated.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/dirRelated_nomain.o database/dirRelated.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/database/dirRelated.o ${OBJECTDIR}/database/dirRelated_nomain.o;\
+	fi
+
+${OBJECTDIR}/database/noteDB_nomain.o: ${OBJECTDIR}/database/noteDB.o database/noteDB.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/database/noteDB.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/noteDB_nomain.o database/noteDB.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/database/noteDB.o ${OBJECTDIR}/database/noteDB_nomain.o;\
+	fi
+
+${OBJECTDIR}/database/noteRelated_nomain.o: ${OBJECTDIR}/database/noteRelated.o database/noteRelated.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/database/noteRelated.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/noteRelated_nomain.o database/noteRelated.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/database/noteRelated.o ${OBJECTDIR}/database/noteRelated_nomain.o;\
+	fi
+
+${OBJECTDIR}/database/sha1_nomain.o: ${OBJECTDIR}/database/sha1.o database/sha1.cpp 
+	${MKDIR} -p ${OBJECTDIR}/database
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/database/sha1.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database/sha1_nomain.o database/sha1.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/database/sha1.o ${OBJECTDIR}/database/sha1_nomain.o;\
+	fi
+
 ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/main.o`; \
@@ -516,6 +549,9 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 .test-conf:
 	@if [ "${TEST}" = "" ]; \
 	then  \
+	    ${TESTDIR}/TestFiles/f4 || true; \
+	    ${TESTDIR}/TestFiles/f2 || true; \
+	    ${TESTDIR}/TestFiles/f5 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
 	else  \

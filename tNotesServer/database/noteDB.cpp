@@ -2,7 +2,7 @@
  * Author: slixurd(xiexiaopeng) 
  */
 
-#include "noteDB.h"
+#include "../noteDB.h"
 
 NotesDB::NotesDB(){
     mysql_init(&database);

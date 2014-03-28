@@ -35,12 +35,14 @@ std::string CreateNodeHandler::Handle(std::string const& postStr){
     
     _sessionManager.VeritySession(sessionKey);
     
-    unsigned int stamp = 0;
+ 
     unsigned int id = _DB->create_dir(name,_sessionManager.GetSessionInfo(sessionKey).User);
+    unsigned int stamp = _DB->get_dir_mtime(_sessionManager.GetSessionInfo(sessionKey).User,id);
+
     
     result["id"] = id;
     result["name"] = name;
-    result["stamp"] = stamp;
+    result["stamp"] = stamp;   
     
     return  Json2String(result); 
 }

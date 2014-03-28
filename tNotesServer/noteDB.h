@@ -4,7 +4,7 @@
 #ifndef NOTE_DB
 #define NOTE_DB
 #include "config.h"
-
+#include <vector>
 #include <iostream>
 #include <map>
 #include <string>
@@ -39,6 +39,7 @@ public:
     int  get_note(long, ARTICLE_INFO*&);
     int  get_notes_time(long,ARTICLE_SYNC*&);
     int  get_brief(long, ARTICLE_INFO*&);
+    unsigned long get_note_mtime(string,long);
     
     //目录相关
     long create_dir(string, string);
@@ -46,6 +47,8 @@ public:
     int  remove_dir(long);
     int  remove_dir(string, long);
     int  get_all_dir(string,DIR_INFO*&);
+    int  get_note_list(string,long,vector<int>&);
+    unsigned long get_dir_mtime(string,long);
 
 private:
     MYSQL database;
@@ -61,9 +64,11 @@ private:
     string generate_salt();
 
     bool check_user_exist(const string);
-    bool check_node_exist(const long );    
+    bool check_node_exist(const long );
+    bool check_permission(string,long);
     int  change_dir(long, long);
     int  remove_all_notes_from_dir(long);
+    string escape(string);
 };
 
 

@@ -14,7 +14,7 @@
 
 #include "SessionManager.h"
 #include "SingletonAdapter.hpp"
-#include "DB/noteDB.h"
+#include "noteDB.h"
 
 /* Base Handler 4 Features */
 class Handler {

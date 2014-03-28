@@ -2,7 +2,7 @@
  * Author: slixurd(xiexiaopeng) 
  */
 
-#include "noteDB.h"
+#include "../noteDB.h"
 
 
 /***
@@ -18,7 +18,7 @@ long NotesDB::create_note(string title,string content,long parentid){
     mysql_real_escape_string(&database,escape,content.c_str(),content.length()); 
     string _content = escape;
     len = snprintf(query_sql,CONTENT_LEN,
-                "INSERT INTO article(name,content,modifiedTime) \
+                "INSERT INTO article(name,context,modifiedTime) \
                  VALUE('%s','%s',CURRENT_TIMESTAMP)",
                 _title.c_str(),_content.c_str());
     //cerr<<query_sql<<endl;
@@ -67,12 +67,12 @@ int NotesDB::update_note(string title, string content, long id, long pid = -1){
         sql = "UPDATE article SET modifiedTime = CURRENT_TIMESTAMP, name = '"+string(escape)+"' ";
     }else if(!content.empty() && title.empty()){
          mysql_real_escape_string(&database,escape,content.substr(0,TITLE_LEN).c_str(),content.length()); 
-        sql = "UPDATE article SET modifiedTime = CURRENT_TIMESTAMP, content = '"+string(escape)+"' ";       
+        sql = "UPDATE article SET modifiedTime = CURRENT_TIMESTAMP, context = '"+string(escape)+"' ";       
     }else if(!content.empty() && !title.empty()){
         mysql_real_escape_string(&database,escape,title.substr(0,TITLE_LEN).c_str(),title.length()); 
         sql = "UPDATE article SET modifiedTime = CURRENT_TIMESTAMP, name = '"+string(escape)+"' ";
         mysql_real_escape_string(&database,escape,content.substr(0,TITLE_LEN).c_str(),content.length()); 
-        sql += ",content = '"+ string(escape)+"' ";
+        sql += ",context = '"+ string(escape)+"' ";
     }
     ss<<id;ss>>_id;
     sql += " WHERE articleID = "+_id;
@@ -146,7 +146,7 @@ int NotesDB::get_note(long id,ARTICLE_INFO*& ai){
     unsigned int len;
     char query_sql[MAX_LEN];
     len = snprintf(query_sql,MAX_LEN,
-                   "SELECT article.articleID,nodeID,name,content,UNIX_TIMESTAMP(article.modifiedTime) \
+                   "SELECT article.articleID,nodeID,name,context,UNIX_TIMESTAMP(article.modifiedTime) \
                     FROM article \
                     LEFT JOIN articleLocation \
                     ON article.articleID = articleLocation.articleID \
@@ -157,9 +157,13 @@ int NotesDB::get_note(long id,ARTICLE_INFO*& ai){
     MYSQL_RES* result;
     MYSQL_ROW row;
     unsigned int count=0;
-    unsigned int num_rows;
+    unsigned int num_rows=0;
     result = mysql_store_result(&database);
-    num_rows = mysql_num_rows(result);
+    if(result!=NULL)
+        num_rows = mysql_num_rows(result);
+    else 
+        return 0;
+    
     ai = new ARTICLE_INFO[num_rows];
     unsigned int num_fields;
     num_fields = mysql_num_fields(result);
@@ -219,4 +223,22 @@ int NotesDB::get_brief(long id,ARTICLE_INFO*& ai){
         ai[t].content = ai[t].content.substr(0,BRIEF_LEN);
     }
     return count;
+}
+
+unsigned long NotesDB::get_note_mtime(string username,long id){
+    unsigned int len;
+    char query_sql[MAX_LEN];
+    string _username = escape(username);
+    len = snprintf(query_sql,MAX_LEN,
+                   "SELECT UNIX_TIMESTAMP(modifiedTime) \
+                    FROM article WHERE articleID = %ld",
+                id);
+    mysql_real_query(&database,query_sql,len);
+    MYSQL_RES* result;
+    MYSQL_ROW row;
+    result = mysql_store_result(&database);
+    row = mysql_fetch_row(result);
+    unsigned long tstamp = atoi(row[0]);
+    mysql_free_result(result);
+    return tstamp;    
 }

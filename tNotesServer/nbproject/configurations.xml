@@ -22,11 +22,14 @@
       <itemPath>SignoutHandler.h</itemPath>
       <itemPath>SignupHandler.h</itemPath>
       <itemPath>SingletonAdapter.hpp</itemPath>
-      <itemPath>DB/config.h</itemPath>
-      <itemPath>DB/noteDB.h</itemPath>
-      <itemPath>DB/structs.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+      <logicalFolder name="database" displayName="database" projectFiles="true">
+        <itemPath>database/dirRelated.cpp</itemPath>
+        <itemPath>database/noteDB.cpp</itemPath>
+        <itemPath>database/noteRelated.cpp</itemPath>
+        <itemPath>database/sha1.cpp</itemPath>
+      </logicalFolder>
       <itemPath>ChangeArticleHandler.cpp</itemPath>
       <itemPath>ChangeNodeHandler.cpp</itemPath>
       <itemPath>CreateArticleHandler.cpp</itemPath>
@@ -44,11 +47,7 @@
       <itemPath>SigninHandler.cpp</itemPath>
       <itemPath>SignoutHandler.cpp</itemPath>
       <itemPath>SignupHandler.cpp</itemPath>
-      <itemPath>DB/dirRelated.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
-      <itemPath>DB/noteDB.cpp</itemPath>
-      <itemPath>DB/noteRelated.cpp</itemPath>
-      <itemPath>DB/sha1.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
     </logicalFolder>
@@ -56,6 +55,24 @@
                    displayName="测试文件"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f4"
+                     displayName="UnitTest4CreateArticleHandler"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/UnitTest4CreateArticleHandler.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2"
+                     displayName="UnitTest4FecthArticlesHandler"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/UnitTest4FecthArticlesHandler.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f5"
+                     displayName="UnitTest4FecthBriefsHandler"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/UnitTest4FecthBriefsHandler.cpp</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1"
                      displayName="UnitTest4SessionCache"
                      projectFiles="true"
@@ -78,6 +95,7 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>DB</Elem>
+    <Elem>database</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -122,20 +140,6 @@
       <item path="CreateNodeHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CreateNodeHandler.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="DB/config.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="DB/dirRelated.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="DB/noteDB.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="DB/noteDB.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="DB/noteRelated.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="DB/sha1.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="DB/structs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="DeleteArticleHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -195,6 +199,14 @@
       </item>
       <item path="SingletonAdapter.hpp" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="database/dirRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/noteDB.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/noteRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/sha1.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <folder path="TestFiles/f1">
         <cTool>
           <incDir>
@@ -208,6 +220,23 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
         </linkerTool>
       </folder>
       <folder path="TestFiles/f3">
@@ -225,7 +254,52 @@
           <output>${TESTDIR}/TestFiles/f3</output>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f4">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f4</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f5">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f5</output>
+        </linkerTool>
+      </folder>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/UnitTest4CreateArticleHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="tests/UnitTest4FecthArticlesHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="tests/UnitTest4FecthBriefsHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
       </item>
       <item path="tests/UnitTest4SessionCache.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -282,20 +356,6 @@
       </item>
       <item path="CreateNodeHandler.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="DB/config.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="DB/dirRelated.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="DB/noteDB.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="DB/noteDB.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="DB/noteRelated.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="DB/sha1.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="DB/structs.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="DeleteArticleHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DeleteArticleHandler.h" ex="false" tool="3" flavor2="0">
@@ -354,6 +414,14 @@
       </item>
       <item path="SingletonAdapter.hpp" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="database/dirRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/noteDB.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/noteRelated.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="database/sha1.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <folder path="TestFiles/f1">
         <cTool>
           <incDir>
@@ -367,6 +435,23 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
         </linkerTool>
       </folder>
       <folder path="TestFiles/f3">
@@ -384,7 +469,52 @@
           <output>${TESTDIR}/TestFiles/f3</output>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f4">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f4</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f5">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f5</output>
+        </linkerTool>
+      </folder>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/UnitTest4CreateArticleHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="tests/UnitTest4FecthArticlesHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="tests/UnitTest4FecthBriefsHandler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
       </item>
       <item path="tests/UnitTest4SessionCache.cpp" ex="false" tool="1" flavor2="0">
       </item>

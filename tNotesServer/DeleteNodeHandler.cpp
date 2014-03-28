@@ -36,7 +36,7 @@ std::string DeleteNodeHandler::Handle(std::string const& postStr){
     
     _sessionManager.VeritySession(sessionKey);
 
-    if(_DB->remove_dir(_sessionManager.GetSessionInfo(sessionKey).User,id)==0)
+    if(_DB->remove_dir(_sessionManager.GetSessionInfo(sessionKey).User,id)==-1)
     {
         throw NodeHandlingFailureException();
     }
