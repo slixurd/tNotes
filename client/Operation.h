@@ -14,9 +14,10 @@
 //const string rootPath="D:/data/";
 void setupRootPath(string username);
 bool createRoot(Directory dir);        //创建目录，传入目录类
-bool changeRoot(string iRoot,Directory dir);        //目录重命名，传入目录类
+bool changeRoot(string iRoot ,string name);        //目录重命名，传入目录id和新目录名
 bool createArticle(string iRoot,Article art);     //创建文章，传入目录索引和文章类，
-bool changeArticle(string iRoot,string iArticle,Article art);//修改文章
+bool changeArticleName(string iRoot,string iArticle,string name);//修改文章标题
+bool changeArticleContent(string iRoot,string iArticle,string content); //修改文章内容
 bool deleteRoot(string index);         //删除目录，传入目录索引
 bool deleteArticle(string iRoot,string iArticle); //删除文章，传入目录和文章索引
 vector<Directory> searchAllRoot();//查找所有目录，返回目录列表
@@ -30,4 +31,6 @@ QString s2q(const string &s);
 string q2s(const QString &s);
 void print(QString s);
 QString readFile(QString filePath);
+bool changeRootId(string oldId,string newId,string modifiedTime); //修改原目录id与时间戳
+bool changeArticleId(string rootid,string oldId,string newId,string modifiedTime); //修改原文章id与时间戳
 #endif
