@@ -135,8 +135,12 @@ int NotesDB::remove_note(long id){
                 "DELETE FROM article WHERE articleID = %ld",
                 id);
     mysql_real_query(&database,query_sql,len);
+    this->remove_note_in_location(id);
     return mysql_affected_rows(&database);
 }
+
+
+
 
 /*
  * 获取单条笔记
@@ -152,8 +156,11 @@ int NotesDB::get_note(long id,ARTICLE_INFO*& ai){
                     ON article.articleID = articleLocation.articleID \
                     WHERE article.articleID = %ld; ",
                 id);
-    mysql_real_query(&database,query_sql,len);
-    
+    int err = mysql_real_query(&database,query_sql,len);
+    if(err != 0){
+        cerr<<"database error";
+        return 0;
+    }
     MYSQL_RES* result;
     MYSQL_ROW row;
     unsigned int count=0;
@@ -237,4 +244,15 @@ unsigned long NotesDB::get_note_mtime(string username,long id){
     unsigned long tstamp = atoi(row[0]);
     mysql_free_result(result);
     return tstamp;    
+}
+
+int  NotesDB::remove_note_in_location(long id){
+    unsigned int len;
+    char query_sql[MAX_LEN];
+    len = snprintf(query_sql,MAX_LEN,
+                "DELETE FROM articleLocation WHERE articleID = %ld",
+                id);
+    mysql_real_query(&database,query_sql,len);
+    return mysql_affected_rows(&database);    
+    
 }
