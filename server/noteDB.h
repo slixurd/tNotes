@@ -40,7 +40,6 @@ public:
     int  get_notes_time(long,ARTICLE_SYNC*&);
     int  get_brief(long, ARTICLE_INFO*&);
     unsigned long get_note_mtime(string,long);
-    
     //目录相关
     long create_dir(string, string);
     int  update_dir(string,long);
@@ -63,6 +62,7 @@ private:
     string get_salt(const string);
     string generate_salt();
 
+    int remove_note_in_location(long);
     bool check_user_exist(const string);
     bool check_node_exist(const long );
     bool check_permission(string,long);

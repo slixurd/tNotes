@@ -34,10 +34,15 @@ int NotesDB::change_dir(long id,long pid){
     unsigned int len;
     char query_sql[MAX_LEN];
     len = snprintf(query_sql,MAX_LEN,
-                "UPDATE articleLocation SET modifiedTime = CURRENT_TIMESTAMP, nodeID = %ld WHERE articleID = %ld",
+                "UPDATE articleLocation SET nodeID = %ld WHERE articleID = %ld",
                 pid,id);
     mysql_real_query(&database,query_sql,len);
-    return mysql_affected_rows(&database);
+    int affect = mysql_affected_rows(&database);
+    len = snprintf(query_sql,MAX_LEN,
+                "UPDATE article SET modifiedTime = CURRENT_TIMESTAMP WHERE articleID = %ld",
+                id);
+    mysql_real_query(&database,query_sql,len);    
+    return affect;
 }
 
 /***
@@ -114,7 +119,7 @@ int NotesDB::update_dir(string title, long id){
     mysql_real_escape_string(&database,escape,title.c_str(),title.length()); 
     string _title = escape;    
     len = snprintf(query_sql,MAX_LEN,
-                "UPDATE node SET modifiedTime = CURRENT_TIMESTAMP, name = '%s' WHERE articleID = %ld",
+                "UPDATE node SET modifiedTime = CURRENT_TIMESTAMP, name = '%s' WHERE nodeID = %ld",
                 _title.c_str(),id);
     mysql_real_query(&database,query_sql,len);
     return mysql_affected_rows(&database);    
