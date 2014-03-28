@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     tnotesbutton.cpp \
     MyQItemDelegate.cpp \
     tnoteseditlinkdialog.cpp \
-    tnotesbookDelegate.cpp
+    tnotesbookDelegate.cpp \
+    mynetworker.cpp
 
 HEADERS  += tnotesmainwindow.h \
     tnotestexteditor.h \
@@ -64,7 +65,8 @@ HEADERS  += tnotesmainwindow.h \
     tnotesbutton.h \
     MyQItemDelegate.h \
     tnoteseditlinkdialog.h \
-    tnotesbookDelegate.h
+    tnotesbookDelegate.h \
+    mynetworker.h
 
 OTHER_FILES += \
     json/sconscript \
@@ -77,4 +79,4 @@ RESOURCES += \
 
 
 #请把"C:/Users/smallway/Qt/untitled6/"修改为本机friso.lib文件的绝对地址
-LIBS+= -LD:\Documents\GitHub\tNotes\client\libs -lfriso
+LIBS+= -LC:/Users/smallway/Qt/untitled4/ -lfriso

@@ -25,6 +25,14 @@
 #include <QDialogButtonBox>
 #include <QDebug>
 #include <QTabWidget>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QTextCodec>
+#include <QtNetwork>
+#include <QTextCodec>
+#include "mynetworker.h"
+#include <QMessageBox>
 
 #include "tnoteslogindialog.h"
 
@@ -34,6 +42,8 @@ tNotesLoginDialog::tNotesLoginDialog(QWidget* parent)
 	setUpGUI();
 	setWindowTitle(tr("User Login"));
 	setModal(true);
+    this->mynetwork=new MyNetWorker();
+    connect(this->mynetwork->manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyfinished(QNetworkReply*)));
 }
 
 void tNotesLoginDialog::setUpGUI()
@@ -120,7 +130,7 @@ void tNotesLoginDialog::setUpRegGUI()
 	connect(registerButtons->button(QDialogButtonBox::Cancel),
 			SIGNAL(clicked()), this, SLOT(close()));
 	connect(registerButtons->button(QDialogButtonBox::Ok),
-			SIGNAL(clicked()), this, SLOT(slotAccetpReg()));
+            SIGNAL(clicked()), this, SLOT(slotAcceptReg()));
 
 	formGridLayout->addWidget(labelRegEmail, 0, 0);
 	formGridLayout->addWidget(editRegEmail, 0, 1);
@@ -160,21 +170,151 @@ void tNotesLoginDialog::setPassword(QString &password)
 
 void tNotesLoginDialog::slotAcceptLogin()
 {
-	QString username = comboUsername->currentText();
+    QString username = comboUsername->currentText();
 	QString password = editPassword->text();
 	int index = comboUsername->currentIndex();
 
-	emit acceptLogin(username, password,
-			index);
-	close();
+    QByteArray data;
+    data.append("{");
+    data.append("\"user\":\"");
+    data.append(username);
+    data.append("\",");
+    data.append("\"pass\":\"");
+    data.append(password);
+    data.append("\"}");
+    qDebug()<<data;
+    QNetworkRequest network_request;
+    //设置头信息
+    network_request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    network_request.setHeader(QNetworkRequest::ContentLengthHeader, data.length());
+    //设置url
+    network_request.setUrl(QUrl("http://tnotes.wicp.net:8080/signin.cgi"));
+    QNetworkReply *reply=mynetwork->post(network_request,data);
+    replyMap.insert(reply,login);
+//    mynetwork->get("http://www.baidu.com");
+//    emit acceptLogin(username, password,
+//            index);
+//    close();
 }
 
 void tNotesLoginDialog::slotAcceptReg()
 {
-	close();
+    QString username = editRegUsername->text();
+    QString password = editRegPassword->text();
+    QByteArray data;
+    data.append("{");
+    data.append("\"user\":\"");
+    data.append(username);
+    data.append("\",");
+    data.append("\"pass\":\"");
+    data.append(password);
+    data.append("\"}");
+    qDebug()<<data;
+    QNetworkRequest network_request;
+    //设置头信息
+    network_request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    network_request.setHeader(QNetworkRequest::ContentLengthHeader, data.length());
+    //设置url
+    network_request.setUrl(QUrl("http://tnotes.wicp.net:8080/signup.cgi"));
+    QNetworkReply *reply=mynetwork->post(network_request,data);
+    replyMap.insert(reply,regist);
 }
 
 void tNotesLoginDialog::setUsernamesList(const QStringList &usernames)
 {
 	comboUsername->addItems(usernames);
+}
+
+
+//请求完成后执行的操作
+void tNotesLoginDialog::replyfinished(QNetworkReply* reply)
+{
+
+    RemoteRequest request=replyMap.value(reply);
+    switch(request)
+    {
+    case login:
+    {
+        QVariant status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        qDebug()<<status_code;
+        QTextCodec * codec=QTextCodec::codecForName("UTF-8");
+        QString json=codec->toUnicode(reply->readAll());
+        qDebug()<<json;
+        QJsonParseError error;
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(json.toUtf8(), &error);
+        if (error.error == QJsonParseError::NoError) {
+            if (jsonDocument.isObject()) {
+                QVariantMap result = jsonDocument.toVariant().toMap();
+                QString code=result["status"].toString();
+                qDebug() << "state:" << code;
+                if(code=="success")
+                {
+                    //登陆成功
+                    QString session=result["session"].toString();
+                    qDebug()<<session;
+                    QFile file("sessionkey");
+                    if(!file.open(QIODevice::WriteOnly|QIODevice::Text))
+                        qDebug()<<file.errorString();
+                    QTextStream out(&file);
+                    out<<session;
+                    file.close();
+                    QMessageBox::information(this,"登陆成功","欢迎使用tNote！",QMessageBox::Ok);
+                    QString username = comboUsername->currentText();
+                    QString password = editPassword->text();
+                    int index = comboUsername->currentIndex();
+                    emit acceptLogin(username, password,index);
+                    this->close();
+                }
+                else if(code=="incorrect_password")
+                {
+                    QMessageBox::warning(this,"登陆失败","密码错误，请重新登陆",QMessageBox::Yes);
+                }
+                else
+                {
+                    QMessageBox::warning(this,"登陆失败","出现未知错误，请联系管理员！",QMessageBox::Yes);
+                }
+            }
+        } else {
+            QMessageBox::warning(this,"error",error.errorString().toUtf8().constData(),QMessageBox::Yes);
+            exit(1);
+        }
+
+        break;
+    }
+    case regist:
+    {
+        QVariant status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        qDebug()<<status_code;
+        QTextCodec * codec=QTextCodec::codecForName("UTF-8");
+        QString json=codec->toUnicode(reply->readAll());
+        qDebug()<<json;
+        QJsonParseError error;
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(json.toUtf8(), &error);
+        if (error.error == QJsonParseError::NoError) {
+            if (jsonDocument.isObject()) {
+                QVariantMap result = jsonDocument.toVariant().toMap();
+                QString code=result["status"].toString();
+                qDebug() << "state:" << code;
+                if(code=="success")
+                {
+                    //注册成功
+                    QMessageBox::information(this,"注册成功","欢迎使用tNote！",QMessageBox::Ok);
+                }
+                else if(code=="used_username")
+                {
+                    QMessageBox::warning(this,"注册失败","用户名已存在，请更换用户名",QMessageBox::Yes);
+                }
+                else
+                {
+                    QMessageBox::warning(this,"注册失败","出现未知错误，请联系管理员！",QMessageBox::Yes);
+                }
+            }
+        } else {
+            QMessageBox::warning(this,"error",error.errorString().toUtf8().constData(),QMessageBox::Yes);
+            exit(1);
+        }
+        break;
+    }
+
+    }
 }
