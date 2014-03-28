@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     tnotesstatusbar.cpp \
     tnotesbutton.cpp \
     MyQItemDelegate.cpp \
-    tnoteseditlinkdialog.cpp
+    tnoteseditlinkdialog.cpp \
+    tnotesbookDelegate.cpp
 
 HEADERS  += tnotesmainwindow.h \
     tnotestexteditor.h \
@@ -62,7 +63,8 @@ HEADERS  += tnotesmainwindow.h \
     tnotesstatusbar.h \
     tnotesbutton.h \
     MyQItemDelegate.h \
-    tnoteseditlinkdialog.h
+    tnoteseditlinkdialog.h \
+    tnotesbookDelegate.h
 
 OTHER_FILES += \
     json/sconscript \
@@ -75,4 +77,4 @@ RESOURCES += \
 
 
 #请把"C:/Users/smallway/Qt/untitled6/"修改为本机friso.lib文件的绝对地址
-LIBS+= -LD:\Tencent\tNotes\client\libs -lfriso
+LIBS+= -LD:\Documents\GitHub\tNotes\client\libs -lfriso
