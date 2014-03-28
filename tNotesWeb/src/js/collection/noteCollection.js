@@ -21,8 +21,9 @@ var NoteCollection = Backbone.Collection.extend({
 		return models;
 	},
 	//根据folderId取出Model数组
-	getModelsByFolderId: function(folder) {
-		
+	getModelsByFolderId: function(folderId) {
+		var noteModelList = this.collection.where({folderId: folderId});
+		return noteModelList;
 	},
 	//根据id号删除对应的Model数据
 	deleteModelById: function(Id) {
@@ -36,8 +37,11 @@ var NoteCollection = Backbone.Collection.extend({
 		}
 	},
 	//根据folderId删除Model数组(未完成)
-	deleteModelsByFolderId: function(folder) {
-		
+	deleteModelsByFolderId: function(folderId) {
+		var noteModelList = getModelsByFolderId(folderId);
+		for(var i = 0; i < noteModelList.length; i++) {
+			deleteModelById(noteModelList[i].Id);
+		}
 	},
 	//根据id号更新对应的Model数据
 	updateModelById: function(id, data) {
