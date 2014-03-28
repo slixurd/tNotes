@@ -16,6 +16,8 @@ class QAction;
 class QFrame;
 class QGridLayout;
 class QLineEdit;
+class QTimer;
+class QThread;
 
 class tNotesButton;
 class tNotesEditLinkDialog;
@@ -41,6 +43,9 @@ private:
 		QAction *actionUndo;
 		QFrame *horizonLine;
 
+        QTimer *autoupdateTimer;
+       // QThread *timerThread;
+
         QString plainText;
         QString htmlText;
 		tNotesButton *buttonEdit;
@@ -64,6 +69,8 @@ private:
 		bool editMode;
 
         Article currentArticle;
+        string currentArticleId;
+        string currentDirId;
 
 
 private:
@@ -71,7 +78,9 @@ private:
 		QString getTitle();
 		QString getCreatedTime();
 		QString getLastModifiedTime();
+        QString getEditorContents();
         QString markdown2html(QString articleContents);
+
 
         void initWidgets();
 		void setTextEditorLayout();
@@ -88,10 +97,14 @@ private slots:
 
         void openLinkDialog();
         void setLink(QString);
+        void slotUpdateArticle();
         void updateArticle(string dirId, string articleId);
+        void initArticle(string dirId, string articleId);
 
         //bool createArticle();
 
+signals:
+        void autoupdate(string dirId, string articleId);
 
 };
 

@@ -14,6 +14,7 @@
 #include <QLibrary>
 #include <QMessageBox>
 #include <QLineEdit>
+#include <QTimer>
 
 //#include <windows.h>
 #include <iostream>
@@ -52,7 +53,7 @@ void tNotesTextEditor::initWidgets()
     noteEditor->setStyleSheet("background-color:#FFFFFF");
 
     QFont titleFont("Arial", 18, QFont::Bold);
-    noteTitle = new QLabel(getTitle());
+    noteTitle = new QLabel();
     noteTitle->setFont(titleFont);
     titleLineEdit = new QLineEdit();
     titleLineEdit->setVisible(false);
@@ -82,6 +83,7 @@ void tNotesTextEditor::initWidgets()
 
     editMode = VIEW_MODE;
     noteEditor->setReadOnly(true);
+    autoupdateTimer = new QTimer();
     toolsEnabled(false);
 }
 
@@ -149,12 +151,31 @@ void tNotesTextEditor::setupEditActions()
     connect(buttonRedo, SIGNAL(clicked()), noteEditor,
             SLOT(redo()));
 
+    //autoupdate timer
+    connect(autoupdateTimer, SIGNAL(timeout()), this, SLOT(slotUpdateArticle()));
+    connect(this, SIGNAL(autoupdate(string,string)), this, SLOT(updateArticle(string,string)));
+
 }
 
 QString tNotesTextEditor::getTitle()
 {
-	QString ret = "Hello World!";
-	return ret;
+    //QString ret = "Hello World!";
+    if(editMode == EDIT_MODE){
+        return titleLineEdit->text();
+    } else {
+        return noteTitle->text();
+    }
+   // return ret;
+}
+
+QString tNotesTextEditor::getEditorContents()
+{
+    if(editMode == EDIT_MODE){
+        plainText = noteEditor->toPlainText();
+        return plainText;
+    } else {
+        return plainText;
+    }
 }
 
 QString tNotesTextEditor::getCreatedTime()
@@ -207,20 +228,16 @@ void tNotesTextEditor::toolsEnabled(bool flag)
 
 void tNotesTextEditor::editModeChange()
 {
+    updateArticle(currentDirId, currentArticleId);
+
     if(editMode == EDIT_MODE){
 
-
         editMode = VIEW_MODE;
-
-
         noteTitle->setText(titleLineEdit->text());
         //print(titleLineEdit->text());
         titleLineEdit->setVisible(false);
         noteTitle->setVisible(true);
-
         //QMessageBox::information(NULL, "OK", noteEditor->toPlainText());
-
-
         plainText = noteEditor->toPlainText();
         noteEditor->setHtml(markdown2html(plainText));
         noteEditor->setReadOnly(true);
@@ -301,18 +318,35 @@ void tNotesTextEditor::setLink(QString link)
     noteEditor->append(linkText);
 }
 
-void tNotesTextEditor::updateArticle(string dirId, string articleId)
+void tNotesTextEditor::initArticle(string dirId, string articleId)
 {
+
+    currentArticleId = articleId;
+    currentDirId = dirId;
     currentArticle = searchArticle(dirId, articleId);
-    cout<<dirId<<" "<<articleId<<endl;
+    //cout<<dirId<<" "<<articleId<<endl;
     noteTitle->setText(s2q(currentArticle.name));
-    cout<<currentArticle.context<<endl;
-    QString content = s2q(currentArticle.context);
+    //cout<<currentArticle.context<<endl;
+    plainText = s2q(currentArticle.context);
+    //QString content = s2q(plainText);
     //print(content);
     //noteEditor->setHtml("你好");
-    noteEditor->setHtml(markdown2html(content));
-    cout<<q2s(markdown2html(content))<<endl;
+    noteEditor->setHtml(markdown2html(plainText));
+    //cout<<q2s(markdown2html(content))<<endl;
+
+    autoupdateTimer->setSingleShot(false);
+    autoupdateTimer->start(5000);
 }
 
+void tNotesTextEditor::updateArticle(string dirId, string articleId)
+{
+    currentArticle.name = q2s(getTitle());
+    currentArticle.context = q2s(getEditorContents());
+    changeArticle(dirId, articleId, currentArticle);
+}
 
+void tNotesTextEditor::slotUpdateArticle()
+{
+    emit autoupdate(currentDirId, currentArticleId);
+}
 
