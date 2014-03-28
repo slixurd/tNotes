@@ -1,5 +1,5 @@
 #include "tnotesbookcategorylist.h"
-
+#include "Operation.h"
 
 tNotesBookCategoryList::tNotesBookCategoryList() : QListView()
 {
@@ -46,15 +46,20 @@ void tNotesBookCategoryList::initNotebooks(QString path)
         appendNotebook(*cii);
     }
     //每次初始化目录就初始化当前目录
-    if(categoryList.size()>=1)
+    if(categoryList.size()>=1){
         nowDire = categoryList[0];
+        emit initNotesCategory(nowDire.nodeId);
+    }
 }
 
 //删除笔记本（会在内存和文件上删除）
 void tNotesBookCategoryList::deleteNotebook(QModelIndex&index){
     std::vector<Directory>::iterator it = dirVectory.begin()+index.row();
+    deleteRoot((*it).nodeId);
     dirVectory.erase(it);
     model->removeRow(index.row());
+
+
     //????
 }
 
@@ -62,9 +67,8 @@ void tNotesBookCategoryList::deleteNotebook(QModelIndex&index){
 void tNotesBookCategoryList::newNotebook(Directory dir)
 {
     //内存加入
-    appendNotebook(dir);
     //文件加入  [文件如果有重复的id则不会添加]
-    createRoot(dir);
+    if(createRoot(dir))appendNotebook(dir);;
 }
 
 //添加笔记本（用于初始化）  不会再文件上添加笔记
@@ -83,6 +87,7 @@ void tNotesBookCategoryList::appendNotebook(Directory dir)
 
 void tNotesBookCategoryList::notebookSelected(const QModelIndex &index)
 {
+     nowDire=dirVectory[index.row()];
      string id = dirVectory[index.row()].nodeId;
      emit initNotesCategory(id);
 }

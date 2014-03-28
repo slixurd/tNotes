@@ -62,7 +62,6 @@ private:
         Directory *currentDir;
         Article *currentArticle;
 
-
         tNotesLoginDialog *dialogLogin;
         QPoint moveStartPoint;
 
@@ -87,7 +86,7 @@ private slots:
         void maxmizeRestoreWindow(bool maxRestore);
         void userAuthenticated(QString &username , QString &pass, int &Sindex);
 		void openLoginDialog();
-        bool createDirectory();
+
         bool saveArticle();
         void moveStart(QPoint);
         void moveEnd(QPoint);

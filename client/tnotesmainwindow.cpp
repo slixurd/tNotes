@@ -9,6 +9,9 @@
 #include <QIcon>
 #include <QDate>
 #include <QPoint>
+#include <QMessageBox>
+
+
 
 #include "tnotesmainwindow.h"
 #include "tnotestexteditor.h"
@@ -46,8 +49,6 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
 
 tNotesMainWindow::~tNotesMainWindow()
 {
-
-
 }
 
 
@@ -124,15 +125,6 @@ void tNotesMainWindow::openLoginDialog()
 	dialogLogin->exec();
 }
 
-bool tNotesMainWindow::createDirectory()
-{
-    currentDir->name = "foo";
-    currentDir->modifiedTime = q2s(QDate::currentDate().toString("yyyy.MM.dd"));
-    currentDir->createTime = q2s(QDate::currentDate().toString("yyyy.MM.dd"));
-    currentDir->isSyn = true;
-    createRoot(*currentDir);
-    return true;
-}
 
 bool tNotesMainWindow::saveArticle()
 {
@@ -186,21 +178,41 @@ void tNotesMainWindow::moveEnd(QPoint endPoint)
 }
 
 void tNotesMainWindow::newDirectory(){
+    QModelIndex index = contentWidget->mListView->currentIndex();
+    if(index.column()==-1){
+        return;
+    }
+    /////////ID  修改目录id
     Directory dirTemp("99",string("newNotes"),"2014/2/1","2014/2/1",false);
     contentWidget->mListView->newNotebook(dirTemp);
 }
 
 void tNotesMainWindow::newArticle(){
-
+    QModelIndex index = contentWidget->mListView2->currentIndex();
+    if(index.column()==-1){
+        if(contentWidget->mListView->nowDire.nodeId=="")return;
+    }
+    /////////ID  修改文章id
+    Article artTemp("9080", "newArticle", "", "2014/2/1","2014/2/1",false);
+    contentWidget->mListView2->newCategory(artTemp,
+                  contentWidget->mListView->nowDire.nodeId);
 }
 
 void tNotesMainWindow::deleteArticle(){
-
+    QModelIndex index = contentWidget->mListView2->currentIndex();
+    if(index.column()==-1){
+        return;
+    }
+    contentWidget->mListView2->deleteCategory(index,
+                  contentWidget->mListView->nowDire.nodeId);
 }
 
 void tNotesMainWindow::deleteDirectory(){
 
     QModelIndex index = contentWidget->mListView->currentIndex();
+    if(index.column()==-1){
+        return;
+    }
     contentWidget->mListView->deleteNotebook(index);
 }
 

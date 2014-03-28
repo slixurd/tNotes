@@ -1,6 +1,6 @@
 ﻿#include "tnotescategorylist.h"
 
-//#include "nwindows.h"
+#include "Operation.h"
 tNotesCategoryList::tNotesCategoryList() : QListView()
 {
     qic = QIcon(":/myres/notebook.png");
@@ -40,12 +40,33 @@ bool tNotesCategoryList::updateListView(string id){
         model->appendRow(itemTemp);
     }
 }
-QString tNotesCategoryList::addCategory(QString name){
-    QStandardItem *itemTemp=new QStandardItem(name);
+
+//内存中添加
+void tNotesCategoryList::appendCategory(Article art){
+    QStandardItem *itemTemp=new QStandardItem(s2q(art.name+";"+art.createTime+";"+art.context));
     itemTemp->setSizeHint(QSize(150,70));
     model->appendRow(itemTemp);
+    dirVector.push_back(art);
 }
 
+//内存中添加 文件中也添加
+void tNotesCategoryList::newCategory(Article art,string iRoot){
+    if(createArticle(iRoot,art)){
+        appendCategory(art);
+        emit initNotesEditor(currentNotebookId, art.articleId);
+    }
+}
+
+void tNotesCategoryList::deleteCategory(QModelIndex &index,string iRoot){
+    std::vector<Article>::iterator it = dirVector.begin()+index.row();
+    deleteArticle(iRoot,(*it).articleId);
+    dirVector.erase(it);
+    model->removeRow(index.row());
+}
+
+
+
+//slots
 void tNotesCategoryList::initNotesCategory(string dirId)
 {
     currentNotebookId = dirId;

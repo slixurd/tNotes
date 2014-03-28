@@ -320,7 +320,6 @@ void tNotesTextEditor::setLink(QString link)
 
 void tNotesTextEditor::initArticle(string dirId, string articleId)
 {
-
     currentArticleId = articleId;
     currentDirId = dirId;
     currentArticle = searchArticle(dirId, articleId);
@@ -342,7 +341,7 @@ void tNotesTextEditor::updateArticle(string dirId, string articleId)
 {
     currentArticle.name = q2s(getTitle());
     currentArticle.context = q2s(getEditorContents());
-    changeArticle(dirId, articleId, currentArticle);
+    //changeArticle(dirId, articleId, currentArticle);
 }
 
 void tNotesTextEditor::slotUpdateArticle()

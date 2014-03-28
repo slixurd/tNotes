@@ -7,16 +7,20 @@
 #include <string>
 #include <vector>
 #include "Operation.h"
-
+#include <QModelIndex>
 class tNotesCategoryList :public QListView
 {  
     Q_OBJECT
 public:  
     bool updateListView(string id);
-    QString addCategory(QString name);
+    void appendCategory(Article art);
     tNotesCategoryList();
 	void mouseDoubleClickEvent(QMouseEvent *event);   //鼠标点击响应
 	vector<Article>dirVector;
+
+    void newCategory(Article art,string iRoot);
+    void deleteCategory(QModelIndex &index,string iRoot);
+
 private:
 	//QStandardItemModel是一个多用途的model,可用于表示list,table,tree views所需要的各种不同的数据结构。
 	QStandardItemModel *model;
