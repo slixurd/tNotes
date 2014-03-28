@@ -1,4 +1,4 @@
-define(["setting", "hint", "folderView"], function(setting, hintview, folderView) {
+define(["setting", "hint"], function(setting, hintview) {
 	NavBar = Backbone.View.extend({
 		el: $("#navbar"),
 		$loginModal: $("#loginModal"),
@@ -11,8 +11,10 @@ define(["setting", "hint", "folderView"], function(setting, hintview, folderView
 		$registUsername: $("#regist_username"),
 		$registPassword: $("#regist_password"),
 		initialize: function() {
+
 			//页面开启时尝试自动登录
 			this.autoLogin();
+
 			//读取全局样式
 			var globalStyle = setting.get('globalStyle');
 			this.changeGlobalStyleByNmae(globalStyle);
@@ -62,20 +64,20 @@ define(["setting", "hint", "folderView"], function(setting, hintview, folderView
 						$("#hint").removeClass('alert-danger');
 						$("#hint").addClass('alert-success');
 						$("#hint h4").html("恭喜");
-						hintview.set("登录成功！").show();
+						hintview.setContent("登录成功！").show();
 
 					} else {
 						$("#hint h4").html("抱歉");
 						$("#hint").removeClass('alert-success');
 						if (dataInfoJson.status == 'incorrect_password') {
-							hintview.set("登录密码错误！").show();
+							hintview.setContent("登录密码错误！").show();
 						} else {
-							hintview.set("服务器出错！").show();
+							hintview.setContent("服务器出错！").show();
 						}
 					}
 				})
 				.fail(function() {
-					hintview.set("登录请求失败！").show();
+					hintview.setContent("登录请求失败！").show();
 				})
 				.always(function() {
 					console.log("complete");
@@ -102,12 +104,13 @@ define(["setting", "hint", "folderView"], function(setting, hintview, folderView
 
 		//如果可以则自动登录，自动登录并隐藏登录按钮，否则隐藏退出按钮，
 		autoLogin: function() {
+			console.log('asdf');
 			var lastUsername = setting.get('lastUsername');
 			var lastPassword = setting.get('lastPassword');
 			if (this.checkAutoLogin(lastUsername, lastPassword)) {
 				if (this.checkSpecialWord(lastUsername, lastPassword)) {
 					$("#hint h4").html("抱歉");
-					hintview.set('用户名或者密码不能包含特殊字符！').show();
+					hintview.setContent('用户名或者密码不能包含特殊字符！').show();
 				} else {
 					this.postLogin(lastUsername, lastPassword);
 					this.$login.hide();
@@ -120,16 +123,17 @@ define(["setting", "hint", "folderView"], function(setting, hintview, folderView
 
 		//手动登录
 		manuallyLogin: function() {
-
+			//console.log('asdf');
 			var username = this.$loginUsername.val();
 			var password = this.$loginPassword.val();
 			$("#hint").removeClass('alert-success');
 			$("#hint").addClass('alert-danger');
 			$("#hint h4").html("抱歉");
 			if (username == '' || password == '') {
-				hintview.set('用户名或者密码不能为空！').show();
+
+				hintview.setContent('用户名或者密码不能为空！').show();
 			} else if (this.checkSpecialWord(username, password)) {
-				hintview.set('用户名或者密码不能包含特殊字符！').show();
+				hintview.setContent('用户名或者密码不能包含特殊字符！').show();
 
 			} else
 				this.postLogin(username, password);
@@ -151,16 +155,16 @@ define(["setting", "hint", "folderView"], function(setting, hintview, folderView
 					$("#hint").removeClass('alert-danger');
 					$("#hint").addClass('alert-success');
 					$("#hint h4").html("恭喜");
-					hintview.set("注册成功！").show();
+					hintview.setContent("注册成功！").show();
 				} else if (data.status == 'used_username') {
 					$("#hint h4").html("抱歉");
 					$("#hint").removeClass('alert-success');
-					hintview.set("用户名已经被占用").show();
+					hintview.setContent("用户名已经被占用").show();
 				}
 			}).fail(function() {
 				$("#hint h4").html("抱歉");
 				$("#hint").removeClass('alert-success');
-				hintview.set("注册请求失败").show();
+				hintview.setContent("注册请求失败").show();
 			}).always(function() {
 				console.log('complete');
 			});
@@ -178,11 +182,11 @@ define(["setting", "hint", "folderView"], function(setting, hintview, folderView
 				if (!(username == '' || password == ''))
 					this.registPost(username, password);
 				else {
-					hintview.set('用户名或者密码不能为空！').show();
+					hintview.setContent('用户名或者密码不能为空！').show();
 				}
 
 			} else {
-				hintview.set('用户名或者密码不能包含特殊字符！').show();
+				hintview.setContent('用户名或者密码不能包含特殊字符！').show();
 
 			}
 
@@ -211,6 +215,7 @@ define(["setting", "hint", "folderView"], function(setting, hintview, folderView
 
 		//退出账号
 		logout: function() {
+			console.log('退出了');
 			setting.set({
 				lastUsername: '',
 				lastPassword: '',
