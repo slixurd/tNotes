@@ -18,13 +18,16 @@ class tNotesToolBar:public QWidget
 public:
     tNotesToolBar(void);
     ~tNotesToolBar(void);
-    QPushButton* newnoteButton;
+    QPushButton* newDirectoryButton;
+    QPushButton* newArticleButton;
+    QPushButton* deleteArticleButton;
+    QPushButton* deleteDirectoryButton;
 private:
 
     void setupActions();
 	QHBoxLayout* mainLayout;
     QPushButton* loginButton;
-    QPushButton* trashButton;
+
     QPushButton* sysButton;
     tNotesSearchTool* searchTool;
 	QLineEdit *searchLineEditsearch;

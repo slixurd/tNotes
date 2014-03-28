@@ -12,13 +12,18 @@ tNotesToolBar::tNotesToolBar(void)
 
     loginButton = new QPushButton();
     loginButton->setStyleSheet(readFile(":/qss/loginButton.qss"));
-    newnoteButton = new QPushButton();
-    newnoteButton->setStyleSheet(readFile(":/qss/newFileButton.qss"));
-    trashButton = new QPushButton();
-    trashButton->setStyleSheet(readFile(":/qss/deleteFileButton.qss"));
+    newDirectoryButton = new QPushButton();
+    newDirectoryButton->setStyleSheet(readFile(":/qss/newFileButton.qss"));
+    deleteDirectoryButton = new QPushButton();
+    deleteDirectoryButton->setStyleSheet(readFile(":/qss/deleteFileButton.qss"));
     sysButton = new QPushButton();
     sysButton->setStyleSheet(readFile(":/qss/sysButton.qss"));
     searchTool = new tNotesSearchTool();
+
+    newArticleButton = new QPushButton();;
+    newArticleButton->setStyleSheet(readFile(":/qss/newArticleButton.qss"));
+    deleteArticleButton = new QPushButton();;
+    deleteArticleButton->setStyleSheet(readFile(":/qss/deleteArticleButton.qss"));
 
 
     setupActions();
@@ -26,12 +31,16 @@ tNotesToolBar::tNotesToolBar(void)
     mainLayout = new QHBoxLayout();
 
     mainLayout->addWidget(loginButton);
-    mainLayout->addWidget(newnoteButton);
-    mainLayout->addWidget(trashButton);
-	mainLayout->addWidget(sysButton);
+    mainLayout->addWidget(newDirectoryButton);
+    mainLayout->addWidget(deleteDirectoryButton);
+    mainLayout->addWidget(sysButton);
+
+    //mainLayout->alignment();
+    mainLayout->addWidget(newArticleButton,0,Qt::AlignAbsolute);
+    mainLayout->addWidget(deleteArticleButton);
     mainLayout->addWidget(searchTool);
 
-    mainLayout->insertStretch(4, 500);
+    mainLayout->insertStretch(6, 500);
     mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -45,6 +54,7 @@ tNotesToolBar::tNotesToolBar(void)
 
 tNotesToolBar::~tNotesToolBar(void)
 {
+
 }
 
 void tNotesToolBar::setupActions()

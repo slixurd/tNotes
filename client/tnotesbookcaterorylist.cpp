@@ -26,8 +26,7 @@ void tNotesBookCategoryList::setupAction()
 void tNotesBookCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
 {  
 	if (event->button() == Qt::LeftButton) {  
-		QModelIndex index0 = currentIndex();  
-		qDebug() << index0.data().toString();  
+        QListView::edit(currentIndex());
     }
 }
 
@@ -52,7 +51,7 @@ void tNotesBookCategoryList::initNotebooks(QString path)
 }
 
 //删除笔记本（会在内存和文件上删除）
-void tNotesBookCategoryList::deleteNoyebook(QModelIndex&index){
+void tNotesBookCategoryList::deleteNotebook(QModelIndex&index){
     std::vector<Directory>::iterator it = dirVectory.begin()+index.row();
     dirVectory.erase(it);
     model->removeRow(index.row());

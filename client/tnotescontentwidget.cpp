@@ -16,7 +16,7 @@ tNotesContentWidget::~tNotesContentWidget(void)
 
 void tNotesContentWidget::setupLayout()
 {
-    setStyleSheet("background-color:#c5e398;");
+    setStyleSheet(readFile(":/qss/tnotescontentwidget.qss"));
     QWidget *mainWidget = new QWidget();
     m_pMainLayout = new QHBoxLayout();
     splitter = new QSplitter();

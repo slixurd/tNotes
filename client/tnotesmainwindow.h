@@ -69,15 +69,19 @@ private:
 
 
 
-//        ///////////拉伸窗口函数
-//        int PointValid(QPointF p);
-//        void SetDrayMove(int x,int y,int d);
-//        //0 1 2 3 4 5 6 7  左上角  上  右上角  右  右下角  下  左下角  左
-//        void SetCursorStyle(int direction);
+protected:
+        ///////////拉伸窗口函数
+        void mousePressEvent(QMouseEvent *event);
+        void mouseMoveEvent(QMouseEvent *event);
+        void mouseReleaseEvent(QMouseEvent *event);
+        int PointValid(QPointF p);
+        void SetDrayMove(int x,int y,int d);
+        //0 1 2 3 4 5 6 7  左上角  上  右上角  右  右下角  下  左下角  左
+        void SetCursorStyle(int direction);
 
-//        QPoint m_ptPressGlobal;
-//        bool m_bLeftBtnPress;
-//        int m_eDirection;
+        QPoint m_ptPressGlobal;
+        bool m_bLeftBtnPress;
+        int m_eDirection;
 private slots:
         void minimizeWindow();
         void maxmizeRestoreWindow(bool maxRestore);
@@ -90,7 +94,9 @@ private slots:
         //void clickedBook(const QModelIndex &index);
         //void clickedNote(const QModelIndex &index);
         void newDirectory();
-		
+        void newArticle();
+        void deleteArticle();
+        void deleteDirectory();
 signals:
         void initNotebooks(Directory *dirList);
         void initNotes(Article *articleList);

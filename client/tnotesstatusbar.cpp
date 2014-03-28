@@ -1,9 +1,8 @@
 #include "tnotesstatusbar.h"
-
-
+#include "Operation.h"
 tNotesStatusBar::tNotesStatusBar(void)
 {
-	setStyleSheet("background-color:#518e30;max-height: 24px;");
+    setStyleSheet(readFile(":/qss/mystatusbar.qss"));
 }
 
 

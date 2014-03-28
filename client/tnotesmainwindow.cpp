@@ -28,16 +28,20 @@ tNotesMainWindow::tNotesMainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     ROOT_PATH = "D:\\data\\";
-	/* set window size */
+    /* set window size */
 
-	setMainWindowsSize();
+    setMainWindowsSize();
     setWindowFlags(Qt::FramelessWindowHint);
-	/* initialization */
+    /* initialization */
     initWidgets();
     setMouseTracking(true);
 
     setMainWindowLayout();
-	setupActions();
+    setupActions();
+
+    centralWidget->setMouseTracking(true);
+    setMouseTracking(true);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 }
 
 tNotesMainWindow::~tNotesMainWindow()
@@ -89,9 +93,12 @@ void tNotesMainWindow::setMainWindowLayout()
 void tNotesMainWindow::setupActions()
 {
     connect(toolBar, SIGNAL(openLoginDialog()), this, SLOT(openLoginDialog()));
-	connect(toolBar->newnoteButton, SIGNAL(clicked()), this, SLOT(newDirectory()));
-	
-   connect(dialogLogin, SIGNAL(acceptLogin(QString&,QString&,int&)), this, SLOT(userAuthenticated(QString&,QString&,int&)));
+    connect(toolBar->newDirectoryButton, SIGNAL(clicked()), this, SLOT(newDirectory()));
+    connect(toolBar->newArticleButton, SIGNAL(clicked()), this, SLOT(newArticle()));
+    connect(toolBar->deleteArticleButton, SIGNAL(clicked()), this, SLOT(deleteArticle()));
+    connect(toolBar->deleteDirectoryButton, SIGNAL(clicked()), this, SLOT(deleteDirectory()));
+
+    connect(dialogLogin, SIGNAL(acceptLogin(QString&,QString&,int&)), this, SLOT(userAuthenticated(QString&,QString&,int&)));
 
     connect(titleBar, SIGNAL(minimizeWindow()), this, SLOT(minimizeWindow()));
     connect(titleBar, SIGNAL(maxmizeRestoreWindow(bool)), this, SLOT(maxmizeRestoreWindow(bool)));
@@ -178,115 +185,177 @@ void tNotesMainWindow::moveEnd(QPoint endPoint)
     move(endPoint - moveStartPoint);
 }
 
-
-
 void tNotesMainWindow::newDirectory(){
     Directory dirTemp("99",string("newNotes"),"2014/2/1","2014/2/1",false);
     contentWidget->mListView->newNotebook(dirTemp);
 }
 
-////////拉伸窗口代码：////////
-//void tNotesMainWindow::mousePressEvent(QMouseEvent *event)
-//{
-//    if (event->button() == Qt::LeftButton)
-//    {
-//        m_ptPressGlobal = event->globalPos();
-//        m_bLeftBtnPress = true;
-//    }
-//}
-////鼠标移动事件
-//void tNotesMainWindow::normalMoveEvent(QMouseEvent *me)
-//{
-//    if(!m_bLeftBtnPress)
-//    {
-//        m_eDirection = PointValid(event->windowPos());
-//        SetCursorStyle(m_eDirection);
-//    }
-//    else
-//    {
-//        int nXGlobal = event->globalX();
-//        int nYGlobal = event->globalY();
-//        SetDrayMove(nXGlobal,nYGlobal,m_eDirection);
-//        m_ptPressGlobal =QPoint(nXGlobal,nYGlobal);
-//    }
-//}
+void tNotesMainWindow::newArticle(){
+
+}
+
+void tNotesMainWindow::deleteArticle(){
+
+}
+
+void tNotesMainWindow::deleteDirectory(){
+
+    QModelIndex index = contentWidget->mListView->currentIndex();
+    contentWidget->mListView->deleteNotebook(index);
+}
+
+
+
+
+
+
+
+
+////////拉伸窗口代码////////
+void tNotesMainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
+        m_ptPressGlobal = event->globalPos();
+        m_bLeftBtnPress = true;
+    }
+}
+//鼠标移动事件
+void tNotesMainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+
+    if(!m_bLeftBtnPress)
+    {
+        m_eDirection = PointValid(event->windowPos());
+        SetCursorStyle(m_eDirection);
+    }
+    else
+    {
+        m_eDirection = PointValid(event->windowPos());
+        SetCursorStyle(m_eDirection);
+        int nXGlobal = event->globalX();
+        int nYGlobal = event->globalY();
+        SetDrayMove(nXGlobal,nYGlobal,m_eDirection);
+        m_ptPressGlobal =QPoint(nXGlobal,nYGlobal);
+    }
+}
 ////鼠标释放事件
-//void tNotesMainWindow::mouseReleaseEvent(QMouseEvent *event)
-//{
-//    if (event->button() == Qt::LeftButton)
-//    {
-//        m_bLeftBtnPress = false;
-//        m_eDirection = 8;
-//    }
-//}
+void tNotesMainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
+        m_bLeftBtnPress = false;
+        m_eDirection = 9;
+    }
+}
 ////双击变大事件在titilebar
 ////鼠标样式
-//void tNotesMainWindow::SetCursorStyle(int direction)
-//{
-//    //设置上下左右以及右上、右下、左上、坐下的鼠标形状
-//    switch(direction)
-//    {
-//    case 1:
-//    case 5:
-//        setCursor(Qt::SizeVerCursor);
-//        break;
-//    case 3:
-//    case 7:
-//        setCursor(Qt::SizeHorCursor);
-//        break;
-//    case 2:
-//    case 6:
-//        setCursor(Qt::SizeBDiagCursor);
-//        break;
-//    case 4:
-//    case 0:
-//        setCursor(Qt::SizeFDiagCursor);
-//        break;
-//    default:
-//        setCursor(Qt::ArrowCursor);
-//        break;
-//    }
-//}
+void tNotesMainWindow::SetCursorStyle(int direction)
+{
+    //设置上下左右以及右上、右下、左上、坐下的鼠标形状
+    switch(direction)
+    {
+    case 1:
+    case 5:
+        setCursor(Qt::SizeVerCursor);
+        break;
+    case 3:
+    case 7:
+        setCursor(Qt::SizeHorCursor);
+        break;
+    case 2:
+    case 6:
+        setCursor(Qt::SizeBDiagCursor);
+        break;
+    case 4:
+    case 0:
+        setCursor(Qt::SizeFDiagCursor);
+        break;
+    default:
+        setCursor(Qt::ArrowCursor);
+        break;
+    }
+}
 
-//int tNotesMainWindow::PointValid(QPointF p)
-//{
-//    int temp=0;
-//    int PxW;
-//    QRect qr = geometry();
-//    if(p.x()>0&&p.x()<PxW){
-//        temp+=1;
-//    }
-//    if(p.x()>qr.width()-PxW&&p.x()<qr.width()){
-//        temp+=2;
-//    }
-//    if(p.y()>0&&p.y()<PxW){
-//        temp+=8;
-//    }
-//    if(p.x()>qr.height()-PxW&&p.x()<qr.height()){
-//        temp+=4;
-//    }
-//    switch(temp){
-//        case 9:return 0;
-//        break;
-//        case 8:return 1;
-//        break;
-//        case 10:return 2;
-//        break;
-//        case 2:return 3;
-//        break;
-//        case 6:return 4;
-//        break;
-//        case 4:return 5;
-//        break;
-//        case 5:return 6;
-//        break;
-//        case 1:return 7;
-//        break;
-//        default:return 8;
-//    }
-//}
+int tNotesMainWindow::PointValid(QPointF p)
+{
+    int temp=0;
+    int PxW=50;
+    QRect qr = this->geometry();
 
-//void tNotesMainWindow::SetDrayMove(int x,int y,int d)
-//{
+    if(p.x()>0&&p.x()<PxW){
+        temp+=1;
+    }
+    if(p.x()>qr.width()-PxW&&p.x()<qr.width()){
+        temp+=2;
+    }
+    if(p.y()>0&&p.y()<PxW){
+        temp+=8;
+    }
+    if(p.y()>qr.height()-PxW&&p.y()<qr.height()){
+        temp+=4;
+    }
 
-//}
+
+    switch(temp){
+        case 9:return 0;
+        break;
+        case 8:return 1;
+        break;
+        case 10:return 2;
+        break;
+        case 2:return 3;
+        break;
+        case 6:return 4;
+        break;
+        case 4:return 5;
+        break;
+        case 5:return 6;
+        break;
+        case 1:return 7;
+        break;
+        default:return 8;
+    }
+}
+
+void tNotesMainWindow::SetDrayMove(int nXGlobal,int nYGlobal,int d)
+{
+    //计算偏差
+    int ndX = nXGlobal - m_ptPressGlobal.x();
+    int ndY = nYGlobal - m_ptPressGlobal.y();
+    //获得主窗口位置信息
+    QRect rectWindow = geometry();
+    switch(d){
+        case 1:
+            rectWindow.setTop(rectWindow.top()+ndY);
+            break;
+        case 3:
+            rectWindow.setRight(rectWindow.right()+ndX);
+            break;
+        case 5:
+            rectWindow.setBottom(rectWindow.bottom()+ndY);
+            break;
+        case 7:
+            rectWindow.setLeft(rectWindow.left()+ndX);
+            break;
+    case 0:
+        rectWindow.setBottom(rectWindow.top()+ndY);
+        rectWindow.setLeft(rectWindow.left()+ndX);
+        break;
+    case 2:
+        rectWindow.setBottom(rectWindow.top()+ndY);
+        rectWindow.setLeft(rectWindow.right()+ndX);
+        break;
+    case 4:
+        rectWindow.setBottom(rectWindow.bottom()+ndY);
+        rectWindow.setLeft(rectWindow.right()+ndX);
+        break;
+    case 6:
+            rectWindow.setBottom(rectWindow.bottom()+ndY);
+            rectWindow.setLeft(rectWindow.left()+ndX);
+            break;
+    }
+    //重新设置窗口位置为新位置信息
+    setGeometry(rectWindow);
+}
+

@@ -23,8 +23,7 @@ void tNotesCategoryList::setupActions()
 void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
 {  
     if (event->button() == Qt::LeftButton) {
-        QModelIndex index0 = currentIndex();
-        qDebug() << index0.data().toString();
+        QListView::edit(currentIndex());
     }
 }
 

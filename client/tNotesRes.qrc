@@ -40,5 +40,8 @@
         <file alias="searchLineEdit.qss">medias/qss/searchLineEdit.qss</file>
         <file alias="sysButton.qss">medias/qss/sysButton.qss</file>
         <file alias="mytoolbar.qss">medias/qss/mytoolba.qss</file>
+        <file alias="tnotescontentwidget.qss">medias/qss/tnotescontentwidget.qss</file>
+        <file alias="deleteArticleButton.qss">medias/qss/deleteArticleButton.qss</file>
+        <file alias="newArticleButton.qss">medias/qss/newArticleButton.qss</file>
     </qresource>
 </RCC>

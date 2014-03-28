@@ -21,7 +21,7 @@ public:
 
     //内存和文件上新建删除
     void newNotebook(Directory dir);
-    void deleteNoyebook(QModelIndex&index);
+    void deleteNotebook(QModelIndex&index);
 
 
 
