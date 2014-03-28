@@ -16,6 +16,8 @@ public:
     QNetworkReply * get(const QString &url);
     QNetworkReply * post(const QNetworkRequest & request, const QByteArray & data);
     QNetworkAccessManager *manager;
+    //判断是否联网
+    bool isconnect();
 
 signals:
 public slots:

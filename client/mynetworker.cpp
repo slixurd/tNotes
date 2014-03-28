@@ -29,3 +29,19 @@ QNetworkReply * MyNetWorker::post(const QNetworkRequest &request, const QByteArr
 {
     return manager->post(request,data);
 }
+
+//判断是否联网
+bool MyNetWorker::isconnect()
+{
+    QHostInfo info=QHostInfo::fromName("tnotes.wicp.net");
+    if(info.error()!=QHostInfo::NoError)
+    {
+        qDebug()<<"Lookup failed:"<<info.errorString();
+        return false;
+    }
+    else
+    {
+        qDebug()<<"connected";
+        return true;
+    }
+}
