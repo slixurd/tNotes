@@ -52,3 +52,12 @@ h1, h2, h3, h4, h5, h6
 .modal-footer {
   margin-top: 0;
 }
+
+.setting_item{
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.setting_item:hover{
+    background: ;
+}
