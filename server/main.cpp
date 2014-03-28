@@ -15,9 +15,9 @@ using namespace std;
 
 int main(){
     NotesDB n;
-    string name="slixurd";
+    string name="slixxxxxurd";
     string pass="123456";
-    //cout<<n.add_user(name,pass)<<endl;
+    cout<<n.add_user(name,pass)<<endl;
     //cout<<n.sha1(pass+n.get_salt(name)).substr(0,PASS_LEN)<<endl;
     //cout<<n.login(name,pass)<<endl;
     string dirname = "study";
@@ -34,6 +34,8 @@ int main(){
         cout<<list[i]<<endl;*/
     //cout<<n.get_dir_mtime(name,2);
     
-    cout<<n.get_note(100,as);
+    //cout<<n.get_note(name,100,as);
+    //cout<<n.check_note_permission(name,1);
+    //cout<<n.get_uncatagorized_dir(name);
     return 0;
 }

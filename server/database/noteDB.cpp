@@ -108,10 +108,11 @@ bool NotesDB::add_user(string name,string pass){
     string salt = generate_salt();
     //拼接密码并做hash
     string _pass = sha1(pass + salt).substr(0,PASS_LEN);
+    int id = this->add_uncatagorized_dir(name);
     len = snprintf(query_sql,MAX_LEN,
-                "INSERT INTO user(username,pass,salt) VALUE('%s','%s','%s')",
-                _name.c_str(),_pass.c_str(),salt.c_str());
-    cout<<query_sql<<endl;
+                "INSERT INTO user(username,pass,salt,uncatagorized) VALUE('%s','%s','%s',%d)",
+                _name.c_str(),_pass.c_str(),salt.c_str(),id);
+    //cout<<query_sql<<endl;
     int err = mysql_real_query(&database,query_sql,len);
     if(err)
        return false;

@@ -8,8 +8,9 @@
 /***
  * 创建笔记
  * 如果返回0,说明插入错误
+ * 如果是没有目录的笔记,传-1进来
  */
-long NotesDB::create_note(string title,string content,long parentid){
+long NotesDB::create_note(string username, string title,string content,long parentid){
     unsigned int len;
     char query_sql[MAX_LEN];
     char escape[CONTENT_LEN];
@@ -26,9 +27,9 @@ long NotesDB::create_note(string title,string content,long parentid){
     long autoId = mysql_insert_id(&database);
     
     long pid;
-    //如果pid不存在,那么直接放入根目录中
+    //如果pid不存在,那么放入未分类目录中
     if(check_node_exist(parentid) == false)
-        pid = 0;
+        pid = get_uncatagorized_dir(username);
     else
         pid = parentid;
     
@@ -48,7 +49,10 @@ long NotesDB::create_note(string title,string content,long parentid){
  * 返回值表示影响的行数.如果没有修改任何东西会返回0(包括提交未改变的内容)
  * 如果该笔记已不存在.在change_dir里就会直接返回-1,并且不会进行后续操作
  */
-int NotesDB::update_note(string title, string content, long id, long pid = -1){
+int NotesDB::update_note(string username, string title, string content, long id, long pid = -1){
+    if(this->check_note_permission(username,id) == false)
+        return 0;    
+    
     unsigned int len;
     char query_sql[MAX_LEN];
     int effect = 0;
@@ -95,7 +99,10 @@ int NotesDB::update_note(long id, long pid){
  * 只更新title和content
  * 不需要修改的传一个空值
  */
-int NotesDB::update_note(string title, string content,long id){
+int NotesDB::update_note(string username, string title, string content,long id){
+    if(this->check_note_permission(username,id) == false)
+        return 0;
+        
     unsigned int len;
     char query_sql[MAX_LEN];
     stringstream ss;
@@ -146,9 +153,12 @@ int NotesDB::remove_note(long id){
  * 获取单条笔记
  * 
  */
-int NotesDB::get_note(long id,ARTICLE_INFO*& ai){
+int NotesDB::get_note(string username, long id,ARTICLE_INFO*& ai){
     unsigned int len;
     char query_sql[MAX_LEN];
+    if(this->check_note_permission(username,id) == false)
+        return 0;
+    
     len = snprintf(query_sql,MAX_LEN,
                    "SELECT article.articleID,nodeID,name,content,UNIX_TIMESTAMP(article.modifiedTime) \
                     FROM article \
@@ -219,8 +229,8 @@ int NotesDB::get_notes_time(long pid, ARTICLE_SYNC*& as){
  * 获取单条笔记的brief
  * 
  */
-int NotesDB::get_brief(long id,ARTICLE_INFO*& ai){
-    int t = this->get_note(id,ai);
+int NotesDB::get_brief(string username, long id,ARTICLE_INFO*& ai){
+    int t = this->get_note(username,id,ai);
     int count = t;
     while(t--){
         ai[t].content = ai[t].content.substr(0,BRIEF_LEN);
@@ -255,4 +265,30 @@ int  NotesDB::remove_note_in_location(long id){
     mysql_real_query(&database,query_sql,len);
     return mysql_affected_rows(&database);    
     
+}
+
+
+bool NotesDB::check_note_permission(string username, long id){
+    unsigned int len;
+    char query_sql[MAX_LEN];
+    string _username = escape(username);
+    len = snprintf(query_sql,MAX_LEN,
+                "SELECT article.articleID FROM article \
+                 LEFT JOIN articleLocation ON article.articleID = articleLocation.articleID \
+                 LEFT JOIN node ON articleLocation.nodeID = node.nodeID \
+                 WHERE node.username = '%s' AND article.articleID = %ld",
+                _username.c_str(),id);
+    int err = mysql_real_query(&database,query_sql,len);
+    if(err != 0)
+        cerr<<"database error";
+    else{
+        MYSQL_RES* res = mysql_store_result(&database);
+        int num = mysql_num_rows(res); 
+        mysql_free_result(res);
+        if(num == 0)
+            return false;
+        else 
+            return true;
+    }
+    return false;
 }

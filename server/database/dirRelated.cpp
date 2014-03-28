@@ -260,3 +260,33 @@ string NotesDB::escape(string s){
     string _s = escape;
     return _s;
 }
+
+/*
+ * 添加用户默认的未分类文件夹
+ * 否则当没有创建目录的时候会出错
+ * 后期最好还是将parentID利用上,而不是创建一个新的列
+ */
+int  NotesDB::add_uncatagorized_dir(string username){
+    string title = "uncatagorized";
+    int pid = this->create_dir(title,username);
+    if(pid == 0)
+        return 0;
+    return pid;
+}
+
+int  NotesDB::get_uncatagorized_dir(string username){
+    unsigned int len;
+    char query_sql[MAX_LEN];
+    string _username = escape(username);
+    len = snprintf(query_sql,MAX_LEN,
+                   "SELECT user.uncatagorized FROM user WHERE username = '%s';",
+                    _username.c_str());
+    mysql_real_query(&database,query_sql,len);
+    MYSQL_RES* result;
+    MYSQL_ROW row;
+    result = mysql_store_result(&database);
+    row = mysql_fetch_row(result);
+    unsigned long id = atoi(row[0]);
+    mysql_free_result(result);
+    return id;    
+}
