@@ -16,9 +16,13 @@
 #include "HandlerFactory.h"
 #include "Exception.hpp"
 
+
+#include <fstream>
 /*
  * CGI Main
  */
+
+using namespace std;
 
 std::string ExceptionJsonString(std::string what)
 {
@@ -27,7 +31,15 @@ std::string ExceptionJsonString(std::string what)
     return value.toStyledString();
 } 
 
-using namespace std;
+void log(std::string scriptName,std::string post)
+{
+    ofstream file("log.txt");
+    if(file.is_open())
+    {
+        file<<scriptName<<"\t"<<post<<endl;
+        file.close();
+    }
+}
 
 int main(int argc, char** argv) {
 
@@ -70,8 +82,10 @@ int main(int argc, char** argv) {
                 while (i < postLen) {
                     postInfo[i++] = cin.get();
                 }
+                
             }
 
+            log(scriptName,postInfo);
             /**/
             handler = simpleFactory.CreatHandler(scriptName);
             if (handler != NULL) {
