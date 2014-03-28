@@ -191,6 +191,7 @@ void tNotesLoginDialog::slotAcceptLogin()
     network_request.setUrl(QUrl("http://tnotes.wicp.net:8080/signin.cgi"));
     QNetworkReply *reply=mynetwork->post(network_request,data);
     replyMap.insert(reply,login);
+    loginButtons->button(QDialogButtonBox::Ok)->setEnabled(false);
 //    mynetwork->get("http://www.baidu.com");
 //    emit acceptLogin(username, password,
 //            index);
@@ -268,15 +269,18 @@ void tNotesLoginDialog::replyfinished(QNetworkReply* reply)
                 else if(code=="incorrect_password")
                 {
                     QMessageBox::warning(this,"登陆失败","密码错误，请重新登陆",QMessageBox::Yes);
+                    loginButtons->button(QDialogButtonBox::Ok)->setEnabled(true);
                 }
                 else
                 {
                     QMessageBox::warning(this,"登陆失败","出现未知错误，请联系管理员！",QMessageBox::Yes);
+                    loginButtons->button(QDialogButtonBox::Ok)->setEnabled(true);
                 }
             }
-        } else {
-            QMessageBox::warning(this,"error",error.errorString().toUtf8().constData(),QMessageBox::Yes);
-            exit(1);
+        } else {           
+            QMessageBox::warning(this,"错误","出现为止错误，请检查网络状况",QMessageBox::Yes);
+            qDebug()<<error.errorString().toUtf8().constData();
+            loginButtons->button(QDialogButtonBox::Ok)->setEnabled(true);
         }
 
         break;
