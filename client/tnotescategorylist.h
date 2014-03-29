@@ -32,6 +32,7 @@ private:
 
 signals:
     void initNotesEditor(string dirId, string articleId);
+    void initArticle(string dirId, string articleId);
 
 private slots:
     void initNotesCategory(string dirId);

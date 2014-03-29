@@ -105,6 +105,7 @@ private slots:
 
 signals:
         void autoupdate(string dirId, string articleId);
+        void updateNoteFinished(string dirId, string articleId);
 
 };
 
