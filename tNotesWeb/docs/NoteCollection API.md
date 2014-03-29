@@ -1,14 +1,51 @@
 ## NoteCollection API
 
+- [setFolderId](#setFolderId)
+- [getNoteListByFolderId](#getNoteListByFolderId)
+- [getNoteByNoteId](#getNoteByNoteId)
 - [getModelsByIds](#getModelsByIds)
 - [deleteModelById](#deleteModelById)
 - [deleteModelsByIds] (#deleteModelsByIds)
+- [deleteModelsByFolderId](#deleteModelsByFolderId)
 - [updateModelById](#updateModelById)
 - [addedNote] (#addedNote)
 - [deletedNote] (#deletedNote)
 - [updatedNote] (#updatedNote)
+- [newNote](#newNote)
+- [deleteNote](#deleteNote)
+- [updateNote](#updateNote)
 
 ---------------------------------
+### setFolderId
+
+概要：‘setFolderId(folderId)’
+
+描述：获取当前选中的folderId
+
+参数：
+
+- folderId(number): 选中的folderId
+
+### getNoteListByFolderId
+
+概要：'getNoteListByFolderId(folderId)'
+
+描述: 根据选中文件夹id从服务器获取数据
+
+参数：
+
+- folderId(number): 选中文件夹的id
+
+### getNoteByNoteId
+
+概要：‘getNoteByNoteId(id)’
+
+描述：根据选中笔记id从服务器获取数据
+
+参数：
+
+- id(number): 选中文件的id
+
 ### getModelsByIds
 
 概要：`getModelsByIds(Ids)`
@@ -38,6 +75,16 @@
 参数：
 
 - Ids(number[])：要删除笔记的id序列
+
+### deleteModelsByFolderId
+
+概要：‘deleteModelsByFolderId(folderId)’
+
+描述：根据文件夹id删除对应的笔记
+
+参数：
+
+- folderId(number): 要删除笔记的文件夹id
 
 ### updateModelById
 
@@ -79,3 +126,36 @@
 参数：
 
 - id(number)：对应Note的Id
+
+### newNote
+
+概要： ‘newNote(title, content)’
+
+描述：新建笔记，传入笔记标题、内容
+
+参数：
+
+- title(string): 笔记标题
+- content(string): 笔记内容
+
+### deleteNote
+
+概要： deleteNote(id)’
+
+描述：删除笔记，传入笔记id
+
+参数：
+
+- id(number): 笔记id
+
+### updateNote
+
+概要： updateNote(id, title, content)’
+
+描述：更新笔记，传入笔记id、笔记标题、笔记内容
+
+参数：
+
+- id(number): 笔记id
+- title(string): 笔记标题
+- content(string): 笔记内容

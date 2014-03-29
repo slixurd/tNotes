@@ -11,19 +11,15 @@ var Router = Backbone.Router.extend({
 
 	//新建笔记
 	newNote: function () {
-		contentViewerRouter.newNote();
-		noteList.selectNote(null);
+		contentViewer.newNote();
+		noteViewer.selectNote(null);
 	},
 	
 	//选择笔记
 	showNote: function (id) {
+		noteViewer.storageNote(id);
 		contentViewer.setNote(id);
 		noteViewer.selectNote(id);
-	},
-	
-	//接收folder传来的数组对象并显示到Note列表中
-	setSelectedFolder: function (NotesList) {
-		noteViewer.setSelectedFolder(NotesList);
 	}
 });
 
