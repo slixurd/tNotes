@@ -341,7 +341,8 @@ void tNotesTextEditor::updateArticle(string dirId, string articleId)
 {
     currentArticle.name = q2s(getTitle());
     currentArticle.context = q2s(getEditorContents());
-    //changeArticle(dirId, articleId, currentArticle);
+    changeArticleName(dirId, articleId, currentArticle.name);
+    changeArticleContent(dirId, articleId, currentArticle.context);
 }
 
 void tNotesTextEditor::slotUpdateArticle()

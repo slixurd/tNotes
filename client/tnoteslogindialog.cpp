@@ -278,7 +278,7 @@ void tNotesLoginDialog::replyfinished(QNetworkReply* reply)
                 }
             }
         } else {           
-            QMessageBox::warning(this,"错误","出现为止错误，请检查网络状况",QMessageBox::Yes);
+            QMessageBox::warning(this,"错误","出现未知错误，请检查网络状况",QMessageBox::Yes);
             qDebug()<<error.errorString().toUtf8().constData();
             loginButtons->button(QDialogButtonBox::Ok)->setEnabled(true);
         }
