@@ -368,3 +368,43 @@ exception description所有类型：
 
 
 ###13.同步协议待定###
+
+>URL:host/sync.cgi
+
+同步
+
+发送：
+
+    {
+        "node":[
+                {
+                    "id":id,
+                    "stamp":SERVER_TIME_STAMP
+                },
+                {
+                    "id":id,
+                    "stamp":SERVER_TIME_STAMP
+                },
+                ...
+            ],
+       "article":[
+                {
+                    "id":id,
+                    "stamp":SERVER_TIME_STAMP
+                },
+                {
+                    "id":id,
+                    "stamp":SERVER_TIME_STAMP
+                },
+                ...
+       ]
+    }
+    
+返回：
+
+    {
+        "deleted_node":[id1,id2,id3,...],
+        "changed_node":[id1,id2,id3,...],
+        "deleted_article":[id1,id2,id3,...],
+        "changed_article:[id1,id2,id3,...]
+    }
