@@ -61,6 +61,8 @@ Json::Value returnRoot(string path)
     if(ifs.is_open())
     {
     ifs.close();       
+    } else {
+        std::cout<<"hello"<<std::endl;
     }
    return root;
 }
@@ -204,15 +206,13 @@ vector<Directory> searchAllRoot()
 {
 
     Json::Value root = returnRoot(rootPath);
-    if (root == NULL)
-    {
-        cout << "hello" <<endl;
-    }
+    std::cout<<rootPath<<std::endl;
+    std::cout<<root.toStyledString()<<std::endl;
     vector<string> listRoot=root.getMemberNames();
     vector<Directory> allRoot;
     Directory obj;
     string nodeId;
-    //std::cout << listRoot.size() << std::endl;
+    std::cout << listRoot.size() << std::endl;
     for(int i=0;i<(int)listRoot.size();i++)
     {
         nodeId=listRoot[i];

@@ -42,8 +42,10 @@ tNotesTextEditor::tNotesTextEditor(QWidget *parent)
 	setupEditActions();
 }
 
-
-
+/*
+ * 初始化textEditor内部Widget
+ *
+ */
 void tNotesTextEditor::initWidgets()
 {
     editLinkDialog = new tNotesEditLinkDialog();
@@ -59,9 +61,9 @@ void tNotesTextEditor::initWidgets()
     titleLineEdit->setVisible(false);
 
     QFont timeFont("Arial", 8, QFont::Bold);
-    noteCreatedTime = new QLabel("Created: " + getCreatedTime());
+    noteCreatedTime = new QLabel("Created: ");
     noteCreatedTime->setFont(timeFont);
-    noteLastModifiedTime = new QLabel("updated: " + getLastModifiedTime());
+    noteLastModifiedTime = new QLabel("updated: ");
     noteLastModifiedTime->setFont(timeFont);
 
     horizonLine = new QFrame();
@@ -87,6 +89,12 @@ void tNotesTextEditor::initWidgets()
     toolsEnabled(false);
 }
 
+
+/*
+ * 初始化textEditor布局
+ *
+ */
+
 void tNotesTextEditor::setTextEditorLayout()
 {
 
@@ -106,7 +114,7 @@ void tNotesTextEditor::setTextEditorLayout()
     titleLayout = new QGridLayout;
     titleLayout->addWidget(noteTitle, 0, 0, 2, 1);
     titleLayout->addWidget(titleLineEdit, 0, 0, 2, 1);
-    titleLayout->addWidget(noteCreatedTime, 0, 1, 2, 1, Qt::AlignJustify);
+    titleLayout->addWidget(noteCreatedTime, 2, 3, Qt::AlignLeft);
 	//titleLayout->addLayout(tmpLayout, 0, 2, 0, 2);
     titleLayout->addWidget(buttonEdit, 0, 4, 2, 1, Qt::AlignRight);
 	titleLayout->addWidget(horizonLine, 1, 0, 2, 0);
@@ -123,10 +131,18 @@ void tNotesTextEditor::setTextEditorLayout()
 	setLayout(layout);
 }
 
+
+/*
+ * 连接signals与slots
+ *
+ */
 void tNotesTextEditor::setupEditActions()
 {
+    //点击edit按钮，editmode改变
     connect(buttonEdit, SIGNAL(clicked()), this,
 				SLOT(editModeChange()));
+
+    //edit 工具按钮事件响应
     connect(buttonBold, SIGNAL(clicked()), this,
 				SLOT(setBold()));
     connect(buttonItalic, SIGNAL(clicked()), this,
@@ -157,6 +173,10 @@ void tNotesTextEditor::setupEditActions()
 
 }
 
+
+/*
+ * 返回当前文章标题
+ */
 QString tNotesTextEditor::getTitle()
 {
     //QString ret = "Hello World!";
@@ -168,6 +188,10 @@ QString tNotesTextEditor::getTitle()
    // return ret;
 }
 
+
+/*
+ * 返回当前文章内容
+ */
 QString tNotesTextEditor::getEditorContents()
 {
     if(editMode == EDIT_MODE){
@@ -178,17 +202,30 @@ QString tNotesTextEditor::getEditorContents()
     }
 }
 
+
+/*
+ * 获取笔记创建时间
+ */
 QString tNotesTextEditor::getCreatedTime()
 {
-	return QDate::currentDate().toString("yyyy.MM.dd");
+    if (currentArticle.createTime.empty()){
+        return QDate::currentDate().toString("yyyyMMdd");
+    } else {
+        return s2q(currentArticle.modifiedTime);
+    }
 }
 
+/*
+ * 获取笔记最后修改时间
+ */
 QString tNotesTextEditor::getLastModifiedTime()
 {
-	return QDate::currentDate().toString("yyyy.MM.dd");
+    return QDate::currentDate().toString("yyyyMMdd");
 }
 
-
+/*
+ * markdown转换为html
+ */
 QString tNotesTextEditor::markdown2html(QString articleContents){
 
     QLibrary convertLib(tr("markdown2html.dll"));
@@ -217,6 +254,10 @@ QString tNotesTextEditor::markdown2html(QString articleContents){
     }
 }
 
+
+/*
+ * 工具按钮enable
+ */
 void tNotesTextEditor::toolsEnabled(bool flag)
 {
     buttonBold->setEnabled(flag);
@@ -226,6 +267,9 @@ void tNotesTextEditor::toolsEnabled(bool flag)
     buttonQuotes->setEnabled(flag);
 }
 
+/*
+ * viewmode与editmode切换
+ */
 void tNotesTextEditor::editModeChange()
 {
     updateArticle(currentDirId, currentArticleId);
@@ -318,8 +362,30 @@ void tNotesTextEditor::setLink(QString link)
     noteEditor->append(linkText);
 }
 
+/*
+ * 格式化日期
+ */
+QString formatDate(QString date)
+{
+    QString s = "";
+    for(int i = 0; i < date.size(); i ++){
+        s += date[i];
+        if(i == 3 || i == 5)
+            s += "/";
+    }
+    return s;
+}
+
+/*
+ * 用户登录时利用本地数据初始化笔记
+ */
 void tNotesTextEditor::initArticle(string dirId, string articleId)
 {
+    if (editMode == EDIT_MODE){
+        editMode = VIEW_MODE;
+        noteTitle->setVisible(true);
+        titleLineEdit->setVisible(false);
+    }
     currentArticleId = articleId;
     currentDirId = dirId;
     currentArticle = searchArticle(dirId, articleId);
@@ -333,17 +399,33 @@ void tNotesTextEditor::initArticle(string dirId, string articleId)
     noteEditor->setHtml(markdown2html(plainText));
     //cout<<q2s(markdown2html(content))<<endl;
 
+    noteCreatedTime->setText("Create: " + formatDate(s2q(currentArticle.createTime)));
+    noteLastModifiedTime->setText("Updated: " + formatDate(s2q(currentArticle.modifiedTime)));
+
     autoupdateTimer->setSingleShot(false);
     autoupdateTimer->start(5000);
 }
 
+/*
+ * 更新笔记在本地存储内容
+ * 更新成功后产生信号updateNoteFinished()
+ */
 void tNotesTextEditor::updateArticle(string dirId, string articleId)
 {
     currentArticle.name = q2s(getTitle());
     currentArticle.context = q2s(getEditorContents());
-    //changeArticle(dirId, articleId, currentArticle);
+    currentArticle.createTime = q2s(getCreatedTime());
+    currentArticle.modifiedTime = q2s(getLastModifiedTime());
+    changeArticleName(dirId, articleId, currentArticle.name);
+    changeArticleContent(dirId, articleId, currentArticle.context);
+    changeArticleId(dirId, articleId, articleId, q2s(getLastModifiedTime()));
+
+    emit updateNoteFinished(dirId, articleId);
 }
 
+/*
+ * 定时器调用的slot，用于自动保存笔记
+ */
 void tNotesTextEditor::slotUpdateArticle()
 {
     emit autoupdate(currentDirId, currentArticleId);

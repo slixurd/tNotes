@@ -72,6 +72,8 @@ void tNotesCategoryList::initNotesCategory(string dirId)
 {
     currentNotebookId = dirId;
     updateListView(dirId);
+    string articleId = dirVector[0].articleId;
+    emit initArticle(dirId, articleId);
 }
 
 void tNotesCategoryList::noteSelected(const QModelIndex &index)
