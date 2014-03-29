@@ -1,20 +1,20 @@
 /* 
- * File:   FecthnodesHandler.cpp
+ * File:   FetchnodesHandler.cpp
  * Author: wo1fsea
  * 
  * Created on March 27, 2014, 12:50 PM
  */
 
-#include "FecthNodesHandler.h"
+#include "FetchNodesHandler.h"
 #include "Exception.hpp"
 
-FecthNodesHandler::FecthNodesHandler() {
+FetchNodesHandler::FetchNodesHandler() {
 }
 
-FecthNodesHandler::~FecthNodesHandler() {
+FetchNodesHandler::~FetchNodesHandler() {
 }
 
-std::string FecthNodesHandler::Handle(std::string const& postStr)
+std::string FetchNodesHandler::Handle(std::string const& postStr)
 {
     Json::Value val;    
     String2Json(postStr,val);
@@ -37,7 +37,7 @@ std::string FecthNodesHandler::Handle(std::string const& postStr)
      *  I don't like this interface get_all_dir(), it is shitty! */
     DIR_INFO* DIR;
     int count = _DB->get_all_dir(_sessionManager.GetSessionInfo(sessionKey).User,DIR);
-    Json::Value note;
+    Json::Value node;
     for(int i = 0;i<count;i++)
     {
         Json::Value tmp;
@@ -45,12 +45,12 @@ std::string FecthNodesHandler::Handle(std::string const& postStr)
         tmp["name"] = DIR[i].name;
         tmp["stamp"] = (unsigned int)DIR[i].timestamp;
 
-        note.append(tmp);
+        node.append(tmp);
     }
     delete[] DIR;
     /* End */
     
-    result["note"] = note;
+    result["node"] = node;
     
     return Json2String(result);
 }

@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "FecthBriefsHandler.h"
+#include "FetchBriefsHandler.h"
 
 /*
  * Simple C++ Test Suite
@@ -17,7 +17,7 @@
 void test1() {
     
     std::string str = "{ \"session\" : \"JCCEMNTBPEXVWMLXDPZGAAFBBZNYKGZW\",\"id\":3}";
-    FecthBriefsHandler fHandler;
+    FetchBriefsHandler fHandler;
     str = fHandler.Handle(str);
     std::cout << "UnitTest4FecthBriefsHandler test 1" << std::endl;
 }

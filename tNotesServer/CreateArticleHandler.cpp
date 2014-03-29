@@ -41,10 +41,19 @@ std::string CreateArticleHandler::Handle(std::string const& postStr)
     
     _sessionManager.VeritySession(sessionKey);
     
-    unsigned int id = _DB->create_note(name,content,nodeId);
-    unsigned int stamp = _DB->get_note_mtime(_sessionManager.GetSessionInfo(sessionKey).User,id);
+    int id = _DB->create_note(_sessionManager.GetSessionInfo(sessionKey).User,
+            name,content,nodeId);
+    
+    if(id <= 0)
+        throw ArticleHandlingFailureException();
+    
+    unsigned int stamp = _DB->get_note_mtime(_sessionManager.GetSessionInfo(sessionKey).User,
+    id);
 
-    result["id"] = id;
+    if(stamp == 0)
+        throw ArticleHandlingFailureException();
+    
+    result["id"] = (unsigned int)id;
     result["name"] = name;
     result["location"] = nodeId;
     result["stamp"] = stamp;

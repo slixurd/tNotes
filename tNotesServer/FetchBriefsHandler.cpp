@@ -1,21 +1,21 @@
 /* 
- * File:   FecthBriefsHandler.cpp
+ * File:   FetchBriefsHandler.cpp
  * Author: wo1fsea
  * 
  * Created on March 27, 2014, 2:30 PM
  */
 
-#include "FecthBriefsHandler.h"
+#include "FetchBriefsHandler.h"
 
 #include "Exception.hpp"
 
-FecthBriefsHandler::FecthBriefsHandler() {
+FetchBriefsHandler::FetchBriefsHandler() {
 }
 
-FecthBriefsHandler::~FecthBriefsHandler() {
+FetchBriefsHandler::~FetchBriefsHandler() {
 }
 
-std::string FecthBriefsHandler::Handle(std::string const& postStr)
+std::string FetchBriefsHandler::Handle(std::string const& postStr)
 {
     Json::Value val;
     String2Json(postStr,val);
@@ -48,7 +48,7 @@ std::string FecthBriefsHandler::Handle(std::string const& postStr)
     {
         Json::Value tmp;
         ARTICLE_INFO * INFO;
-        if(_DB->get_brief(*it,INFO)==0)
+        if(_DB->get_brief(_sessionManager.GetSessionInfo(sessionKey).User,*it,INFO)==0)
             continue;
         tmp["id"] = (unsigned int)INFO->id,
 	tmp["name"] = INFO->name,

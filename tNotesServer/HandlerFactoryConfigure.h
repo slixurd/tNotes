@@ -18,9 +18,9 @@
 #include "SigninHandler.h"
 #include "SignoutHandler.h"
 #include "SignupHandler.h"
-#include "FecthNodesHandler.h"
-#include "FecthBriefsHandler.h"
-#include "FecthArticlesHandler.h"
+#include "FetchNodesHandler.h"
+#include "FetchBriefsHandler.h"
+#include "FetchArticlesHandler.h"
 #include "CreateArticleHandler.h"
 #include "ChangeArticleHandler.h"
 #include "DeleteArticleHandler.h"
@@ -37,9 +37,9 @@
  CREATE_HANDLER(SigninHandler,"/signin.cgi")                \
  CREATE_HANDLER(SignoutHandler,"/signout.cgi")              \
  CREATE_HANDLER(SignupHandler,"/signup.cgi")                \
- CREATE_HANDLER(FecthNodesHandler,"/fecthnodes.cgi")        \
- CREATE_HANDLER(FecthBriefsHandler,"/fecthbriefs.cgi")      \
- CREATE_HANDLER(FecthArticlesHandler,"/fectharticles.cgi")  \
+ CREATE_HANDLER(FetchNodesHandler,"/fetchnodes.cgi")        \
+ CREATE_HANDLER(FetchBriefsHandler,"/fetchbriefs.cgi")      \
+ CREATE_HANDLER(FetchArticlesHandler,"/fetcharticles.cgi")  \
  CREATE_HANDLER(CreateArticleHandler,"/createarticle.cgi")  \
  CREATE_HANDLER(ChangeArticleHandler,"/changearticle.cgi")  \
  CREATE_HANDLER(DeleteArticleHandler,"/deletearticle.cgi")  \

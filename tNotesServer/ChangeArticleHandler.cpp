@@ -57,7 +57,7 @@ std::string ChangeArticleHandler::Handle(std::string const& postStr)
         location = val["location"].asUInt();
     }
     
-    if(_DB->update_note(name,content,id,location)==0)
+    if(_DB->update_note(_sessionManager.GetSessionInfo(sessionKey).User,name,content,id,location)==0)
     {
         throw ArticleHandlingFailureException();
     }

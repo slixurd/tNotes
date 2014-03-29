@@ -8,15 +8,15 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "FecthArticlesHandler.h"
+#include "FetchArticlesHandler.h"
 #include "ChangeNodeHandler.h"
 /*
  * Simple C++ Test Suite
  */
 
 void test1() {
-    std::string str = "{ \"session\" : \"JCCEMNTBPEXVWMLXDPZGAAFBBZNYKGZW\",\"id\":[1]}";
-    FecthArticlesHandler fHandler;
+    std::string str = "{ \"session\" : \"JCCEMNTBPEXVWMLXDPZGAAFBBZNYKGZW\",\"id\":[10]}";
+    FetchArticlesHandler fHandler;
     str = fHandler.Handle(str);
     std::cout << "UnitTest4FecthArticlesHandler test 1" << std::endl;
 }
