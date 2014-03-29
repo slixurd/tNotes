@@ -23,7 +23,7 @@ void tNotesCategoryList::setupActions()
 void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
 {  
     if (event->button() == Qt::LeftButton) {
-        QListView::edit(currentIndex());
+        //QListView::edit(currentIndex());
     }
 }
 
@@ -43,10 +43,11 @@ bool tNotesCategoryList::updateListView(string id){
 
 //内存中添加
 void tNotesCategoryList::appendCategory(Article art){
+    dirVector.push_back(art);
     QStandardItem *itemTemp=new QStandardItem(s2q(art.name+";"+art.createTime+";"+art.context));
     itemTemp->setSizeHint(QSize(150,70));
     model->appendRow(itemTemp);
-    dirVector.push_back(art);
+
 }
 
 //内存中添加 文件中也添加

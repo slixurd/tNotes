@@ -10,8 +10,9 @@
 #include <QDate>
 #include <QPoint>
 #include <QMessageBox>
-
-
+#include <QTime>
+#include <QDebug>
+#include <iostream>
 
 #include "tnotesmainwindow.h"
 #include "tnotestexteditor.h"
@@ -182,8 +183,17 @@ void tNotesMainWindow::newDirectory(){
     if(index.column()==-1){
         return;
     }
+    QDate nowDate = QDate::currentDate();
+    string month;
+    string day;
+    if(nowDate.month()<10)month="0"+nowDate.month();
+    else month=nowDate.month();
+    if(nowDate.day()<10)day="0"+nowDate.day();
+    else day=nowDate.day();
+    string qstrDate = ""+nowDate.year()+
+            month+day;
     /////////ID  修改目录id
-    Directory dirTemp("99",string("newNotes"),"2014/2/1","2014/2/1",false);
+    Directory dirTemp(qstrDate,string("newNotes"),qstrDate,qstrDate,false);
     contentWidget->mListView->newNotebook(dirTemp);
 }
 
@@ -192,8 +202,22 @@ void tNotesMainWindow::newArticle(){
     if(index.column()==-1){
         if(contentWidget->mListView->nowDire.nodeId=="")return;
     }
+    QDate nowDate = QDate::currentDate();
+
+    string str2 = ""+12;
+    QString month;
+    QString day;
+    QString zero("0");
+    if(nowDate.month()<10)month=zero+nowDate.month();
+    else month=nowDate.month();
+    if(nowDate.day()<10)day=zero+nowDate.day();
+    else day=nowDate.day();
+    QString qstrDate = ""+nowDate.year()+
+            month+day;
+
+    string strDate = q2s(qstrDate);
     /////////ID  修改文章id
-    Article artTemp("9080", "newArticle", "", "2014/2/1","2014/2/1",false);
+    Article artTemp(strDate, "newArticle", "",strDate,strDate,false);
     contentWidget->mListView2->newCategory(artTemp,
                   contentWidget->mListView->nowDire.nodeId);
 }
@@ -230,6 +254,9 @@ void tNotesMainWindow::mousePressEvent(QMouseEvent *event)
     {
         m_ptPressGlobal = event->globalPos();
         m_bLeftBtnPress = true;
+
+        m_eDirection = PointValid(event->windowPos());
+        SetCursorStyle(m_eDirection);
     }
 }
 //鼠标移动事件

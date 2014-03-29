@@ -39,7 +39,6 @@ void setupRootPath(string path)
     ROOTPATH = path + "\\";
     rootPath = path + "\\root.json";
     recordPath = path + "\\record.json";
-
 }
 /************************************************************************/
 /* 返回文章路径，路径构成为文章ID+.json                                                                    */

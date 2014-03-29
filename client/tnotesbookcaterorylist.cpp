@@ -29,6 +29,14 @@ void tNotesBookCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
         QListView::edit(currentIndex());
     }
 }
+//修改了目录名字
+void tNotesBookCategoryList::dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight,
+const QVector<int> & roles = QVector<int> ()){
+    QString qstr = currentIndex().data().toString();
+    dirVectory[topLeft.column()].name=q2s(qstr);
+    changeRoot( nowDire.nodeId , dirVectory[topLeft.column()].name);
+}
+
 
 //初始化笔记本
 void tNotesBookCategoryList::initNotebooks(QString path)
