@@ -110,7 +110,7 @@ exception description所有类型：
 
 ###4.请求目录###
 
->URL: host/Fecthnodes.cgi 
+>URL: host/fetchnodes.cgi 
 
 取得根节点下所有的文件夹节点
 
@@ -141,7 +141,7 @@ exception description所有类型：
 
 ###5.请求某一目录下所有文件名及摘要等信息###
 
->URL：host/fecthbriefs.cgi 
+>URL：host/fetchbriefs.cgi 
 
 取得"id"为node_id的目录下所有文件名及摘要等信息
 
@@ -179,7 +179,7 @@ exception description所有类型：
 
 ###6.请求指定id的文章全文###
 
->URL：host/fectharticles.cgi 
+>URL：host/fetcharticles.cgi 
 
 取得指定id的文章全文，id可以同时传送多个
 
