@@ -10,9 +10,9 @@
       <itemPath>DeleteNodeHandler.h</itemPath>
       <itemPath>DummyHandler.h</itemPath>
       <itemPath>Exception.hpp</itemPath>
-      <itemPath>FecthArticlesHandler.h</itemPath>
-      <itemPath>FecthBriefsHandler.h</itemPath>
-      <itemPath>FecthNodesHandler.h</itemPath>
+      <itemPath>FetchArticlesHandler.h</itemPath>
+      <itemPath>FetchBriefsHandler.h</itemPath>
+      <itemPath>FetchNodesHandler.h</itemPath>
       <itemPath>Handler.h</itemPath>
       <itemPath>HandlerFactory.h</itemPath>
       <itemPath>HandlerFactoryConfigure.h</itemPath>
@@ -37,9 +37,9 @@
       <itemPath>DeleteArticleHandler.cpp</itemPath>
       <itemPath>DeleteNodeHandler.cpp</itemPath>
       <itemPath>DummyHandler.cpp</itemPath>
-      <itemPath>FecthArticlesHandler.cpp</itemPath>
-      <itemPath>FecthBriefsHandler.cpp</itemPath>
-      <itemPath>FecthNodesHandler.cpp</itemPath>
+      <itemPath>FetchArticlesHandler.cpp</itemPath>
+      <itemPath>FetchBriefsHandler.cpp</itemPath>
+      <itemPath>FetchNodesHandler.cpp</itemPath>
       <itemPath>Handler.cpp</itemPath>
       <itemPath>HandlerFactory.cpp</itemPath>
       <itemPath>SessionCache.cpp</itemPath>
@@ -155,17 +155,17 @@
       </item>
       <item path="Exception.hpp" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="FecthArticlesHandler.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FetchArticlesHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="FecthArticlesHandler.h" ex="false" tool="3" flavor2="0">
+      <item path="FetchArticlesHandler.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="FecthBriefsHandler.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FetchBriefsHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="FecthBriefsHandler.h" ex="false" tool="3" flavor2="0">
+      <item path="FetchBriefsHandler.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="FecthNodesHandler.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FetchNodesHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="FecthNodesHandler.h" ex="false" tool="3" flavor2="0">
+      <item path="FetchNodesHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Handler.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -370,17 +370,17 @@
       </item>
       <item path="Exception.hpp" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="FecthArticlesHandler.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FetchArticlesHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="FecthArticlesHandler.h" ex="false" tool="3" flavor2="0">
+      <item path="FetchArticlesHandler.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="FecthBriefsHandler.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FetchBriefsHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="FecthBriefsHandler.h" ex="false" tool="3" flavor2="0">
+      <item path="FetchBriefsHandler.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="FecthNodesHandler.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FetchNodesHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="FecthNodesHandler.h" ex="false" tool="3" flavor2="0">
+      <item path="FetchNodesHandler.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Handler.cpp" ex="false" tool="1" flavor2="0">
       </item>

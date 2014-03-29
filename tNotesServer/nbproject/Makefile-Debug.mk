@@ -42,9 +42,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/DeleteArticleHandler.o \
 	${OBJECTDIR}/DeleteNodeHandler.o \
 	${OBJECTDIR}/DummyHandler.o \
-	${OBJECTDIR}/FecthArticlesHandler.o \
-	${OBJECTDIR}/FecthBriefsHandler.o \
-	${OBJECTDIR}/FecthNodesHandler.o \
+	${OBJECTDIR}/FetchArticlesHandler.o \
+	${OBJECTDIR}/FetchBriefsHandler.o \
+	${OBJECTDIR}/FetchNodesHandler.o \
 	${OBJECTDIR}/Handler.o \
 	${OBJECTDIR}/HandlerFactory.o \
 	${OBJECTDIR}/SessionCache.o \
@@ -128,20 +128,20 @@ ${OBJECTDIR}/DummyHandler.o: DummyHandler.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp
 
-${OBJECTDIR}/FecthArticlesHandler.o: FecthArticlesHandler.cpp 
+${OBJECTDIR}/FetchArticlesHandler.o: FetchArticlesHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthArticlesHandler.o FecthArticlesHandler.cpp
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FetchArticlesHandler.o FetchArticlesHandler.cpp
 
-${OBJECTDIR}/FecthBriefsHandler.o: FecthBriefsHandler.cpp 
+${OBJECTDIR}/FetchBriefsHandler.o: FetchBriefsHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthBriefsHandler.o FecthBriefsHandler.cpp
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FetchBriefsHandler.o FetchBriefsHandler.cpp
 
-${OBJECTDIR}/FecthNodesHandler.o: FecthNodesHandler.cpp 
+${OBJECTDIR}/FetchNodesHandler.o: FetchNodesHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthNodesHandler.o FecthNodesHandler.cpp
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FetchNodesHandler.o FetchNodesHandler.cpp
 
 ${OBJECTDIR}/Handler.o: Handler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -350,43 +350,43 @@ ${OBJECTDIR}/DummyHandler_nomain.o: ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp
 	    ${CP} ${OBJECTDIR}/DummyHandler.o ${OBJECTDIR}/DummyHandler_nomain.o;\
 	fi
 
-${OBJECTDIR}/FecthArticlesHandler_nomain.o: ${OBJECTDIR}/FecthArticlesHandler.o FecthArticlesHandler.cpp 
+${OBJECTDIR}/FetchArticlesHandler_nomain.o: ${OBJECTDIR}/FetchArticlesHandler.o FetchArticlesHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/FecthArticlesHandler.o`; \
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/FetchArticlesHandler.o`; \
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthArticlesHandler_nomain.o FecthArticlesHandler.cpp;\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FetchArticlesHandler_nomain.o FetchArticlesHandler.cpp;\
 	else  \
-	    ${CP} ${OBJECTDIR}/FecthArticlesHandler.o ${OBJECTDIR}/FecthArticlesHandler_nomain.o;\
+	    ${CP} ${OBJECTDIR}/FetchArticlesHandler.o ${OBJECTDIR}/FetchArticlesHandler_nomain.o;\
 	fi
 
-${OBJECTDIR}/FecthBriefsHandler_nomain.o: ${OBJECTDIR}/FecthBriefsHandler.o FecthBriefsHandler.cpp 
+${OBJECTDIR}/FetchBriefsHandler_nomain.o: ${OBJECTDIR}/FetchBriefsHandler.o FetchBriefsHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/FecthBriefsHandler.o`; \
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/FetchBriefsHandler.o`; \
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthBriefsHandler_nomain.o FecthBriefsHandler.cpp;\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FetchBriefsHandler_nomain.o FetchBriefsHandler.cpp;\
 	else  \
-	    ${CP} ${OBJECTDIR}/FecthBriefsHandler.o ${OBJECTDIR}/FecthBriefsHandler_nomain.o;\
+	    ${CP} ${OBJECTDIR}/FetchBriefsHandler.o ${OBJECTDIR}/FetchBriefsHandler_nomain.o;\
 	fi
 
-${OBJECTDIR}/FecthNodesHandler_nomain.o: ${OBJECTDIR}/FecthNodesHandler.o FecthNodesHandler.cpp 
+${OBJECTDIR}/FetchNodesHandler_nomain.o: ${OBJECTDIR}/FetchNodesHandler.o FetchNodesHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/FecthNodesHandler.o`; \
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/FetchNodesHandler.o`; \
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FecthNodesHandler_nomain.o FecthNodesHandler.cpp;\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FetchNodesHandler_nomain.o FetchNodesHandler.cpp;\
 	else  \
-	    ${CP} ${OBJECTDIR}/FecthNodesHandler.o ${OBJECTDIR}/FecthNodesHandler_nomain.o;\
+	    ${CP} ${OBJECTDIR}/FetchNodesHandler.o ${OBJECTDIR}/FetchNodesHandler_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Handler_nomain.o: ${OBJECTDIR}/Handler.o Handler.cpp 

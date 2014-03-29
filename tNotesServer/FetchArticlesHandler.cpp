@@ -1,21 +1,21 @@
 /* 
- * File:   FecthArticlesHandler.cpp
+ * File:   FetchArticlesHandler.cpp
  * Author: wo1fsea
  * 
  * Created on March 27, 2014, 2:59 PM
  */
 
-#include "FecthArticlesHandler.h"
+#include "FetchArticlesHandler.h"
 
 #include "Exception.hpp"
 
-FecthArticlesHandler::FecthArticlesHandler() {
+FetchArticlesHandler::FetchArticlesHandler() {
 }
 
-FecthArticlesHandler::~FecthArticlesHandler() {
+FetchArticlesHandler::~FetchArticlesHandler() {
 }
 
-std::string FecthArticlesHandler::Handle(std::string const& postStr)
+std::string FetchArticlesHandler::Handle(std::string const& postStr)
 {
     Json::Value val;
     String2Json(postStr,val);
@@ -33,7 +33,7 @@ std::string FecthArticlesHandler::Handle(std::string const& postStr)
         throw IncorrectDataFormatException();
     }
         
-    _sessionManager.VeritySession(sessionKey);
+    //_sessionManager.VeritySession(sessionKey);
     
     /*  From here, it may cause some serious bug. 
      *  I don't like this interface get_all_dir(), it is shitty! */
@@ -43,7 +43,8 @@ std::string FecthArticlesHandler::Handle(std::string const& postStr)
         Json::Value tmp;
         ARTICLE_INFO * INFO = 0;
         
-        if(_DB->get_note((*it).asInt(),INFO)==0)
+        if(_DB->get_note("test",//_sessionManager.GetSessionInfo(sessionKey).User,
+                (*it).asInt(),INFO)==0)
             continue;
         
         tmp["id"] = (unsigned int)INFO->id;
