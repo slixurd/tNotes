@@ -35,7 +35,7 @@ public:
     long create_note(string, string, string, long);
     int  update_note(string, string, string, long, long);
     int  update_note(string, string, string,long);
-    int  update_note(long, long);
+    int  update_note(string, long, long);
     int  remove_note(long);
     
     int  get_note(string, long, ARTICLE_INFO*&);
@@ -63,11 +63,13 @@ private:
     string sha1(const string&);
     string get_salt(const string);
     string generate_salt();
+    
+    bool check_dir_permission(string username, long pid);
     bool check_note_permission(string,long);
     int  remove_note_in_location(long);
     bool check_user_exist(const string);
     bool check_node_exist(const long );
-    int  change_dir(long, long);
+    int  change_dir(string username, long, long);
     int  remove_all_notes_from_dir(long);
     string escape(string);
 };

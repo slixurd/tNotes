@@ -30,19 +30,22 @@ long NotesDB::create_dir(string title,string user){
  *  修改笔记所在目录
  * 返回影响行数
  */
-int NotesDB::change_dir(long id,long pid){
+int NotesDB::change_dir(string username, long id,long pid){
+    int permission = this->check_dir_permission(username, pid);
+    if(permission == false)
+        return 0;
     unsigned int len;
     char query_sql[MAX_LEN];
     len = snprintf(query_sql,MAX_LEN,
                 "UPDATE articleLocation SET nodeID = %ld WHERE articleID = %ld",
                 pid,id);
     mysql_real_query(&database,query_sql,len);
-    int affect = mysql_affected_rows(&database);
+    int effect = mysql_affected_rows(&database);
     len = snprintf(query_sql,MAX_LEN,
                 "UPDATE article SET modifiedTime = CURRENT_TIMESTAMP WHERE articleID = %ld",
                 id);
     mysql_real_query(&database,query_sql,len);    
-    return affect;
+    return effect;
 }
 
 /***
@@ -248,6 +251,9 @@ unsigned long NotesDB::get_dir_mtime(string username,long pid){
     MYSQL_ROW row;
     result = mysql_store_result(&database);
     row = mysql_fetch_row(result);
+    if(result == NULL){
+        return 0;
+    }
     unsigned long tstamp = atoi(row[0]);
     mysql_free_result(result);
     return tstamp;    
@@ -286,7 +292,35 @@ int  NotesDB::get_uncatagorized_dir(string username){
     MYSQL_ROW row;
     result = mysql_store_result(&database);
     row = mysql_fetch_row(result);
+    if(result == NULL){
+        return 0;
+    }
     unsigned long id = atoi(row[0]);
     mysql_free_result(result);
     return id;    
+}
+
+
+bool NotesDB::check_dir_permission(string username, long pid){
+    unsigned int len;
+    char query_sql[MAX_LEN];
+    string _username = escape(username);
+    len = snprintf(query_sql,MAX_LEN,
+                "SELECT * FROM node \
+                 WHERE username = '%s' AND nodeID = %ld",
+                _username.c_str(),pid);
+    int err = mysql_real_query(&database,query_sql,len);
+    if(err != 0)
+        cerr<<"database error";
+    else{
+        MYSQL_RES* res = mysql_store_result(&database);
+        int num = mysql_num_rows(res); 
+        mysql_free_result(res);
+        if(num == 0)
+            return false;
+        else 
+            return true;
+    }
+    return false;    
+    
 }

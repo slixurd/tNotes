@@ -29,6 +29,7 @@ long NotesDB::create_note(string username, string title,string content,long pare
     long pid;
     //如果pid不存在,那么放入未分类目录中
     if(check_node_exist(parentid) == false)
+        //pid = get_uncatagorized_dir(username);
         return -1;
     else
         pid = parentid;
@@ -52,13 +53,13 @@ long NotesDB::create_note(string username, string title,string content,long pare
 int NotesDB::update_note(string username, string title, string content, long id, long pid = -1){
     if(this->check_note_permission(username,id) == false)
         return 0;    
-    /* Need to check the dir permission */
-    
     unsigned int len;
     char query_sql[MAX_LEN];
     int effect = 0;
     if(pid != -1){
-        effect = this->change_dir(id,pid);
+        effect = this->change_dir(username,id,pid);
+        if(effect == 0)
+            return 0;
     }
     stringstream ss;
     char escape[CONTENT_LEN];
@@ -90,8 +91,8 @@ int NotesDB::update_note(string username, string title, string content, long id,
  * 更新笔记
  * 只更新目录ID号
  */
-int NotesDB::update_note(long id, long pid){
-    int effect = this->change_dir(id,pid);
+int NotesDB::update_note(string username, long id, long pid){
+    int effect = this->change_dir(username, id, pid);
     return effect;
 }
 
@@ -214,6 +215,9 @@ int NotesDB::get_notes_time(long pid, ARTICLE_SYNC*& as){
     unsigned int count=0;
     unsigned int num_rows;
     result = mysql_store_result(&database);
+    if(result == NULL){
+        return 0;
+    }
     num_rows = mysql_num_rows(result);
     as = new ARTICLE_SYNC[num_rows];
     while ((row = mysql_fetch_row(result)))
@@ -251,8 +255,9 @@ unsigned long NotesDB::get_note_mtime(string username,long id){
     MYSQL_RES* result;
     MYSQL_ROW row;
     result = mysql_store_result(&database);
-    if(result==NULL)
+    if(result == NULL){
         return 0;
+    }
     row = mysql_fetch_row(result);
     unsigned long tstamp = atoi(row[0]);
     mysql_free_result(result);
