@@ -45,16 +45,6 @@ std::vector<std::string> tNotesSearchTool::find()
 
 
     return searchinstance->select(x);
-//    if(pos!=-1)
-//    {
-////        searchStateLabel->setText("find it");
-//        return true;
-//    }
-//    else
-//    {
-////        searchStateLabel->setText("not find");
-//        return false;
-//    }
 }
 
 //按下查询按钮时响应
@@ -65,44 +55,19 @@ void tNotesSearchTool::searchbtn_click()
     std::vector<Article> list(searchAllArticle());
     for(std::vector<Article>::iterator iter=list.begin();iter!=list.end();iter++)
     {
+        //字符转换丧心病狂
         char *tmpArticleId = new char[(*iter).articleId.length() + 1];
         char *tmpName = new char[(*iter).name.length() + 1];
         char *tmpContext = new char[(*iter).context.length() + 1];
-        std::cout<<(*iter).context.c_str();
-        stdstring2charstar((*iter).articleId.c_str(), tmpArticleId);
-        stdstring2charstar((*iter).name.c_str(), tmpName);
-        stdstring2charstar((*iter).context.c_str(), tmpContext);
-        std::cout<<"content:";
-        std::cout<<tmpArticleId<<' '<<tmpName<<' '<<tmpContext<<endl;
-
-        QTextCodec *codec=QTextCodec::codecForName("UTF-8");
-       // QString tmp = codec->toUnicode(s2q((*iter).name));
-
-        //char *tmpStr = new char[q2s(tmp).length()+1];
-
-        //stdstring2charstar(q2s(tmp).c_str(), tmpStr);
-
-        //    QTextCodec *codec=QTextCodec::codecForName("UTF-8");
-        //    this->replyinformation=codec->toUnicode(reply->readAll());
-
-        QTextCodec *utf8 = QTextCodec::codecForName("UTF-8");
-        //QString tmp = utf8->toUnicode(s2q((*iter).name.c_str()).toLatin1());
-        //char *tmpStr = new char[q2s(tmp).length()+1];
-
-        //stdstring2charstar(q2s(tmp).c_str(), tmpStr);
-        //qDebug()<<"tmpstr: "<<tmpStr<<endl;
-        searchinstance->insert(tmpArticleId, /*tmpStr*/tmpName,tmpContext);
-
-//        if(!find((*iter).context))
-//        {
-//            searchStateLabel->setText("find it");
-//            list.erase(iter);
-//        }
-//        else
-//        {
-//            iter++;
-//            searchStateLabel->setText("not find");
-//        }
+        QTextCodec *codec=QTextCodec::codecForName("GBK");
+        QString id=codec->toUnicode((*iter).articleId.c_str());
+        QString name=codec->toUnicode((*iter).name.c_str());
+        QString context=codec->toUnicode((*iter).context.c_str());
+        stdstring2charstar(id.toStdString(), tmpArticleId);
+        stdstring2charstar(name.toStdString(), tmpName);
+        stdstring2charstar(context.toStdString(), tmpContext);
+        searchinstance->insert(tmpArticleId,tmpName,tmpContext);
+        //字符转换丧心病狂
     }
     std::vector<std::string> temp=find();
     //显示在界面的文章列表上
