@@ -1,3 +1,5 @@
+#ifndef TNOTEMAIN_H
+#define TNOTEMAIN_H
 #include <QDesktopWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -31,6 +33,7 @@
 tNotesMainWindow::tNotesMainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    IsLogin=false;
     ROOT_PATH = "D:\\data\\";
     /* set window size */
 
@@ -118,12 +121,12 @@ void tNotesMainWindow::setupActions()
 
 void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &index)
 {
+    IsLogin=true;
     initNotesByUser(username);
 }
 
 void tNotesMainWindow::openLoginDialog()
 {
-
 	dialogLogin->exec();
 }
 
@@ -181,7 +184,7 @@ void tNotesMainWindow::moveEnd(QPoint endPoint)
 
 void tNotesMainWindow::newDirectory(){
     QModelIndex index = contentWidget->mListView->currentIndex();
-    if(index.column()==-1){
+    if(!IsLogin){
         return;
     }
     QDate nowDate = QDate::currentDate();
@@ -245,9 +248,12 @@ void tNotesMainWindow::synchronize(){
     //contentWidget->mListView->dirVectory;   第一个列表的vector
     //contentWidget->mListView2->dirVectory;  第二个列表的vector
     //contentWidget->mListView->nowDire; 第一个当前的目录
+    //如果没有登陆则登陆  否则同步
+    if(!IsLogin){
+        openLoginDialog();
+    }else{
 
-    QDialog qd;
-    qd.show();
+    }
 }
 
 
@@ -408,3 +414,4 @@ void tNotesMainWindow::SetDrayMove(int nXGlobal,int nYGlobal,int d)
     setGeometry(rectWindow);
 }
 
+#endif

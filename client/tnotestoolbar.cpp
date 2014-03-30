@@ -60,9 +60,11 @@ tNotesToolBar::~tNotesToolBar(void)
 void tNotesToolBar::setupActions()
 {
     connect(loginButton, SIGNAL(clicked()), this, SLOT(loginButtonClicked()));
+
 }
 
 void tNotesToolBar::loginButtonClicked()
 {
     emit openLoginDialog();
 }
+
