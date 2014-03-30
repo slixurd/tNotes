@@ -76,6 +76,7 @@ void tNotesLoginDialog::setUpLoginGUI()
 	labelPassword = new QLabel();
 	labelUsername->setText(tr("Username"));
 	labelUsername->setBuddy(comboUsername);
+    comboUsername->setFocus();
 	labelPassword->setText(tr("Password"));
 	labelPassword->setBuddy(editPassword);
 
