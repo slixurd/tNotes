@@ -13,6 +13,7 @@
 #include "string.h"
 #include <QDebug>
 #include <QTextCodec>
+
 tNotesSearchTool::tNotesSearchTool(QWidget *parent) 
 	: QWidget(parent)
 {

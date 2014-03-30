@@ -15,6 +15,9 @@
 #include <QMessageBox>
 #include <QLineEdit>
 #include <QTimer>
+#include <QColor>
+#include <QDebug>
+#include <QTextBrowser>
 
 //#include <windows.h>
 #include <iostream>
@@ -51,7 +54,9 @@ void tNotesTextEditor::initWidgets()
     editLinkDialog = new tNotesEditLinkDialog();
     linkCounter = 0;
 
-    noteEditor = new QTextEdit;
+    //noteEditor = new QTextEdit;
+    noteEditor = new QTextBrowser;
+
     noteEditor->setStyleSheet("background-color:#FFFFFF");
 
     QFont titleFont("Arial", 18, QFont::Bold);
@@ -402,6 +407,8 @@ void tNotesTextEditor::initArticle(string dirId, string articleId)
     noteCreatedTime->setText("Create: " + formatDate(s2q(currentArticle.createTime)));
     noteLastModifiedTime->setText("Updated: " + formatDate(s2q(currentArticle.modifiedTime)));
 
+    findInArticle("hello");
+
     autoupdateTimer->setSingleShot(false);
     autoupdateTimer->start(5000);
 }
@@ -412,15 +419,21 @@ void tNotesTextEditor::initArticle(string dirId, string articleId)
  */
 void tNotesTextEditor::updateArticle(string dirId, string articleId)
 {
-    currentArticle.name = q2s(getTitle());
-    currentArticle.context = q2s(getEditorContents());
-    currentArticle.createTime = q2s(getCreatedTime());
-    currentArticle.modifiedTime = q2s(getLastModifiedTime());
-    changeArticleName(dirId, articleId, currentArticle.name);
-    changeArticleContent(dirId, articleId, currentArticle.context);
-    changeArticleId(dirId, articleId, articleId, q2s(getLastModifiedTime()));
+    if(noteEditor->document()->isModified()){
+        currentArticle.name = q2s(getTitle());
+        currentArticle.context = q2s(getEditorContents());
+        currentArticle.createTime = q2s(getCreatedTime());
+        currentArticle.modifiedTime = q2s(getLastModifiedTime());
+        changeArticleName(dirId, articleId, currentArticle.name);
+        changeArticleContent(dirId, articleId, currentArticle.context);
+        changeArticleId(dirId, articleId, articleId, q2s(getLastModifiedTime()));
+//print("autosaving");
+        noteEditor->document()->setModified(false);
+        emit updateNoteFinished(dirId, articleId);
+    } else {
 
-    emit updateNoteFinished(dirId, articleId);
+        return ;
+    }
 }
 
 /*
@@ -429,5 +442,38 @@ void tNotesTextEditor::updateArticle(string dirId, string articleId)
 void tNotesTextEditor::slotUpdateArticle()
 {
     emit autoupdate(currentDirId, currentArticleId);
+}
+
+void tNotesTextEditor::setTextHighLight(QString targetStr)
+{
+    int startIndex = 0;
+    int endIndex = 0;
+    QString htmlContents = markdown2html(s2q(currentArticle.context));
+    while(true){
+        startIndex = htmlContents.indexOf(targetStr, endIndex);
+        if (startIndex == -1){
+            break;
+        } else {
+            QString highlightString = "<span style=\"background: yellow;\">" + targetStr + "</span>";
+            htmlContents.replace(startIndex, targetStr.length(), highlightString);
+            endIndex = htmlContents.indexOf("</span>", startIndex) + 7;
+        }
+    }
+    //int startIndex = htmlContents.indexOf("hello");
+    //QString hightlightString = "<span style=\"background: yellow;\">hello</span>";
+    //htmlContents.replace(startIndex, 5, hightlightString);
+    noteEditor->setHtml(htmlContents);
+    //qDebug()<<"after: "<<endl << noteEditor->toHtml();
+}
+
+void tNotesTextEditor::findInArticle(QString word){
+    if(editMode == EDIT_MODE){
+        updateArticle(currentDirId, currentArticleId);
+        editMode = VIEW_MODE;
+        QString currentContent = markdown2html(noteEditor->toPlainText());
+        noteEditor->setHtml(currentContent);
+        noteEditor->setReadOnly(true);
+    }
+    setTextHighLight(word);
 }
 
