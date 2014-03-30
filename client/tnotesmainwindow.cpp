@@ -1,6 +1,7 @@
 #ifndef TNOTEMAIN_H
 #define TNOTEMAIN_H
-#include <iostream>
+
+#include <QDir>
 #include <QDesktopWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -123,6 +124,8 @@ void tNotesMainWindow::setupActions()
 void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &index)
 {
     IsLogin=true;
+    QDir qdir(ROOT_PATH+username);
+    if(!qdir.exists())qdir.mkdir(ROOT_PATH+username);
     initNotesByUser(username);
 }
 
@@ -189,10 +192,10 @@ void tNotesMainWindow::newDirectory(){
         return;
     }
     QDate nowDate = QDate::currentDate();
-    qDebug()<<nowDate.toString()<<"asd"<<endl;
-    qDebug()<<nowDate.year()<<"asd"<<endl;
-    qDebug()<<nowDate.month()<<"asd"<<endl;
-    qDebug()<<nowDate.day()<<"asd"<<endl;
+
+    qint64 time = QDateTime::currentMSecsSinceEpoch();
+    QString qstrTimeStamp = QString::number(time);
+    qstrTimeStamp = qstrTimeStamp.mid(0,10);
 
     QString qstrYear = QString::number(nowDate.year());
     QString qstrMonth = QString::number(nowDate.month());
@@ -207,7 +210,7 @@ void tNotesMainWindow::newDirectory(){
     qDebug()<<qstrDate<<"asd"<<endl;
     string strDate  =q2s(qstrDate);
     /////////ID  修改目录id
-    Directory dirTemp(strDate,string("newNotes"),strDate,strDate,false);
+    Directory dirTemp(q2s(qstrTimeStamp),string("newNotes"),strDate,strDate,false);
     contentWidget->mListView->newNotebook(dirTemp);
 }
 
@@ -217,14 +220,16 @@ void tNotesMainWindow::newArticle(){
         if(contentWidget->mListView->nowDire.nodeId=="")return;
     }
     QDate nowDate = QDate::currentDate();
-    qDebug()<<nowDate.toString()<<"asd"<<endl;
-    qDebug()<<nowDate.year()<<"asd"<<endl;
-    qDebug()<<nowDate.month()<<"asd"<<endl;
-    qDebug()<<nowDate.day()<<"asd"<<endl;
 
     QString qstrYear = QString::number(nowDate.year());
     QString qstrMonth = QString::number(nowDate.month());
     QString qstrDay = QString::number(nowDate.day());
+
+
+
+    qint64 time = QDateTime::currentMSecsSinceEpoch();
+    QString qstrTimeStamp = QString::number(time);
+    qstrTimeStamp = qstrTimeStamp.mid(0,10);
 
 
     if(nowDate.month()<10)qstrMonth="0"+qstrMonth;
@@ -235,9 +240,8 @@ void tNotesMainWindow::newArticle(){
     qDebug()<<qstrDate<<"asd"<<endl;
     string strDate  =q2s(qstrDate);
 
-
     /////////ID  修改文章id
-    Article artTemp(strDate, "newArticle", "",strDate,strDate,false);
+    Article artTemp(q2s(qstrTimeStamp), "newArticle", "",strDate,strDate,false);
     contentWidget->mListView2->newCategory(artTemp,
                   contentWidget->mListView->nowDire.nodeId);
 }
