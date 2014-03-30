@@ -1,6 +1,8 @@
 #include "mynetworker.h"
 #include <QtNetwork>
 #include <QTextCodec>
+
+QString MyNetWorker::session_key="";
 MyNetWorker::MyNetWorker(QObject *parent) :
     QObject(parent)
 {
@@ -44,4 +46,18 @@ bool MyNetWorker::isconnect()
         qDebug()<<"connected";
         return true;
     }
+}
+
+void MyNetWorker::send(std::string url, std::string senddata)
+{
+    QByteArray data;
+    data.append(senddata.c_str());
+    qDebug()<<data;
+    QNetworkRequest network_request;
+    //设置头信息
+    network_request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    network_request.setHeader(QNetworkRequest::ContentLengthHeader, data.length());
+    //设置url
+    network_request.setUrl(QUrl(url.c_str()));
+    post(network_request,data);
 }

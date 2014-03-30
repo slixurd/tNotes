@@ -259,6 +259,7 @@ void tNotesLoginDialog::replyfinished(QNetworkReply* reply)
                     QTextStream out(&file);
                     out<<session;
                     file.close();
+                    MyNetWorker::session_key=session;
                     QMessageBox::information(this,"登陆成功","欢迎使用tNote！",QMessageBox::Ok);
                     QString username = comboUsername->currentText();
                     QString password = editPassword->text();
