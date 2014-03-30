@@ -163,7 +163,7 @@ int NotesDB::get_all_dir(string username,DIR_INFO*& info){
     char query_sql[MAX_LEN];
     string _username = escape(username);
     len = snprintf(query_sql,MAX_LEN,
-                "SELECT nodeID,name,UNIX_TIMESTAMP(createTime) as ctime FROM node WHERE username = '%s'",
+                "SELECT nodeID,name,UNIX_TIMESTAMP(modifiedTime) as ctime FROM node WHERE username = '%s'",
                 _username.c_str());
     mysql_real_query(&database,query_sql,len);
     
