@@ -1,12 +1,13 @@
 QPushButton{
-	min-width: 40px;
+	min-width: 30px;
 	min-height: 30px;
 	color:black;
 	border-image:url(:/myres/sys.png);
 }
 QPushButton:hover{
-	border-image:url(:/myres/syspressed.png);
+    -moz-transform:rotate(90deg);
+	border-image:url(:/myres/sys.png);
 }
 QPushButton:pressed{
-	border-image:url(:/myres/syspressed.png);
+	border-image:url(:/myres/sys.png);
 }

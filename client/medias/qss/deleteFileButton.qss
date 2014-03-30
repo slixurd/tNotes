@@ -1,12 +1,14 @@
 ﻿QPushButton{
-	min-width: 40px;
+	min-width: 70px;
 	min-height: 30px;
+	max-width: 70px;
+	max-height: 30px;
 	color:black;
-	border-image:url(:/myres/trash.png);
+	border-image:url(:/myres/delete.png);
 }
 QPushButton:hover{
-	border-image:url(:/myres/trashpressed.png);
+	border-image:url(:/myres/deletehover.png);
 }
 QPushButton:pressed{
-	border-image:url(:/myres/trashpressed.png);
+	border-image:url(:/myres/deletepressed.png);
 }

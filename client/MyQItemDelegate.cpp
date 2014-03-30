@@ -21,10 +21,10 @@ void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, 
     qfTitle.setPixelSize(14);
     qfTitle.setBold(true);
 
-    QColor qcTitle(23,48,5);
-    QColor qcDate=Qt::darkGreen;
-    QColor qcContent=Qt::black;
-    QColor qcLine=Qt::darkGreen;
+    QColor qcTitle(110,124,126);
+    QColor qcDate=QColor(0,168,232);
+    QColor qcContent=QColor(110,124,126);
+    QColor qcLine=QColor(0,168,232);
 
 
 
@@ -81,11 +81,11 @@ void MyQItemDelegate::drawFocus( QPainter *painter, const QStyleOptionViewItem &
 {
 	//如果有控件被选中，我们就让选中的控件变亮
 	if (option.state & QStyle::State_Selected){
-		painter->setBrush(QBrush(QColor(157,206,122,122)));
-		painter->setPen(QColor(157,206,122,122));
+        painter->setBrush(QBrush(QColor(0,168,232,70)));
+        painter->setPen(QColor(0,168,232,70));
 		painter->drawRect(rect);
 		painter->setBrush(Qt::NoBrush);
-		painter->setPen(Qt::darkGreen);
+        painter->setPen(QColor(0,168,232,70));
 		painter->drawRect(rect);
 	}
 }

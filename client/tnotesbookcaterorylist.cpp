@@ -7,7 +7,9 @@ tNotesBookCategoryList::tNotesBookCategoryList() : QListView()
 	setIconSize(QSize(40,40));
 	setGridSize(QSize(150,40));
     this->setStyleSheet(readFile(":/qss/listview2background.qss"));
-
+    QFont qf(s2q("微软雅黑"));
+    qf.setBold(true);
+    this->setFont(qf);
     model = new QStandardItemModel();
     QBrush qbr;
 	qbr.setColor("#FFFFFF");
@@ -88,6 +90,9 @@ void tNotesBookCategoryList::appendNotebook(Directory dir)
     qbr.setStyle(Qt::Dense3Pattern);
     QStandardItem *item = new QStandardItem(s2q(dir.name));
     item->setIcon(QIcon(":/myres/notebook.png"));
+    QBrush qbrFore;
+    qbrFore.setColor("#6e7c7e");
+    item->setForeground(qbrFore);
     item->setBackground(qbr);
     model->appendRow(item);
 }

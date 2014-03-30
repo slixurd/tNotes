@@ -1,7 +1,8 @@
 QPushButton{
-	left:200px;
-	min-width: 40px;
+	min-width: 110px;
 	min-height: 30px;
+	max-width: 110px;
+	max-height: 30px;
 	color:black;
 	border-image:url(:/myres/newnote.png);
 }

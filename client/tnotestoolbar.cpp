@@ -33,11 +33,13 @@ tNotesToolBar::tNotesToolBar(void)
     mainLayout->addWidget(loginButton);
     mainLayout->addWidget(newDirectoryButton);
     mainLayout->addWidget(deleteDirectoryButton);
-    mainLayout->addWidget(sysButton);
+
 
     //mainLayout->alignment();
     mainLayout->addWidget(newArticleButton,0,Qt::AlignAbsolute);
     mainLayout->addWidget(deleteArticleButton);
+    mainLayout->addWidget(sysButton);
+
     mainLayout->addWidget(searchTool);
 
     mainLayout->insertStretch(6, 500);
