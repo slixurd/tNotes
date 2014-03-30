@@ -8,14 +8,25 @@ MyQItemDelegate::MyQItemDelegate(void)
 
 MyQItemDelegate::~MyQItemDelegate(void)
 {
+
 }
 void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, const QModelIndex&index)const  
 {
+    QString strConfigListview=readFile(":/cfg/Listview1.cfg");
+    QStringList strConfigList=strConfigListview.split("");
 	QStyleOptionViewItem myOption=option; 
+    //configur
     QFont qfTitle(s2q("微软雅黑"));
     QFont qfNormal(s2q("微软雅黑"));
     qfTitle.setPixelSize(14);
     qfTitle.setBold(true);
+
+    QColor qcTitle(23,48,5);
+    QColor qcDate=Qt::darkGreen;
+    QColor qcContent=Qt::black;
+    QColor qcLine=Qt::darkGreen;
+
+
 
 
 	QString content = index.model()->data(index, Qt::DisplayRole).toString(); // 取到模型中原来的内容
@@ -33,25 +44,26 @@ void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, 
     if(QList.size()>2)
         qstrContent =QList[2];
 
+
 	QRect drawRectTextName=QRect(option.rect.topLeft(), QSize(option.rect.size().width()/2,option.rect.size().height()/4));
 	QRect drawRectTextDate=QRect(option.rect.topLeft()+QPoint(option.rect.size().width()/2,0), QSize(option.rect.size().width()/2,option.rect.size().height()/4));
 	QRect drawRectTextContent=QRect(option.rect.topLeft()+QPoint(0,option.rect.size().height()/4), QSize(option.rect.size().width(),option.rect.size().height()*3/4));
 
     //画标题
     painter->setFont(qfTitle);
-	painter->setPen(QColor(23,48,5));
+    painter->setPen(qcTitle);
 	painter->drawText(drawRectTextName, qstrName);
     //画日期
 	painter->setFont(qfNormal);
-    painter->setPen(Qt::darkGreen);
+    painter->setPen(qcDate);
 	painter->drawText(drawRectTextDate, qstrDate);
     //画摘要
 	painter->setFont(qfNormal);
-    painter->setPen(Qt::black);
+    painter->setPen(qcContent);
 	painter->drawText(drawRectTextContent, qstrContent);
 
     //画线
-    painter->setPen(Qt::darkGreen);
+    painter->setPen(qcLine);
 	painter->drawLine(option.rect.bottomLeft(),option.rect.bottomRight());
 
 	myOption.displayAlignment = Qt::AlignRight | Qt::AlignVCenter; // 处理文本的对齐方式 (不重要)  
