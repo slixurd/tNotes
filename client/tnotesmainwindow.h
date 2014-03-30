@@ -96,6 +96,7 @@ private slots:
         void newArticle();
         void deleteArticle();
         void deleteDirectory();
+        void synchronize();
 signals:
         void initNotebooks(Directory *dirList);
         void initNotes(Article *articleList);

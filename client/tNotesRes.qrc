@@ -43,5 +43,6 @@
         <file alias="tnotescontentwidget.qss">medias/qss/tnotescontentwidget.qss</file>
         <file alias="deleteArticleButton.qss">medias/qss/deleteArticleButton.qss</file>
         <file alias="newArticleButton.qss">medias/qss/newArticleButton.qss</file>
+        <file alias="configur.qss">medias/qss/configur.qss</file>
     </qresource>
 </RCC>

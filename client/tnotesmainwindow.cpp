@@ -99,6 +99,7 @@ void tNotesMainWindow::setupActions()
     connect(toolBar->newArticleButton, SIGNAL(clicked()), this, SLOT(newArticle()));
     connect(toolBar->deleteArticleButton, SIGNAL(clicked()), this, SLOT(deleteArticle()));
     connect(toolBar->deleteDirectoryButton, SIGNAL(clicked()), this, SLOT(deleteDirectory()));
+    connect(toolBar->sysButton, SIGNAL(clicked()), this, SLOT(synchronize()));
 
     connect(dialogLogin, SIGNAL(acceptLogin(QString&,QString&,int&)), this, SLOT(userAuthenticated(QString&,QString&,int&)));
 
@@ -238,6 +239,15 @@ void tNotesMainWindow::deleteDirectory(){
         return;
     }
     contentWidget->mListView->deleteNotebook(index);
+}
+//同步按钮
+void tNotesMainWindow::synchronize(){
+    //contentWidget->mListView->dirVectory;   第一个列表的vector
+    //contentWidget->mListView2->dirVectory;  第二个列表的vector
+    //contentWidget->mListView->nowDire; 第一个当前的目录
+
+    QDialog qd;
+    qd.show();
 }
 
 

@@ -22,13 +22,13 @@ public:
     QPushButton* newArticleButton;
     QPushButton* deleteArticleButton;
     QPushButton* deleteDirectoryButton;
+    QPushButton* sysButton;
 private:
 
     void setupActions();
 	QHBoxLayout* mainLayout;
     QPushButton* loginButton;
 
-    QPushButton* sysButton;
     tNotesSearchTool* searchTool;
 	QLineEdit *searchLineEditsearch;
     QPushButton* searchButton;
