@@ -74,7 +74,13 @@ var FolderCollection = Backbone.Collection.extend({
                     var deleteList = self.setting.get('folderDeletedID');
                     var id = data.node[i].id;
                     if(addList.indexOf(id)<0 && updateList.indexOf(id)<0 && deleteList.indexOf(id)<0){
-                        self.create(data.node[i], {wait: true}); //只有三个列表中的都没有这个ID，才创建。
+                        self.create({
+                            id: data.node[i].id,
+                            name: data.node[i].name,
+                            notes       : [],   // 笔记
+                            createTime  : _.now(),    // 创建时间
+                            modifiedTime: data.node[i].stamp    
+                        }, {wait: true}); //只有三个列表中的都没有这个ID，才创建。
                     }
                 }
                 console.log('S-Render');

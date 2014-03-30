@@ -32,6 +32,7 @@ FolderModel = Backbone.Model.extend({
         _.bindAll(this, 'save');
         this.bind('change', function () {
             this.save();
+            this.unbind('change');
         });
     },
 

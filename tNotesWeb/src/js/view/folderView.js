@@ -113,7 +113,9 @@ var FolderView = Backbone.View.extend({
 
         var name = (renameFolderInput.val()=="")?"重命名文件夹":renameFolderInput.val();
 
-    	this.folders.get(selectedID).set({name:name, modifiedTime:_.now()});
+    	//this.folders.get(selectedID).set({name:name, modifiedTime:_.now()});
+        this.folders.get(selectedID).set({name:name});
+        this.folders.updateModifiedTime();
         
         if(selectedID>0)
             this.folders.postUpdatedFolder(selectedID); //ID是本地的，不用Post
