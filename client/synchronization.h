@@ -20,8 +20,12 @@ class synchronization : public QObject
 {
     Q_OBJECT
 public:
+
     explicit synchronization(QObject *parent = 0);
     void sendrecord();
+
+
+
 
 signals:
 
@@ -32,6 +36,7 @@ private:
     QMap<QNetworkReply*,RemoteRequest> replyMap;
     std::string data;
     QEventLoop eventLoop;
+
 };
 
 #endif // SYNCHRONIZATION_H

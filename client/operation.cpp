@@ -458,22 +458,10 @@ bool changeArticleId(string rootid,string oldId,string newId,string modifiedTime
     else return 0;
 }
 
-string findMymap(string id)
-{
-    iter=mymap.find(id);
-    if(iter!=mymap.end())
-    {
-     return iter->second;
-    }
-   else
-    {
-      return id;
-    }
-}
 
 
 //同步操作
-void synchronous()
+/*void synchronous()
 {
 
     Json::Value recordRoot=returnRoot(recordPath);
@@ -597,4 +585,4 @@ void synchronous()
     writeInJson(recordRoot,recordPath);
     mymap.clear();
     //通知前台刷新一遍
-}
+}*/
