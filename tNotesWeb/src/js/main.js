@@ -16,7 +16,7 @@ require.config({
         'contentViewer': 'view/contentViewer',
         'folderView'   : 'view/folderView',
         'noteList'     : 'view/noteList',
-        'navbar'       : 'view/navbar',
+        'navbarView'       : 'view/navbarView',
         'hint'         : 'view/hint',
 
         'contentViewerRouter': 'router/contentViewerRouter',

@@ -10,6 +10,7 @@ define(["setting", "hint"], function(setting, hintview) {
 		$loginPassword: $("#login_password"),
 		$registUsername: $("#regist_username"),
 		$registPassword: $("#regist_password"),
+		$searchContent: $("#searchContent"),
 		initialize: function() {
 
 			//页面开启时尝试自动登录
@@ -18,6 +19,8 @@ define(["setting", "hint"], function(setting, hintview) {
 			//读取全局样式
 			var globalStyle = setting.get('globalStyle');
 			this.changeGlobalStyleByNmae(globalStyle);
+
+
 		},
 		events: {
 			'click #synchro': 'startSynchro',
@@ -65,6 +68,8 @@ define(["setting", "hint"], function(setting, hintview) {
 						$("#hint").addClass('alert-success');
 						$("#hint h4").html("恭喜");
 						hintview.setContent("登录成功！").show();
+						console.log('你的用户名：' + username);
+						$("#currentUser").html(username);
 
 					} else {
 						$("#hint h4").html("抱歉");
@@ -78,6 +83,7 @@ define(["setting", "hint"], function(setting, hintview) {
 				})
 				.fail(function() {
 					hintview.setContent("登录请求失败！").show();
+					$("#login").show();
 				})
 				.always(function() {
 					console.log("complete");
@@ -149,7 +155,6 @@ define(["setting", "hint"], function(setting, hintview) {
 				data: '{"user":' + '"' + username + '",' + '"pass":' + '"' + password + '"}'
 
 			}).done(function(data) {
-				console.log(data);
 				if (data.status == 'success') {
 					$("#regist").hide();
 					$("#hint").removeClass('alert-danger');
@@ -199,12 +204,7 @@ define(["setting", "hint"], function(setting, hintview) {
 			//到时做好接口以后判断条件应该为如果当前在线，也就是判断服务器有没有返回session
 			if (setting.get('session') != '') {
 				//已经登录，开始同步操作不用判断联网状况，如果没有网络，同步自动失败
-				if (navigator.onLine) {
-					console.log("当前在线");
-					console.log("同步开始");
-				} else {
-					console.log("当前离线");
-				}
+
 
 			} else {
 				$("#loginModal h4").html("请先登录！");
@@ -216,14 +216,41 @@ define(["setting", "hint"], function(setting, hintview) {
 		//退出账号
 		logout: function() {
 			console.log('退出了');
-			setting.set({
-				lastUsername: '',
-				lastPassword: '',
-				session: ''
-			});
-			this.$login.show();
-			this.$logout.hide();
-			this.$regist.show();
+			$.ajax({
+				url: 'http://tnotes.wicp.net:8080/signout.cgi',
+				type: 'POST',
+				data: '{"session":' + '"' + setting.get('session') + '"}'
+			}).done(function(data) {
+				console.log(data);
+				if (data.status == 'success') {
+					// setting.set({
+					// 	lastUsername: '',
+					// 	lastPassword: '',
+					// 	session: ''
+					// });
+					indexedDB.deleteDatabase("folders");
+					indexedDB.deleteDatabase("notes");
+					setting.clear();
+
+					$("#login").show();
+					$("#logout").hide();
+					$("#regist").show();
+					$("#hint").removeClass('alert-danger');
+					$("#hint").addClass('alert-success');
+					$("#hint h4").html("");
+					hintview.setContent("已经退出当前账号！").show();
+					$("#currentUser").html('离线');
+				} else {
+					$("#hint").addClass('alert-danger');
+					$("#hint h4").html("");
+					hintview.setContent("服务器异常！").show();
+				}
+			}).fail(function() {
+				$("#hint").addClass('alert-danger');
+				$("#hint h4").html("抱歉");
+				hintview.setContent("请求失败！").show();
+			}).always();
+
 		},
 
 		//更改全局样式
