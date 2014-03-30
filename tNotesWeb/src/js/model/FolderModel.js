@@ -20,7 +20,7 @@ FolderModel = Backbone.Model.extend({
         // 如果传值没有id，则说明是创建新对象，赋予新的id
         if(typeof(value.id) === 'undefined'){
             var timeStamp = _.now();
-            this.set({
+            this.save({
                 id: -timeStamp,
                 name: (value.name == "") ? "新建文件夹" : value.name,
                 createTime: timeStamp,
@@ -30,10 +30,9 @@ FolderModel = Backbone.Model.extend({
 
         // 保证每次数据改变后自动存储
         _.bindAll(this, 'save');
-        this.bind('change', function () {
-            this.save();
-            this.unbind('change');
-        });
+        /*this.bind('change', function () {
+            console.log("Folder Change");
+        });*/
     },
 
     /* 添加文章 */
@@ -45,19 +44,16 @@ FolderModel = Backbone.Model.extend({
 
     /* 删除文章 */
     removeNote: function(id){
-        var notes = this.get('notes');
-        if(notes.indexOf(id) >= 0){
-            notes.splice(notes.indexOf(id), 1);
+        if(this.get('notes').indexOf(id) >= 0){
+            this.get('notes').splice(notes.indexOf(id), 1);
             this.updateModifiedTime();
             this.trigger('change');
         }
-        
     },
 
     /* 清空文章 */
     clearNote: function(){
-        var notes = this.get('notes');
-        notes.splice(0, notes.length);
+        this.get('notes').splice(0, notes.length);
         this.updateModifiedTime();
         this.trigger('change');
     },
@@ -65,7 +61,7 @@ FolderModel = Backbone.Model.extend({
     /* 更新修改时间 */
     updateModifiedTime: function(time){
         time = (typeof(time) === 'undefined') ? _.now() : time;
-        this.set({modifiedTime: time}); //更新修改时间, silent:true 不引起change事件
+        this.save({modifiedTime: time}); //更新修改时间, silent:true 不引起change事件
     }
 });
 

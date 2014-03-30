@@ -41,10 +41,10 @@ var FolderCollection = Backbone.Collection.extend({
 
     /* 更新修改时间 */
     updateModifiedTime: function(time){
-        if(this.selectedID != 0)
-           this.get(this.selectedID).updateModifiedTime(time);
+        this.get(this.selectedID).updateModifiedTime(time);
     },
 
+    /* 设置选中文件夹的ID */
     setSelectedID: function(id){
         this.selectedID = id;
         this.trigger('change');
@@ -72,21 +72,22 @@ var FolderCollection = Backbone.Collection.extend({
                     var updateList = self.setting.get('folderUpdatedID');
                     var deleteList = self.setting.get('folderDeletedID');
                     var id = data.node[i].id;
+                    //console.log();
                     if(addList.indexOf(id)<0 && updateList.indexOf(id)<0 && deleteList.indexOf(id)<0){
                         self.create({
                             id: data.node[i].id,
                             name: data.node[i].name,
                             notes       : [],   // 笔记
                             createTime  : _.now(),    // 创建时间
-                            modifiedTime: data.node[i].stamp    
+                            modifiedTime: data.node[i].stamp*1000    
                         }, {wait: true}); //只有三个列表中的都没有这个ID，才创建。
                     }
                 }
             }
-            else if(data.exception='Node Handling Failure'){
+            else if(data.exception=='Node Handling Failure'){
                 //处理失败
             }
-            else if(data.exception='Session Failure'){
+            else if(data.exception=='Session Failure'){
                 //session过期，需要重新登录
             }
             else{
@@ -114,15 +115,15 @@ var FolderCollection = Backbone.Collection.extend({
                     name: self.get(id).get('name'),
                     notes: self.get(id).get('notes'),   // 笔记
                     createTime: self.get(id).get('createTime'),    // 创建时间
-                    modifiedTime: data.stamp  
+                    modifiedTime: data.stamp*1000  
                 })
                 self.get(id).destroy();
             }
-            else if(data.exception='Node Handling Failure'){
+            else if(data.exception=='Node Handling Failure'){
                 //处理失败
                 self.insertAddList(id);
             }
-            else if(data.exception='Session Failure'){
+            else if(data.exception=='Session Failure'){
                 //session过期，需要重新登录
                 self.insertAddList(id);
             }
@@ -141,6 +142,8 @@ var FolderCollection = Backbone.Collection.extend({
         var folder = this.get(id);
         var self = this;
 
+        console.log('{"session":"'+this.setting.get('session')+'","id":'+id+',"name":"'+folder.get('name')+'"}');
+
         //向服务器发送POST
         $.ajax({
             url: this.host+"changenode.cgi",
@@ -148,21 +151,31 @@ var FolderCollection = Backbone.Collection.extend({
             data: '{"session":"'+this.setting.get('session')+'","id":'+id+',"name":"'+folder.get('name')+'"}'
         }).done(function(data){
             if(data.stamp){
-                folder.set({modifiedTime:data.stamp}); //更新文件夹ID和修改时间
+                folder.save({modifiedTime:data.stamp*1000}); //更新文件夹ID和修改时间
+                /*var updateList = self.setting.get('folderUpdatedID');
+                if(updateList.indexOf(id) >= 0){
+                    updateList.splice(updateList.indexOf(id), 1); //Folder更新队列 存在则删除
+                    self.setting.save({folderUpdatedID: updateList});
+                }*/
+                console.log('Update Post Success');
             }
-            else if(data.exception='Node Handling Failure'){
+            else if(data.exception=='Node Handling Failure'){
+                console.log('Update Post Hand Fail');
                 //处理失败
                 self.insertUpdatedList(id);
             }
-            else if(data.exception='Session Failure'){
+            else if(data.exception=='Session Failure'){
+                console.log('Update Post Ses');
                 //session过期，需要重新登录
                 self.insertUpdatedList(id);
             }
             else{
+                console.log('Update Post Else');
                 //其他错误
                 self.insertUpdatedList(id);
             }
         }).fail(function(){ //由于网络离线或者其他原因导致请求失败了
+            console.log('Update Post Fail');
             self.insertUpdatedList(id);
         }).always();
     },
@@ -201,46 +214,39 @@ var FolderCollection = Backbone.Collection.extend({
         }).always();
     },
 
+    /* 将未POST成功的FolderID添加到 新增队列 */
     insertAddList: function(id){
         //将新建文章添加到新建列表
         var addList = this.setting.get('folderAddedID');
-        //console.log(id);
-        //console.log(typeof(addList));
         addList.push(id);
-        this.setting.set({folderAddedID: addList});
+        this.setting.save({folderAddedID: addList});
     },
 
+    /* 将未POST成功的FolderID添加到 更新队列 */
     insertUpdatedList: function(id){
-        if(id > 0){
-            var updateList = this.setting.get('folderUpdatedID');
-            if(updateList.indexOf(id) < 0){
-                updateList.push(id); //如果是服务器的目录才需要添加到 更改目录列表
-                this.setting.set({folderUpdatedID: updateList});
-            }
+        var updateList = this.setting.get('folderUpdatedID');
+        if(updateList.indexOf(id) < 0){
+            updateList.push(id); //如果是服务器的目录才需要添加到 更改目录列表
+            this.setting.save({folderUpdatedID: updateList});
         }
     },
 
+    /* 将未POST成功的FolderID添加到 删除队列 */
     insertDeletedList: function(id){
-        if(id>0){
-            //如果ID>0，则为服务器文章，将其添加到删除列表
-            var updateList = this.setting.get('folderUpdatedID');
-            var index = updateList.indexOf(id)
-            if(index > 0){
-                updateList.splice(index, 1);//如果修改列表中有该文章，也要删除
-                this.setting.set({folderUpdatedID: updateList});
-            }
+        //如果ID>0，则为服务器文章，将其添加到删除列表
+        var updateList = this.setting.get('folderUpdatedID');
+        var index = updateList.indexOf(id);
+        if(index > 0){
+            updateList.splice(index, 1);//如果修改列表中有该文章，也要删除
+            this.setting.save({folderUpdatedID: updateList});
+        }
 
-            var deleteList = this.setting.get('folderDeletedID');
-            deleteList.push(this.get('id'));
-            this.setting.set({folderDeletedID: deleteList});
-        }
-        else if(id<0){
-            //如果ID<0，则为本地文章，将其从新建列表中删除
-            var addList = this.setting.get('folderAddedID');
-            addList.splice(addList.indexOf(id), 1);
-            this.setting.set({folderAddedID: addList});
-        }
+        var deleteList = this.setting.get('folderDeletedID');
+        deleteList.push(id);
+        this.setting.save({folderDeletedID: deleteList});
     },
+
+
 });
 
 // 创建folderCollection实例并获取数据

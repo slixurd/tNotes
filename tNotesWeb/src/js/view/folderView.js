@@ -48,51 +48,6 @@ var FolderView = Backbone.View.extend({
     	return this;
     },
 
-    fetchFolder: function(){
-        this.folders.fetchFolder();
-    },
-
-    
-    /* 从服务器获取Folder列表 */
-    /*fetchFolder: function(){
-        var self = this;
-
-        $.ajax({
-            url: this.host+"fetchnodes.cgi",
-            type: 'POST',
-            data: '{"session":"'+this.setting.get('session')+'"}'
-        }).done(function(data){
-            if(data){
-                console.log('Success');
-                //console.log(data.node.length);
-                for(var i=0; i<data.node.length; ++i){
-                    self.folders.create(data.node[i]);
-                }
-                console.log('S-Render');
-                self.render();
-            }
-            else if(data.exception='Node Handling Failure'){
-                //处理失败
-                console.log('Node Handling Failure');
-            }
-            else if(data.exception='Session Failure'){
-                //session过期，需要重新登录
-                console.log('Session Failuer');
-            }
-            else{
-                console.log('Post Else Error!');
-                //其他错误
-            }
-        }).fail(function(){ //由于网络离线或者其他原因导致请求失败了
-            console.log('Fail');
-        }).always();
-
-        console.log('AJAX-Render');
-
-        //this.render();
-    },
-    */
-
     /* 新建文件夹 */
     newFolder: function(){
     	var newFolderInput = $('#new-folder-name');
@@ -112,28 +67,37 @@ var FolderView = Backbone.View.extend({
 
         var name = (renameFolderInput.val()=="")?"重命名文件夹":renameFolderInput.val();
 
-    	//this.folders.get(selectedID).set({name:name, modifiedTime:_.now()});
-        this.folders.get(selectedID).set({name:name});
+        this.folders.get(selectedID).save({name:name});
         this.folders.updateModifiedTime();
         
         if(selectedID>0)
             this.folders.postUpdatedFolder(selectedID); //ID是本地的，不用Post
+        
+        this.folders.sort(); //手动排序
 
         renameFolderInput.val("");
     },
 
     /* 删除文件夹 */
     deleteFolder: function(){
-        var folderID = this.folders.getSelectedID();
+        var selectedID = this.folders.getSelectedID();
         //先删除文章
-        var notesID = this.folders.get(folderID).get('notes');
+        var notesID = this.folders.get(selectedID).get('notes');
         for(var i=0; i<notesID.length; ++i){
             this.notes.get(notesID[i]).destroy();
         }
 
         // 后删除目录
-        this.folders.get(folderID).destroy();
-        this.folders.postDeletedFolder(folderID);
+        this.folders.get(selectedID).destroy();
+        if(selectedID>0)
+            this.folders.postDeletedFolder(selectedID);
+        else{
+            //如果ID<0，则为本地文章，将其从新建列表中删除
+            var addList = this.setting.get('folderAddedID');
+            addList.splice(addList.indexOf(selectedID), 1);
+            this.setting.save({folderAddedID: addList});
+        }
+
         this.folders.setSelectedID(0);
     	
     	// 删除对话框隐藏
@@ -147,7 +111,7 @@ var FolderView = Backbone.View.extend({
 	/* 选中文件夹 */
     selectFolder: function (event) {
 
-        this.folders.setSelectedID($(event.target).attr('data-id'));
+        this.folders.setSelectedID(parseInt($(event.target).attr('data-id')));
 
         if(this.folders.selectedID != 0){
             // 恢复部分不可用按钮
@@ -169,27 +133,6 @@ var FolderView = Backbone.View.extend({
     fadeToggle: function(){
         this.$el.fadeToggle();
     },
-
-    /* 添加文章 */
-    addNote: function(id){
-        this.folders.addNote(id);
-    },
-
-    /* 删除文章 */
-    removeNote: function(id){
-        this.folders.removeNote(id);
-    },
-
-     /* 清空文章 */
-    clearNote: function(){
-        this.folders.clearNote();
-    },
-
-    /* 更新修改时间 */
-    updateModifiedTime: function(time){
-        this.folders.updateModifiedTime(time);
-    },
-
 });
 
 var folderView = new FolderView;

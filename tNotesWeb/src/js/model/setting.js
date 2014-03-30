@@ -11,12 +11,12 @@ var Setting = Backbone.Model.extend({
         lastPassword: '',//登录密码
         globalStyle: '',//全局样式
         session: ''  ,   //登录session
-        noteDeletedId: '',
-        folderDeletedId:'',
-        noteAddedId:'',
-        folderAddedId:'',
-        noteUpdatedID:'',
-        folerUpdatedID: ''
+        noteDeletedId: [],
+        folderDeletedID:[],
+        noteAddedId:[],
+        folderAddedID:[],
+        noteUpdatedID:[],
+        folderUpdatedID: []
 
     },
     localStorage: new Backbone.LocalStorage("Setting"),
