@@ -1,5 +1,6 @@
 #ifndef TNOTEMAIN_H
 #define TNOTEMAIN_H
+#include <iostream>
 #include <QDesktopWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -13,7 +14,7 @@
 #include <QPoint>
 #include <QMessageBox>
 #include <QTime>
-#include <QDebug>
+#include <QtDebug>
 #include <iostream>
 
 #include "tnotesmainwindow.h"
@@ -188,16 +189,25 @@ void tNotesMainWindow::newDirectory(){
         return;
     }
     QDate nowDate = QDate::currentDate();
-    string month;
-    string day;
-    if(nowDate.month()<10)month="0"+nowDate.month();
-    else month=nowDate.month();
-    if(nowDate.day()<10)day="0"+nowDate.day();
-    else day=nowDate.day();
-    string qstrDate = ""+nowDate.year()+
-            month+day;
+    qDebug()<<nowDate.toString()<<"asd"<<endl;
+    qDebug()<<nowDate.year()<<"asd"<<endl;
+    qDebug()<<nowDate.month()<<"asd"<<endl;
+    qDebug()<<nowDate.day()<<"asd"<<endl;
+
+    QString qstrYear = QString::number(nowDate.year());
+    QString qstrMonth = QString::number(nowDate.month());
+    QString qstrDay = QString::number(nowDate.day());
+
+
+    if(nowDate.month()<10)qstrMonth="0"+qstrMonth;
+    if(nowDate.day()<10)qstrDay="0"+qstrDay;
+
+    QString qstrDate = qstrYear+
+            qstrMonth+qstrDay;
+    qDebug()<<qstrDate<<"asd"<<endl;
+    string strDate  =q2s(qstrDate);
     /////////ID  修改目录id
-    Directory dirTemp(qstrDate,string("newNotes"),qstrDate,qstrDate,false);
+    Directory dirTemp(strDate,string("newNotes"),strDate,strDate,false);
     contentWidget->mListView->newNotebook(dirTemp);
 }
 
@@ -207,19 +217,25 @@ void tNotesMainWindow::newArticle(){
         if(contentWidget->mListView->nowDire.nodeId=="")return;
     }
     QDate nowDate = QDate::currentDate();
+    qDebug()<<nowDate.toString()<<"asd"<<endl;
+    qDebug()<<nowDate.year()<<"asd"<<endl;
+    qDebug()<<nowDate.month()<<"asd"<<endl;
+    qDebug()<<nowDate.day()<<"asd"<<endl;
 
-    string str2 = ""+12;
-    QString month;
-    QString day;
-    QString zero("0");
-    if(nowDate.month()<10)month=zero+nowDate.month();
-    else month=nowDate.month();
-    if(nowDate.day()<10)day=zero+nowDate.day();
-    else day=nowDate.day();
-    QString qstrDate = ""+nowDate.year()+
-            month+day;
+    QString qstrYear = QString::number(nowDate.year());
+    QString qstrMonth = QString::number(nowDate.month());
+    QString qstrDay = QString::number(nowDate.day());
 
-    string strDate = q2s(qstrDate);
+
+    if(nowDate.month()<10)qstrMonth="0"+qstrMonth;
+    if(nowDate.day()<10)qstrDay="0"+qstrDay;
+
+    QString qstrDate = qstrYear+
+            qstrMonth+qstrDay;
+    qDebug()<<qstrDate<<"asd"<<endl;
+    string strDate  =q2s(qstrDate);
+
+
     /////////ID  修改文章id
     Article artTemp(strDate, "newArticle", "",strDate,strDate,false);
     contentWidget->mListView2->newCategory(artTemp,
