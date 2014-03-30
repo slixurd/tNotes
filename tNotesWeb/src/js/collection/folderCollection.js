@@ -15,7 +15,6 @@ var FolderCollection = Backbone.Collection.extend({
     selectedID: 0,
 	
 	initialize: function(){
-        //_.bindAll(this, 'insertAddList');
 	},
 
     comparator: function (folder) {
@@ -83,26 +82,18 @@ var FolderCollection = Backbone.Collection.extend({
                         }, {wait: true}); //只有三个列表中的都没有这个ID，才创建。
                     }
                 }
-                console.log('S-Render');
             }
             else if(data.exception='Node Handling Failure'){
                 //处理失败
-                console.log('Node Handling Failure');
             }
             else if(data.exception='Session Failure'){
                 //session过期，需要重新登录
-                console.log('Session Failuer');
             }
             else{
-                console.log('Post Else Error!');
                 //其他错误
             }
-            //self.trigger('change');
         }).fail(function(){ //由于网络离线或者其他原因导致请求失败了
-            console.log('Fail');
         }).always();
-
-        console.log('AJAX-Render');
     },
 
     /* Post新建文件夹 */

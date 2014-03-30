@@ -43,7 +43,6 @@ var FolderView = Backbone.View.extend({
 	   在 render 函数的末尾 return this 实现链式调用。
 	*/
     render: function(){
-        console.log((this.test++)+'Render'+this.folders.length);
     	$('#folder-list').html(this.template({folders: this.folders.toJSON()}));
     	$('#folder-list').find('[data-id="' + this.folders.selectedID + '"]').addClass('active');
     	return this;
