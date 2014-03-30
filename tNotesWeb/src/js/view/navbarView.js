@@ -223,14 +223,20 @@ define(["setting", "hint"], function(setting, hintview) {
 			}).done(function(data) {
 				console.log(data);
 				if (data.status == 'success') {
-					// setting.set({
-					// 	lastUsername: '',
-					// 	lastPassword: '',
-					// 	session: ''
-					// });
-					indexedDB.deleteDatabase("folders");
-					indexedDB.deleteDatabase("notes");
-					setting.clear();
+					setting.set({
+						lastUsername: '',
+						lastPassword: '',
+						session: '',
+						noteDeletedId:[],
+						folderDeletedID:[],
+						noteAddedId:[],
+						folderAddedID:[],
+						noteUpdatedID:[],
+						folderUpdatedID:[]
+					});
+					// indexedDB.deleteDatabase("folders");
+					// indexedDB.deleteDatabase("notes");
+					// setting.clear();
 
 					$("#login").show();
 					$("#logout").hide();

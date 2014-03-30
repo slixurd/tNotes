@@ -32,14 +32,15 @@
             </div>
             <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                           <li class="hidden">
-                            <a href="#" id="synchro">
-                                <span class="glyphicon glyphicon-cloud-upload"></span>
+                             <li>
+                            <a href="#">
+                                <span class="glyphicon" id="currentUser">离线</span>
                                 
                             </a>
                         </li>
+
                         <li>
-                            <a href="#" id="synchro">
+                            <a href="#synchro" id="synchro">
                                 <span class="glyphicon glyphicon-cloud-upload"></span>
                                 同步
                             </a>
@@ -72,8 +73,8 @@
                     </ul>
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="关键词"></div>
-                        <button type="submit" class="btn btn-default">搜索</button>
+                            <input id='searchContent' type="text" class="form-control" placeholder="关键词"></div>
+                        <a href="#search" type="button" class="btn btn-default">搜索</a>
                     </form>
                 </div>
             </div>
