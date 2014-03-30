@@ -32,7 +32,7 @@ QString s2q(const string &s);
 string q2s(const QString &s);
 unsigned int s2i(string ss);
 string i2s(unsigned int ss);
-
+bool mysetFind(string id);
 void print(QString s);
 QString readFile(QString filePath);
 bool changeRootId(string oldId,string newId,string modifiedTime); //修改原目录id与时间戳

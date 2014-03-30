@@ -32,22 +32,26 @@ void synchronization::sendrecord()
         {
 
 //            connect(this->mynetwork->manager,SIGNAL(finished(QNetworkReply*)),&eventLoop,SLOT(quit()));
-            string url="tnotes.wicp.net:8080/createnode.cgi";
+            string url="http://tnotes.wicp.net:8080/createnode.cgi";
+
             Json::Value obj;
             obj["session"]=MyNetWorker::session_key.toStdString();
             obj["name"]=recordRoot[i]["name"];
+            std::cout<<obj.toStyledString()<<endl;
             mynetwork->send(url,obj.toStyledString());
             eventLoop.exec();
+
             Json::Reader reader;
             Json::Value value;
             reader.parse(data,value);
+            std::cout<<value.toStyledString();
             changeRootId(recordRoot[i]["id"].asString(),i2s(value["id"].asUInt()),i2s(value["stamp"].asUInt()));
             mymap[recordRoot[i]["id"].asString()]=i2s(value["id"].asUInt());
             break;
         }
         case 2:
         {
-            string url="tnotes.wicp.net:8080/deletenode.cgi";
+            string url="http://tnotes.wicp.net:8080/deletenode.cgi";
             Json::Value obj;
            obj["session"]=MyNetWorker::session_key.toStdString();
             string id=recordRoot[i]["id"].asString();
@@ -58,14 +62,15 @@ void synchronization::sendrecord()
             }
             obj["id"]=s2i(id);
            // std::cout<<obj["id"].asUInt()；
+              std::cout<<obj.toStyledString()<<endl;
             mynetwork->send(url,obj.toStyledString());
             eventLoop.exec();
-            std::cout<<obj.toStyledString()<<std::endl;
+            std::cout<<data;
             break;
         }
         case 3:
         {
-            string url="tnotes.wicp.net:8080/changenode.cgi";
+            string url="http://tnotes.wicp.net:8080/changenode.cgi";
             Json::Value obj;
             obj["session"]=MyNetWorker::session_key.toStdString();
             string id=recordRoot[i]["id"].asString();
@@ -76,6 +81,7 @@ void synchronization::sendrecord()
             }
             obj["id"]=s2i(id);
             obj["name"]=recordRoot[i]["name"];
+              std::cout<<obj.toStyledString()<<endl;
             mynetwork->send(url,obj.toStyledString());
             eventLoop.exec();
 
@@ -84,17 +90,27 @@ void synchronization::sendrecord()
             Json::Value value;
             reader.parse(data,value);
             changeRootId(id,id,i2s(value["stamp"].asUInt()));
+              std::cout<<value.toStyledString();
            // std::cout<<obj.toStyledString()<<std::endl;
             break;
         }
         case 4:
         {
-            string url="tnotes.wicp.net:8080/createarticle.cgi";
+            string url="http://tnotes.wicp.net:8080/createarticle.cgi";
             Json::Value obj;
             obj["session"]=MyNetWorker::session_key.toStdString();
-            obj["content"]=recordRoot[i]["content"];
-            obj["location"]=s2i(recordRoot[i]["location"].asString());
-            obj["name"]=recordRoot[i]["name"];
+            string iroot=recordRoot[i]["location"].asString();
+            iter=mymap.find(iroot);
+            if(iter!=mymap.end())
+            {
+            iroot=iter->second;
+            }
+            string iarticle=recordRoot[i]["id"].asString();
+            Article art=searchArticle(iroot,iarticle);
+            obj["content"]=art.context;
+            obj["location"]=s2i(iroot);
+            obj["name"]=art.name;
+              std::cout<<obj.toStyledString()<<endl;
             mynetwork->send(url,obj.toStyledString());
             eventLoop.exec();
 
@@ -102,15 +118,15 @@ void synchronization::sendrecord()
             Json::Reader reader;
             Json::Value value;
             reader.parse(data,value);
-          //  std::cout<<obj.toStyledString()<<std::endl;
-            changeArticleId(recordRoot[i]["location"].asString(),recordRoot[i]["id"].asString(),i2s(value["id"].asUInt()),i2s(value["stamp"].asUInt()));
+          std::cout<<value.toStyledString();
+            changeArticleId(iroot,iarticle,i2s(value["id"].asUInt()),i2s(value["stamp"].asUInt()));
             mymap[recordRoot[i]["id"].asString()]=i2s(value["id"].asUInt());
             break;
         }
 
         case 5:
         {
-           string  url="tnotes.wicp.net:8080/deletearticle.cgi";
+           string  url="http://tnotes.wicp.net:8080/deletearticle.cgi";
             Json::Value obj;
            obj["session"]=MyNetWorker::session_key.toStdString();
 
@@ -121,34 +137,35 @@ void synchronization::sendrecord()
            id=iter->second;
            }
            obj["id"]=s2i(id);
-
+  std::cout<<obj.toStyledString()<<endl;
             mynetwork->send(url,obj.toStyledString());
             eventLoop.exec();
+  std::cout<<data;
           //  std::cout<<obj.toStyledString()<<std::endl;
             break;
         }
         case 6:
         {
-            string url="tnotes.wicp.net:8080/changearticle.cgi";
+            string url="http://tnotes.wicp.net:8080/changearticle.cgi";
             Json::Value obj;
             obj["session"]=MyNetWorker::session_key.toStdString();
 
-            string id=recordRoot[i]["id"].asString();
-            iter=mymap.find(id);
+            string iarticle=recordRoot[i]["id"].asString();
+            string iroot=recordRoot[i]["location"].asString();
+            iter=mymap.find(iroot);
             if(iter!=mymap.end())
             {
-            id=iter->second;
+            iroot=iter->second;
             }
-            obj["id"]=s2i(id);
+            obj["id"]=s2i(iarticle);
+            Article art=searchArticle(iroot,iarticle);
 
-            if(recordRoot[i].isMember("name"))
-            {
-                obj["name"]=recordRoot[i]["name"];
-            }
-            if(recordRoot[i].isMember("content"))
-            {
-                obj["content"]=recordRoot[i]["content"];
-            }
+             obj["name"]=art.name;
+
+
+             obj["content"]=art.context;
+
+            std::cout<<obj.toStyledString()<<endl;
             mynetwork->send(url,obj.toStyledString());
             eventLoop.exec();
 
@@ -156,8 +173,9 @@ void synchronization::sendrecord()
             Json::Reader reader;
             Json::Value value;
              reader.parse(data,value);
+               std::cout<<value.toStyledString();
            // std::cout<<obj.toStyledString()<<std::endl;
-            changeArticleId(recordRoot[i]["location"].asString(),id,id,i2s(value["stamp"].asUInt()));
+            changeArticleId(iroot,iarticle,iarticle,i2s(value["stamp"].asUInt()));
             break;
         }
         }

@@ -5,17 +5,25 @@
 #include <QTextStream>
 #include <sstream>
 #include<map>
-
+#include<set>
 extern string ROOTPATH = "";
 string articlePath="";
 
 extern string rootPath = "";
 extern string recordPath="";
 
+set<string>myset;
+set<string>::iterator iter;
+bool mysetFind(string id)
+{
+    iter=myset.find(id);
+    if(iter==myset.end())
+    {
+        return 0;
+    }
+    else return 1;
 
-map<string,string>mymap;
-map<string,string>::iterator iter;
-
+}
 
 void stdstring2charstar(std::string src, char *to)
 {
@@ -170,10 +178,11 @@ bool createArticle(string iRoot,Article art)
         Json::Value b;
         Json::Value r;
         r["mark"]=4;
-        r["name"]=art.name;
-        r["content"]=art.context;
+
+
         r["id"]=art.articleId;
         r["location"]=iRoot;
+        myset.insert(art.articleId);
         recordRoot.append(r);
         b["context"] = art.context;
         a["name"] = art.name;
@@ -402,17 +411,21 @@ bool changeArticleName(string iRoot,string iArticle,string name)
     {
 
         root[iRoot]["array"][iArticle]["name"]=name;
+        if(!mysetFind(iArticle))
+        {
+         myset.insert(iArticle);
          Json::Value recordRoot=returnRoot(recordPath);
          Json::Value r;
          r["mark"]=6;
          r["id"]=iArticle;
-         r["name"]=name;
+        r["location"]=iRoot;
+
 
          recordRoot.append(r);
          writeInJson(recordRoot,recordPath);
-         writeInJson(root,rootPath);
 
-
+        }
+        writeInJson(root,rootPath);
         return 1;
     }
     else return 0;
@@ -433,14 +446,17 @@ bool changeArticleContent(string iRoot,string iArticle,string content)
         getArticlePath(iArticle);
         Json::Value article=returnRoot(articlePath);
         article["context"]=content;
+        if(!mysetFind(iArticle))
+        {
+          myset.insert(iArticle);
          Json::Value recordRoot=returnRoot(recordPath);
          Json::Value r;
          r["mark"]=6;
          r["id"]=iArticle;
-         r["content"]=content;
-
+           r["location"]=iRoot;
          recordRoot.append(r);
          writeInJson(recordRoot,recordPath);
+        }
          writeInJson(article,articlePath);
 
 
