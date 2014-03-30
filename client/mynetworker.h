@@ -11,6 +11,7 @@ class MyNetWorker : public QObject
 {
     Q_OBJECT
 public:
+    static QString session_key;
     explicit MyNetWorker(QObject *parent = 0);
     QString getreplyinformation();
     QNetworkReply * get(const QString &url);
@@ -18,6 +19,8 @@ public:
     QNetworkAccessManager *manager;
     //判断是否联网
     bool isconnect();
+    void send(std::string url,std::string senddata);
+
 
 signals:
 public slots:
