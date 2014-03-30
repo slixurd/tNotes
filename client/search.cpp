@@ -28,7 +28,7 @@ QString tNotesSearch::segment(char *context)
     while ( ( friso_next( friso, config, task ) ) != NULL ) {
         temp=temp+task->hits->word+" ";
     }
-//    qDebug()<<temp;
+    qDebug()<<temp;
     //释放任务
     friso_free_task( task );
     return temp;
@@ -108,6 +108,7 @@ std::vector<std::string> tNotesSearch::select(char *key)
     QSqlQuery query;
     query.prepare("SELECT id,title,body FROM pages WHERE pages MATCH ?");
     query.addBindValue(key);
+    qDebug()<<"key:"<<key<<endl;
     if(!query.exec())
     {
         qDebug()<<"error: "<<query.lastError().text()<<endl;

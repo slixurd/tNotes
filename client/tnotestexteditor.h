@@ -18,6 +18,7 @@ class QGridLayout;
 class QLineEdit;
 class QTimer;
 class QThread;
+class QTextBrowser;
 
 class tNotesButton;
 class tNotesEditLinkDialog;
@@ -39,8 +40,9 @@ private:
 		QLabel *noteCreatedTime;
 		QLabel *noteLastModifiedTime;
 		QGroupBox *noteEditorGroupBox;
-		QTextEdit *noteEditor;
-		QAction *actionUndo;
+        //QTextEdit *noteEditor;
+        QTextBrowser *noteEditor;
+        QAction *actionUndo;
 		QFrame *horizonLine;
 
         QTimer *autoupdateTimer;
@@ -86,7 +88,9 @@ private:
 		void setTextEditorLayout();
 		void setupEditActions();
         void toolsEnabled(bool flags = false);
+        void findInArticle(QString);
 
+        void setTextHighLight(QString);
 private slots:
 
 		void editModeChange();

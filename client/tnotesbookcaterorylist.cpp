@@ -6,7 +6,7 @@ tNotesBookCategoryList::tNotesBookCategoryList() : QListView()
     //设置图标网格大小样式
 	setIconSize(QSize(40,40));
 	setGridSize(QSize(150,40));
-	this->setStyleSheet("background-color:#F3F2EF;");
+    this->setStyleSheet(readFile(":/qss/listview2background.qss"));
 
     model = new QStandardItemModel();
     QBrush qbr;
