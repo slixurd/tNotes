@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QtGui>
 
-enum RemoteRequest {
+enum Remoterequest {
     createnode,
     deletenode,
     changenode,
@@ -33,7 +33,7 @@ public slots:
     void replyfinished(QNetworkReply *reply);
 private:
     MyNetWorker *mynetwork;
-    QMap<QNetworkReply*,RemoteRequest> replyMap;
+    QMap<QNetworkReply*,Remoterequest> replyMap;
     std::string data;
     QEventLoop eventLoop;
 

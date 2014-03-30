@@ -29,7 +29,7 @@
 #include "tnotescontentwidget.h"
 #include "tnotesstatusbar.h"
 #include "Operation.h"
-
+#include "synchronization.h"
 
 
 tNotesMainWindow::tNotesMainWindow(QWidget *parent)
@@ -274,6 +274,8 @@ void tNotesMainWindow::synchronize(){
     if(!IsLogin){
         openLoginDialog();
     }else{
+    synchronization syn;
+    syn.sendrecord();
 
     }
 }
