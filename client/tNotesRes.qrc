@@ -11,13 +11,8 @@
         <file alias="code.png">medias/icons/code.png</file>
         <file alias="link.png">medias/icons/link.png</file>
         <file alias="italic.png">medias/icons/italic.png</file>
-        <file alias="search.png">medias/icons/search.png</file>
         <file alias="searchedit.png">medias/icons/searchEdit.png</file>
-        <file alias="sys.png">medias/icons/sys.png</file>
         <file alias="notebook.png">medias/icons/notebook.png</file>
-        <file alias="note.png">medias/icons/note.png</file>
-        <file alias="searchpressed.png">medias/icons/searchpressed.png</file>
-        <file alias="syspressed.png">medias/icons/syspressed.png</file>
         <file alias="titleico.png">medias/icons/titleico.png</file>
         <file alias="login.png">medias/icons/login.png</file>
         <file alias="loginpressed.png">medias/icons/loginpressed.png</file>
@@ -31,6 +26,10 @@
         <file alias="delete.png">medias/icons/delete.png</file>
         <file alias="deletehover.png">medias/icons/deletehover.png</file>
         <file alias="deletepressed.png">medias/icons/deletepressed.png</file>
+        <file alias="search.png">medias/icons/search.png</file>
+        <file alias="syshover.png">medias/icons/syshover.png</file>
+        <file alias="syspressed.png">medias/icons/syspressed.png</file>
+        <file alias="sys.png">medias/icons/sys.png</file>
     </qresource>
     <qresource prefix="/libs">
         <file alias="markdown2html.dll">libs/markdown2html.dll</file>
