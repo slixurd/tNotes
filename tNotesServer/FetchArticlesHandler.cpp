@@ -33,7 +33,7 @@ std::string FetchArticlesHandler::Handle(std::string const& postStr)
         throw IncorrectDataFormatException();
     }
         
-    //_sessionManager.VeritySession(sessionKey);
+    _sessionManager.VeritySession(sessionKey);
     
     /*  From here, it may cause some serious bug. 
      *  I don't like this interface get_all_dir(), it is shitty! */
@@ -43,7 +43,7 @@ std::string FetchArticlesHandler::Handle(std::string const& postStr)
         Json::Value tmp;
         ARTICLE_INFO * INFO = 0;
         
-        if(_DB->get_note("test",//_sessionManager.GetSessionInfo(sessionKey).User,
+        if(_DB->get_note(_sessionManager.GetSessionInfo(sessionKey).User,
                 (*it).asInt(),INFO)==0)
             continue;
         
