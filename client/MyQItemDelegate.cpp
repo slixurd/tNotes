@@ -10,12 +10,12 @@ MyQItemDelegate::~MyQItemDelegate(void)
 {
 }
 void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, const QModelIndex&index)const  
-{  
+{
 	QStyleOptionViewItem myOption=option; 
-	QFont qf(s2q("微软雅黑"));
-	QFont qfNormal(s2q("微软雅黑"));
-	qf.setPixelSize(14);
-	qf.setBold(true);
+    QFont qfTitle(s2q("微软雅黑"));
+    QFont qfNormal(s2q("微软雅黑"));
+    qfTitle.setPixelSize(14);
+    qfTitle.setBold(true);
 
 
 	QString content = index.model()->data(index, Qt::DisplayRole).toString(); // 取到模型中原来的内容
@@ -28,7 +28,6 @@ void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, 
     if(QList.size()>0)
         qstrName=QList[0];
     if(QList.size()>1){
-
         qstrDate=QList[1].mid(0,4)+"/"+QList[1].mid(4,2)+"/"+QList[1].mid(6,2);;
     }
     if(QList.size()>2)
@@ -36,25 +35,24 @@ void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, 
 
 	QRect drawRectTextName=QRect(option.rect.topLeft(), QSize(option.rect.size().width()/2,option.rect.size().height()/4));
 	QRect drawRectTextDate=QRect(option.rect.topLeft()+QPoint(option.rect.size().width()/2,0), QSize(option.rect.size().width()/2,option.rect.size().height()/4));
-
 	QRect drawRectTextContent=QRect(option.rect.topLeft()+QPoint(0,option.rect.size().height()/4), QSize(option.rect.size().width(),option.rect.size().height()*3/4));
 
-	QTextOption qto;
-	painter->setFont(qf);
+    //画标题
+    painter->setFont(qfTitle);
 	painter->setPen(QColor(23,48,5));
 	painter->drawText(drawRectTextName, qstrName);
-
+    //画日期
 	painter->setFont(qfNormal);
-	painter->setPen(Qt::darkGreen);
+    painter->setPen(Qt::darkGreen);
 	painter->drawText(drawRectTextDate, qstrDate);
-
+    //画摘要
 	painter->setFont(qfNormal);
-	painter->setPen(Qt::black);
+    painter->setPen(Qt::black);
 	painter->drawText(drawRectTextContent, qstrContent);
 
-	painter->setPen(Qt::darkGreen);
+    //画线
+    painter->setPen(Qt::darkGreen);
 	painter->drawLine(option.rect.bottomLeft(),option.rect.bottomRight());
-
 
 	myOption.displayAlignment = Qt::AlignRight | Qt::AlignVCenter; // 处理文本的对齐方式 (不重要)  
 	drawFocus(painter,option,option.rect);  

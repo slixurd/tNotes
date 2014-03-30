@@ -1,6 +1,5 @@
 #ifndef TNOTESMAINWINDOW_H
 #define TNOTESMAINWINDOW_H
-
 #include <QMainWindow>
 #include <QMap>
 #include <QPointer>
@@ -22,7 +21,6 @@ class tNotesTitleBar;
 class tNotesToolBar;
 class tNotesContentWidget;
 class tNotesStatusBar;
-
 
 class tNotesMainWindow : public QMainWindow
 {
@@ -65,8 +63,8 @@ private:
         tNotesLoginDialog *dialogLogin;
         QPoint moveStartPoint;
 
-
-
+public:
+        bool IsLogin=false;
 
 protected:
         ///////////拉伸窗口函数
@@ -104,5 +102,4 @@ signals:
         void updateNotebooks(QString path);
         //void updateEditor(string articleId);
 };
-
-#endif // TNOTESMAINWINDOW_H
+#endif
