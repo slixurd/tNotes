@@ -1,5 +1,5 @@
-#ifndef SEARCH_H
-#define SEARCH_H
+#ifndef TNOTESSEARCH_H
+#define TNOTESSEARCH_H
 
 #include <QWidget>
 class QString;
@@ -8,15 +8,15 @@ extern "C"
 #include "friso.h"
 }
 
-class search
+class tNotesSearch
 {
 private:
     friso_t friso;
     friso_config_t config;
     QString segment(char *context);
 public:
-    search(char *path);
-    ~search();
+    tNotesSearch(char *path);
+    ~tNotesSearch();
     //连接数据库
     bool connect(const QString &dbName);
     //初始化
@@ -28,7 +28,7 @@ public:
     //更新
     bool update(char *id,char *title,char*body);
     //查询
-    bool select(char *key);
+    std::vector<std::string> select(char *key);
 };
 
-#endif // SEARCH_H
+#endif // _H
