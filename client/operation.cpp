@@ -17,6 +17,21 @@ map<string,string>mymap;
 map<string,string>::iterator iter;
 
 
+void stdstring2charstar(std::string src, char *to)
+{
+   // to = new char[src.length()+1];
+    //std::cout<<"hello "<<src;
+    strcpy(to, src.c_str());
+   // to[src.length()] = '\0';
+    //std::cout<<"to:"<<to<<std::endl;
+}
+
+void tmpstring2charstar(std::string src, char *to)
+{
+    strcpy(to, src.c_str());
+
+}
+
 void print(QString s)
 {
     QMessageBox::information(NULL, "OK", s);

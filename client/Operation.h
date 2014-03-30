@@ -38,4 +38,6 @@ QString readFile(QString filePath);
 bool changeRootId(string oldId,string newId,string modifiedTime); //修改原目录id与时间戳
 bool changeArticleId(string rootid,string oldId,string newId,string modifiedTime); //修改原文章id与时间戳
 //void synchronous();   //同步操作
+void stdstring2charstar(std::string, char *);
+void tmpstring2charstar(std::string, char *);
 #endif

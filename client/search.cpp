@@ -4,34 +4,37 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-search::search(char *path)
+
+tNotesSearch::tNotesSearch(char *path)
 {
     friso = friso_new();
     config = friso_new_config();
     friso_init_from_ifile(friso, config, path);//从指定的friso.ini文件中初始化friso和config
 }
-search::~search()
+tNotesSearch::~tNotesSearch()
 {
 //    friso_free_config(config);//有bug，先注释掉
     friso_free(friso);
 }
-QString search::segment(char *context)
+QString tNotesSearch::segment(char *context)
 {
     //创建分词任务&&设置分词内容
     friso_task_t task = friso_new_task();
     fstring text = context;
+    qDebug()<<"text: "<<text<<endl;
+
     friso_set_text( task, text );
     QString temp;
     while ( ( friso_next( friso, config, task ) ) != NULL ) {
         temp=temp+task->hits->word+" ";
     }
-    qDebug()<<temp;
+//    qDebug()<<temp;
     //释放任务
     friso_free_task( task );
     return temp;
 }
 //连接数据库
-bool search::connect(const QString &dbName)
+bool tNotesSearch::connect(const QString &dbName)
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(dbName);
@@ -39,10 +42,11 @@ bool search::connect(const QString &dbName)
         qDebug()<<"Database Error"<<db.lastError().text();
         return false;
     }
+    qDebug()<<"connect success";
     return true;
 }
 //初始化
-bool search::init()
+bool tNotesSearch::init()
 {
     QSqlQuery query;
     if(!query.exec("CREATE VIRTUAL TABLE pages USING fts3(id PRIMARY KEY, title, body,tokenize=simple)"))
@@ -53,8 +57,9 @@ bool search::init()
     return true;
 }
 //插入
-bool search::insert(char *id,char* title,char *body)
+bool tNotesSearch::insert(char *id,char* title,char *body)
 {
+    qDebug() <<"insert: "<< id << " " << title << " " <<body<<endl;
     QSqlQuery query;
     query.prepare("INSERT INTO pages (id, title, body) VALUES (?,?,?)");
     query.addBindValue(id);
@@ -68,7 +73,7 @@ bool search::insert(char *id,char* title,char *body)
     return true;
 }
 //删除
-bool search::deleteDB(char *id)
+bool tNotesSearch::deleteDB(char *id)
 {
     QSqlQuery query;
     query.prepare("DELETE FROM pages where id = ?");
@@ -81,7 +86,7 @@ bool search::deleteDB(char *id)
     return true;
 }
 //更新
-bool search::update(char *id,char *title,char*body)
+bool tNotesSearch::update(char *id,char *title,char*body)
 {
     QSqlQuery query;
     query.prepare("update pages set title=?,body=? where id=?");
@@ -97,7 +102,7 @@ bool search::update(char *id,char *title,char*body)
 }
 
 //查询
-bool search::select(char *key)
+std::vector<std::string> tNotesSearch::select(char *key)
 {
     bool flag=false;
     QSqlQuery query;
@@ -106,14 +111,16 @@ bool search::select(char *key)
     if(!query.exec())
     {
         qDebug()<<"error: "<<query.lastError().text()<<endl;
-        return false;
+        //return false;
     }
+    std::vector<std::string> temp;
     while(query.next())
     {
         qDebug()<<query.value(0).toString()<< query.value(1).toString()<< query.value(2).toString();
+        temp.push_back(query.value(0).toString().toStdString());
         flag=true;
     }
     if(flag==false)
         qDebug()<<"find nothing";
-    return true;
+    return temp;
 }
