@@ -9,6 +9,7 @@
 #include <Qstring>
 #include<algorithm>
 #include<iostream>
+#include<mynetworker.h>
 #ifndef OPERATION_H
 #define OPERATION_H
 //const string rootPath="D:/data/";
@@ -29,8 +30,12 @@ bool writeInJson(Json::Value root,string path);         //写入json文件
 void getArticlePath(string articleId);//返回文章路径
 QString s2q(const string &s);
 string q2s(const QString &s);
+unsigned int s2i(string ss);
+string i2s(unsigned int ss);
+string findMymap(string id);
 void print(QString s);
 QString readFile(QString filePath);
 bool changeRootId(string oldId,string newId,string modifiedTime); //修改原目录id与时间戳
 bool changeArticleId(string rootid,string oldId,string newId,string modifiedTime); //修改原文章id与时间戳
+void synchronous();   //同步操作
 #endif

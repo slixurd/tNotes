@@ -3,12 +3,20 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QTextStream>
+#include <sstream>
+#include<map>
 
 extern string ROOTPATH = "";
 string articlePath="";
 
 extern string rootPath = "";
 extern string recordPath="";
+
+
+map<string,string>mymap;
+map<string,string>::iterator iter;
+
+
 void print(QString s)
 {
     QMessageBox::information(NULL, "OK", s);
@@ -24,6 +32,21 @@ string q2s(const QString &s)
 {
     return string((const char *)s.toLocal8Bit());
 }
+unsigned int s2i(string ss)
+{
+  return (unsigned int)atoi(ss.c_str());
+}
+
+string i2s(unsigned int ss)
+{
+
+   std::stringstream tt;
+    std::string str;
+    tt<<ss;
+    tt>>str;
+    return str;
+}
+
 QString readFile(QString filePath)
 {
     QFile file(filePath);
@@ -39,6 +62,7 @@ void setupRootPath(string path)
     ROOTPATH = path + "\\";
     rootPath = path + "\\root.json";
     recordPath = path + "\\record.json";
+
 }
 /************************************************************************/
 /* 返回文章路径，路径构成为文章ID+.json                                                                    */
@@ -104,7 +128,7 @@ bool createRoot(Directory dir)
     d["isSyn"]=dir.isSyn;
     root[dir.nodeId]=d;
 
-    r["mark"]="000";
+    r["mark"]=1;
     r["id"]=dir.nodeId;
     r["name"]=dir.name;
     recordRoot.append(r);
@@ -130,7 +154,7 @@ bool createArticle(string iRoot,Article art)
         Json::Value a;
         Json::Value b;
         Json::Value r;
-        r["mark"]="100";
+        r["mark"]=4;
         r["name"]=art.name;
         r["content"]=art.context;
         r["id"]=art.articleId;
@@ -161,7 +185,7 @@ bool deleteRoot(string index)
     Json::Value root=returnRoot(rootPath);
 
     Json::Value r;
-    r["mark"]="001";
+    r["mark"]=2;
     r["id"]=index;
 
 
@@ -187,7 +211,7 @@ bool deleteArticle(string iRoot,string iArticle)
     Json::Value root=returnRoot(rootPath);
     Json::Value recordRoot=returnRoot(recordPath);
     Json::Value r;
-    r["mark"]="101";
+    r["mark"]=5;
     r["id"]=iArticle;
     recordRoot.append(r);
 
@@ -206,13 +230,12 @@ vector<Directory> searchAllRoot()
 {
 
     Json::Value root = returnRoot(rootPath);
-    std::cout<<rootPath<<std::endl;
-    std::cout<<root.toStyledString()<<std::endl;
+
     vector<string> listRoot=root.getMemberNames();
     vector<Directory> allRoot;
     Directory obj;
     string nodeId;
-    std::cout << listRoot.size() << std::endl;
+
     for(int i=0;i<(int)listRoot.size();i++)
     {
         nodeId=listRoot[i];
@@ -319,7 +342,7 @@ bool changeRoot(string iRoot ,string name)
 
             Json::Value recordRoot=returnRoot(recordPath);
             Json::Value r;
-            r["mark"]="010";
+            r["mark"]=3;
             r["id"]=iRoot;
             r["name"]=name;
             recordRoot.append(r);
@@ -366,7 +389,7 @@ bool changeArticleName(string iRoot,string iArticle,string name)
         root[iRoot]["array"][iArticle]["name"]=name;
          Json::Value recordRoot=returnRoot(recordPath);
          Json::Value r;
-         r["mark"]="110";
+         r["mark"]=6;
          r["id"]=iArticle;
          r["name"]=name;
 
@@ -397,7 +420,7 @@ bool changeArticleContent(string iRoot,string iArticle,string content)
         article["context"]=content;
          Json::Value recordRoot=returnRoot(recordPath);
          Json::Value r;
-         r["mark"]="110";
+         r["mark"]=6;
          r["id"]=iArticle;
          r["content"]=content;
 
@@ -433,4 +456,145 @@ bool changeArticleId(string rootid,string oldId,string newId,string modifiedTime
             return 1;
     }
     else return 0;
+}
+
+string findMymap(string id)
+{
+    iter=mymap.find(id);
+    if(iter!=mymap.end())
+    {
+     return iter->second;
+    }
+   else
+    {
+      return id;
+    }
+}
+
+
+//同步操作
+void synchronous()
+{
+
+    Json::Value recordRoot=returnRoot(recordPath);
+    int mark;
+    int size=recordRoot.size();
+    for(int i=0;i<size;i++)
+    {
+    mark=recordRoot[i]["mark"].asInt();
+        switch(mark)
+        {
+        case 1:
+        {
+           string url="tnotes.wicp.net:8080/createnode.cgi";
+            Json::Value obj;
+            //obj["session"]=MyNetWorker::session_key;
+            obj["name"]=recordRoot[i]["name"];
+            string data="{\"id\":1,\"stamp\":2 }";//=MyNetWorker::send(url,obj.toStyledString());
+
+
+            Json::Reader reader;
+            Json::Value value;
+            reader.parse(data,value);
+            changeRootId(recordRoot[i]["id"].asString(),i2s(value["id"].asUInt()),i2s(value["stamp"].asUInt()));
+            mymap[recordRoot[i]["id"].asString()]=i2s(value["id"].asUInt());
+            break;
+        }
+        case 2:
+        {
+            string url="tnotes.wicp.net:8080/deletenode.cgi";
+            Json::Value obj;
+            //obj["session"]=MyNetWorker::SessionKey;
+            string id=recordRoot[i]["id"].asString();
+            obj["id"]=s2i(findMymap(id));
+           // std::cout<<obj["id"].asUInt()；
+           //MyNetWorker::send(url,obj.toStyledString());
+            std::cout<<obj.toStyledString()<<std::endl;
+            break;
+        }
+        case 3:
+        {
+            string url="tnotes.wicp.net:8080/changenode.cgi";
+            Json::Value obj;
+            //obj["session"]=MyNetWorker::SessionKey;
+            string id=findMymap(recordRoot[i]["id"].asString());
+            obj["id"]=s2i(id);
+            obj["name"]=recordRoot[i]["name"];
+          string data;//=MyNetWorker::send(url,obj.toStyledString());
+
+
+            Json::Reader reader;
+            Json::Value value;
+            //reader.parse(data,value);
+            changeRootId(id,id,i2s(value["stamp"].asUInt()));
+           // std::cout<<obj.toStyledString()<<std::endl;
+            break;
+        }
+        case 4:
+        {
+            string url="tnotes.wicp.net:8080/createarticle.cgi";
+            Json::Value obj;
+            //obj["session"]=MyNetWorker::SessionKey;
+            obj["content"]=recordRoot[i]["content"];
+            obj["location"]=s2i(recordRoot[i]["location"].asString());
+            obj["name"]=recordRoot[i]["name"];
+            string data;//=MyNetWorker::send(url,obj.toStyledString());
+
+
+            Json::Reader reader;
+            Json::Value value;
+            //reader.parse(data,value);
+          //  std::cout<<obj.toStyledString()<<std::endl;
+            changeArticleId(recordRoot[i]["location"].asString(),recordRoot[i]["id"].asString(),i2s(value["id"].asUInt()),i2s(value["stamp"].asUInt()));
+            mymap[recordRoot[i]["id"].asString()]=i2s(value["id"].asUInt());
+            break;
+        }
+
+        case 5:
+        {
+           string  url="tnotes.wicp.net:8080/deletearticle.cgi";
+            Json::Value obj;
+            //obj["session"]=MyNetWorker::SessionKey;
+
+            string id=recordRoot[i]["id"].asString();
+            obj["id"]=s2i(findMymap(id));
+
+            //MyNetWorker::send(url,obj.toStyledString());
+          //  std::cout<<obj.toStyledString()<<std::endl;
+            break;
+        }
+        case 6:
+        {
+            string url="tnotes.wicp.net:8080/changearticle.cgi";
+            Json::Value obj;
+            //obj["session"]=MyNetWorker::SessionKey;
+
+            string id=findMymap(recordRoot[i]["id"].asString());
+            obj["id"]=s2i(id);
+
+            if(recordRoot[i].isMember("name"))
+            {
+                obj["name"]=recordRoot[i]["name"];
+            }
+            if(recordRoot[i].isMember("content"))
+            {
+                obj["content"]=recordRoot[i]["content"];
+            }
+            string data;//=MyNetWorker::send(url,obj.toStyledString());
+
+
+            Json::Reader reader;
+            Json::Value value;
+           reader.parse(data,value);
+           // std::cout<<obj.toStyledString()<<std::endl;
+            changeArticleId(recordRoot[i]["location"].asString(),id,id,i2s(value["stamp"].asUInt()));
+            break;
+        }
+        }
+
+    }
+    recordRoot.clear();
+    writeInJson(recordRoot,recordPath);
+    mymap.clear();
+    //通知前台刷新一遍
 }
