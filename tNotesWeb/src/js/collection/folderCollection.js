@@ -64,15 +64,13 @@ var FolderCollection = Backbone.Collection.extend({
             type: 'POST',
             data: '{"session":"'+this.setting.get('session')+'"}'
         }).done(function(data){
-            if(data){
-                console.log('Success');
-                for(var i=0; data.node!=null && i<data.node.length; ++i){
-                    console.log('Folder:'+data.node[i].id);
-                    var addList = self.setting.get('folderAddedID');
-                    var updateList = self.setting.get('folderUpdatedID');
-                    var deleteList = self.setting.get('folderDeletedID');
+            if(data.node!=null){
+                var addList = self.setting.get('folderAddedID');
+                var updateList = self.setting.get('folderUpdatedID');
+                var deleteList = self.setting.get('folderDeletedID');
+
+                for(var i=0; i<data.node.length; ++i){
                     var id = data.node[i].id;
-                    //console.log();
                     if(addList.indexOf(id)<0 && updateList.indexOf(id)<0 && deleteList.indexOf(id)<0){
                         self.create({
                             id: data.node[i].id,
@@ -115,7 +113,7 @@ var FolderCollection = Backbone.Collection.extend({
                     name: self.get(id).get('name'),
                     notes: self.get(id).get('notes'),   // 笔记
                     createTime: self.get(id).get('createTime'),    // 创建时间
-                    modifiedTime: data.stamp*1000  
+                    modifiedTime: data.stamp*1000
                 })
                 self.get(id).destroy();
             }
@@ -142,8 +140,6 @@ var FolderCollection = Backbone.Collection.extend({
         var folder = this.get(id);
         var self = this;
 
-        console.log('{"session":"'+this.setting.get('session')+'","id":'+id+',"name":"'+folder.get('name')+'"}');
-
         //向服务器发送POST
         $.ajax({
             url: this.host+"changenode.cgi",
@@ -152,30 +148,20 @@ var FolderCollection = Backbone.Collection.extend({
         }).done(function(data){
             if(data.stamp){
                 folder.save({modifiedTime:data.stamp*1000}); //更新文件夹ID和修改时间
-                /*var updateList = self.setting.get('folderUpdatedID');
-                if(updateList.indexOf(id) >= 0){
-                    updateList.splice(updateList.indexOf(id), 1); //Folder更新队列 存在则删除
-                    self.setting.save({folderUpdatedID: updateList});
-                }*/
-                console.log('Update Post Success');
             }
             else if(data.exception=='Node Handling Failure'){
-                console.log('Update Post Hand Fail');
                 //处理失败
                 self.insertUpdatedList(id);
             }
             else if(data.exception=='Session Failure'){
-                console.log('Update Post Ses');
                 //session过期，需要重新登录
                 self.insertUpdatedList(id);
             }
             else{
-                console.log('Update Post Else');
                 //其他错误
                 self.insertUpdatedList(id);
             }
         }).fail(function(){ //由于网络离线或者其他原因导致请求失败了
-            console.log('Update Post Fail');
             self.insertUpdatedList(id);
         }).always();
     },
@@ -191,25 +177,26 @@ var FolderCollection = Backbone.Collection.extend({
             data: '{"session":"'+this.setting.get('session')+'","id":'+id+'}'
         }).done(function(data){
             if(data.status == 'success'){
-                console.log('Folder Deleted Success!');
+                var updateList = self.setting.get('folderUpdatedID');
+                var index = updateList.indexOf(id);
+                if(index >= 0){
+                    updateList.splice(index, 1);//如果修改列表中有该文章，也要删除
+                    this.setting.save({folderUpdatedID: updateList});
+                }
             }
             else if(data.exception='Node Handling Failure'){
-                console.log('Node Fail');
                 //处理失败
                 self.insertDeletedList(id);
             }
             else if(data.exception='Session Failure'){
-                console.log('Session Failure');
                 //session过期，需要重新登录
                 self.insertDeletedList(id);
             }
             else{
                 //其他错误
-                console.log('Else Failure');
                 self.insertDeletedList(id);
             }
         }).fail(function(){ //由于网络离线或者其他原因导致请求失败了
-            console.log('Fail');
             self.insertDeletedList(id);
         }).always();
     },
@@ -236,7 +223,7 @@ var FolderCollection = Backbone.Collection.extend({
         //如果ID>0，则为服务器文章，将其添加到删除列表
         var updateList = this.setting.get('folderUpdatedID');
         var index = updateList.indexOf(id);
-        if(index > 0){
+        if(index >= 0){
             updateList.splice(index, 1);//如果修改列表中有该文章，也要删除
             this.setting.save({folderUpdatedID: updateList});
         }

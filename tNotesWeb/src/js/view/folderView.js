@@ -110,7 +110,6 @@ var FolderView = Backbone.View.extend({
 
 	/* 选中文件夹 */
     selectFolder: function (event) {
-
         this.folders.setSelectedID(parseInt($(event.target).attr('data-id')));
 
         if(this.folders.selectedID != 0){
