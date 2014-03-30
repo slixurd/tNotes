@@ -32,10 +32,10 @@ QString s2q(const string &s);
 string q2s(const QString &s);
 unsigned int s2i(string ss);
 string i2s(unsigned int ss);
-string findMymap(string id);
+
 void print(QString s);
 QString readFile(QString filePath);
 bool changeRootId(string oldId,string newId,string modifiedTime); //修改原目录id与时间戳
 bool changeArticleId(string rootid,string oldId,string newId,string modifiedTime); //修改原文章id与时间戳
-void synchronous();   //同步操作
+//void synchronous();   //同步操作
 #endif

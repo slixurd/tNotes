@@ -15,6 +15,8 @@ synchronization::synchronization(QObject *parent) :
 
 void synchronization::sendrecord()
 {
+    extern string recordPath;
+
     Json::Value recordRoot=returnRoot(recordPath);
     int mark;
     int size=recordRoot.size();
@@ -47,9 +49,14 @@ void synchronization::sendrecord()
         {
             string url="tnotes.wicp.net:8080/deletenode.cgi";
             Json::Value obj;
-            //obj["session"]=MyNetWorker::SessionKey;
+           obj["session"]=MyNetWorker::session_key.toStdString();
             string id=recordRoot[i]["id"].asString();
-            obj["id"]=s2i(findMymap(id));
+            iter=mymap.find(id);
+            if(iter!=mymap.end())
+            {
+            id=iter->second;
+            }
+            obj["id"]=s2i(id);
            // std::cout<<obj["id"].asUInt()；
             mynetwork->send(url,obj.toStyledString());
             eventLoop.exec();
@@ -60,8 +67,13 @@ void synchronization::sendrecord()
         {
             string url="tnotes.wicp.net:8080/changenode.cgi";
             Json::Value obj;
-            //obj["session"]=MyNetWorker::SessionKey;
-            string id=findMymap(recordRoot[i]["id"].asString());
+            obj["session"]=MyNetWorker::session_key.toStdString();
+            string id=recordRoot[i]["id"].asString();
+            iter=mymap.find(id);
+            if(iter!=mymap.end())
+            {
+            id=iter->second;
+            }
             obj["id"]=s2i(id);
             obj["name"]=recordRoot[i]["name"];
             mynetwork->send(url,obj.toStyledString());
@@ -70,7 +82,7 @@ void synchronization::sendrecord()
 
             Json::Reader reader;
             Json::Value value;
-            //reader.parse(data,value);
+            reader.parse(data,value);
             changeRootId(id,id,i2s(value["stamp"].asUInt()));
            // std::cout<<obj.toStyledString()<<std::endl;
             break;
@@ -79,7 +91,7 @@ void synchronization::sendrecord()
         {
             string url="tnotes.wicp.net:8080/createarticle.cgi";
             Json::Value obj;
-            //obj["session"]=MyNetWorker::SessionKey;
+            obj["session"]=MyNetWorker::session_key.toStdString();
             obj["content"]=recordRoot[i]["content"];
             obj["location"]=s2i(recordRoot[i]["location"].asString());
             obj["name"]=recordRoot[i]["name"];
@@ -89,7 +101,7 @@ void synchronization::sendrecord()
 
             Json::Reader reader;
             Json::Value value;
-            //reader.parse(data,value);
+            reader.parse(data,value);
           //  std::cout<<obj.toStyledString()<<std::endl;
             changeArticleId(recordRoot[i]["location"].asString(),recordRoot[i]["id"].asString(),i2s(value["id"].asUInt()),i2s(value["stamp"].asUInt()));
             mymap[recordRoot[i]["id"].asString()]=i2s(value["id"].asUInt());
@@ -100,10 +112,15 @@ void synchronization::sendrecord()
         {
            string  url="tnotes.wicp.net:8080/deletearticle.cgi";
             Json::Value obj;
-            //obj["session"]=MyNetWorker::SessionKey;
+           obj["session"]=MyNetWorker::session_key.toStdString();
 
-            string id=recordRoot[i]["id"].asString();
-            obj["id"]=s2i(findMymap(id));
+           string id=recordRoot[i]["id"].asString();
+           iter=mymap.find(id);
+           if(iter!=mymap.end())
+           {
+           id=iter->second;
+           }
+           obj["id"]=s2i(id);
 
             mynetwork->send(url,obj.toStyledString());
             eventLoop.exec();
@@ -114,9 +131,14 @@ void synchronization::sendrecord()
         {
             string url="tnotes.wicp.net:8080/changearticle.cgi";
             Json::Value obj;
-            //obj["session"]=MyNetWorker::SessionKey;
+            obj["session"]=MyNetWorker::session_key.toStdString();
 
-            string id=findMymap(recordRoot[i]["id"].asString());
+            string id=recordRoot[i]["id"].asString();
+            iter=mymap.find(id);
+            if(iter!=mymap.end())
+            {
+            id=iter->second;
+            }
             obj["id"]=s2i(id);
 
             if(recordRoot[i].isMember("name"))
@@ -133,7 +155,7 @@ void synchronization::sendrecord()
 
             Json::Reader reader;
             Json::Value value;
-           reader.parse(data,value);
+             reader.parse(data,value);
            // std::cout<<obj.toStyledString()<<std::endl;
             changeArticleId(recordRoot[i]["location"].asString(),id,id,i2s(value["stamp"].asUInt()));
             break;
