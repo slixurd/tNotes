@@ -245,6 +245,10 @@
                 </div>
             </div>
             <script id="folder-template" type="text/template">
+                <a href="#folder/0" class="list-group-item folder" data-id="0">
+                    <span class="badge">0</span>
+                    <span class="glyphicon glyphicon-book"></span> 最近编辑文章
+                </a>
                 <% _.each(folders, function (folder) { %>
                     <a href="#folder/<%= folder.id %>" class="list-group-item folder" data-id="<%= folder.id %>">
                         <span class="badge"><%= folder.notes.length %></span>
