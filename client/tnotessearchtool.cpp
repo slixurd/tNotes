@@ -39,9 +39,10 @@ tNotesSearchTool::tNotesSearchTool(QWidget *parent)
 std::vector<std::string> tNotesSearchTool::find()
 {
     QString searchText = searchToolLineEdit->text();
-
-    char *x = new char[q2s(searchText).length() + 1];
-    strcpy(x, q2s(searchText).c_str());
+    qDebug()<<"searchText:"<<searchText<<endl;
+    char *x = new char[searchText.toStdString().length() + 1];
+    stdstring2charstar(searchText.toStdString(),x);
+    qDebug()<<"x:"<<x<<endl;
 
 
     return searchinstance->select(x);
