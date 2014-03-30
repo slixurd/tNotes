@@ -8,10 +8,11 @@ var NoteList = Backbone.View.extend({
 	$noteList: $('#note-list'),
 	$newNoteBtn: $('#new-note-btn'),
 	currentNoteId: null, //当前选中笔记id
-	currentFolderId: null, //当前选中文件夹id
-	currentNoteList: null,
+	currentFolderId: 0, //当前选中文件夹id
+	currentNoteList: [],
 	displayIds: [], //正在显示的笔记列表
     collection: noteCollection,
+	
 	template: _.template($("#note-template").html()),
 
 	/* Click事件 */
@@ -21,7 +22,22 @@ var NoteList = Backbone.View.extend({
     },
 
     initialize: function () {
+		_.bindAll(this, 'render');
+		_.bindAll(this, 'setFolder');
 		
+		this.setFolder();
+		
+		this.collection.bind('add', this.render);
+		this.collection.bind('add', this.setFolder);
+		this.collection.bind('change', this.render);
+		this.collection.bind('change', this.setFolder);
+		this.collection.bind('remove', this.render);
+		this.collection.bind('remove', this.setFolder);
+		
+		folderCollection.bind('add', this.render);
+		folderCollection.bind('change', this.render);
+		folderCollection.bind('change', this.setFolder);
+		folderCollection.bind('remove', this.render);
     },
 	
 	/*
@@ -35,13 +51,29 @@ var NoteList = Backbone.View.extend({
 		return this;
 	},
 	
+	//测试
+	testNewNote: function () {
+		this.collection.updateNotePost(80, 'C++', 'C# is so good!');
+		//this.collection.deleteNote(85);
+		/*
+		noteCollection.create({
+			title: 'Html',
+			brief: 'Summary',
+			folderId: 590,
+			content: 'Html CSS JAVASCRIPT'
+		});
+		*/
+	},
+	
 	//高亮新建笔记按钮
 	highlightNewBtn: function (flag) {
 		if (flag === false) {
 			this.$newNoteBtn.removeClass('active');
 		}
 		else {
-			this.$newNoteBtn.addClass('active');
+			if(this.currentFolderId != 0) {
+				this.$newNoteBtn.addClass('active');
+			}
 		}
 	},
 	
@@ -61,15 +93,37 @@ var NoteList = Backbone.View.extend({
 	},
 		
 	// 设置要显示笔记的文件夹
-	setFolder: function (folderId) {
-		this.collection.getNoteListByFolderId(folderId);
-		this.currentNoteList = this.collection.getModelsByFolderId(folderId);
-		this.render();
+	setFolder: function () {
+		this.currentFolderId = parseInt(folderCollection.getSelectedID());
+		if(this.currentFolderId != 0)
+		{
+			this.$newNoteBtn.removeClass('disabled');
+			this.collection.setFolderId(this.currentFolderId);
+			this.collection.getNoteListByFolderId();
+			this.currentNoteList = this.collection.getModelsByFolderId(this.currentFolderId);
+			this.render();
+		} else {
+			this.$newNoteBtn.addClass('disabled');
+			var list = this.collection.toJSON();
+			this.currentNoteList.splice(0, this.currentNoteList.length);
+			console.log('list length: ' + list.length);
+			if(list.length <= 10) {
+				for(var i = list.length - 1; i >= 0; i++) {
+					this.currentNoteList.push(list[i]);
+				}
+			} else {
+				for(var i = 9; i >= 0; i++) {
+					this.currentNoteList.push(list[i]);
+				}
+			}
+			this.render();
+		}
 	},
 	
 	//从服务器拉取对应id的Note
 	storageNote: function (id) {
-		this.collection.getNoteByNoteId(id);
+		console.log('note id ' + id);
+		this.collection.getNoteByNoteId(73);
 	}
 });
 

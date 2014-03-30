@@ -20,7 +20,7 @@ var NoteModel = Backbone.Model.extend({
 
     initialize: function (value) {
         // 如果传值没有id，则说明是创建新对象，赋予新的id
-        if (!value.id) {
+        if (typeof(value.id) === 'undefined') {
             var id        = setting.get('noteId'), // 获取本地笔记自增Id
                 timeStamp = _.now();
             this.set({

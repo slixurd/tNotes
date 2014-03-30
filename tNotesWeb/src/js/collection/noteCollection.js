@@ -1,6 +1,6 @@
 // 笔记集合，返回Note集合类实例
 
-define(['NoteModel', 'noteDb', 'setting'], function (NoteModel, database, setting) {
+define(['NoteModel', 'noteDb', 'setting', 'folderCollection'], function (NoteModel, database, setting, folderCollection) {
 
 var NoteCollection = Backbone.Collection.extend({
 
@@ -10,6 +10,14 @@ var NoteCollection = Backbone.Collection.extend({
     storeName: database.storeName,
 	
 	currentFolder: 0,
+	
+	initialize: function() {
+	},
+	
+	//按修改时间modifiedTime进行排序
+	comparator: function (note) {
+		return note.get('modifiedTime');
+	},
 
 	//获取当前选中的folderId
 	setFolderId: function(folderId) {
@@ -18,28 +26,35 @@ var NoteCollection = Backbone.Collection.extend({
 	
 	//将服务器数据存入本地
 	storageNote: function(data) {
-		var note = this.get(data.id);
-		if(typeof(note) === 'undefined') {
-			note = this.create({id: data.id, title: data.name, folderId: data.location, brief: data.brief, createTime: data.stamp, modifiedTime: data.stamp});
-			note.save();
-		} else {
-			note.set({title: data.name, folderId: data.location, brief: data.brief, modifiedTime: data.stamp});
-			note.save();
-		}
+		console.log('begin storageNote');
+		this.create({
+			id: data.id, 
+			title: data.name, 
+			folderId: data.location, 
+			brief: data.brief, 
+			createTime: data.stamp, 
+			modifiedTime: data.stamp
+		}, {wait: true});
+		console.log('end storageNote');
 	},
 	
 	//根据选中文件夹id从服务器获取数据
-	getNoteListByFolderId: function(folderId) {
+	getNoteListByFolderId: function() {
+		console.log('Begin fun getNoteListByFolderId');
+		var self = this;
 		var sessionkey = setting.get('session'); //获取session key
 		$.ajax({
-			url: 'http://tnotes.wicp.net:8080/fecthbriefs.cgi',
+			url: 'http://tnotes.wicp.net:8080/fetchbriefs.cgi',
 			type: 'POST',
-			data: '{"session":' + '"' + sessionkey + '",' + '"id":' + '"' + folderId + '"}'
+			data: '{"session":' + '"' + sessionkey + '",' + '"id":' + this.currentFolder + '}'
 		}).done(function(data) {
-			if(data.length > 0) {
-				for(var i = 0; i < data.length; i++) {
-					this.collection.storageNote(data[i]);
+			if(data.article != null) {
+				console.log(data);
+				for(var i = 0; i < data.article.length; i++) {
+					self.storageNote(data.article[i]);
 				}
+			} else {
+				console.log('data is null');
 			}
 		}).fail(function(){
 		}).always();
@@ -47,16 +62,29 @@ var NoteCollection = Backbone.Collection.extend({
 	
 	//根据选中笔记id从服务器获取数据
 	getNoteByNoteId: function(id) {
+		var self = this;
 		var sessionkey = setting.get('session'); //获取session key
+		console.log('article id: ' + id);
 		$.ajax({
-			url: 'http://tnotes.wicp.net:8080/fectharticles.cgi',
+			url: 'http://tnotes.wicp.net:8080/fetcharticles.cgi',
 			type: 'POST',
-			data: '{"session":' + '"' + sessionkey + '",' + '"id":' + '"' + id + '"}'
+			data: '{"session":' + '"' + sessionkey + '",' + '"id":' + id + '}'
 		}).done(function(data) {
-			if(data.id) {
-				this.get(id).set({id: data.id, folderId: data.location, title: data.name, content: data.content, modifiedTime: data.stamp});
+			console.log(data);
+			if(data.article == null) {
+				console.log('note data is null');
+			} else {
+				self.create({
+					id: data.id,
+					folderId: data.location,
+					title: data.name,
+					content: data.content,
+					modifiedTime: data.stamp
+				}, {wait: true});
+				self.get(id).destroy();
 			}
 		}).fail(function() {
+			console.log('post failed!');
 		}).always();
 	},
 	
@@ -72,13 +100,27 @@ var NoteCollection = Backbone.Collection.extend({
 	
 	//根据folderId取出Model数组
 	getModelsByFolderId: function(folderId) {
-		var noteModelList = this.where({folderId: folderId});
-		return noteModelList;
+		var list = this.toJSON();
+		for(var i=0; i < list.length; i++) {
+			if(list[i].folderId != folderId) {
+				list.splice(i, 1);
+				i--;
+			}
+		}
+		return list;
 	},
 	
 	//根据id号删除对应的Model数据
 	deleteModelById: function(id) {
-		this.get(id).destroy();
+		var note = this.get(id);
+		if (typeof(note) != 'undefined') {
+			this.get(id).destroy();
+			console.log('delete note success');
+		} else {
+			console.log('delete info: failed');
+		}
+		
+		
 	},
 	
 	//根据Array类型的id序列删除Model数组
@@ -105,80 +147,138 @@ var NoteCollection = Backbone.Collection.extend({
 	},
 	
 	//新建笔记
-	newNote: function(title, content) {
-		//需获取folderId
-		var currentNote = this.create({folderId: this.currentFolder, title: title, content: content});
-		currentNote.save();
-		this.newNotePost(currentNote);
+	newNote: function(folderId, title, content) {
+		var currentNote = this.create({
+			folderId: folderId,
+			title: title, 
+			content: content
+		});
+		if(this.currentFolder > 0) {
+			this.newNotePost(currentNote.attributes);
+		} else {
+			this.addedNoteSetting(currentNote.attributes.id);
+		}
 	},
 	
 	//删除笔记
 	deleteNote: function(id) {
 		this.deleteModelById(id);
-		this.deleteNotePost(id);
+		folderCollection.removeNote(id);
+		if(id > 0) {
+			this.deleteNotePost(id);
+		} else {
+			this.deletedNoteSetting(id);
+		}
 	},
 	
 	//更新笔记
 	updateNote: function(id, title, content) {
-		updateModelById(id, title, content);
-		updateNotePost(id, title, content);
+		this.updateModelById(id, title, content); //写本地
+		if(id > 0) {                              //当id大于0，则要执行post
+			this.updateNotePost(id, title, content);
+		}
 	},
 	
 	//新建笔记并post 若失败则写入setting中的同步列表
 	newNotePost: function(newNote) {
+		var self = this;
 		var sessionkey = setting.get('session'); //获取session key
-		var id = newNote.get('id');              //获取需要新建的笔记id
-		var name = newNote.get('title');         //获取需要新建的笔记标题
-		var content = newNote.get('content');    //获取需要新建的笔记内容
-		var location = newNote.get('folderId');  //获取需要新建的笔记所在文件夹
+		var id = newNote.id;              //获取需要新建的笔记id
+		console.log(id);
+		var name = newNote.title;         //获取需要新建的笔记标题
+		var content = newNote.content;    //获取需要新建的笔记内容
+		var location = newNote.folderId;  //获取需要新建的笔记所在文件夹
+		console.log(newNote);
+		console.log('Begin newNotePost');
 		$.ajax({
 			url: 'http://tnotes.wicp.net:8080/createarticle.cgi',
 			type: 'POST',
-			data: '{"session":' + '"' + sessionkey + '",' + '"name":' + '"' + title + '",' + '"content":' + '"' + content + '",' + '"location":' + '"' + location + '"' + '}'
+			data: '{"session":' + '"' + sessionkey + '",' + '"name":' + '"' + name + '",' + '"content":' + '"' + content + '",' + '"location":' + location + '}'
 		}).done(function(data){
+			console.log(data);
 			if(data.id && data.stamp) {
-				this.get(id).set({id: data.id, modifiedTime: data.stamp}); //POST成功则更新indexDB中的笔记id和modifiedTime
-			}
-			else if(data.exception='Article Handling Failure') {
-				this.addedNoteSetting(id);  //POST失败则将新建笔记事件写入setting的noteAddedArray中
+				console.log('success upload');
+				self.create({                                  //POST成功则更新indexDB中的笔记id和modifiedTime
+					id: data.id,
+					folderId: self.get(id).get('folderId'),
+					title: self.get(id).get('title'),
+					content: self.get(id).get('content'),
+					createTime: self.get(id).get('createTime'),
+					modifiedTime: data.stamp
+				}, {wait: true});
+				self.get(id).destroy();
+				folderCollection.addNote(data.id);
+			} else if(data.exception == 'Session Failure') {
+				//session过期，需要重新登录
+				self.addedNoteSetting(id);  //POST失败则将新建笔记事件写入setting的noteAddedArray中
+				folderCollection.addNote(id);
+			} else if(data.exception == 'Article Handling Failure') {
+				self.addedNoteSetting(id);  //POST失败则将新建笔记事件写入setting的noteAddedArray中
+				folderCollection.addNote(id);
+			} else {
+				self.addedNoteSetting(id);  //POST失败则将新建笔记事件写入setting的noteAddedArray中
+				folderCollection.addNote(id);
 			}
 		}).fail(function(){
-		
+			self.addedNoteSetting(id);  //POST失败则将新建笔记事件写入setting的noteAddedArray中
+			folderCollection.addNote(id);
 		}).always();
 	},
 	
 	//删除笔记并post 若失败则写入setting中的同步列表
 	deleteNotePost: function(id) {
+		var self = this;
 		var sessionkey = setting.get('session');
 		$.ajax({
 			url: 'http://tnotes.wicp.net:8080/deletearticle.cgi',
 			type: 'POST',
-			data: '{"session":' + '"' + sessionkey + '",' + '"id":' + '"' + id + '"}'
+			data: '{"session":"' + setting.get('session') + '","id":' + id + '}'
 		}).done(function(data) {
-			if(data.status) {
+			console.log(data);
+			if(data.status == 'success') {
+				//若成功则需要在noteUpdatedId中删除该id
+				var noteUpdateArray = setting.get('noteUpdatedId');
+				var updateNoteLocation = noteUpdateArray.indexOf(id);
+				if(updateNoteLocation >= 0) {
+					noteUpdateArray.splice(updateNoteLocation, 1);
+				}
+				setting.set('noteAddedId', noteAddedArray);
+				setting.save();
 			}
 			else if(data.exception = 'Article Handling Failure') {
-				this.deletedNoteSetting(id);
+				self.deletedNoteSetting(id);
 			}
 		}).fail(function() {
+			self.deletedNoteSetting(id);
 		}).always();
 	},
 	
 	//更新笔记并post 若失败则写入setting中的同步列表
 	updateNotePost: function(id, name, content) {
+		var self = this;
 		var sessionkey = setting.get('session');
+		console.log('Begin updateNotePost');
+		console.log('{"session":' + '"' + sessionkey + '",' + '"id":' + id + ',' + '"name":' + '"' + name + '",' + '"content":"' + content + '"}');
 		$.ajax({
 			url: 'http://tnotes.wicp.net:8080/changearticle.cgi',
 			type: 'POST',
-			data: '{"session":' + '"' + sessionkey + '",' + '"id":' + '"' + id + '",' + '"name":' + '"' + name + '",' + '"content":' + content + '"}'
+			data: '{"session":' + '"' + sessionkey + '",' + '"id":' + id + ',' + '"name":' + '"' + name + '",' + '"content":"' + content + '"}'
 		}).done(function(data) {
+			console.log(data);
 			if(data.stamp) {
-				this.get(id).set({modifiedTime: data.stamp});
-			}
-			else if(data.exception = 'Article Handling Failure') {
-				this.updatedNoteSetting(id);
+				self.get(id).save({
+					modifiedTime: data.stamp
+				});
+			} else if(data.exception = 'Article Handling Failure') {
+				console.log('Exception: Article Handling Failure');
+				self.updatedNoteSetting(id);
+			} else {
+				console.log('post failed');
+				self.updatedNoteSetting(id);
 			}
 		}).fail(function() {
+			console.log('Post failed');
+			self.updatedNoteSetting(id);
 		}).always();
 	},
 	/**
@@ -194,7 +294,9 @@ var NoteCollection = Backbone.Collection.extend({
 	addedNoteSetting: function(id) {
 		var noteAddedArray = setting.get('noteAddedId');
 		noteAddedArray.push(id);
+		console.log(noteAddedArray);
 		setting.set('noteAddedId', noteAddedArray);
+		setting.save();
 	},
 	
 	//记录删除笔记事件
@@ -213,20 +315,24 @@ var NoteCollection = Backbone.Collection.extend({
 			var noteAddedArray = setting.get('noteAddedId');
 			noteAddedArray.splice(noteAddedArray.indexOf(id), 1);
 			setting.set('noteAddedId', noteAddedArray);
+			setting.save();
 		}
+		setting.save();
 	},
 	
 	//记录修改笔记事件
 	updatedNoteSetting: function(id) {
 		if( id > 0 ) {
 			var noteUpdatedArray = setting.get('noteUpdatedId');
-			var updateNoteLocation = noteUpdateArray.indexOf(id);
+			var updateNoteLocation = noteUpdatedArray.indexOf(id);
 			if( updateNoteLocation < 0 ) {
 				noteUpdatedArray.push(id);
 				setting.set('noteUpdatedId', noteUpdatedArray);
+				setting.save();
 			}
 		}
 	}
+	
 });
 
 // 创建noteCollection实例并获取数据
