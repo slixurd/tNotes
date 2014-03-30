@@ -5,7 +5,7 @@ tNotesCategoryList::tNotesCategoryList() : QListView()
 {
     qic = QIcon(":/myres/notebook.png");
     setGridSize(QSize(150,70));
-    this->setStyleSheet("background-color:#FFFFFF;");
+    this->setStyleSheet(readFile(":/qss/listview1background.qss"));
     model = new QStandardItemModel();
     setWordWrap(true);
     this->setModel(model);
@@ -35,7 +35,7 @@ bool tNotesCategoryList::updateListView(string id){
     {
         //传入名字、时间、内容
         QStandardItem *itemTemp=new QStandardItem(s2q(dirVector[i].name+";"
-                                +dirVector[i].modifiedTime+";"+dirVector[i].context));
+                                +dirVector[i].createTime+";"+dirVector[i].context));
         itemTemp->setSizeHint(QSize(150,70));
         model->appendRow(itemTemp);
     }

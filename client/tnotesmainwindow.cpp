@@ -63,9 +63,11 @@ tNotesMainWindow::~tNotesMainWindow()
 void tNotesMainWindow::setMainWindowsSize()
 {
     //因为那天跟投影仪链接的时候获得大小乘以0.8可能会有问题   改回0.8应该也行
-    setMinimumWidth(1200);
-    setMinimumHeight(680);
-    this->move(100,30);
+    QDesktopWidget dw;
+    int x = dw.width()*0.8;
+    int y = dw.height()*0.8;
+    //this->resize(950, 600);
+    this->resize(x, y);
 }
 
 void tNotesMainWindow::initWidgets()
@@ -195,7 +197,7 @@ void tNotesMainWindow::newDirectory(){
 
     qint64 time = QDateTime::currentMSecsSinceEpoch();
     QString qstrTimeStamp = QString::number(time);
-    qstrTimeStamp = qstrTimeStamp.mid(0,10);
+    //qstrTimeStamp = qstrTimeStamp.mid(0,10);
 
     QString qstrYear = QString::number(nowDate.year());
     QString qstrMonth = QString::number(nowDate.month());
@@ -229,7 +231,7 @@ void tNotesMainWindow::newArticle(){
 
     qint64 time = QDateTime::currentMSecsSinceEpoch();
     QString qstrTimeStamp = QString::number(time);
-    qstrTimeStamp = qstrTimeStamp.mid(0,10);
+    //qstrTimeStamp = qstrTimeStamp.mid(0,10);
 
 
     if(nowDate.month()<10)qstrMonth="0"+qstrMonth;

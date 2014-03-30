@@ -2,11 +2,11 @@ QLineEdit{border-radius:14px;
 	font-size: 14px;
 	min-width: 300px;
 	max-height: 25px;
-    border: 1px solid #32435E;
-	border-radius: 12px;
+    border: 1px solid #00a8e8;
+	border-radius: 2px;
     padding: 0 8px;
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,    
-                                 stop: 0 #c5e398,
+                                 stop: 0 #FFFFFF,
                                  stop: 1.0 #ffffff);
     selection-background-color: #518e30;
 }

@@ -21,9 +21,9 @@ void tNotesContentWidget::setupLayout()
     m_pMainLayout = new QHBoxLayout();
     splitter = new QSplitter();
     mListView = new tNotesBookCategoryList();
-    mListView->setMinimumSize(200, 400);
+    mListView->setMinimumSize(180, 400);
     mListView2 = new tNotesCategoryList();
-    mListView2->setMinimumSize(200, 400);
+    mListView2->setMinimumSize(180, 400);
     mEditPart = new tNotesTextEditor();
     mEditPart->setMinimumSize(400, 400);
 
