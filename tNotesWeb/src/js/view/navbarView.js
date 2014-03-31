@@ -228,11 +228,11 @@ define(["setting", "hint"], function(setting, hintview) {
 						lastPassword: '',
 						session: '',
 						noteDeletedId:[],
-						folderDeletedID:[],
+						folderDeletedId:[],
 						noteAddedId:[],
-						folderAddedID:[],
-						noteUpdatedID:[],
-						folderUpdatedID:[]
+						folderAddedId:[],
+						noteUpdatedId:[],
+						folderUpdatedId:[]
 					});
 					// indexedDB.deleteDatabase("folders");
 					// indexedDB.deleteDatabase("notes");
