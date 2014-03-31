@@ -1,4 +1,4 @@
-define(["setting", "hint"], function(setting, hintview) {
+define(["setting", "hint","collection/folerCollection"], function(setting, hintview,folderCollection) {
 	NavBar = Backbone.View.extend({
 		el: $("#navbar"),
 		$loginModal: $("#loginModal"),
@@ -70,6 +70,7 @@ define(["setting", "hint"], function(setting, hintview) {
 						hintview.setContent("登录成功！").show();
 						console.log('你的用户名：' + username);
 						$("#currentUser").html(username);
+						folderCollection.fetchFolder();
 
 					} else {
 						$("#hint h4").html("抱歉");
@@ -234,8 +235,8 @@ define(["setting", "hint"], function(setting, hintview) {
 						noteUpdatedId:[],
 						folderUpdatedId:[]
 					});
-					// indexedDB.deleteDatabase("folders");
-					// indexedDB.deleteDatabase("notes");
+					 indexedDB.deleteDatabase("folders");
+					 indexedDB.deleteDatabase("notes");
 					// setting.clear();
 
 					$("#login").show();
