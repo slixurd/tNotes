@@ -6,6 +6,7 @@
 #include <sstream>
 #include<map>
 #include<set>
+#include <algorithm>
 extern string ROOTPATH = "";
 string articlePath="";
 
@@ -14,6 +15,10 @@ extern string recordPath="";
 
 set<string>myset;
 set<string>::iterator iter;
+
+
+
+
 bool mysetFind(string id)
 {
     iter=myset.find(id);
@@ -489,7 +494,39 @@ bool changeArticleId(string rootid,string oldId,string newId,string modifiedTime
     else return 0;
 }
 
+vector<SearchResult> searchRequestedArticles(vector<string> list)
+{
+    Json::Value root=returnRoot(rootPath);
+    vector<string> listRoot=root.getMemberNames();
+    //vector<Article> requestedArticles;
+    vector<SearchResult> searchResults;
+    SearchResult itemSearchResult;
+    vector<Article> rootArticle;
+    vector<SearchResult>::iterator it;
+    for(int i=0;i<(int)listRoot.size();i++)
+    {
+        it=searchResults.end();
+        rootArticle=searchRootArticle(listRoot[i]);
 
+        for(int j=0; j < (int)rootArticle.size(); j ++)
+        {
+            vector<string>::iterator itr = find(list.begin(), list.end(), rootArticle[j].articleId);
+            if(itr != list.end()){
+                itemSearchResult.dirId = listRoot[i];
+                itemSearchResult.article = rootArticle[j];
+                searchResults.push_back(itemSearchResult);
+            }
+        }
+
+    }
+/*
+    for(int i = 0; i < (int)searchResults.size(); i ++)
+    {
+        cout<<"result: !!!"<<searchResults[i].dirId<<" "<<searchResults[i].article.articleId<<endl;
+    }
+*/
+    return searchResults;
+}
 
 //同步操作
 /*void synchronous()

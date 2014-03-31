@@ -7,6 +7,7 @@
 
 tNotesSearch::tNotesSearch(char *path)
 {
+    qDebug()<<path<<endl;
     friso = friso_new();
     config = friso_new_config();
     friso_init_from_ifile(friso, config, path);//从指定的friso.ini文件中初始化friso和config

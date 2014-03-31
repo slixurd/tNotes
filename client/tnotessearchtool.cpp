@@ -6,7 +6,6 @@
 #include "tnotessearchtool.h"
 #include <QFile>
 #include <vector>
-#include "Operation.h"
 #include "tnotesbutton.h"
 #include "search.h"
 #include "Article.h"
@@ -31,7 +30,7 @@ tNotesSearchTool::tNotesSearchTool(QWidget *parent)
 
     setLayout(layout);
     connect(searchbtn,SIGNAL(clicked()),this,SLOT(searchbtn_click()));
-    searchinstance=new tNotesSearch("D:/friso.ini");
+    searchinstance=new tNotesSearch("D:/Tencent/tNotes/client/libs/friso.ini");
 
     searchinstance->connect("test.db");
     searchinstance->init();
@@ -40,10 +39,10 @@ tNotesSearchTool::tNotesSearchTool(QWidget *parent)
 std::vector<std::string> tNotesSearchTool::find()
 {
     QString searchText = searchToolLineEdit->text();
-    qDebug()<<"searchText:"<<searchText<<endl;
-    char *x = new char[searchText.toStdString().length() + 1];
+    //qDebug()<<"searchText:"<<searchText<<endl;
+    char *x = new char[searchText.toStdString().length() + 10];
     stdstring2charstar(searchText.toStdString(),x);
-    qDebug()<<"x:"<<x<<endl;
+    //qDebug()<<"x:"<<x<<endl;
 
 
     return searchinstance->select(x);
@@ -58,9 +57,9 @@ void tNotesSearchTool::searchbtn_click()
     for(std::vector<Article>::iterator iter=list.begin();iter!=list.end();iter++)
     {
         //字符转换丧心病狂
-        char *tmpArticleId = new char[(*iter).articleId.length() + 1];
-        char *tmpName = new char[(*iter).name.length() + 1];
-        char *tmpContext = new char[(*iter).context.length() + 1];
+        char *tmpArticleId = new char[(*iter).articleId.length()*2];
+        char *tmpName = new char[(*iter).name.length()*2];
+        char *tmpContext = new char[(*iter).context.length()*2];
         QTextCodec *codec=QTextCodec::codecForName("GBK");
         QString id=codec->toUnicode((*iter).articleId.c_str());
         QString name=codec->toUnicode((*iter).name.c_str());
@@ -69,10 +68,15 @@ void tNotesSearchTool::searchbtn_click()
         stdstring2charstar(name.toStdString(), tmpName);
         stdstring2charstar(context.toStdString(), tmpContext);
         searchinstance->insert(tmpArticleId,tmpName,tmpContext);
+        free(tmpArticleId);
+        free(tmpName);
+        free(tmpContext);
         //字符转换丧心病狂
     }
     std::vector<std::string> temp=find();
+    //vector<SearchResult> temp = find();
     //显示在界面的文章列表上
-
+    vector<SearchResult> result = searchRequestedArticles(temp);
+    emit sendRequestedArticles(result); //返回搜索结果（dirId, article）
     //暂缺
 }

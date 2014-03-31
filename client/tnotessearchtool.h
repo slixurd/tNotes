@@ -10,6 +10,8 @@ class QLabel;
 class tNotesButton;
 class tNotesSearch;
 
+#include "Operation.h"
+
 class tNotesSearchTool : public QWidget
 {
 	Q_OBJECT
@@ -25,6 +27,9 @@ private:
         tNotesSearch *searchinstance;
 private slots:
     void searchbtn_click();
+
+signals:
+    void sendRequestedArticles(vector<SearchResult>);
 };
 
 #endif
