@@ -4,7 +4,7 @@
 #include <QMap>
 #include <QPointer>
 #include "Operation.h"
-
+#include"synchronization.h"
 class QSplitter;
 class QPushButton;
 class QGroupBox;
@@ -62,6 +62,9 @@ private:
 
         tNotesLoginDialog *dialogLogin;
         QPoint moveStartPoint;
+        synchronization syn;
+
+        QString qstrUser;
 
 public:
         bool IsLogin=false;
@@ -95,6 +98,8 @@ private slots:
         void deleteArticle();
         void deleteDirectory();
         void synchronize();
+
+        void synUpdateListView();
 signals:
         void initNotebooks(Directory *dirList);
         void initNotes(Article *articleList);

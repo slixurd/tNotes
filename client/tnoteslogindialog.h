@@ -59,7 +59,6 @@ private:
 	
 signals:
 	void acceptLogin(QString &username, QString &password, int &indexNumber);
-
 public slots:
 	void slotAcceptReg();
 	void slotAcceptLogin();
