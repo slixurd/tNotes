@@ -93,7 +93,7 @@ var FolderView = Backbone.View.extend({
             this.folders.postDeletedFolder(selectedID);
         else{
             //如果ID<0，则为本地文章，将其从新建列表中删除
-            var addList = this.setting.get('folderAddedID');
+            var addList = this.setting.get('folderAddedId');
             addList.splice(addList.indexOf(selectedID), 1);
             this.setting.save({folderAddedID: addList});
         }
@@ -130,7 +130,7 @@ var FolderView = Backbone.View.extend({
 
     /* 淡出事件 */
     fadeToggle: function(){
-        this.$el.fadeToggle();
+        this.$el.toggle();
     },
 });
 

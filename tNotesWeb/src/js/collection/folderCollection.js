@@ -65,9 +65,9 @@ var FolderCollection = Backbone.Collection.extend({
             data: '{"session":"'+this.setting.get('session')+'"}'
         }).done(function(data){
             if(data.node!=null){
-                var addList = self.setting.get('folderAddedID');
-                var updateList = self.setting.get('folderUpdatedID');
-                var deleteList = self.setting.get('folderDeletedID');
+                var addList = self.setting.get('folderAddedId');
+                var updateList = self.setting.get('folderUpdatedId');
+                var deleteList = self.setting.get('folderDeletedId');
 
                 for(var i=0; i<data.node.length; ++i){
                     var id = data.node[i].id;
@@ -177,7 +177,7 @@ var FolderCollection = Backbone.Collection.extend({
             data: '{"session":"'+this.setting.get('session')+'","id":'+id+'}'
         }).done(function(data){
             if(data.status == 'success'){
-                var updateList = self.setting.get('folderUpdatedID');
+                var updateList = self.setting.get('folderUpdatedId');
                 var index = updateList.indexOf(id);
                 if(index >= 0){
                     updateList.splice(index, 1);//如果修改列表中有该文章，也要删除
@@ -204,14 +204,14 @@ var FolderCollection = Backbone.Collection.extend({
     /* 将未POST成功的FolderID添加到 新增队列 */
     insertAddList: function(id){
         //将新建文章添加到新建列表
-        var addList = this.setting.get('folderAddedID');
+        var addList = this.setting.get('folderAddedId');
         addList.push(id);
         this.setting.save({folderAddedID: addList});
     },
 
     /* 将未POST成功的FolderID添加到 更新队列 */
     insertUpdatedList: function(id){
-        var updateList = this.setting.get('folderUpdatedID');
+        var updateList = this.setting.get('folderUpdatedId');
         if(updateList.indexOf(id) < 0){
             updateList.push(id); //如果是服务器的目录才需要添加到 更改目录列表
             this.setting.save({folderUpdatedID: updateList});
@@ -221,14 +221,14 @@ var FolderCollection = Backbone.Collection.extend({
     /* 将未POST成功的FolderID添加到 删除队列 */
     insertDeletedList: function(id){
         //如果ID>0，则为服务器文章，将其添加到删除列表
-        var updateList = this.setting.get('folderUpdatedID');
+        var updateList = this.setting.get('folderUpdatedId');
         var index = updateList.indexOf(id);
         if(index >= 0){
             updateList.splice(index, 1);//如果修改列表中有该文章，也要删除
             this.setting.save({folderUpdatedID: updateList});
         }
 
-        var deleteList = this.setting.get('folderDeletedID');
+        var deleteList = this.setting.get('folderDeletedId');
         deleteList.push(id);
         this.setting.save({folderDeletedID: deleteList});
     },
