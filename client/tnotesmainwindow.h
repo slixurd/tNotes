@@ -5,6 +5,7 @@
 #include <QPointer>
 #include "Operation.h"
 #include"synchronization.h"
+#include "mynetworker.h"
 class QSplitter;
 class QPushButton;
 class QGroupBox;
@@ -57,6 +58,7 @@ private:
         tNotesTextEditor *notesTextEditor;
 		tNotesCategory *notesCategory;
 */
+
         Directory *currentDir;
         Article *currentArticle;
 
@@ -66,8 +68,10 @@ private:
 
         QString qstrUser;
 
+        MyNetWorker *networkState;
 public:
         bool IsLogin=false;
+
 
 protected:
         ///////////拉伸窗口函数

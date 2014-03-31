@@ -32,10 +32,14 @@
 #include "synchronization.h"
 
 
+extern bool isConnected = false;
+extern QString DATAPATH = "D:/data/";
+
 tNotesMainWindow::tNotesMainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     IsLogin=false;
+
     ROOT_PATH = "D:\\data\\";
     /* set window size */
 
@@ -78,6 +82,14 @@ void tNotesMainWindow::initWidgets()
     contentWidget = new tNotesContentWidget();
     statusBar = new tNotesStatusBar();
     dialogLogin = new tNotesLoginDialog();
+    networkState = new MyNetWorker();
+
+    extern bool isConnected;
+
+    /*
+     * 检查网络是否连通，此处有bug
+     */
+    //isConnected = networkState->isconnect();
 }
 
 void tNotesMainWindow::setMainWindowLayout()

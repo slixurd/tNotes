@@ -35,6 +35,7 @@
 #include <QMessageBox>
 
 #include "tnoteslogindialog.h"
+#include "Operation.h"
 
 tNotesLoginDialog::tNotesLoginDialog(QWidget* parent)
 	: QDialog(parent)
@@ -175,6 +176,9 @@ void tNotesLoginDialog::slotAcceptLogin()
 	QString password = editPassword->text();
 	int index = comboUsername->currentIndex();
 
+    extern bool isConnected;
+    if(isConnected){
+
     QByteArray data;
     data.append("{");
     data.append("\"user\":\"");
@@ -193,10 +197,53 @@ void tNotesLoginDialog::slotAcceptLogin()
     QNetworkReply *reply=mynetwork->post(network_request,data);
     replyMap.insert(reply,login);
     loginButtons->button(QDialogButtonBox::Ok)->setEnabled(false);
+    } else {
+        localAuth(username, password);
+    }
 //    mynetwork->get("http://www.baidu.com");
 //    emit acceptLogin(username, password,
 //            index);
 //    close();
+}
+
+QString MD5(QString password)
+{
+    QString pwd=password;
+    QString md5;
+    QByteArray ba,bb;
+    QCryptographicHash md(QCryptographicHash::Md5);
+    ba.append(pwd);
+    md.addData(ba);
+    bb = md.result();
+    md5.append(bb.toHex());
+    return md5;
+}
+
+/*
+ * 本地登录，比对username文件内的md5与password的md5
+ *
+ */
+void tNotesLoginDialog::localAuth(QString username, QString password)
+{
+    extern QString DATAPATH;
+    QFile userinfo(DATAPATH + "users/" + username);
+    QString md5 = MD5(password);
+    QString localmd5;
+    userinfo.open(QIODevice::ReadOnly|QIODevice::Text);
+    QTextStream in(&userinfo);
+    in>>localmd5;
+    if(md5 == localmd5){
+        QMessageBox::information(this,"登陆成功","欢迎使用tNote！",QMessageBox::Ok);
+
+        int index = comboUsername->currentIndex();
+        emit acceptLogin(username, password, index);
+        //print("good luck");
+        close();
+    } else {
+        QMessageBox::warning(this,"登陆失败","密码错误，请重新登陆",QMessageBox::Yes);
+        loginButtons->button(QDialogButtonBox::Ok)->setEnabled(true);
+        //print("bad luck");
+    }
 }
 
 void tNotesLoginDialog::slotAcceptReg()
@@ -265,6 +312,8 @@ void tNotesLoginDialog::replyfinished(QNetworkReply* reply)
                     QString username = comboUsername->currentText();
                     QString password = editPassword->text();
                     int index = comboUsername->currentIndex();
+
+                    storeLocalUserInfo(username, password);
                     emit acceptLogin(username, password,index);
                     this->close();
                 }
@@ -323,4 +372,24 @@ void tNotesLoginDialog::replyfinished(QNetworkReply* reply)
     }
 
     }
+}
+
+/*
+ * 用户第一次登录时会在本地保存密钥，保存位置为data/users/下，命名为username，密钥MD5
+ * 以后存入文件
+ *
+ */
+void tNotesLoginDialog::storeLocalUserInfo(QString username, QString password)
+{
+    extern QString DATAPATH;
+    //print(DATAPATH + "users\\" + username);
+    QFile userinfo(DATAPATH + "users/" + username);
+    if(userinfo.exists()){
+        return;
+    } else {
+        userinfo.open(QIODevice::WriteOnly|QIODevice::Text);
+        QTextStream out(&userinfo);
+        out<<MD5(password);
+    }
+
 }

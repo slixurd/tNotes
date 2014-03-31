@@ -29,7 +29,7 @@ private slots:
     void searchbtn_click();
 
 signals:
-    void sendRequestedArticles(vector<SearchResult>);
+    void sendRequestedArticles(vector<SearchResult>); //返回搜索结果
 };
 
 #endif

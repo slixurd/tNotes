@@ -6,6 +6,7 @@
 class QNetworkReply;
 class QNetworkAccessManager;
 class QNetworkRequest;
+class QTimer;
 
 class MyNetWorker : public QObject
 {
@@ -20,10 +21,14 @@ public:
     //判断是否联网
     bool isconnect();
     void send(std::string url,std::string senddata);
+    void setupNetworkTimer();
+    QTimer *networkTimer;
 
 
 signals:
+    void networkConnected();
 public slots:
+    void checkNetStateLoop();
 private:
 
 private slots:
