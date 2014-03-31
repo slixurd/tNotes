@@ -144,6 +144,8 @@ void tNotesMainWindow::synUpdateListView(){
 void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &index)
 {
     IsLogin=true;
+    toolBar->loginButton->setStyleSheet(readFile(":/qss/exitButton.qss"));
+
     qstrUser = username;
     QDir qdir(ROOT_PATH+username);
     if(!qdir.exists())qdir.mkdir(ROOT_PATH+username);
@@ -152,7 +154,23 @@ void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &
 
 void tNotesMainWindow::openLoginDialog()
 {
-	dialogLogin->exec();
+    if(IsLogin){
+        toolBar->loginButton->setStyleSheet(readFile(":/qss/loginButton.qss"));
+        IsLogin=false;
+        //退出操作
+
+
+
+
+
+
+
+
+    }else
+    {
+        toolBar->loginButton->setStyleSheet(readFile(":/qss/exitButton.qss"));
+        dialogLogin->exec();
+    }
 }
 
 
@@ -247,8 +265,6 @@ void tNotesMainWindow::newArticle(){
     QString qstrMonth = QString::number(nowDate.month());
     QString qstrDay = QString::number(nowDate.day());
 
-
-
     qint64 time = QDateTime::currentMSecsSinceEpoch();
     QString qstrTimeStamp = QString::number(time);
     //qstrTimeStamp = qstrTimeStamp.mid(0,10);
@@ -278,7 +294,6 @@ void tNotesMainWindow::deleteArticle(){
 }
 
 void tNotesMainWindow::deleteDirectory(){
-
     QModelIndex index = contentWidget->mListView->currentIndex();
     if(index.column()==-1){
         return;

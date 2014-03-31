@@ -24,14 +24,12 @@ public:
     QPushButton* deleteDirectoryButton;
     QPushButton* sysButton;
     tNotesSearchTool* searchTool;
+    QPushButton* loginButton;
 private:
-
     void setupActions();
 	QHBoxLayout* mainLayout;
-    QPushButton* loginButton;
 	QLineEdit *searchLineEditsearch;
     QPushButton* searchButton;
-
     tNotesLoginDialog *dialogLogin;
 
 private slots:

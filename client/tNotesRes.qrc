@@ -30,6 +30,9 @@
         <file alias="syshover.png">medias/icons/syshover.png</file>
         <file alias="syspressed.png">medias/icons/syspressed.png</file>
         <file alias="sys.png">medias/icons/sys.png</file>
+        <file alias="exitButton.png">medias/icons/exitButton.png</file>
+        <file alias="exitButtonhover.png">medias/icons/exitButtonhover.png</file>
+        <file alias="exitButtonpressed.png">medias/icons/exitButtonpressed.png</file>
     </qresource>
     <qresource prefix="/libs">
         <file alias="markdown2html.dll">libs/markdown2html.dll</file>
@@ -50,6 +53,7 @@
         <file alias="newArticleButton.qss">medias/qss/newArticleButton.qss</file>
         <file alias="listview1background.qss">medias/qss/listview1background.qss</file>
         <file alias="listview2background.qss">medias/qss/listview2background.qss</file>
+        <file alias="exitButton.qss">medias/qss/exitButton.qss</file>
     </qresource>
     <qresource prefix="/cfg">
         <file alias="Listview1.cfg">medias/cfg/Listview1.cfg</file>
