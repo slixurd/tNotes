@@ -12,6 +12,7 @@ class tNotesBookCategoryList :public QListView
 {  
     Q_OBJECT
 public:
+
     Directory nowDire;
 	vector<Directory>dirVectory;
     tNotesBookCategoryList();
