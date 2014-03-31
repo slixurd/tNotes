@@ -7,15 +7,15 @@ define(['hint', 'navbarView', 'folderCollection', 'noteCollection', 'setting'], 
 	var count = 0;
 	var session = setting.get('session');
 	var noteDeletedId = setting.get('noteDeletedId');
-	var folderDeletedId = setting.get('folderDeletedId');
+	var folderDeletedId = setting.get('folderDeletedID');
 	var noteAddedId = setting.get('noteAddedId');
-	var folderAddedId = setting.get('folderAddedId');
+	var folderAddedId = setting.get('folderAddedID');
 	var noteUpdatedID = setting.get('noteUpdatedID');
-	var folerUpdatedID = setting.get('folerUpdatedID');
+	var folderUpdatedID = setting.get('folderUpdatedID');
 	var folderidlength = folderAddedId.length;
 	var noteidlength = noteAddedId.length;
 	var noteupdatelength = noteUpdatedID.length;
-	var folderupdatelength = folerUpdatedID.length;
+	var folderupdatelength = folderUpdatedID.length;
 	var notedeletelength = noteDeletedId.length;
 	var folderdeletelength = folderDeletedId.length;
 
