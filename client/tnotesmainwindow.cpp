@@ -117,15 +117,19 @@ void tNotesMainWindow::setupActions()
     connect(titleBar, SIGNAL(moveEnd(QPoint)), this, SLOT(moveEnd(QPoint)));
 
     connect(this, SIGNAL(updateNotebooks(QString)), contentWidget, SLOT(initContents(QString)));
+    connect(&syn, SIGNAL(updateListView()), this, SLOT(synUpdateListView()));
 
 }
 
-
+void tNotesMainWindow::synUpdateListView(){
+    emit initNotesByUser(qstrUser);
+}
 
 
 void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &index)
 {
     IsLogin=true;
+    qstrUser = username;
     QDir qdir(ROOT_PATH+username);
     if(!qdir.exists())qdir.mkdir(ROOT_PATH+username);
     initNotesByUser(username);
@@ -151,6 +155,7 @@ bool tNotesMainWindow::saveArticle()
 
 void tNotesMainWindow::initNotesByUser(QString &name)
 {
+    qstrUser = name;
     //print(name);
     extern string rootPath;
     setupRootPath(q2s(ROOT_PATH + name));
@@ -274,9 +279,7 @@ void tNotesMainWindow::synchronize(){
     if(!IsLogin){
         openLoginDialog();
     }else{
-    synchronization syn;
-    syn.sendrecord();
-
+        syn.sendrecord();
     }
 }
 

@@ -28,9 +28,10 @@ public:
 
 
 signals:
-
+    void updateListView();
 public slots:
     void replyfinished(QNetworkReply *reply);
+
 private:
     MyNetWorker *mynetwork;
     QMap<QNetworkReply*,Remoterequest> replyMap;

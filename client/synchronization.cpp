@@ -185,7 +185,10 @@ void synchronization::sendrecord()
     writeInJson(recordRoot,recordPath);
     mymap.clear();
     //通知前台刷新一遍
+    emit updateListView();
 }
+
+
 
 void synchronization::replyfinished(QNetworkReply *reply)
 {

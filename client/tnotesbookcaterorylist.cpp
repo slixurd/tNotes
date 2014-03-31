@@ -43,6 +43,8 @@ const QVector<int> & roles = QVector<int> ()){
 //初始化笔记本
 void tNotesBookCategoryList::initNotebooks(QString path)
 {
+    dirVectory.clear();
+    model->clear();
     extern string rootPath;
     //setupRootPath(q2s(path));
     print(s2q(rootPath));
@@ -50,6 +52,7 @@ void tNotesBookCategoryList::initNotebooks(QString path)
     categoryList = searchAllRoot();
 
     vector<Directory>::const_iterator cii;
+
     for(cii = categoryList.begin(); cii != categoryList.end(); cii ++)
     {
         std::cout<<(*cii).name<<std::endl;

@@ -50,9 +50,10 @@ bool MyNetWorker::isconnect()
 
 void MyNetWorker::send(std::string url, std::string senddata)
 {
+    QTextCodec *codec=QTextCodec::codecForName("GBK");
+    QString tmpdata=codec->toUnicode(senddata.c_str());
     QByteArray data;
-    data.append(senddata.c_str());
-    qDebug()<<data;
+    data.append(tmpdata);
     QNetworkRequest network_request;
     //设置头信息
     network_request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
