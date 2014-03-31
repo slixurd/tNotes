@@ -409,3 +409,78 @@ exception description所有类型：
         "deleted_article":[id1,id2,id3,...],
         "changed_article:[id1,id2,id3,...]
     }
+
+###14.同步2###
+
+>URL:host/dummysync.cgi
+
+同步
+
+发送：
+
+    {
+		"session":"session key",
+        "node":[
+                {
+                    "id":id,
+                    "stamp":SERVER_TIME_STAMP
+                },
+                {
+                    "id":id,
+                    "stamp":SERVER_TIME_STAMP
+                },
+                ...
+            ],
+       "article":[
+                {
+                    "id":id,
+                    "stamp":SERVER_TIME_STAMP
+                },
+                {
+                    "id":id,
+                    "stamp":SERVER_TIME_STAMP
+                },
+                ...
+       ]
+    }
+    
+返回：
+
+	{
+	    "changed_article": [
+	        {
+		      "id":id,
+		      "name":"name",
+		      "stamp":SERVER_TIME_STAMP,
+		      "location":nodeId,
+		      "content":"content"
+	        },
+	        {
+		      "id":id,
+		      "name":"name",
+		      "stamp":SERVER_TIME_STAMP,
+		      "location":nodeId,
+		      "content":"content"
+	        }，
+			...
+	    ],
+	    "changed_node": [
+	        {
+		      "id":id
+		      "name":"name",
+			  "stamp":SERVER_TIME_STAMP,
+	        },
+	        {
+		      "id":id
+		      "name":"name",
+			  "stamp":SERVER_TIME_STAMP,
+	        },
+			...
+	    ],
+	    "deleted_article": [
+	        id1,id2,id3,...
+	    ],
+	    "deleted_node": [
+	        id1,id2,id3,...
+	    ]
+	}
