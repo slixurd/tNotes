@@ -1,4 +1,4 @@
-define(["setting", "hint","collection/folerCollection"], function(setting, hintview,folderCollection) {
+define(["setting", "hint","folderCollection"], function(setting, hintview,folderCollection) {
 	NavBar = Backbone.View.extend({
 		el: $("#navbar"),
 		$loginModal: $("#loginModal"),
@@ -247,6 +247,7 @@ define(["setting", "hint","collection/folerCollection"], function(setting, hintv
 					$("#hint h4").html("");
 					hintview.setContent("已经退出当前账号！").show();
 					$("#currentUser").html('离线');
+
 				} else {
 					$("#hint").addClass('alert-danger');
 					$("#hint h4").html("");
@@ -256,7 +257,9 @@ define(["setting", "hint","collection/folerCollection"], function(setting, hintv
 				$("#hint").addClass('alert-danger');
 				$("#hint h4").html("抱歉");
 				hintview.setContent("请求失败！").show();
-			}).always();
+			}).always(function(){
+				folderCollection.fetchFolder();
+			});
 
 		},
 
