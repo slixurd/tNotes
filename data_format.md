@@ -367,7 +367,7 @@ exception description所有类型：
 
 
 
-###13.同步协议待定###
+###13.同步###
 
 >URL:host/sync.cgi
 
@@ -376,6 +376,7 @@ exception description所有类型：
 发送：
 
     {
+	"session":"session key",
         "node":[
                 {
                     "id":id,
