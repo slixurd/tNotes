@@ -116,6 +116,7 @@ var ContentViewer = Backbone.View.extend({
     enalbleEdit: function () {
         this.$noteTitle.attr('contentEditable', 'true');
         this.$noteContent.attr('contentEditable', 'true');
+        this.isEditing = true;
         this.$saveQuitBtn.removeClass('hidden');
         this.$editBtn.addClass('hidden');
         this.setBtnState({
@@ -124,6 +125,14 @@ var ContentViewer = Backbone.View.extend({
             'delete': false,
             'export': false,
         });
+    },
+
+    // 获取标题和内容
+    getTitleAndContent: function () {
+        return {
+            title: this.$noteTitle.text(),
+            content: util.htmlToText(this.$noteContent.html())
+        }
     },
 
     // 初始化编辑器
