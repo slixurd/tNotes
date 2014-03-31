@@ -104,11 +104,14 @@ var NoteList = Backbone.View.extend({
 			this.render();
 		} else {
 			this.$newNoteBtn.addClass('disabled');
+			
 			var list = this.collection.toJSON();
+			console.log('begin show note by time');
 			this.currentNoteList.splice(0, this.currentNoteList.length);
+			console.log('success get total note');
 			console.log('list length: ' + list.length);
 			if(list.length <= 10) {
-				for(var i = list.length - 1; i >= 0; i++) {
+				for(var i = list.length - 1; i >= 0; i--) {
 					this.currentNoteList.push(list[i]);
 				}
 			} else {
@@ -117,6 +120,7 @@ var NoteList = Backbone.View.extend({
 				}
 			}
 			this.render();
+			
 		}
 	},
 	
