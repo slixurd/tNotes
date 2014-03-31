@@ -52,6 +52,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/SigninHandler.o \
 	${OBJECTDIR}/SignoutHandler.o \
 	${OBJECTDIR}/SignupHandler.o \
+	${OBJECTDIR}/SyncHandler.o \
 	${OBJECTDIR}/database/dirRelated.o \
 	${OBJECTDIR}/database/noteDB.o \
 	${OBJECTDIR}/database/noteRelated.o \
@@ -67,7 +68,8 @@ TESTFILES= \
 	${TESTDIR}/TestFiles/f2 \
 	${TESTDIR}/TestFiles/f5 \
 	${TESTDIR}/TestFiles/f1 \
-	${TESTDIR}/TestFiles/f3
+	${TESTDIR}/TestFiles/f3 \
+	${TESTDIR}/TestFiles/f6
 
 # C Compiler Flags
 CFLAGS=
@@ -178,6 +180,11 @@ ${OBJECTDIR}/SignupHandler.o: SignupHandler.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SignupHandler.o SignupHandler.cpp
 
+${OBJECTDIR}/SyncHandler.o: SyncHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SyncHandler.o SyncHandler.cpp
+
 ${OBJECTDIR}/database/dirRelated.o: database/dirRelated.cpp 
 	${MKDIR} -p ${OBJECTDIR}/database
 	${RM} "$@.d"
@@ -228,6 +235,10 @@ ${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/UnitTest4SigninHandler.o ${OBJECTFILES
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS} 
 
+${TESTDIR}/TestFiles/f6: ${TESTDIR}/tests/UnitTest4SyncHandler.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f6 $^ ${LDLIBSOPTIONS} 
+
 
 ${TESTDIR}/tests/UnitTest4CreateArticleHandler.o: tests/UnitTest4CreateArticleHandler.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
@@ -257,6 +268,12 @@ ${TESTDIR}/tests/UnitTest4SigninHandler.o: tests/UnitTest4SigninHandler.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4SigninHandler.o tests/UnitTest4SigninHandler.cpp
+
+
+${TESTDIR}/tests/UnitTest4SyncHandler.o: tests/UnitTest4SyncHandler.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/UnitTest4SyncHandler.o tests/UnitTest4SyncHandler.cpp
 
 
 ${OBJECTDIR}/ChangeArticleHandler_nomain.o: ${OBJECTDIR}/ChangeArticleHandler.o ChangeArticleHandler.cpp 
@@ -480,6 +497,19 @@ ${OBJECTDIR}/SignupHandler_nomain.o: ${OBJECTDIR}/SignupHandler.o SignupHandler.
 	    ${CP} ${OBJECTDIR}/SignupHandler.o ${OBJECTDIR}/SignupHandler_nomain.o;\
 	fi
 
+${OBJECTDIR}/SyncHandler_nomain.o: ${OBJECTDIR}/SyncHandler.o SyncHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SyncHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SyncHandler_nomain.o SyncHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SyncHandler.o ${OBJECTDIR}/SyncHandler_nomain.o;\
+	fi
+
 ${OBJECTDIR}/database/dirRelated_nomain.o: ${OBJECTDIR}/database/dirRelated.o database/dirRelated.cpp 
 	${MKDIR} -p ${OBJECTDIR}/database
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/database/dirRelated.o`; \
@@ -554,6 +584,7 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 	    ${TESTDIR}/TestFiles/f5 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
+	    ${TESTDIR}/TestFiles/f6 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi

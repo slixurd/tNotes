@@ -27,6 +27,7 @@
 #include "CreateNodeHandler.h"
 #include "ChangeNodeHandler.h"
 #include "DeleteNodeHandler.h"
+#include "SyncHandler.h"
 
 /* For a new feature handler, add the macro here. */
 /* For example: 
@@ -46,6 +47,7 @@
  CREATE_HANDLER(CreateNodeHandler,"/createnode.cgi")        \
  CREATE_HANDLER(ChangeNodeHandler,"/changenode.cgi")        \
  CREATE_HANDLER(DeleteNodeHandler,"/deletenode.cgi")        \
-         
+ CREATE_HANDLER(SyncHandler,"/sync.cgi")                    \
+ 
 #endif	/* HANDLERFACTORYCONFIGURE_H */
 

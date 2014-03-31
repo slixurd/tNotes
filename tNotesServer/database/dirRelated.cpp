@@ -250,10 +250,11 @@ unsigned long NotesDB::get_dir_mtime(string username,long pid){
     MYSQL_RES* result;
     MYSQL_ROW row;
     result = mysql_store_result(&database);
-    row = mysql_fetch_row(result);
     if(result == NULL){
         return 0;
     }
+    row = mysql_fetch_row(result);
+    if(result->row_count==0)return 0;
     unsigned long tstamp = atoi(row[0]);
     mysql_free_result(result);
     return tstamp;    
@@ -291,10 +292,10 @@ int  NotesDB::get_uncatagorized_dir(string username){
     MYSQL_RES* result;
     MYSQL_ROW row;
     result = mysql_store_result(&database);
-    row = mysql_fetch_row(result);
     if(result == NULL){
         return 0;
     }
+    row = mysql_fetch_row(result);
     unsigned long id = atoi(row[0]);
     mysql_free_result(result);
     return id;    

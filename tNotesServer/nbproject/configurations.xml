@@ -22,6 +22,7 @@
       <itemPath>SignoutHandler.h</itemPath>
       <itemPath>SignupHandler.h</itemPath>
       <itemPath>SingletonAdapter.hpp</itemPath>
+      <itemPath>SyncHandler.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
       <logicalFolder name="database" displayName="database" projectFiles="true">
@@ -47,6 +48,7 @@
       <itemPath>SigninHandler.cpp</itemPath>
       <itemPath>SignoutHandler.cpp</itemPath>
       <itemPath>SignupHandler.cpp</itemPath>
+      <itemPath>SyncHandler.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
@@ -84,6 +86,12 @@
                      projectFiles="true"
                      kind="TEST">
         <itemPath>tests/UnitTest4SigninHandler.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f6"
+                     displayName="UnitTest4SyncHandler"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/UnitTest4SyncHandler.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -199,6 +207,10 @@
       </item>
       <item path="SingletonAdapter.hpp" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SyncHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SyncHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="database/dirRelated.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="database/noteDB.cpp" ex="false" tool="1" flavor2="0">
@@ -284,6 +296,21 @@
           <output>${TESTDIR}/TestFiles/f5</output>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f6">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f6</output>
+        </linkerTool>
+      </folder>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/UnitTest4CreateArticleHandler.cpp"
@@ -304,6 +331,8 @@
       <item path="tests/UnitTest4SessionCache.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/UnitTest4SigninHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/UnitTest4SyncHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -414,6 +443,10 @@
       </item>
       <item path="SingletonAdapter.hpp" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SyncHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SyncHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="database/dirRelated.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="database/noteDB.cpp" ex="false" tool="1" flavor2="0">
@@ -499,6 +532,21 @@
           <output>${TESTDIR}/TestFiles/f5</output>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f6">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f6</output>
+        </linkerTool>
+      </folder>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/UnitTest4CreateArticleHandler.cpp"
@@ -519,6 +567,8 @@
       <item path="tests/UnitTest4SessionCache.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/UnitTest4SigninHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/UnitTest4SyncHandler.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>

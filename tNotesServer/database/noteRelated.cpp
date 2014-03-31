@@ -259,6 +259,7 @@ unsigned long NotesDB::get_note_mtime(string username,long id){
         return 0;
     }
     row = mysql_fetch_row(result);
+    if(result->row_count==0)return 0;
     unsigned long tstamp = atoi(row[0]);
     mysql_free_result(result);
     return tstamp;    
