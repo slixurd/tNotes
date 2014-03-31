@@ -12,11 +12,13 @@ class tNotesCategoryList :public QListView
 {  
     Q_OBJECT
 public:  
+    bool IsSearchResult;
     bool updateListView(string id);
     void appendCategory(Article art);
     tNotesCategoryList();
 	void mouseDoubleClickEvent(QMouseEvent *event);   //鼠标点击响应
-	vector<Article>dirVector;
+    vector<Article>dirVector;
+    vector<string>faId;
 
     void newCategory(Article art,string iRoot);
     void deleteCategory(QModelIndex &index,string iRoot);
@@ -37,6 +39,7 @@ signals:
 private slots:
     void initNotesCategory(string dirId);
     void noteSelected(const QModelIndex &index);
+    void searchToUpdateListView(vector<SearchResult>);
 };
 
 #endif
