@@ -106,28 +106,25 @@ var NoteList = Backbone.View.extend({
 			this.$newNoteBtn.addClass('disabled');
 			
 			var list = this.collection.toJSON();
-			console.log('begin show note by time');
 			this.currentNoteList.splice(0, this.currentNoteList.length);
-			console.log('success get total note');
-			console.log('list length: ' + list.length);
 			if(list.length <= 10) {
 				for(var i = list.length - 1; i >= 0; i--) {
 					this.currentNoteList.push(list[i]);
 				}
 			} else {
-				for(var i = 9; i >= 0; i++) {
+				for(var i = 9; i >= 0; i--) {
 					this.currentNoteList.push(list[i]);
+					console.log(i);
 				}
 			}
 			this.render();
-			
 		}
 	},
 	
 	//从服务器拉取对应id的Note
 	storageNote: function (id) {
-		console.log('note id ' + id);
-		this.collection.getNoteByNoteId(73);
+		console.log('List get id ' + id);
+		this.collection.getNoteByNoteId(id);
 	}
 });
 
