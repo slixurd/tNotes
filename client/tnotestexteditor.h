@@ -104,6 +104,7 @@ private slots:
         void slotUpdateArticle();
         void updateArticle(string dirId, string articleId);
         void initArticle(string dirId, string articleId, QString searchWord = NULL);
+        void clearArticle();
 
         //bool createArticle();
 

@@ -68,7 +68,7 @@ void tNotesTextEditor::initWidgets()
     QFont timeFont("Arial", 8, QFont::Bold);
     noteCreatedTime = new QLabel("Created: ");
     noteCreatedTime->setFont(timeFont);
-    noteLastModifiedTime = new QLabel("updated: ");
+    noteLastModifiedTime = new QLabel("Version: ");
     noteLastModifiedTime->setFont(timeFont);
 
     horizonLine = new QFrame();
@@ -225,7 +225,7 @@ QString tNotesTextEditor::getCreatedTime()
  */
 QString tNotesTextEditor::getLastModifiedTime()
 {
-    return QDate::currentDate().toString("yyyyMMdd");
+    return s2q(currentArticle.articleId);
 }
 
 /*
@@ -404,8 +404,8 @@ void tNotesTextEditor::initArticle(string dirId, string articleId, QString searc
     noteEditor->setHtml(markdown2html(plainText));
     //cout<<q2s(markdown2html(content))<<endl;
 
-    noteCreatedTime->setText("Create: " + formatDate(s2q(currentArticle.createTime)));
-    noteLastModifiedTime->setText("Updated: " + formatDate(s2q(currentArticle.modifiedTime)));
+    noteCreatedTime->setText("Created: " + formatDate(s2q(currentArticle.createTime)));
+    noteLastModifiedTime->setText("Version: " + s2q(currentArticle.modifiedTime));
     if(searchWord != NULL)
     findInArticle(searchWord);
 
@@ -419,12 +419,14 @@ void tNotesTextEditor::initArticle(string dirId, string articleId, QString searc
  */
 void tNotesTextEditor::updateArticle(string dirId, string articleId)
 {
-    if(noteEditor->document()->isModified()){
-        currentArticle.name = q2s(getTitle());
-        currentArticle.context = q2s(getEditorContents());
-        currentArticle.createTime = q2s(getCreatedTime());
-        currentArticle.modifiedTime = q2s(getLastModifiedTime());
+    currentArticle.name = q2s(getTitle());
+    currentArticle.context = q2s(getEditorContents());
+    currentArticle.createTime = q2s(getCreatedTime());
+    currentArticle.modifiedTime = q2s(getLastModifiedTime());
+    if(titleLineEdit->isModified()){
         changeArticleName(dirId, articleId, currentArticle.name);
+    }
+    if(noteEditor->document()->isModified()){   
         changeArticleContent(dirId, articleId, currentArticle.context);
         changeArticleId(dirId, articleId, articleId, q2s(getLastModifiedTime()));
 //print("autosaving");
@@ -475,5 +477,19 @@ void tNotesTextEditor::findInArticle(QString word){
         noteEditor->setReadOnly(true);
     }
     setTextHighLight(word);
+}
+
+void tNotesTextEditor::clearArticle()
+{
+    if(editMode == EDIT_MODE){
+        editMode = VIEW_MODE;
+    }
+
+    noteEditor->clear();
+    noteTitle->setText("");
+    titleLineEdit->setText("");
+    noteCreatedTime->setText("Created: ");
+    noteLastModifiedTime->setText("Version: ");
+
 }
 
