@@ -14,9 +14,10 @@ tNotesCategoryList::tNotesCategoryList() : QListView()
     setupActions();
 }
 
-void tNotesCategoryList::searchToUpdateListView(vector<SearchResult> resultVector){
+void tNotesCategoryList::searchToUpdateListView(vector<SearchResult> resultVector, QString searchWord){
     IsSearchResult=true;
     dirVector.clear();
+    faId.clear();
     model->clear();
     for(int i=0;i<resultVector.size();i++){
         dirVector.push_back(resultVector[i].article);
@@ -26,11 +27,14 @@ void tNotesCategoryList::searchToUpdateListView(vector<SearchResult> resultVecto
     for (int i=0;i<dirVector.size();i++)
     {
         //传入名字、时间、内容
+        //qDebug()<<"insert item "<< s2q(dirVector[i].name)<<endl;
         QStandardItem *itemTemp=new QStandardItem(s2q(dirVector[i].name+";"
                                 +dirVector[i].createTime+";"+dirVector[i].context));
         itemTemp->setSizeHint(QSize(150,70));
         model->appendRow(itemTemp);
     }
+    emit initNotesEditor(resultVector[0].dirId, resultVector[0].article.articleId, searchWord);
+    tmpSearchWord = searchWord;
 }
 void tNotesCategoryList::setupActions()
 {
@@ -45,6 +49,7 @@ void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
 }
 
 bool tNotesCategoryList::updateListView(string id){
+    IsSearchResult = false;
     dirVector.clear();
 	model->clear();
     dirVector = searchRootArticle(id);
@@ -103,6 +108,7 @@ void tNotesCategoryList::initNotesCategory(string dirId)
 void tNotesCategoryList::noteSelected(const QModelIndex &index)
 {
     string articleId = dirVector[index.row()].articleId;
-    if(IsSearchResult)emit initNotesEditor(faId[index.row()], articleId);
+    //qDebug() << "dirId " << s2q(faId[index.row()]) << " articleId" << s2q(articleId) <<endl;
+    if(IsSearchResult)emit initNotesEditor(faId[index.row()], articleId, tmpSearchWord);
     else  emit initNotesEditor(currentNotebookId, articleId);
 }

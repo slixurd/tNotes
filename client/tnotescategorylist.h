@@ -22,6 +22,7 @@ public:
 
     void newCategory(Article art,string iRoot);
     void deleteCategory(QModelIndex &index,string iRoot);
+    QString tmpSearchWord;
 
 private:
 	//QStandardItemModel是一个多用途的model,可用于表示list,table,tree views所需要的各种不同的数据结构。
@@ -33,13 +34,13 @@ private:
 
 
 signals:
-    void initNotesEditor(string dirId, string articleId);
+    void initNotesEditor(string dirId, string articleId, QString searchWord = NULL);
     void initArticle(string dirId, string articleId);
 
 private slots:
     void initNotesCategory(string dirId);
     void noteSelected(const QModelIndex &index);
-    void searchToUpdateListView(vector<SearchResult>);
+    void searchToUpdateListView(vector<SearchResult>, QString);
 };
 
 #endif

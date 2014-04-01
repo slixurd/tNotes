@@ -77,6 +77,6 @@ void tNotesSearchTool::searchbtn_click()
     //vector<SearchResult> temp = find();
     //显示在界面的文章列表上
     vector<SearchResult> result = searchRequestedArticles(temp);
-    emit sendRequestedArticles(result); //返回搜索结果（dirId, article）
+    emit sendRequestedArticles(result, searchToolLineEdit->text()); //返回搜索结果（dirId, article）
     //暂缺
 }

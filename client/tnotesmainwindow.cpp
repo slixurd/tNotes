@@ -119,8 +119,8 @@ void tNotesMainWindow::setupActions()
     connect(toolBar->deleteArticleButton, SIGNAL(clicked()), this, SLOT(deleteArticle()));
     connect(toolBar->deleteDirectoryButton, SIGNAL(clicked()), this, SLOT(deleteDirectory()));
     connect(toolBar->sysButton, SIGNAL(clicked()), this, SLOT(synchronize()));
-    connect(toolBar->searchTool,SIGNAL(sendRequestedArticles(vector<SearchResult>)),contentWidget->mListView2,
-            SLOT(searchToUpdateListView(vector<SearchResult>)));
+    connect(toolBar->searchTool,SIGNAL(sendRequestedArticles(vector<SearchResult>, QString)),contentWidget->mListView2,
+            SLOT(searchToUpdateListView(vector<SearchResult>, QString)));
 
     connect(dialogLogin, SIGNAL(acceptLogin(QString&,QString&,int&)), this, SLOT(userAuthenticated(QString&,QString&,int&)));
 
