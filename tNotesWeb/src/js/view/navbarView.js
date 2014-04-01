@@ -86,12 +86,12 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 				index = 0;
 				count = 0;
 				if (noteidlength != 0)
-					newNote(noteCollection.get(noteAddedId[0]).get("name"), noteCollection.get(noteAddedId[0]).get("content"), noteCollection.get(noteAddedId[0]).get("folderId"));
+					newNote(noteCollection.get(setting.get('noteAddedId')[0]).get("name"), noteCollection.get(setting.get('noteAddedId')[0]).get("content"), noteCollection.get(setting.get('noteAddedId')[0]).get("folderId"));
 
 
 			} else {
 				index = index + 1;
-				console.log(folderCollection.get(arr[index]).get('name'));
+				
 				newFolder(folderCollection.get(arr[index]).get('name'), setting.get('session'));
 			}
 		});
@@ -546,24 +546,24 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 				if (navigator.onLine) {
 					console.log("当前在线");
 					console.log("同步开始");
-					if (folderAddedId.length) {
-						console.log(folderCollection.get(folderAddedId[index]));
-						newFolder(folderCollection.get(folderAddedId[index]).get('name'), setting.get('session'));
+					if (setting.get('folderAddedId').length) {
+						console.log(folderCollection.get(setting.get('folderAddedId')[index]));
+						newFolder(folderCollection.get(setting.get('folderAddedId')[index]).get('name'), setting.get('session'));
 					} else if (noteidlength) {
-						newNote(noteCollection.get(noteAddedId[index]).get('name'), noteCollection.get(noteAddedId[index]).get('content'), noteCollection.get(noteAddedId[index]).get('folderId'));
+						newNote(noteCollection.get(setting.get('noteAddedId')[index]).get('name'), noteCollection.get(setting.get('noteAddedId')[index]).get('content'), noteCollection.get(setting.get('noteAddedId')[index]).get('folderId'));
 					}
 					if (folderupdatelength) {
-						updateFolder(folderCollection.get(folerUpdatedID[index]).get('id'), folderCollection.get(folerUpdatedID[index]).get('name'));
+						updateFolder(folderCollection.get(setting.get('folderUpdatedId')[index]).get('id'), folderCollection.get(setting.get('folderUpdatedId')[index]).get('name'));
 					}
 					if (noteupdatelength) {
-						updateNote(noteCollection.get(noteUpdatedID[index]).get('name'), noteCollection.get(noteUpdatedID[index]).get('content'), noteCollection.get(noteUpdatedID[index]).get('id'));
+						updateNote(noteCollection.get(setting.get('noteUpdatedId')[index]).get('name'), noteCollection.get(setting.get('noteUpdatedId')[index]).get('content'), noteCollection.get(setting.get('noteUpdatedId')[index]).get('id'));
 					}
 					if (folderdeletelength) {
 						console.log("folderdeletelength" + folderdeletelength);
-						deleteFolder(folderCollection.get(folderDeletedId[index]).get('id'));
+						deleteFolder(folderCollection.get(setting.get('folderDeletedId')[index]).get('id'));
 					}
 					if (notedeletelength) {
-						deleteNote(noteCollection.get(noteDeletedId[index]).get('id'));
+						deleteNote(noteCollection.get(setting.get('noteDeletedId')[index]).get('id'));
 					}
 
 				} else {
