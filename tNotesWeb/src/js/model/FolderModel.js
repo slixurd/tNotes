@@ -37,7 +37,9 @@ FolderModel = Backbone.Model.extend({
 
     /* 添加文章 */
     addNote: function(id){
-        var notes = get('notes').push(id);
+        console.log('Folder AddNote');
+        var notes = get('notes');
+        notes.push(id);
         this.save({ notes: notes });
         this.updateModifiedTime();
         this.trigger('change');
@@ -45,6 +47,7 @@ FolderModel = Backbone.Model.extend({
 
     /* 删除文章 */
     removeNote: function(id){
+        console.log('Folder RemoveNote');
         if(this.get('notes').indexOf(id) >= 0){
             var notes = get('notes').splice(notes.indexOf(id), 1);
             this.save({ notes: notes });

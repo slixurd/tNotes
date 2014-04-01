@@ -13,6 +13,8 @@ var FolderCollection = Backbone.Collection.extend({
     host: "http://tnotes.wicp.net:8080/",
 
     selectedID: 0,
+
+    toggle: true,
 	
 	initialize: function(){
 	},
@@ -75,7 +77,7 @@ var FolderCollection = Backbone.Collection.extend({
                         self.create({
                             id: data.node[i].id,
                             name: data.node[i].name,
-                            notes       : [],   // 笔记
+                            notes       : (self.get(id)!=null) ? self.get(id).get('notes') : [],   // 笔记
                             createTime  : _.now(),    // 创建时间
                             modifiedTime: data.node[i].stamp*1000    
                         }, {wait: true}); //只有三个列表中的都没有这个ID，才创建。
@@ -206,7 +208,7 @@ var FolderCollection = Backbone.Collection.extend({
         //将新建文章添加到新建列表
         var addList = this.setting.get('folderAddedId');
         addList.push(id);
-        this.setting.save({folderAddedID: addList});
+        this.setting.save({folderAddedId: addList});
     },
 
     /* 将未POST成功的FolderID添加到 更新队列 */
@@ -214,7 +216,7 @@ var FolderCollection = Backbone.Collection.extend({
         var updateList = this.setting.get('folderUpdatedId');
         if(updateList.indexOf(id) < 0){
             updateList.push(id); //如果是服务器的目录才需要添加到 更改目录列表
-            this.setting.save({folderUpdatedID: updateList});
+            this.setting.save({folderUpdatedId: updateList});
         }
     },
 
@@ -225,14 +227,21 @@ var FolderCollection = Backbone.Collection.extend({
         var index = updateList.indexOf(id);
         if(index >= 0){
             updateList.splice(index, 1);//如果修改列表中有该文章，也要删除
-            this.setting.save({folderUpdatedID: updateList});
+            this.setting.save({folderUpdatedId: updateList});
         }
 
         var deleteList = this.setting.get('folderDeletedId');
         deleteList.push(id);
-        this.setting.save({folderDeletedID: deleteList});
+        this.setting.save({folderDeletedId: deleteList});
     },
 
+    toggleSize: function(){
+        if(this.toggle)
+            this.toggle = false;
+        else
+            this.toggle = true;
+        this.trigger('change');
+    },
 
 });
 

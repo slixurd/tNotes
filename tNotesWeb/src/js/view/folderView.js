@@ -43,13 +43,21 @@ var FolderView = Backbone.View.extend({
 	   在 render 函数的末尾 return this 实现链式调用。
 	*/
     render: function(){
-    	$('#folder-list').html(this.template({folders: this.folders.toJSON()}));
-    	$('#folder-list').find('[data-id="' + this.folders.selectedID + '"]').addClass('active');
+        console.log('FolderView Render');
+        if(this.folders.toggle){
+            this.$el.removeClass('hide');
+            $('#folder-list').html(this.template({folders: this.folders.toJSON()}));
+            $('#folder-list').find('[data-id="' + this.folders.selectedID + '"]').addClass('active');       
+        }
+        else
+            this.$el.addClass('hide');
     	return this;
     },
 
     /* 新建文件夹 */
     newFolder: function(){
+        console.log('FolderView NewFolder');
+        
     	var newFolderInput = $('#new-folder-name');
 
     	var folder = this.folders.create({name: newFolderInput.val()}); //将new-floder-name获取到的名字插入collection
@@ -85,6 +93,7 @@ var FolderView = Backbone.View.extend({
         var notesID = this.folders.get(selectedID).get('notes');
         for(var i=0; i<notesID.length; ++i){
             this.notes.get(notesID[i]).destroy();
+            console.log(notesID[i]);
         }
 
         // 后删除目录
@@ -95,7 +104,7 @@ var FolderView = Backbone.View.extend({
             //如果ID<0，则为本地文章，将其从新建列表中删除
             var addList = this.setting.get('folderAddedId');
             addList.splice(addList.indexOf(selectedID), 1);
-            this.setting.save({folderAddedID: addList});
+            this.setting.save({folderAddedId: addList});
         }
 
         this.folders.setSelectedID(0);
@@ -128,10 +137,6 @@ var FolderView = Backbone.View.extend({
         this.folders.reset();
     },
 
-    /* 淡出事件 */
-    fadeToggle: function(){
-        this.$el.toggle();
-    },
 });
 
 var folderView = new FolderView;

@@ -1,6 +1,6 @@
 // 文章内容显示视图
 
-define(['setting', 'noteCollection', 'util'], function (setting, noteCollection, util) {
+define(['setting', 'noteCollection', 'folderCollection', 'util'], function (setting, noteCollection,folderCollection, util) {
 
 var ContentViewer = Backbone.View.extend({
 
@@ -325,6 +325,7 @@ var ContentViewer = Backbone.View.extend({
 
     // 改变页面大小
     toggleSize: function () {
+        folderCollection.toggleSize();
         if (this.size === -1) {
             // 最大化
             this.$expandBtn.html('<span class="glyphicon glyphicon-resize-small"></span> 收缩');
