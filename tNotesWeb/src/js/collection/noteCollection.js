@@ -32,8 +32,8 @@ var NoteCollection = Backbone.Collection.extend({
 			title: data.name, 
 			folderId: data.location, 
 			brief: data.brief, 
-			createTime: data.stamp, 
-			modifiedTime: data.stamp
+			createTime: data.stamp * 1000, 
+			modifiedTime: data.stamp * 1000
 		}, {wait: true});
 	},
 	
@@ -83,7 +83,7 @@ var NoteCollection = Backbone.Collection.extend({
 					brief: brief,
 					title: data.article[0].name,
 					content: data.article[0].content,
-					modifiedTime: data.article[0].stamp
+					modifiedTime: data.article[0].stamp * 1000
 				}, {wait: true});
 				
 			}
@@ -211,7 +211,7 @@ var NoteCollection = Backbone.Collection.extend({
 					title: self.get(id).get('title'),
 					content: self.get(id).get('content'),
 					createTime: self.get(id).get('createTime'),
-					modifiedTime: data.stamp
+					modifiedTime: data.stamp * 1000
 				}, {wait: true});
 				self.get(id).destroy();
 				folderCollection.addNote(data.id);
@@ -279,7 +279,7 @@ var NoteCollection = Backbone.Collection.extend({
 			console.log(data);
 			if(data.stamp) {
 				self.get(id).save({
-					modifiedTime: data.stamp
+					modifiedTime: data.stamp * 1000
 				});
 			} else if(data.exception = 'Article Handling Failure') {
 				console.log('Exception: Article Handling Failure');
