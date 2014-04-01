@@ -72,12 +72,12 @@ int NotesDB::update_note(string username, string title, string content, long id,
         mysql_real_escape_string(&database,escape,title.substr(0,TITLE_LEN).c_str(),title.length()); 
         sql = "UPDATE article SET modifiedTime = CURRENT_TIMESTAMP, name = '"+string(escape)+"' ";
     }else if(!content.empty() && title.empty()){
-         mysql_real_escape_string(&database,escape,content.substr(0,TITLE_LEN).c_str(),content.length()); 
+         mysql_real_escape_string(&database,escape,content.substr(0,CONTENT_LEN).c_str(),content.length()); 
         sql = "UPDATE article SET modifiedTime = CURRENT_TIMESTAMP, content = '"+string(escape)+"' ";       
     }else if(!content.empty() && !title.empty()){
         mysql_real_escape_string(&database,escape,title.substr(0,TITLE_LEN).c_str(),title.length()); 
         sql = "UPDATE article SET modifiedTime = CURRENT_TIMESTAMP, name = '"+string(escape)+"' ";
-        mysql_real_escape_string(&database,escape,content.substr(0,TITLE_LEN).c_str(),content.length()); 
+        mysql_real_escape_string(&database,escape,content.substr(0,CONTENT_LEN).c_str(),content.length()); 
         sql += ",content = '"+ string(escape)+"' ";
     }
     ss<<id;ss>>_id;
