@@ -1,12 +1,14 @@
 #include "mynetworker.h"
 #include <QtNetwork>
 #include <QTextCodec>
+#include <QTimer>
 
 QString MyNetWorker::session_key="";
 MyNetWorker::MyNetWorker(QObject *parent) :
     QObject(parent)
 {
     manager=new QNetworkAccessManager();
+    networkTimer = new QTimer();
 //    connect(manager,SIGNAL(finished(QNetworkReply* )),this,SLOT(replyFinished(QNetworkReply* )));
 }
 
@@ -61,4 +63,23 @@ void MyNetWorker::send(std::string url, std::string senddata)
     //设置url
     network_request.setUrl(QUrl(url.c_str()));
     post(network_request,data);
+}
+
+void MyNetWorker::checkNetStateLoop()
+{
+    if(isconnect()){
+        emit networkConnected();
+        networkTimer->stop();
+    } else {
+        return;
+    }
+}
+
+void MyNetWorker::setupNetworkTimer()
+{
+    //networkTimer = new QTimer;
+    networkTimer->setInterval(10000);
+    networkTimer->setSingleShot(false);
+    networkTimer->start();
+    connect(networkTimer, SIGNAL(timeout()), this, SLOT(checkNetStateLoop()));
 }

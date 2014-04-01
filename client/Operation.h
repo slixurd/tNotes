@@ -28,6 +28,12 @@ Article searchArticle(string iRoot,string iArticle);  //查找某个目录下特
 Json::Value returnRoot(string path);  //返回json整个文件，若文件不存在，返回null
 bool writeInJson(Json::Value root,string path);         //写入json文件
 void getArticlePath(string articleId);//返回文章路径
+
+struct SearchResult{
+    string dirId;
+    Article article;
+};
+vector<SearchResult> searchRequestedArticles(vector<string>); //返回文章搜索结果
 QString s2q(const string &s);
 string q2s(const QString &s);
 unsigned int s2i(string ss);

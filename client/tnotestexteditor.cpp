@@ -384,7 +384,7 @@ QString formatDate(QString date)
 /*
  * 用户登录时利用本地数据初始化笔记
  */
-void tNotesTextEditor::initArticle(string dirId, string articleId)
+void tNotesTextEditor::initArticle(string dirId, string articleId, QString searchWord)
 {
     if (editMode == EDIT_MODE){
         editMode = VIEW_MODE;
@@ -406,8 +406,8 @@ void tNotesTextEditor::initArticle(string dirId, string articleId)
 
     noteCreatedTime->setText("Create: " + formatDate(s2q(currentArticle.createTime)));
     noteLastModifiedTime->setText("Updated: " + formatDate(s2q(currentArticle.modifiedTime)));
-
-    findInArticle("hello");
+    if(searchWord != NULL)
+    findInArticle(searchWord);
 
     autoupdateTimer->setSingleShot(false);
     autoupdateTimer->start(5000);

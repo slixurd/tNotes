@@ -48,7 +48,7 @@ void tNotesContentWidget::setupActions()
     connect(this, SIGNAL(initNotebooksCategory(QString)), mListView, SLOT(initNotebooks(QString)));
     connect(mListView, SIGNAL(initNotesCategory(string)), mListView2, SLOT(initNotesCategory(string)));
     connect(mListView2, SIGNAL(initArticle(string,string)), mEditPart, SLOT(initArticle(string,string)));
-    connect(mListView2, SIGNAL(initNotesEditor(string, string)), mEditPart, SLOT(initArticle(string, string)));
+    connect(mListView2, SIGNAL(initNotesEditor(string, string, QString)), mEditPart, SLOT(initArticle(string, string, QString)));
 }
 
 

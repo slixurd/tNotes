@@ -56,6 +56,8 @@ private:
 	void setUpGUI();
 	void setUpLoginGUI();
 	void setUpRegGUI();
+    void localAuth(QString, QString);
+    void storeLocalUserInfo(QString, QString);
 	
 signals:
 	void acceptLogin(QString &username, QString &password, int &indexNumber);
