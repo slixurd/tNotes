@@ -1,341 +1,427 @@
 define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"], function(setting, hintview, noteCollection, folderCollection, contentViewer) {
-	var index = 0;
-	var count = 0;
-	var session = setting.get('session');
-	var noteDeletedId = setting.get('noteDeletedId');
-	var folderDeletedId = setting.get('folderDeletedId');
-	var noteAddedId = setting.get('noteAddedId');
-	var folderAddedId = setting.get('folderAddedId');
-	var noteUpdatedId = setting.get('noteUpdatedId');
-	var folderUpdatedId = setting.get('folderUpdatedId');
-	var folderidlength = folderAddedId.length;
-	var noteidlength = noteAddedId.length;
-	var noteupdatelength = noteUpdatedId.length;
-	var folderupdatelength = folderUpdatedId.length;
-	var notedeletelength = noteDeletedId.length;
-	var folderdeletelength = folderDeletedId.length;
+	function tongbu(session, noteDeletedId, folderDeletedId, noteAddedId, folderAddedId, noteUpdatedId, folderUpdatedId, folderidlength, noteidlength, noteupdatelength, folderupdatelength, notedeletelength, folderdeletelength) {
+		//var obj = new Object();
+		var index = 0;
+		var count = 0;
+		var session = session;
+		var noteDeletedId = noteDeletedId;
+		var folderDeletedId = folderDeletedId;
+		var noteAddedId = noteAddedId;
+		var folderAddedId = folderAddedId;
+		var noteUpdatedId = noteUpdatedId;
+		var folderUpdatedId = folderUpdatedId;
+		var folderidlength = folderidlength;
+		var noteidlength = noteidlength;
+		var noteupdatelength = noteupdatelength;
+		var folderupdatelength = folderupdatelength;
+		var notedeletelength = notedeletelength
+		var folderdeletelength = folderdeletelength;
 
-	//新建文件夹同步
+		//新建文件夹同步
 
-	function newFolder(nodename, session) {
-		var arr = setting.get('folderAddedId');
-		console.log(arr);
-		$.ajax({
-			url: 'http://tnotes.wicp.net:8080/createnode.cgi',
-			type: 'POST',
-			data: '{"session":' + '"' + setting.get('session') + '",' + '"name":' + '"' + nodename + '"}'
-		}).done(function(data) {
-			console.log(data);
-			if (data.id && data.stamp) {
-				console.log('post成功');
-				//post成功
-				// folderCollection.get(arr[index]).set({
-				// 	"id": data.id,
-				// 	"modifiedTime": data.stamp
-				// });
-				folderCollection.create({
-					id: data.id,
-					name: folderCollection.get(arr[index]).get('name'),
-					notes: folderCollection.get(arr[index]).get('notes'), // 笔记
-					createTime: folderCollection.get(arr[index]).get('createTime'), // 创建时间
-					modifiedTime: data.stamp * 1000
-				})
-				folderCollection.get(arr[index]).destroy();
 
-				noteCollection.each(function(note) {
-					if (note.get("folderId") == arr[index]) {
-						note.save({
-							"folderId": data.id
+		this.newFolder = function(nodename, session, newFolder) {
+			var arr = setting.get('folderAddedId');
+			console.log(arr);
+			$.ajax({
+				url: 'http://tnotes.wicp.net:8080/createnode.cgi',
+				type: 'POST',
+				data: '{"session":' + '"' + setting.get('session') + '",' + '"name":' + '"' + nodename + '"}'
+			}).done(function(data) {
+				console.log(data);
+				if (data.id && data.stamp) {
+					console.log('post成功');
+					console.log(index);
+					console.log(arr[index]);
+					folderCollection.create({
+						id: data.id,
+						name: folderCollection.get(arr[index]).get('name'),
+						notes: folderCollection.get(arr[index]).get('notes'), // 笔记
+						createTime: folderCollection.get(arr[index]).get('createTime'), // 创建时间
+						modifiedTime: data.stamp * 1000
+					})
+					folderCollection.get(arr[index]).destroy();
+
+					noteCollection.each(function(note) {
+						if (note.get("folderId") == arr[index]) {
+							note.save({
+								"folderId": data.id
+							});
+						}
+					});
+
+
+					arr.splice(index, 1);
+					console.log(index);
+					count++;
+					console.log(count);
+					index--;
+					setting.set({
+						"folderAddedId": arr
+					});
+					setting.save();
+					console.log(setting.get('folderAddedId'));
+
+
+
+				} else if (data.exception == 'Node Handling Failure') {
+					//处理失败
+					console.log('处理失败');
+				} else if (data.exception == 'Session Failure') {
+					//session过期，需要重新登录
+
+					console.log('session过期，需要重新登录');
+				} else {
+					//其他错误
+				}
+			}).fail(function() {
+				console.log('由于网络离线或者其他原因导致请求失败了');
+				//由于网络离线或者其他原因导致请求失败了
+			}).always(function() {
+
+				if (count == folderidlength) {
+					folderCollection.fetchFolder();
+
+					//调用同步note的函数
+					console.log('newFolder执行完毕');
+					index = 0;
+					count = 0;
+
+					this.newNote = function(notename, content, location, newNote) {
+						var arr = setting.get("noteAddedId");
+						console.log(arr);
+						$.ajax({
+
+							url: 'http://tnotes.wicp.net:8080/createarticle.cgi',
+							type: 'POST',
+							data: '{"session":"' + setting.get('session') + '","name":"' + notename + '","content":"' + content + '","location":' + location + '}'
+
+						}).done(function(data) {
+							console.log(data);
+							if (data.id && data.stamp) {
+								console.log("post成功");
+								//post成功
+								// noteCollection.get(arr[index]).set({
+								// 	"id": data.id,
+								// 	"modifiedTime": data.stamp
+								// });
+
+								noteCollection.create({
+									id: data.id,
+									folderId: noteCollection.get(arr[index]).get('folderId'),
+									title: noteCollection.get(arr[index]).get('title'),
+									content: noteCollection.get(arr[index]).get('content'), // 笔记
+									createTime: noteCollection.get(arr[index]).get('createTime'), // 创建时间
+									modifiedTime: data.stamp * 1000
+								})
+								noteCollection.get(arr[index]).destroy();
+								arr.splice(index, 1);
+								count++;
+								index--;
+								setting.set({
+									"noteAddedId": arr
+								});
+								setting.save();
+							} else if (data.exception == 'Node Handling Failure') {
+								//处理失败
+							} else if (data.exception == 'Session Failure') {
+								console.log("session过期，需要重新登录");
+								//session过期，需要重新登录
+							} else {
+								//其他错误
+							}
+						}).fail(function() {
+							//由于网络离线或者其他原因导致请求失败了
+						}).always(function() {
+							if (count == noteidlength) {
+								index = 0;
+								count = 0;
+								//笔记新建同步完成，可以调用其他函数了
+							} else {
+								index = index + 1;
+								console.log(noteCollection.get(arr[index]).get('name'));
+								newNote(noteCollection.get(arr[index]).get('name'), noteCollection.get(arr[index]).get('content'), noteCollection.get(arr[index]).get('folderId'), newNote);
+							}
+
 						});
-					}
-				});
+
+					};
+					if (noteidlength != 0)
+						this.newNote(noteCollection.get(setting.get('noteAddedId')[0]).get("name"), noteCollection.get(setting.get('noteAddedId')[0]).get("content"), noteCollection.get(setting.get('noteAddedId')[0]).get("folderId"), this.newNote);
 
 
-				arr.splice(index, 1);
-				console.log(index);
-				count++;
-				console.log(count);
-				index--;
-				setting.set({
-					"folderAddedId": arr
-				});
-				setting.save();
-				console.log(setting.get('folderAddedId'));
+				} else {
+					console.log(typeof newFolder);
+
+
+					index = index + 1;
+
+					newFolder(folderCollection.get(arr[index]).get('name'), setting.get('session'), newFolder);
+				}
+			});
+		};
 
 
 
-			} else if (data.exception == 'Node Handling Failure') {
-				//处理失败
-				console.log('处理失败');
-			} else if (data.exception == 'Session Failure') {
-				//session过期，需要重新登录
-				this.showLoginModal();
-				console.log('session过期，需要重新登录');
-			} else {
-				//其他错误
-			}
-		}).fail(function() {
-			console.log('由于网络离线或者其他原因导致请求失败了');
-			//由于网络离线或者其他原因导致请求失败了
-		}).always(function() {
-			if (count == folderidlength) {
-				folderCollection.fetchFolder();
-
-				//调用同步note的函数
-				console.log('newFolder执行完毕');
-				index = 0;
-				count = 0;
-				if (noteidlength != 0)
-					newNote(noteCollection.get(setting.get('noteAddedId')[0]).get("name"), noteCollection.get(setting.get('noteAddedId')[0]).get("content"), noteCollection.get(setting.get('noteAddedId')[0]).get("folderId"));
+		//新建笔记同步
 
 
-			} else {
-				index = index + 1;
-				
-				newFolder(folderCollection.get(arr[index]).get('name'), setting.get('session'));
-			}
-		});
-	};
+		this.newNote = function(notename, content, location, newNote) {
+			var arr = setting.get("noteAddedId");
+			console.log(arr);
+			$.ajax({
 
-	//新建笔记同步
+				url: 'http://tnotes.wicp.net:8080/createarticle.cgi',
+				type: 'POST',
+				data: '{"session":"' + setting.get('session') + '","name":"' + notename + '","content":"' + content + '","location":' + location + '}'
 
-	function newNote(notename, content, location) {
-		var arr = setting.get("noteAddedId");
-		console.log(arr);
-		$.ajax({
+			}).done(function(data) {
+				console.log(data);
+				if (data.id && data.stamp) {
+					console.log("post成功");
+					//post成功
+					// noteCollection.get(arr[index]).set({
+					// 	"id": data.id,
+					// 	"modifiedTime": data.stamp
+					// });
 
-			url: 'http://tnotes.wicp.net:8080/createarticle.cgi',
-			type: 'POST',
-			data: '{"session":"' + setting.get('session') + '","name":"' + notename + '","content":"' + content + '","location":' + location + '}'
+					noteCollection.create({
+						id: data.id,
+						folderId: noteCollection.get(arr[index]).get('folderId'),
+						title: noteCollection.get(arr[index]).get('name'),
+						content: noteCollection.get(arr[index]).get('content'), // 笔记
+						createTime: noteCollection.get(arr[index]).get('createTime'), // 创建时间
+						modifiedTime: data.stamp * 1000
+					})
+					noteCollection.get(arr[index]).destroy();
+					arr.splice(index, 1);
+					count++;
+					index--;
+					setting.set({
+						"noteAddedId": arr
+					});
+					setting.save();
+				} else if (data.exception == 'Node Handling Failure') {
+					//处理失败
+				} else if (data.exception == 'Session Failure') {
+					console.log("session过期，需要重新登录");
+					//session过期，需要重新登录
+				} else {
+					//其他错误
+				}
+			}).fail(function() {
+				//由于网络离线或者其他原因导致请求失败了
+			}).always(function() {
+				if (count == noteidlength) {
+					index = 0;
+					count = 0;
+					//笔记新建同步完成，可以调用其他函数了
+				} else {
+					index = index + 1;
+					console.log(noteCollection.get(arr[index]).get('title'));
+					newNote(noteCollection.get(arr[index]).get('title'), noteCollection.get(arr[index]).get('content'), noteCollection.get(arr[index]).get('folderId'), newNote);
+				}
 
-		}).done(function(data) {
-			console.log(data);
-			if (data.id && data.stamp) {
-				console.log("post成功");
-				//post成功
-				// noteCollection.get(arr[index]).set({
-				// 	"id": data.id,
-				// 	"modifiedTime": data.stamp
-				// });
+			});
 
-				noteCollection.create({
-					id: data.id,
-					folderId:noteCollection.get(arr[index]).get('folderId'),
-					title: noteCollection.get(arr[index]).get('title'),
-					content: noteCollection.get(arr[index]).get('content'), // 笔记
-					createTime: noteCollection.get(arr[index]).get('createTime'), // 创建时间
-					modifiedTime: data.stamp * 1000
-				})
-				noteCollection.get(arr[index]).destroy();
-				arr.splice(index, 1);
-				count++;
-				index--;
-				setting.set({
-					"noteAddedId": arr
-				});
-				setting.save();
-			} else if (data.exception == 'Node Handling Failure') {
-				//处理失败
-			} else if (data.exception == 'Session Failure') {
-				console.log("session过期，需要重新登录");
-				//session过期，需要重新登录
-			} else {
-				//其他错误
-			}
-		}).fail(function() {
-			//由于网络离线或者其他原因导致请求失败了
-		}).always(function() {
-			if (count == noteidlength) {
-				index = 0;
-				count = 0;
-				//笔记新建同步完成，可以调用其他函数了
-			} else {
-				index = index + 1;
-				console.log(noteCollection.get(arr[index]).get('name'));
-				newNote(noteCollection.get(arr[index]).get('name'), noteCollection.get(arr[index]).get('content'), noteCollection.get(arr[index]).get('folderId'));
-			}
+		};
 
-		});
 
-	};
 
-	//更新笔记同步
+		//更新笔记同步
 
-	function updateNote(notename, content, noteid) {
-		var arr = setting('noteUpdatedID');
-		$.ajax({
-			url: 'http://tnotes.wicp.net:8080/changearticle.cgi',
-			type: 'POST',
-			data: '{"session":"' + setting.get('session') + '","name":"' + notename + '","content":"' + content + '","id":' + noteid + '}'
-		}).done(function(data) {
-			console.log(data);
-			if (data.stamp) {
-				console.log('post成功');
-				//post成功
-				noteCollection.get(arr[index]).set({
-					"modifiedTime": data.stamp
-				});
-				arr.splice(index, 1);
-				count++;
-				index--;
-				setting.set({
-					"noteUpdatedID": arr
-				});
-				setting.save();
-			} else if (data.exception == 'Node Handling Failure') {
-				console.log('处理失败');
-				//处理失败
-			} else if (data.exception == 'Session Failure') {
-				this.showLoginModal();
-				//session过期，需要重新登录
-			} else {
-				//其他错误
-			}
-		}).fail(function() {
-			//由于网络离线或者其他原因导致请求失败了
-		}).always(function() {
-			if (count == noteupdatelength) {
-				index = 0;
-				count = 0;
-				//笔记新建同步完成，可以调用其他函数了
-			} else {
-				index = index + 1;
-				console.log(noteCollection.get(arr[index]).get('name'));
-				updateNote(noteCollection.get(arr[index]).get('name'), noteCollection.get(arr[index]).get('content'), noteCollection.get(arr[index]).get('id'));
-			}
-		});
-	};
+		this.updateNote = function(notename, content, noteid,updateNote) {
+			var arr = setting.get('noteUpdatedId');
+			$.ajax({
+				url: 'http://tnotes.wicp.net:8080/changearticle.cgi',
+				type: 'POST',
+				data: '{"session":"' + setting.get('session') + '","name":"' + notename + '","content":"' + content + '","id":' + noteid + '}'
+			}).done(function(data) {
+				console.log(data);
+				if (data.stamp) {
+					console.log('post成功');
+					//post成功
+					noteCollection.get(arr[index]).set({
+						"modifiedTime": data.stamp
+					});
+					arr.splice(index, 1);
+					count++;
+					index--;
+					setting.set({
+						"noteUpdatedID": arr
+					});
+					setting.save();
+				} else if (data.exception == 'Node Handling Failure') {
+					console.log('处理失败');
+					//处理失败
+				} else if (data.exception == 'Session Failure') {
+					this.showLoginModal();
+					//session过期，需要重新登录
+				} else {
+					//其他错误
+				}
+			}).fail(function() {
+				//由于网络离线或者其他原因导致请求失败了
+			}).always(function() {
+				if (count == noteupdatelength) {
+					index = 0;
+					count = 0;
+					//笔记新建同步完成，可以调用其他函数了
+				} else {
+					index = index + 1;
+					console.log(noteCollection.get(arr[index]).get('name'));
+					updateNote(noteCollection.get(arr[index]).get('name'), noteCollection.get(arr[index]).get('content'), noteCollection.get(arr[index]).get('id'), updateNote);
+				}
+			});
+		};
 
-	//更新文件夹同步
 
-	function updateFolder(folderid, newfoldername) {
-		var arr = setting.get('folerUpdatedID');
-		$.ajax({
-			url: 'http://tnotes.wicp.net:8080/changenode.cgi',
-			type: 'POST',
-			data: '{"session":' + '"' + setting.get('session') + '",' + '"id":' + folderid + ',' + '"name":' + '"' + newfoldername + '"' + '}'
-		}).done(function(data) {
-			console.log(data);
-			if (data.stamp) {
-				//post成功
-				folderCollection.get(arr[index]).set({
-					"modifiedTime": data.stamp
-				});
-				arr.splice(index, 1);
-				count++;
-				index--;
-				setting.set({
-					"folerUpdatedID": arr
-				});
-				setting.save();
-			} else if (data.exception = 'Node Handling Failure') {
-				//处理失败
-			} else if (data.exception = 'Session Failure') {
-				//session过期，需要重新登录
-			} else {
-				//其他错误
-			}
-		}).fail(function() {
-			//由于网络离线或者其他原因导致请求失败了
-		}).always(function() {
-			if (count == folderupdatelength) {
-				index = 0;
-				count = 0;
-				//笔记新建同步完成，可以调用其他函数了
-			} else {
-				index = index + 1;
-				console.log(folderCollection.get(arr[index]).get('name'));
-				updateFolder(folderCollection.get(arr[index]).get('id'), folderCollection.get(arr[index]).get('name'));
-			}
-		});
-	};
 
-	//删除一个note
 
-	function deleteNote(noteid) {
-		var arr = setting.get('noteDeletedId');
-		$.ajax({
-			url: 'http://tnotes.wicp.net:8080/deletearticle.cgi',
-			type: 'POST',
-			data: '{"session":' + '"' + setting.get('session') + '",' + '"id":' + noteid + '}'
-		}).done(function(data) {
-			console.log(data);
-			if (data.status == 'success') {
-				console.log('笔记删除成功');
-				//post成功
-				arr.splice(index, 1);
-				count++;
-				index--;
-				setting.set({
-					"noteDeletedId": arr
-				});
-				setting.save();
-			} else if (data.exception == 'Node Handling Failure') {
-				console.log('处理失败');
-				//处理失败
-			} else if (data.exception == 'Session Failure') {
-				console.log('session过期，需要重新登录');
-				//session过期，需要重新登录
-			} else {
-				//其他错误
-			}
-		}).fail(function() {
-			//由于网络离线或者其他原因导致请求失败了
-		}).always(function() {
-			if (count == notedeletelength) {
-				index = 0;
-				count = 0;
-				//笔记新建同步完成，可以调用其他函数了
-			} else {
-				index = index + 1;
-				console.log(noteCollection.get(arr[index]).get('name'));
-				deleteNote(noteCollection.get(arr[index]).get('id'));
-			}
-		});
-	};
+		//更新文件夹同步
 
-	//删除一个文件夹
+		this.updateFolder = function(folderid, newfoldername, updateFolder) {
+			var arr = setting.get('folderUpdatedId');
+			$.ajax({
+				url: 'http://tnotes.wicp.net:8080/changenode.cgi',
+				type: 'POST',
+				data: '{"session":' + '"' + setting.get('session') + '",' + '"id":' + folderid + ',' + '"name":' + '"' + newfoldername + '"' + '}'
+			}).done(function(data) {
+				console.log(data);
+				if (data.stamp) {
+					//post成功
+					console.log(arr[index]);
+					folderCollection.get(arr[index]).set({
+						"modifiedTime": data.stamp
+					});
+					arr.splice(index, 1);
+					count++;
+					index--;
+					setting.set({
+						"folerUpdatedID": arr
+					});
+					setting.save();
+				} else if (data.exception = 'Node Handling Failure') {
+					//处理失败
+				} else if (data.exception = 'Session Failure') {
+					//session过期，需要重新登录
+				} else {
+					//其他错误
+				}
+			}).fail(function() {
+				//由于网络离线或者其他原因导致请求失败了
+			}).always(function() {
+				if (count == folderupdatelength) {
+					index = 0;
+					count = 0;
+					//笔记新建同步完成，可以调用其他函数了
+				} else {
+					index = index + 1;
+					console.log(folderCollection.get(arr[index]).get('name'));
+					updateFolder(folderCollection.get(arr[index]).get('id'), folderCollection.get(arr[index]).get('name'), updateFolder);
+				}
+			});
+		};
 
-	function deleteFolder(folderid) {
-		var arr = setting.get('folderDeletedId');
-		$.ajax({
-			url: 'http://tnotes.wicp.net:8080/deletenode.cgi',
-			type: 'POST',
-			data: '{"session":' + '"' + setting.get('session') + '",' + '"id":' + folderid + '}'
-		}).done(function(data) {
-			console.log(data);
-			if (data.status == 'success') {
-				console.log('post成功');
-				//post成功
-				arr.splice(index, 1);
-				count++;
-				index--;
-				setting.set({
-					"folderDeletedId": arr
-				});
-				setting.save();
-			} else if (data.exception == 'Node Handling Failure') {
-				console.log('处理失败');
-				//处理失败
-			} else if (data.exception == 'Session Failure') {
-				this.showLoginModal();
-				//session过期，需要重新登录
-			} else {
-				//其他错误
-			}
-		}).fail(function() {
-			//由于网络离线或者其他原因导致请求失败了
-		}).always(function() {
-			if (count == folderdeletelength) {
-				index = 0;
-				count = 0;
-				//笔记新建同步完成，可以调用其他函数了
-			} else {
-				index = index + 1;
-				console.log(folderCollection.get(arr[index]).get('name'));
-				deleteFolder(folderCollection.get(arr[index]).get('id'));
-			}
-		});
+
+
+
+		//删除一个note
+
+		this.deleteNote = function(noteid, deleteNote) {
+			var arr = setting.get('noteDeletedId');
+			$.ajax({
+				url: 'http://tnotes.wicp.net:8080/deletearticle.cgi',
+				type: 'POST',
+				data: '{"session":' + '"' + setting.get('session') + '",' + '"id":' + noteid + '}'
+			}).done(function(data) {
+				console.log('{"session":' + '"' + setting.get('session') + '",' + '"id":' + noteid + '}');
+				console.log(data);
+				if (data.status == 'success') {
+					console.log('笔记删除成功');
+					//post成功
+					arr.splice(index, 1);
+					count++;
+					index--;
+					setting.set({
+						"noteDeletedId": arr
+					});
+					setting.save();
+				} else if (data.exception == 'Node Handling Failure') {
+					console.log('处理失败');
+					//处理失败
+				} else if (data.exception == 'Session Failure') {
+					console.log('session过期，需要重新登录');
+					//session过期，需要重新登录
+				} else {
+					//其他错误
+				}
+			}).fail(function() {
+				//由于网络离线或者其他原因导致请求失败了
+			}).always(function() {
+				if (count == notedeletelength) {
+					index = 0;
+					count = 0;
+					//笔记删除同步完成，可以调用其他函数了
+					console.log("笔记删除同步完成");
+				} else {
+					index = index + 1;
+					deleteNote(arr[index], deleteNote);
+				}
+			});
+		};
+
+
+
+
+		//删除一个文件夹
+		this.deleteFolder = function(folderid, deleteFolder) {
+			var arr = setting.get('folderDeletedId');
+			$.ajax({
+				url: 'http://tnotes.wicp.net:8080/deletenode.cgi',
+				type: 'POST',
+				data: '{"session":' + '"' + setting.get('session') + '",' + '"id":' + folderid + '}'
+			}).done(function(data) {
+				console.log(data);
+				if (data.status == 'success') {
+					console.log('post成功');
+					//post成功
+					arr.splice(index, 1);
+					count++;
+					index--;
+					setting.set({
+						"folderDeletedId": arr
+					});
+					setting.save();
+				} else if (data.exception == 'Node Handling Failure') {
+					console.log('处理失败');
+					//处理失败
+				} else if (data.exception == 'Session Failure') {
+					this.showLoginModal();
+					//session过期，需要重新登录
+				} else {
+					//其他错误
+				}
+			}).fail(function() {
+				//由于网络离线或者其他原因导致请求失败了
+			}).always(function() {
+				if (count == folderdeletelength) {
+					index = 0;
+					count = 0;
+					//笔记新建同步完成，可以调用其他函数了
+				} else {
+					index = index + 1;
+
+					deleteFolder(arr[index], deleteFolder);
+				}
+			});
+
+
+
+		};
+
+
+
 	};
 	NavBar = Backbone.View.extend({
 		el: $("#navbar"),
@@ -353,7 +439,8 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 
 			//页面开启时尝试自动登录
 			this.autoLogin();
-
+			//登录后自动尝试同步
+			this.startSynchro();
 			//读取全局样式
 			var globalStyle = setting.get('globalStyle');
 			this.changeGlobalStyleByNmae(globalStyle);
@@ -461,7 +548,7 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 					this.$login.hide();
 				}
 			} else {
-				alert("不可以自动登录");
+				console.log("不可以自动登录");
 				this.$logout.hide();
 			}
 		},
@@ -540,6 +627,24 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 
 		//同步函数
 		startSynchro: function() {
+			var index = 0;
+			var count = 0;
+			var session = setting.get('session');
+			var noteDeletedId = setting.get('noteDeletedId');
+			var folderDeletedId = setting.get('folderDeletedId');
+			var noteAddedId = setting.get('noteAddedId');
+			var folderAddedId = setting.get('folderAddedId');
+			var noteUpdatedId = setting.get('noteUpdatedId');
+			var folderUpdatedId = setting.get('folderUpdatedId');
+			var folderidlength = folderAddedId.length;
+			var noteidlength = noteAddedId.length;
+			var noteupdatelength = noteUpdatedId.length;
+			var folderupdatelength = folderUpdatedId.length;
+			var notedeletelength = noteDeletedId.length;
+			var folderdeletelength = folderDeletedId.length;
+			var tongbuObj = new tongbu(session, noteDeletedId, folderDeletedId, noteAddedId, folderAddedId, noteUpdatedId, folderUpdatedId, folderidlength, noteidlength, noteupdatelength, folderupdatelength, notedeletelength, folderdeletelength);
+			console.log("........");
+			console.log(tongbuObj);
 			index = 0;
 
 			if (setting.get('session') != "") {
@@ -547,23 +652,24 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 					console.log("当前在线");
 					console.log("同步开始");
 					if (setting.get('folderAddedId').length) {
-						console.log(folderCollection.get(setting.get('folderAddedId')[index]));
-						newFolder(folderCollection.get(setting.get('folderAddedId')[index]).get('name'), setting.get('session'));
-					} else if (noteidlength) {
-						newNote(noteCollection.get(setting.get('noteAddedId')[index]).get('name'), noteCollection.get(setting.get('noteAddedId')[index]).get('content'), noteCollection.get(setting.get('noteAddedId')[index]).get('folderId'));
+						console.log(folderCollection.get(setting.get('folderAddedId')[0]));
+						tongbuObj.newFolder(folderCollection.get(setting.get('folderAddedId')[0]).get('name'), setting.get('session'), tongbuObj.newFolder);
+					}else if (noteidlength) {
+						tongbuObj.newNote(noteCollection.get(setting.get('noteAddedId')[0]).get('name'), noteCollection.get(setting.get('noteAddedId')[0]).get('content'), noteCollection.get(setting.get('noteAddedId')[0]).get('folderId'), tongbuObj.newNote);
 					}
 					if (folderupdatelength) {
-						updateFolder(folderCollection.get(setting.get('folderUpdatedId')[index]).get('id'), folderCollection.get(setting.get('folderUpdatedId')[index]).get('name'));
+						tongbuObj.updateFolder(folderCollection.get(setting.get('folderUpdatedId')[0]).get('id'), folderCollection.get(setting.get('folderUpdatedId')[0]).get('name'), tongbuObj.updateFolder);
 					}
 					if (noteupdatelength) {
-						updateNote(noteCollection.get(setting.get('noteUpdatedId')[index]).get('name'), noteCollection.get(setting.get('noteUpdatedId')[index]).get('content'), noteCollection.get(setting.get('noteUpdatedId')[index]).get('id'));
+						tongbuObj.updateNote(noteCollection.get(setting.get('noteUpdatedId')[0]).get('name'), noteCollection.get(setting.get('noteUpdatedId')[0]).get('content'), noteCollection.get(setting.get('noteUpdatedId')[0]).get('id'), tongbuObj.updateNote);
 					}
 					if (folderdeletelength) {
 						console.log("folderdeletelength" + folderdeletelength);
-						deleteFolder(folderCollection.get(setting.get('folderDeletedId')[index]).get('id'));
+						console.log(setting.get('folderDeletedId')[0]);
+						tongbuObj.deleteFolder(setting.get('folderDeletedId')[0], tongbuObj.deleteFolder);
 					}
 					if (notedeletelength) {
-						deleteNote(noteCollection.get(setting.get('noteDeletedId')[index]).get('id'));
+						tongbuObj.deleteNote(setting.get('noteDeletedId')[0], tongbuObj.deleteNote);
 					}
 
 				} else {
