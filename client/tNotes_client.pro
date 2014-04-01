@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     tnoteseditlinkdialog.cpp \
     tnotesbookDelegate.cpp \
     mynetworker.cpp \
-    synchronization.cpp
+    synchronization.cpp \
+    mythread.cpp
 
 HEADERS  += tnotesmainwindow.h \
     tnotestexteditor.h \
@@ -68,7 +69,8 @@ HEADERS  += tnotesmainwindow.h \
     tnoteseditlinkdialog.h \
     tnotesbookDelegate.h \
     mynetworker.h \
-    synchronization.h
+    synchronization.h \
+    mythread.h
 
 OTHER_FILES += \
     json/sconscript \
