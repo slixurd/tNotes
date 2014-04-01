@@ -100,10 +100,10 @@ void tNotesBookCategoryList::appendNotebook(Directory dir)
     model->appendRow(item);
 }
 
-
 void tNotesBookCategoryList::notebookSelected(const QModelIndex &index)
 {
      nowDire=dirVectory[index.row()];
      string id = dirVectory[index.row()].nodeId;
      emit initNotesCategory(id);
+     emit touchListView1();
 }

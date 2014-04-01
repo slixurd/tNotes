@@ -1,5 +1,5 @@
 ﻿#include "tnotescategorylist.h"
-
+#include<QDialog>
 #include "Operation.h"
 tNotesCategoryList::tNotesCategoryList() : QListView()
 {
@@ -12,6 +12,24 @@ tNotesCategoryList::tNotesCategoryList() : QListView()
     myqit = new MyQItemDelegate();
     setItemDelegate(myqit);
     setupActions();
+}
+void tNotesCategoryList::updateIndexView(string iRoot,string iArticle){
+    QDialog qd;
+    qd.show();
+    Article artTemp = searchArticle(iRoot,iArticle);
+    for(int i=0;i<dirVector.size();i++){
+        Article artTempi = dirVector[i];
+        if(artTempi.articleId==artTemp.articleId){
+            dirVector[i]=artTemp;
+            QStandardItem *itemTemp=new QStandardItem(s2q(dirVector[i].name+";"
+                                    +dirVector[i].createTime+";"+dirVector[i].context));
+            itemTemp->setSizeHint(QSize(150,70));
+            model->setItem(i,itemTemp);
+            break;
+        }
+    }
+    this->setUpdatesEnabled(true);
+    this->update();
 }
 
 void tNotesCategoryList::searchToUpdateListView(vector<SearchResult> resultVector, QString searchWord){
@@ -50,12 +68,11 @@ void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
 }
 
 bool tNotesCategoryList::updateListView(string id){
+
     IsSearchResult = false;
     dirVector.clear();
 	model->clear();
     dirVector = searchRootArticle(id);
-
-
     for (int i=0;i<dirVector.size();i++)
     {
         //传入名字、时间、内容
@@ -64,6 +81,11 @@ bool tNotesCategoryList::updateListView(string id){
         itemTemp->setSizeHint(QSize(150,70));
         model->appendRow(itemTemp);
     }
+}
+void tNotesCategoryList::clearView(){
+   if(!dirVector.empty()&&dirVector.size()>=1) dirVector.clear();
+   if(!faId.empty()&&faId.size()>=1)faId.clear();
+   model->clear();
 }
 
 //内存中添加
@@ -83,6 +105,7 @@ void tNotesCategoryList::newCategory(Article art,string iRoot){
         emit initNotesEditor(currentNotebookId, art.articleId);
     }
 }
+
 //内存中删除 文件中也删除
 void tNotesCategoryList::deleteCategory(QModelIndex &index,string iRoot){
     if(IsSearchResult)return;

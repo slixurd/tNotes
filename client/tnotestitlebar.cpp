@@ -24,13 +24,15 @@ tNotesTitleBar::tNotesTitleBar(QWidget *parent)
     QPixmap pix = style()->standardPixmap(QStyle::SP_TitleBarCloseButton);
     closeButton->setIcon(pix);
 
+    restorePix = style()->standardPixmap(QStyle::SP_TitleBarNormalButton);
+
     maxPix = style()->standardPixmap(QStyle::SP_TitleBarMaxButton);
-    maxmizeButton->setIcon(maxPix);
+    maxmizeButton->setIcon(restorePix);
 
     QPixmap minpix = style()->standardPixmap(QStyle::SP_TitleBarMinButton);
     minimizeButton->setIcon(minpix);
 
-    restorePix = style()->standardPixmap(QStyle::SP_TitleBarNormalButton);
+
 
     minimizeButton->setMinimumHeight(24);
     closeButton->setMinimumHeight(24);
@@ -59,7 +61,7 @@ tNotesTitleBar::tNotesTitleBar(QWidget *parent)
     titleLayout->setContentsMargins(0,0,0,0);
     setLayout(titleLayout);
 
-    maxNormal = false;
+    maxNormal = true;
     setupActions();
 }
 
