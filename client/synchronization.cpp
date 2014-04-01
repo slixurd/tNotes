@@ -278,24 +278,11 @@ void synchronization::receiveData()
 
 void synchronization::replyfinished(QNetworkReply *reply)
 {
+
     QVariant status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     qDebug()<<status_code;
-
-     QTextCodec * codec=QTextCodec::codecForName("UTF-8");
-   //  QTextCodec * gbk=QTextCodec::codecForName("GBK");
-   //  QTextCodec::setCodecForLocale(gbk);
-
-    QString json= codec->toUnicode(reply->readAll());
-  //  QString serstr=gbk->toUnicode(json.toLocal8Bit().data());
-  // QTextCodec * gbk=QTextCodec::codecForName("gbk");
-   // QTextCodec::codecForLocale(gbk);
-   // QTextCodec::setCodecForLocale(gbk);
-
- //   QTextCodec::setCodecForCStrings(gbk);
-
-    qDebug()<<json;
-    data=json.toStdString();
-   // data=json.toStdString();
-    std::cout<<"data:"<<data;
+    QTextCodec * tmpcodec=QTextCodec::codecForName("UTF-8");
+    QString temp=tmpcodec->toUnicode(reply->readAll());
+    data=q2s(temp);
     eventLoop.quit();
 }
