@@ -89,7 +89,7 @@ void tNotesMainWindow::initWidgets()
     /*
      * 检查网络是否连通，此处有bug
      */
-    isConnected = networkState->isconnect();
+    //isConnected = networkState->isconnect();
 }
 
 void tNotesMainWindow::setMainWindowLayout()

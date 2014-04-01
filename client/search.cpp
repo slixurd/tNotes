@@ -126,14 +126,3 @@ std::vector<std::string> tNotesSearch::select(char *key)
         qDebug()<<"find nothing";
     return temp;
 }
-
-bool tNotesSearch::drop()
-{
-    QSqlQuery query;
-    if(!query.exec("DROP TABLE pages"))
-    {
-        qDebug()<<"error: "<<query.lastError().text()<<endl;
-        return false;
-    }
-    return true;
-}

@@ -29,8 +29,6 @@ public:
     bool update(char *id,char *title,char*body);
     //查询
     std::vector<std::string> select(char *key);
-    //删除索引
-    bool drop();
 };
 
 #endif // _H
