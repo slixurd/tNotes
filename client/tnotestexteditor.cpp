@@ -431,11 +431,12 @@ void tNotesTextEditor::updateArticle(string dirId, string articleId)
         changeArticleId(dirId, articleId, articleId, q2s(getLastModifiedTime()));
 //print("autosaving");
         noteEditor->document()->setModified(false);
-        emit updateNoteFinished(dirId, articleId);
+
     } else {
 
         return ;
     }
+    emit updateNoteFinished(dirId, articleId);
 }
 
 /*

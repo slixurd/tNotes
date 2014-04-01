@@ -30,7 +30,8 @@ tNotesSearchTool::tNotesSearchTool(QWidget *parent)
 
     setLayout(layout);
     connect(searchbtn,SIGNAL(clicked()),this,SLOT(searchbtn_click()));
-    searchinstance=new tNotesSearch("D:/Tencent/tNotes/client/libs/friso.ini");
+
+    searchinstance=new tNotesSearch("D:/friso.ini");
 
     searchinstance->connect("test.db");
     searchinstance->init();
