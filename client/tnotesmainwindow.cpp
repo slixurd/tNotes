@@ -30,6 +30,7 @@
 #include "tnotesstatusbar.h"
 #include "Operation.h"
 #include "synchronization.h"
+#include "mythread.h"
 
 
 extern bool isConnected = false;
@@ -203,6 +204,8 @@ void tNotesMainWindow::initNotesByUser(QString &name)
     //print(name);
     extern string rootPath;
     setupRootPath(q2s(ROOT_PATH + name));
+    myThread *newthread=new myThread();
+    newthread->run();
     //print(s2q(rootPath));
     emit updateNotebooks(ROOT_PATH + name);
 }

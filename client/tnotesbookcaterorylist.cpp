@@ -47,7 +47,7 @@ void tNotesBookCategoryList::initNotebooks(QString path)
     model->clear();
     extern string rootPath;
     //setupRootPath(q2s(path));
-    print(s2q(rootPath));
+    //print(s2q(rootPath));
     vector<Directory> categoryList;
     categoryList = searchAllRoot();
 
