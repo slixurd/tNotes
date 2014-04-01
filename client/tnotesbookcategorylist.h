@@ -38,7 +38,7 @@ private:
 
 signals:
     void initNotesCategory(string notebookId);
-    void touchListView1();
+
 private slots:
     void initNotebooks(QString path);
     void notebookSelected(const QModelIndex &index);

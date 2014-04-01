@@ -24,7 +24,7 @@ void MyQItemDelegate::paint(QPainter*painter,const QStyleOptionViewItem&option, 
     QColor qcTitle(110,124,126);
     QColor qcDate=QColor(0,168,232);
     QColor qcContent=QColor(110,124,126);
-    QColor qcLine=QColor(0,168,232);
+    QColor qcLine=QColor(110,124,126);
 
 
 

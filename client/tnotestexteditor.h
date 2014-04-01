@@ -6,7 +6,7 @@
 #include <QPointer>
 #include <QString>
 #include "Operation.h"
-
+#include <QPushButton>
 class QTextEdit;
 class QGroupBox;
 class QLabel;
@@ -50,7 +50,7 @@ private:
 
         QString plainText;
         QString htmlText;
-		tNotesButton *buttonEdit;
+        QPushButton *buttonEdit;
 
 		tNotesButton *buttonBold;
 		tNotesButton *buttonItalic;

@@ -14,8 +14,6 @@ tNotesCategoryList::tNotesCategoryList() : QListView()
     setupActions();
 }
 void tNotesCategoryList::updateIndexView(string iRoot,string iArticle){
-    QDialog qd;
-    qd.show();
     Article artTemp = searchArticle(iRoot,iArticle);
     for(int i=0;i<dirVector.size();i++){
         Article artTempi = dirVector[i];
@@ -41,7 +39,6 @@ void tNotesCategoryList::searchToUpdateListView(vector<SearchResult> resultVecto
         dirVector.push_back(resultVector[i].article);
         faId.push_back(resultVector[i].dirId);
     }
-
     for (int i=0;i<dirVector.size();i++)
     {
         //传入名字、时间、内容
@@ -68,7 +65,6 @@ void tNotesCategoryList::mouseDoubleClickEvent(QMouseEvent *event)
 }
 
 bool tNotesCategoryList::updateListView(string id){
-
     IsSearchResult = false;
     dirVector.clear();
 	model->clear();

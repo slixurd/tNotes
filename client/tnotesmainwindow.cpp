@@ -138,10 +138,9 @@ void tNotesMainWindow::setupActions()
 
     connect(contentWidget->mEditPart,SIGNAL(updateNoteFinished(string, string)),this,
             SLOT(updateListView2ArticleModify(string, string)));
-    connect(contentWidget->mEditPart,SIGNAL(deleteListView2Artical()),this,
-            SLOT(updateListView2ArticleModify(string, string)));
-//    connect(contentWidget->mListView,SIGNAL(touchListView1()),contentWidget->mEditPart,
-//            SLOT(updateListView2ArticleModify(string, string)));
+    connect(this,SIGNAL(deleteListView2Artical()),contentWidget->mEditPart,
+            SLOT(clearArticle()));
+
 }
 
 void tNotesMainWindow::updateListView2ArticleModify(string dirId, string artId){
@@ -315,6 +314,7 @@ void tNotesMainWindow::deleteDirectory(){
     }
     contentWidget->mListView->deleteNotebook(index);
     contentWidget->mListView2->clearView();
+    emit deleteListView2Artical();
 }
 //同步按钮
 void tNotesMainWindow::synchronize(){
