@@ -37,12 +37,12 @@ tNotesTitleBar::tNotesTitleBar(QWidget *parent)
     maxmizeButton->setMinimumHeight(24);
 
     QLabel *label = new QLabel(this);
-    label->setStyleSheet("color:#ffffff;font-size:24px;");
+    label->setStyleSheet("color:#ffffff;font-size:24px;font-family:sans-serif;");
     label->setText("tNotes");
 
     QPushButton*icoButton= new QPushButton();
     icoButton->setStyleSheet("top:2px;min-width: 25px;min-height: 25px;color:black;border-image:url(:/myres/titleico.png);");
-    m_pMainLayout->addWidget(icoButton);
+    //m_pMainLayout->addWidget(icoButton);
     m_pMainLayout->addWidget(label);
     m_pMainLayout->addWidget(label);
     m_pMainLayout->addWidget(minimizeButton);

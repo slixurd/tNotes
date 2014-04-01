@@ -67,11 +67,13 @@ tNotesMainWindow::~tNotesMainWindow()
 void tNotesMainWindow::setMainWindowsSize()
 {
     //因为那天跟投影仪链接的时候获得大小乘以0.8可能会有问题   改回0.8应该也行
-    QDesktopWidget dw;
-    int x = dw.width()*0.8;
-    int y = dw.height()*0.8;
-    //this->resize(950, 600);
-    this->resize(x, y);
+//    QDesktopWidget dw;
+//    int x = dw.width()*0.8;
+//    int y = dw.height()*0.8;
+//    //this->resize(950, 600);
+//    this->resize(x, y);
+    showMaximized();
+
 }
 
 void tNotesMainWindow::initWidgets()
@@ -89,7 +91,7 @@ void tNotesMainWindow::initWidgets()
     /*
      * 检查网络是否连通，此处有bug
      */
-    //isConnected = networkState->isconnect();
+    isConnected = networkState->isconnect();
 }
 
 void tNotesMainWindow::setMainWindowLayout()
@@ -145,6 +147,7 @@ void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &
 {
     IsLogin=true;
     toolBar->loginButton->setStyleSheet(readFile(":/qss/exitButton.qss"));
+    toolBar->loginButton->setStyleSheet(readFile(":/qss/exitButton.qss"));
 
     qstrUser = username;
     QDir qdir(ROOT_PATH+username);
@@ -168,7 +171,6 @@ void tNotesMainWindow::openLoginDialog()
 
     }else
     {
-        toolBar->loginButton->setStyleSheet(readFile(":/qss/exitButton.qss"));
         dialogLogin->exec();
     }
 }

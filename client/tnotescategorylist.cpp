@@ -33,6 +33,7 @@ void tNotesCategoryList::searchToUpdateListView(vector<SearchResult> resultVecto
         itemTemp->setSizeHint(QSize(150,70));
         model->appendRow(itemTemp);
     }
+    if(resultVector.size()>=1)
     emit initNotesEditor(resultVector[0].dirId, resultVector[0].article.articleId, searchWord);
     tmpSearchWord = searchWord;
 }
