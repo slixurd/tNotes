@@ -280,6 +280,8 @@ void tNotesMainWindow::synchronize(){
         openLoginDialog();
     }else{
         syn.sendrecord();
+        syn.receiveData();
+
     }
 }
 

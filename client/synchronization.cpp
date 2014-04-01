@@ -4,7 +4,7 @@
 #include <QtNetwork>
 #include <QEventLoop>
 #include <QDebug>
-
+#include<locale.h>
 
 synchronization::synchronization(QObject *parent) :
     QObject(parent)
@@ -184,20 +184,118 @@ void synchronization::sendrecord()
     recordRoot.clear();
     writeInJson(recordRoot,recordPath);
     mymap.clear();
-    //通知前台刷新一遍
-    emit updateListView();
-}
 
+
+}
+void synchronization::receiveData()
+{
+    extern string rootPath;
+    extern string articlePath;
+    Json::Value obj;
+    obj["session"]=MyNetWorker::session_key.toStdString();
+    Json::Value dir;
+    Json::Value art;
+    vector<Directory>alldir=searchAllRoot();
+    for(int i=0;i<alldir.size();i++)
+    {
+        Json::Value d;
+        d["id"]=s2i(alldir[i].nodeId);
+        d["stamp"]=s2i(alldir[i].modifiedTime);
+        dir.append(d);
+    }
+    obj["node"]=dir;
+    vector<Article>allart=searchAllArticle();
+    for(int i=0;i<allart.size();i++)
+    {
+        Json::Value a;
+        a["id"]=s2i(allart[i].articleId);
+        a["stamp"]=s2i(allart[i].modifiedTime);
+        art.append(a);
+    }
+    obj["article"]=art;
+     string url="http://tnotes.wicp.net:8080/dummysync.cgi";
+     mynetwork->send(url,obj.toStyledString());
+     eventLoop.exec();
+     Json::Reader reader;
+     Json::Value value;
+     reader.parse(data,value);
+     Json::Value root=returnRoot(rootPath);
+     vector<string>rootid=root.getMemberNames();
+     //删除文章
+     Json::Value deleted_article=value["deleted_article"];
+
+     for(int i=0;i<deleted_article.size();i++)
+     {
+         for(int j=0;j<rootid.size();i++)
+         {
+             string deletedid=i2s(deleted_article[i].asUInt());
+
+             if(!root[rootid[j]]["array"][deletedid].isNull())
+             {
+             root[rootid[j]]["array"].removeMember(deletedid);
+             getArticlePath(deletedid);
+             remove(articlePath.c_str());
+             break;
+             }
+
+         }
+     }
+     //删除目录
+     Json::Value deleted_node=value["deleted_node"];
+     for(int i=0;i<deleted_node.size();i++)
+     {
+     root.removeMember(i2s(deleted_node[i].asUInt()));
+
+     }
+      //新增目录
+     Json::Value changed_node=value["changed_node"];
+     for(int i=0;i<changed_node.size();i++)
+     {
+         root[i2s(changed_node[i]["id"].asUInt())]["name"]=changed_node[i]["name"];
+         root[i2s(changed_node[i]["id"].asUInt())]["modifiedTime"]=i2s(changed_node[i]["stamp"].asUInt());
+     }
+
+     //新增文章
+    Json::Value changed_article=value["changed_article"];
+    for(int i=0;i<changed_article.size();i++)
+    {
+        string nodeid=i2s(changed_article[i]["location"].asUInt());
+        string articleid=i2s(changed_article[i]["id"].asUInt());
+
+        Json::Value v;
+        v["name"]=changed_article[i]["name"];
+        v["modifiedTime"]=i2s(changed_article[i]["stamp"].asUInt());
+        root[nodeid]["array"][articleid]=v;
+        Json::Value content;
+        content["context"]=changed_article[i]["content"];
+        getArticlePath(i2s(changed_article[i]["id"].asUInt()));
+        writeInJson(content,articlePath);
+    }
+    writeInJson(root,rootPath);
+     emit updateListView();
+}
 
 
 void synchronization::replyfinished(QNetworkReply *reply)
 {
     QVariant status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     qDebug()<<status_code;
-    QTextCodec * codec=QTextCodec::codecForName("UTF-8");
-    QString json=codec->toUnicode(reply->readAll());
+
+     QTextCodec * codec=QTextCodec::codecForName("UTF-8");
+   //  QTextCodec * gbk=QTextCodec::codecForName("GBK");
+   //  QTextCodec::setCodecForLocale(gbk);
+
+    QString json= codec->toUnicode(reply->readAll());
+  //  QString serstr=gbk->toUnicode(json.toLocal8Bit().data());
+  // QTextCodec * gbk=QTextCodec::codecForName("gbk");
+   // QTextCodec::codecForLocale(gbk);
+   // QTextCodec::setCodecForLocale(gbk);
+
+ //   QTextCodec::setCodecForCStrings(gbk);
+
     qDebug()<<json;
     data=json.toStdString();
+   // data=json.toStdString();
     std::cout<<"data:"<<data;
     eventLoop.quit();
 }

@@ -23,7 +23,7 @@ public:
 
     explicit synchronization(QObject *parent = 0);
     void sendrecord();
-
+    void receiveData();
 
 
 
