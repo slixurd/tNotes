@@ -17,6 +17,7 @@ var FolderCollection = Backbone.Collection.extend({
     toggle: true,
 	
 	initialize: function(){
+
 	},
 
     comparator: function (folder) {
@@ -73,14 +74,15 @@ var FolderCollection = Backbone.Collection.extend({
 
                 for(var i=0; i<data.node.length; ++i){
                     var id = data.node[i].id;
+                    console.log(typeof(self.get(id)));
                     if(addList.indexOf(id)<0 && updateList.indexOf(id)<0 && deleteList.indexOf(id)<0){
                         self.create({
                             id: data.node[i].id,
                             name: data.node[i].name,
-                            notes       : (self.get(id)!=null) ? self.get(id).get('notes') : [],   // 笔记
-                            createTime  : _.now(),    // 创建时间
+                            notes       : (typeof(self.get(id))==='undefined') ? [] : self.get(id).get('notes'),   // 笔记
+                            createTime  : (typeof(self.get(id))==='undefined') ? data.node[i].stamp*1000 : self.get(id).get('createTime'), // 创建时间
                             modifiedTime: data.node[i].stamp*1000    
-                        }, {wait: true}); //只有三个列表中的都没有这个ID，才创建。
+                        }); //只有三个列表中的都没有这个ID，才创建。
                     }
                 }
             }
@@ -248,7 +250,7 @@ var FolderCollection = Backbone.Collection.extend({
 // 创建folderCollection实例并获取数据
 var folderCollection = new FolderCollection;
 
-folderCollection.fetch();
+folderCollection.fetch({success: function(){ folderCollection.fetchFolder() }});
 
 return folderCollection;
 

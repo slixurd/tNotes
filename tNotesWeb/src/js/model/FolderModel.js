@@ -37,12 +37,15 @@ FolderModel = Backbone.Model.extend({
 
     /* 添加文章 */
     addNote: function(id){
-        console.log('Folder AddNote');
-        var notes = get('notes');
-        notes.push(id);
-        this.save({ notes: notes });
-        this.updateModifiedTime();
-        this.trigger('change');
+        console.log('Folder AddNote:'+id);
+        var notes = this.get('notes');
+        if(notes.indexOf(id)<0){
+            notes.push(id);
+            console.log(notes.length);
+            this.save({ notes: notes });
+            this.updateModifiedTime();
+            this.trigger('change');
+        }
     },
 
     /* 删除文章 */

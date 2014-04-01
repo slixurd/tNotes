@@ -33,8 +33,6 @@ var FolderView = Backbone.View.extend({
         this.notes.bind('add', this.render);
         this.notes.bind('change', this.render);
         this.notes.bind('remove', this.render);
-
-        this.folders.fetchFolder();
     },
 
 	/* 
@@ -43,7 +41,6 @@ var FolderView = Backbone.View.extend({
 	   在 render 函数的末尾 return this 实现链式调用。
 	*/
     render: function(){
-        console.log('FolderView Render');
         if(this.folders.toggle){
             this.$el.removeClass('hide');
             $('#folder-list').html(this.template({folders: this.folders.toJSON()}));
@@ -89,12 +86,7 @@ var FolderView = Backbone.View.extend({
     /* 删除文件夹 */
     deleteFolder: function(){
         var selectedID = this.folders.getSelectedID();
-        //先删除文章
         var notesID = this.folders.get(selectedID).get('notes');
-        for(var i=0; i<notesID.length; ++i){
-            this.notes.get(notesID[i]).destroy();
-            console.log(notesID[i]);
-        }
 
         // 后删除目录
         this.folders.get(selectedID).destroy();
@@ -108,6 +100,12 @@ var FolderView = Backbone.View.extend({
         }
 
         this.folders.setSelectedID(0);
+
+        //先删除文章
+        for(var i=0; i<notesID.length; ++i){
+            console.log(notesID[i]);
+            this.notes.get(notesID[i]).destroy();
+        }
     	
     	// 删除对话框隐藏
     	$('#deleteFolderModal').modal('hide');
