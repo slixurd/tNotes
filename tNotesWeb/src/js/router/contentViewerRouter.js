@@ -1,7 +1,7 @@
 // contentView路由模块
 
-define(['contentViewer', 'hint', 'folderCollection', 'noteCollection'],
-    function (contentViewer, hint, folderCollection, noteCollection) {
+define(['contentViewer', 'hint', 'folderCollection', 'noteCollection', 'folderView'],
+    function (contentViewer, hint, folderCollection, noteCollection, folderView) {
 
 var Router = Backbone.Router.extend({
 
@@ -41,8 +41,9 @@ var Router = Backbone.Router.extend({
                 var folderId = folderCollection.getSelectedID();
                 if (folderId !== null) {
                     var data = contentViewer.getTitleAndContent();
-                    noteCollection.newNote(folderId, data.title, data.content);
+                    var newId = noteCollection.newNote(folderId, data.title, data.content);
                     this.clearNav();
+                    contentViewer.setNote(newId);
                     return true;
                 } else {
                     hint.setType('warning').setTitle('警告').setContent('请选择一个分类用于保存新笔记').show();

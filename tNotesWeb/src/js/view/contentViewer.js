@@ -331,12 +331,14 @@ var ContentViewer = Backbone.View.extend({
             this.$expandBtn.html('<span class="glyphicon glyphicon-resize-small"></span> 收缩');
             this.size = 1;
             this.$el.toggleClass('fill');
+            $('#note').fadeOut('fast');
             return true;
         } else {
             // 最小化
             this.$expandBtn.html('<span class="glyphicon glyphicon-resize-full"></span> 展开');
             this.size = -1;
             this.$el.toggleClass('fill');
+            $('#note').fadeIn('fast');
             return false;
         }
     },
