@@ -42,6 +42,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/DeleteArticleHandler.o \
 	${OBJECTDIR}/DeleteNodeHandler.o \
 	${OBJECTDIR}/DummyHandler.o \
+	${OBJECTDIR}/DummySyncHandler.o \
 	${OBJECTDIR}/FetchArticlesHandler.o \
 	${OBJECTDIR}/FetchBriefsHandler.o \
 	${OBJECTDIR}/FetchNodesHandler.o \
@@ -129,6 +130,11 @@ ${OBJECTDIR}/DummyHandler.o: DummyHandler.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp
+
+${OBJECTDIR}/DummySyncHandler.o: DummySyncHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummySyncHandler.o DummySyncHandler.cpp
 
 ${OBJECTDIR}/FetchArticlesHandler.o: FetchArticlesHandler.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -365,6 +371,19 @@ ${OBJECTDIR}/DummyHandler_nomain.o: ${OBJECTDIR}/DummyHandler.o DummyHandler.cpp
 	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummyHandler_nomain.o DummyHandler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/DummyHandler.o ${OBJECTDIR}/DummyHandler_nomain.o;\
+	fi
+
+${OBJECTDIR}/DummySyncHandler_nomain.o: ${OBJECTDIR}/DummySyncHandler.o DummySyncHandler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/DummySyncHandler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DummySyncHandler_nomain.o DummySyncHandler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/DummySyncHandler.o ${OBJECTDIR}/DummySyncHandler_nomain.o;\
 	fi
 
 ${OBJECTDIR}/FetchArticlesHandler_nomain.o: ${OBJECTDIR}/FetchArticlesHandler.o FetchArticlesHandler.cpp 
