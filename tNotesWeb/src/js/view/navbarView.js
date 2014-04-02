@@ -90,6 +90,8 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 					this.newNote = function(notename, content, location, newNote) {
 						var arr = setting.get("noteAddedId");
 						console.log(arr);
+						console.log('{"session":"' + setting.get('session') + '","name":"' + notename + '","content":"' + content + '","location":' + location + '}'
+);
 						$.ajax({
 
 							url: 'http://tnotes.wicp.net:8080/createarticle.cgi',
@@ -139,15 +141,15 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 								//笔记新建同步完成，可以调用其他函数了
 							} else {
 								index = index + 1;
-								console.log(noteCollection.get(arr[index]).get('name'));
-								newNote(noteCollection.get(arr[index]).get('name'), noteCollection.get(arr[index]).get('content'), noteCollection.get(arr[index]).get('folderId'), newNote);
+								console.log(noteCollection.get(arr[index]).get('title'));
+								newNote(noteCollection.get(arr[index]).get('title'), noteCollection.get(arr[index]).get('content'), noteCollection.get(arr[index]).get('folderId'), newNote);
 							}
 
 						});
 
 					};
 					if (noteidlength != 0)
-						this.newNote(noteCollection.get(setting.get('noteAddedId')[0]).get("name"), noteCollection.get(setting.get('noteAddedId')[0]).get("content"), noteCollection.get(setting.get('noteAddedId')[0]).get("folderId"), this.newNote);
+						this.newNote(noteCollection.get(setting.get('noteAddedId')[0]).get('title'), noteCollection.get(setting.get('noteAddedId')[0]).get("content"), noteCollection.get(setting.get('noteAddedId')[0]).get("folderId"), this.newNote);
 
 
 				} else {
@@ -167,8 +169,11 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 
 
 		this.newNote = function(notename, content, location, newNote) {
+			console.log('AAAAAAAAAA');
 			var arr = setting.get("noteAddedId");
 			console.log(arr);
+			console.log('{"session":"' + setting.get('session') + '","name":"' + notename + '","content":"' + content + '","location":' + location + '}'
+);
 			$.ajax({
 
 				url: 'http://tnotes.wicp.net:8080/createarticle.cgi',
@@ -176,7 +181,7 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 				data: '{"session":"' + setting.get('session') + '","name":"' + notename + '","content":"' + content + '","location":' + location + '}'
 
 			}).done(function(data) {
-				console.log(data);
+				console.log("Sync NewNote:"+data);
 				if (data.id && data.stamp) {
 					console.log("post成功");
 					//post成功
@@ -184,11 +189,11 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 					// 	"id": data.id,
 					// 	"modifiedTime": data.stamp
 					// });
-
+					console.log(noteCollection.get(arr[index]).get('title'));
 					noteCollection.create({
 						id: data.id,
 						folderId: noteCollection.get(arr[index]).get('folderId'),
-						title: noteCollection.get(arr[index]).get('name'),
+						title: noteCollection.get(arr[index]).get('title'),
 						content: noteCollection.get(arr[index]).get('content'), // 笔记
 						createTime: noteCollection.get(arr[index]).get('createTime'), // 创建时间
 						modifiedTime: data.stamp * 1000
@@ -231,6 +236,7 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 		//更新笔记同步
 
 		this.updateNote = function(notename, content, noteid,updateNote) {
+
 			var arr = setting.get('noteUpdatedId');
 			$.ajax({
 				url: 'http://tnotes.wicp.net:8080/changearticle.cgi',
@@ -269,8 +275,8 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 					//笔记新建同步完成，可以调用其他函数了
 				} else {
 					index = index + 1;
-					console.log(noteCollection.get(arr[index]).get('name'));
-					updateNote(noteCollection.get(arr[index]).get('name'), noteCollection.get(arr[index]).get('content'), noteCollection.get(arr[index]).get('id'), updateNote);
+					console.log(noteCollection.get(arr[index]).get('title'));
+					updateNote(noteCollection.get(arr[index]).get('title'), noteCollection.get(arr[index]).get('content'), noteCollection.get(arr[index]).get('id'), updateNote);
 				}
 			});
 		};
@@ -329,6 +335,7 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 		//删除一个note
 
 		this.deleteNote = function(noteid, deleteNote) {
+			console.log('DeletedNote');
 			var arr = setting.get('noteDeletedId');
 			$.ajax({
 				url: 'http://tnotes.wicp.net:8080/deletearticle.cgi',
@@ -435,17 +442,24 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 		$registUsername: $("#regist_username"),
 		$registPassword: $("#regist_password"),
 		$searchContent: $("#searchContent"),
+
+		firstLoggin: true,
+
 		initialize: function() {
 
 			//页面开启时尝试自动登录
 			this.autoLogin();
 			//登录后自动尝试同步
-			this.startSynchro();
+			//this.startSynchro();
 			//读取全局样式
+
 			var globalStyle = setting.get('globalStyle');
 			this.changeGlobalStyleByNmae(globalStyle);
+			
+			_.bindAll(this, 'firstSync');
 
-
+			folderCollection.bind('change', this.firstSync);
+			noteCollection.bind('change', this.firstSync);
 		},
 		events: {
 			'click #synchro': 'startSynchro',
@@ -453,6 +467,14 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 			'click #logout': 'logout',
 			'click .change-Allstyle': 'changeGlobalStyle',
 			'click #registButton': 'regist'
+		},
+
+		firstSync: function(startSynchro){
+			console.log(this.firstLoggin);
+			if(this.firstLoggin && folderCollection.length && noteCollection.length){
+				this.startSynchro();
+				this.firstLoggin = false;
+			}
 		},
 
 		//检测特殊字符
@@ -495,8 +517,10 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 						hintview.setContent("登录成功！").show();
 						console.log('你的用户名：' + username);
 						$("#currentUser").html(username);
+						
 						folderCollection.fetchFolder();
 
+						
 					} else {
 						$("#hint h4").html("抱歉");
 						$("#hint").removeClass('alert-success');
@@ -655,13 +679,14 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 						console.log(folderCollection.get(setting.get('folderAddedId')[0]));
 						tongbuObj.newFolder(folderCollection.get(setting.get('folderAddedId')[0]).get('name'), setting.get('session'), tongbuObj.newFolder);
 					}else if (noteidlength) {
-						tongbuObj.newNote(noteCollection.get(setting.get('noteAddedId')[0]).get('name'), noteCollection.get(setting.get('noteAddedId')[0]).get('content'), noteCollection.get(setting.get('noteAddedId')[0]).get('folderId'), tongbuObj.newNote);
+						console.log(noteCollection.length);
+						tongbuObj.newNote(noteCollection.get(setting.get('noteAddedId')[0]).get('title'), noteCollection.get(setting.get('noteAddedId')[0]).get('content'), noteCollection.get(setting.get('noteAddedId')[0]).get('folderId'), tongbuObj.newNote);
 					}
 					if (folderupdatelength) {
 						tongbuObj.updateFolder(folderCollection.get(setting.get('folderUpdatedId')[0]).get('id'), folderCollection.get(setting.get('folderUpdatedId')[0]).get('name'), tongbuObj.updateFolder);
 					}
 					if (noteupdatelength) {
-						tongbuObj.updateNote(noteCollection.get(setting.get('noteUpdatedId')[0]).get('name'), noteCollection.get(setting.get('noteUpdatedId')[0]).get('content'), noteCollection.get(setting.get('noteUpdatedId')[0]).get('id'), tongbuObj.updateNote);
+						tongbuObj.updateNote(noteCollection.get(setting.get('noteUpdatedId')[0]).get('title'), noteCollection.get(setting.get('noteUpdatedId')[0]).get('content'), noteCollection.get(setting.get('noteUpdatedId')[0]).get('id'), tongbuObj.updateNote);
 					}
 					if (folderdeletelength) {
 						console.log("folderdeletelength" + folderdeletelength);
@@ -669,6 +694,7 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 						tongbuObj.deleteFolder(setting.get('folderDeletedId')[0], tongbuObj.deleteFolder);
 					}
 					if (notedeletelength) {
+						console.log(setting.get('noteDeletedId')[0]);
 						tongbuObj.deleteNote(setting.get('noteDeletedId')[0], tongbuObj.deleteNote);
 					}
 
@@ -677,8 +703,9 @@ define(["setting", "hint", 'noteCollection', "folderCollection", "contentViewer"
 				}
 
 			} else {
-				$("#loginModal h4").html("请先登录！");
-				this.showLoginModal();
+				// $("#loginModal h4").html("请先登录！");
+				// this.showLoginModal();
+				hintview.setContent("请登录！").show();
 			}
 		},
 

@@ -74,7 +74,6 @@ var FolderCollection = Backbone.Collection.extend({
 
                 for(var i=0; i<data.node.length; ++i){
                     var id = data.node[i].id;
-                    console.log(typeof(self.get(id)));
                     if(addList.indexOf(id)<0 && updateList.indexOf(id)<0 && deleteList.indexOf(id)<0){
                         self.create({
                             id: data.node[i].id,

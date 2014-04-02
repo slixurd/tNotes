@@ -170,7 +170,7 @@ var NoteCollection = Backbone.Collection.extend({
 	
 	//删除笔记
 	deleteNote: function(id) {	
-		this.deleteModelById(id);	
+	this.deleteModelById(id);	
 		folderCollection.removeNote(id);
 		if(id > 0) {
 			this.deleteNotePost(id);
