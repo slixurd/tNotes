@@ -279,6 +279,11 @@ void tNotesTextEditor::toolsEnabled(bool flag)
  */
 void tNotesTextEditor::editModeChange()
 {
+    if(currentDirId == "-1" || currentArticleId == "-1"){
+        editMode == VIEW_MODE;
+        print("请选择一个笔记进行编辑");
+        return;
+    }
     updateArticle(currentDirId, currentArticleId);
 
     if(editMode == EDIT_MODE){
@@ -421,6 +426,7 @@ void tNotesTextEditor::initArticle(string dirId, string articleId, QString searc
  */
 void tNotesTextEditor::updateArticle(string dirId, string articleId)
 {
+    if(currentArticleId == "-1" || currentDirId == "-1") return;
     currentArticle.name = q2s(getTitle());
     currentArticle.context = q2s(getEditorContents());
     currentArticle.createTime = q2s(getCreatedTime());
@@ -493,6 +499,9 @@ void tNotesTextEditor::clearArticle()
     titleLineEdit->setText("");
     noteCreatedTime->setText("Created: ");
     noteLastModifiedTime->setText("Version: ");
+
+    currentArticleId = "-1";
+    currentDirId = "-1";
 
 }
 
