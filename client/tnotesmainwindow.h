@@ -102,13 +102,16 @@ private slots:
         void deleteArticle();
         void deleteDirectory();
         void synchronize();
-
         void synUpdateListView();
+
+        void updateListView2ArticleModify(string, string);
+
 signals:
         void initNotebooks(Directory *dirList);
         void initNotes(Article *articleList);
         void initNotesContents(Article article);
         void updateNotebooks(QString path);
         //void updateEditor(string articleId);
+        void deleteListView2Artical();
 };
 #endif

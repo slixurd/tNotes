@@ -18,13 +18,17 @@ class tNotesSearchTool : public QWidget
 
 public:
 		tNotesSearchTool(QWidget *parent = 0);
+        ~tNotesSearchTool();
         std::vector<std::string> find();
+        static tNotesSearch *searchinstance;
+        static void build();//建立索引
+        static void drop();//删除索引
 private:
 		QGroupBox *searchToolGroupBox;
 		QLineEdit *searchToolLineEdit;
         tNotesButton *searchbtn;
         QLabel *searchStateLabel;
-        tNotesSearch *searchinstance;
+//        tNotesSearch *searchinstance;
 private slots:
     void searchbtn_click();
 

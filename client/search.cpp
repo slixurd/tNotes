@@ -60,6 +60,7 @@ bool tNotesSearch::init()
 //插入
 bool tNotesSearch::insert(char *id,char* title,char *body)
 {
+    qDebug() <<"hello i'm issert\n";
     qDebug() <<"insert: "<< id << " " << title << " " <<body<<endl;
     QSqlQuery query;
     query.prepare("INSERT INTO pages (id, title, body) VALUES (?,?,?)");
@@ -125,4 +126,15 @@ std::vector<std::string> tNotesSearch::select(char *key)
     if(flag==false)
         qDebug()<<"find nothing";
     return temp;
+}
+
+bool tNotesSearch::drop()
+{
+    QSqlQuery query;
+    if(!query.exec("DROP TABLE pages"))
+    {
+        qDebug()<<"error: "<<query.lastError().text()<<endl;
+        return false;
+    }
+    return true;
 }

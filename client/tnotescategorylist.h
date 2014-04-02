@@ -22,6 +22,9 @@ public:
 
     void newCategory(Article art,string iRoot);
     void deleteCategory(QModelIndex &index,string iRoot);
+    //清理内存和显示
+    void clearView();
+    void updateIndexView(string,string);
     QString tmpSearchWord;
 
 private:

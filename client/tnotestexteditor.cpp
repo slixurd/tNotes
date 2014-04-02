@@ -64,6 +64,7 @@ void tNotesTextEditor::initWidgets()
     noteTitle->setFont(titleFont);
     titleLineEdit = new QLineEdit();
     titleLineEdit->setVisible(false);
+    titleLineEdit->setStyleSheet(readFile(":/qss/searchLineEdit.qss"));
 
     QFont timeFont("Arial", 8, QFont::Bold);
     noteCreatedTime = new QLabel("Created: ");
@@ -74,8 +75,9 @@ void tNotesTextEditor::initWidgets()
     horizonLine = new QFrame();
     horizonLine->setFrameShape(QFrame::HLine);
     horizonLine->setFrameShadow(QFrame::Sunken);
-
-    buttonEdit = new tNotesButton("/myres/edit.png");
+    QString qstr=readFile(":/qss/editButton.qss");
+    buttonEdit = new QPushButton();
+    buttonEdit->setStyleSheet(qstr);
     buttonBold = new tNotesButton("/myres/bold.png", 15, 15);
     buttonItalic = new tNotesButton("/myres/italic.png", 15, 15);
     buttonQuotes = new tNotesButton("/myres/quotes.png", 15, 15);
@@ -434,7 +436,6 @@ void tNotesTextEditor::updateArticle(string dirId, string articleId)
 
     } else {
 
-        return ;
     }
     emit updateNoteFinished(dirId, articleId);
 }
@@ -482,6 +483,7 @@ void tNotesTextEditor::findInArticle(QString word){
 
 void tNotesTextEditor::clearArticle()
 {
+
     if(editMode == EDIT_MODE){
         editMode = VIEW_MODE;
     }

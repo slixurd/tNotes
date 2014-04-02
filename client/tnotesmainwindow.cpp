@@ -30,6 +30,7 @@
 #include "tnotesstatusbar.h"
 #include "Operation.h"
 #include "synchronization.h"
+#include "mythread.h"
 
 
 extern bool isConnected = false;
@@ -67,13 +68,13 @@ tNotesMainWindow::~tNotesMainWindow()
 void tNotesMainWindow::setMainWindowsSize()
 {
     //因为那天跟投影仪链接的时候获得大小乘以0.8可能会有问题   改回0.8应该也行
-//    QDesktopWidget dw;
-//    int x = dw.width()*0.8;
-//    int y = dw.height()*0.8;
-//    //this->resize(950, 600);
-//    this->resize(x, y);
-    showMaximized();
+    QDesktopWidget *desktop=new QDesktopWidget();
+    QWidget *screenWidget = desktop->screen(0);
+    int x = screenWidget->width()*0.9;
+    int y = screenWidget->height()*0.9;
 
+    this->resize(x, y);
+    setWindowState(Qt::WindowMaximized);
 }
 
 void tNotesMainWindow::initWidgets()
@@ -135,6 +136,15 @@ void tNotesMainWindow::setupActions()
     connect(this, SIGNAL(updateNotebooks(QString)), contentWidget, SLOT(initContents(QString)));
     connect(&syn, SIGNAL(updateListView()), this, SLOT(synUpdateListView()));
 
+    connect(contentWidget->mEditPart,SIGNAL(updateNoteFinished(string, string)),this,
+            SLOT(updateListView2ArticleModify(string, string)));
+    connect(this,SIGNAL(deleteListView2Artical()),contentWidget->mEditPart,
+            SLOT(clearArticle()));
+
+}
+
+void tNotesMainWindow::updateListView2ArticleModify(string dirId, string artId){
+    contentWidget->mListView2->updateIndexView(dirId,artId);
 }
 
 void tNotesMainWindow::synUpdateListView(){
@@ -146,8 +156,7 @@ void tNotesMainWindow::synUpdateListView(){
 void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &index)
 {
     IsLogin=true;
-    toolBar->loginButton->setStyleSheet(readFile(":/qss/exitButton.qss"));
-    toolBar->loginButton->setStyleSheet(readFile(":/qss/exitButton.qss"));
+    //toolBar->loginButton->setStyleSheet(readFile(":/qss/exitButton.qss"));
 
     qstrUser = username;
     QDir qdir(ROOT_PATH+username);
@@ -158,7 +167,7 @@ void tNotesMainWindow::userAuthenticated(QString &username, QString &pass, int &
 void tNotesMainWindow::openLoginDialog()
 {
     if(IsLogin){
-        toolBar->loginButton->setStyleSheet(readFile(":/qss/loginButton.qss"));
+        //toolBar->loginButton->setStyleSheet(readFile(":/qss/loginButton.qss"));
         IsLogin=false;
         //退出操作
 
@@ -194,6 +203,8 @@ void tNotesMainWindow::initNotesByUser(QString &name)
     //print(name);
     extern string rootPath;
     setupRootPath(q2s(ROOT_PATH + name));
+    myThread *newthread=new myThread();
+    newthread->run();
     //print(s2q(rootPath));
     emit updateNotebooks(ROOT_PATH + name);
 }
@@ -293,6 +304,7 @@ void tNotesMainWindow::deleteArticle(){
     }
     contentWidget->mListView2->deleteCategory(index,
                   contentWidget->mListView->nowDire.nodeId);
+    emit deleteListView2Artical();
 }
 
 void tNotesMainWindow::deleteDirectory(){
@@ -301,6 +313,8 @@ void tNotesMainWindow::deleteDirectory(){
         return;
     }
     contentWidget->mListView->deleteNotebook(index);
+    contentWidget->mListView2->clearView();
+    emit deleteListView2Artical();
 }
 //同步按钮
 void tNotesMainWindow::synchronize(){
@@ -313,7 +327,6 @@ void tNotesMainWindow::synchronize(){
     }else{
         syn.sendrecord();
         syn.receiveData();
-
     }
 }
 

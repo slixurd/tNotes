@@ -25,6 +25,7 @@ public:
     void deleteNotebook(QModelIndex&index);
 
 
+
 	void mouseDoubleClickEvent(QMouseEvent *event);   //鼠标点击响应
 private:
 	QStandardItemModel *model;
@@ -45,6 +46,7 @@ private slots:
     // QAbstractItemView interface
 protected slots:
     void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
+
 
 };
 
