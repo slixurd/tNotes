@@ -94,12 +94,14 @@ var NoteList = Backbone.View.extend({
 		
 	// 设置要显示笔记的文件夹
 	setFolder: function () {
+		var folderId = this.currentFolderId;
 		this.currentFolderId = folderCollection.getSelectedID();
 		if(this.currentFolderId != 0)
 		{
 			this.$newNoteBtn.removeClass('disabled');
 			this.collection.setFolderId(this.currentFolderId);
-			this.collection.getNoteListByFolderId();
+			if(folderId!=this.currentFolderId) //只有文件夹改变时才触发一下事件
+				this.collection.getNoteListByFolderId();
 			this.currentNoteList = this.collection.getModelsByFolderId(this.currentFolderId);
 			this.render();
 		} else {
