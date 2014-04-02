@@ -50,6 +50,7 @@ var NoteCollection = Backbone.Collection.extend({
 				console.log(data);
 				for(var i = 0; i < data.article.length; i++) {
 					self.storageNote(data.article[i]);
+					folderCollection.addNote(data.article[i].id);
 				}
 			} else {
 				console.log('data is null');
@@ -254,7 +255,7 @@ var NoteCollection = Backbone.Collection.extend({
 				if(updateNoteLocation >= 0) {
 					noteUpdateArray.splice(updateNoteLocation, 1);
 				}
-				setting.set('noteAddedId', noteAddedArray);
+				setting.set('noteUpdatedId', noteUpdateArray);
 				setting.save();
 			}
 			else if(data.exception = 'Article Handling Failure') {

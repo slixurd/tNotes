@@ -52,7 +52,8 @@ FolderModel = Backbone.Model.extend({
     removeNote: function(id){
         console.log('Folder RemoveNote');
         if(this.get('notes').indexOf(id) >= 0){
-            var notes = get('notes').splice(notes.indexOf(id), 1);
+            var notes = this.get('notes');
+            notes.splice(notes.indexOf(id), 1);
             this.save({ notes: notes });
             this.updateModifiedTime();
             this.trigger('change');
