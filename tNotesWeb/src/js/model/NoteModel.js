@@ -34,9 +34,6 @@ define(['setting', 'noteDb'], function(setting, database) {
 
             // 保证每次数据改变后自动存储
             _.bindAll(this, 'save');
-            this.bind('change', function() {
-                this.save();
-            });
         },
 
     });
