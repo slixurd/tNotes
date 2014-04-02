@@ -204,7 +204,7 @@ void tNotesMainWindow::initNotesByUser(QString &name)
     extern string rootPath;
     setupRootPath(q2s(ROOT_PATH + name));
     myThread *newthread=new myThread();
-    newthread->run();
+    newthread->start();
     //print(s2q(rootPath));
     emit updateNotebooks(ROOT_PATH + name);
 }
