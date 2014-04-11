@@ -1,0 +1,51 @@
+<<<<<<< HEAD
+/*
+     Ä¿Â¼Àà Directory
+     °üº¬ËùÐèÒªÊý¾Ý
+*/
+#include<string>
+=======
+ï»¿/*
+     ç›®å½•ç±» Directory
+     åŒ…å«æ‰€éœ€è¦æ•°æ®
+*/
+
+>>>>>>> client
+using namespace std;
+#ifndef DIRECTORY_H
+#define DIRECTORY_H
+class Directory
+{
+public:
+<<<<<<< HEAD
+    string nodeId;                  //Ä¿Â¼id,Óë·þÎñÆ÷Í¬²½Ê¹ÓÃ
+    string name;                    //Ä¿Â¼Ãû³Æ
+    string createTime;              //Ä¿Â¼´´½¨Ê±¼ä
+    string modifiedTime;             //Ä¿Â¼ÐÞ¸ÄÊ±¼ä
+    Directory(string nodeId,string name,string createTime,string modifiedTime)
+=======
+    string nodeId;                  //ç›®å½•id,ä¸ŽæœåŠ¡å™¨åŒæ­¥ä½¿ç”¨
+    string name;                    //ç›®å½•åç§°
+    string createTime;              //ç›®å½•åˆ›å»ºæ—¶é—´
+    string modifiedTime;             //ç›®å½•ä¿®æ”¹æ—¶é—´
+    bool isSyn;                      //æ˜¯å¦åŒæ­¥åˆ°äº‘ç«¯
+    Directory(string nodeId,string name,string createTime,string modifiedTime,bool isSyn)
+>>>>>>> client
+    {
+    this->nodeId=nodeId;
+    this->name=name;
+    this->createTime=createTime;
+    this->modifiedTime=modifiedTime;
+<<<<<<< HEAD
+    }
+    ~Directory(){}
+};
+#endif
+=======
+    this->isSyn=isSyn;
+    }
+    Directory(){};
+    ~Directory(){}
+};
+#endif
+>>>>>>> client

@@ -1,0 +1,54 @@
+<<<<<<< HEAD
+/*
+     ÎÄÕÂÀà Article
+     °üº¬ËùÐèÒªÊý¾Ý
+*/
+#include<string>
+=======
+ï»¿/*
+     æ–‡ç« ç±» Article
+     åŒ…å«æ‰€éœ€è¦æ•°æ®
+*/
+
+>>>>>>> client
+using namespace std;
+#ifndef ARTICLE_H
+#define ARTICLE_H
+class Article
+{
+public:
+<<<<<<< HEAD
+    string articleId;                //ÎÄÕÂid,Óë·þÎñÆ÷Í¬²½Ê¹ÓÃ
+    string name;                     //ÎÄÕÂ±êÌâ
+    string context;                  //ÎÄÕÂÄÚÈÝ
+    string createTime;               //ÎÄÕÂ´´½¨Ê±¼ä
+    string modifiedTime;             //ÎÄÕÂÐÞ¸ÄÊ±¼ä
+    Article(string articleId,string name,string context,string createTime,string modifiedTime)
+=======
+    string articleId;                //æ–‡ç« id,ä¸ŽæœåŠ¡å™¨åŒæ­¥ä½¿ç”¨
+    string name;                     //æ–‡ç« æ ‡é¢˜
+    string context;                  //æ–‡ç« å†…å®¹
+    string createTime;               //æ–‡ç« åˆ›å»ºæ—¶é—´
+    string modifiedTime;             //æ–‡ç« ä¿®æ”¹æ—¶é—´
+    bool isSyn;                      //æ˜¯å¦åŒæ­¥åˆ°äº‘ç«¯
+    Article(string articleId,string name,string context,string createTime,string modifiedTime,bool isSyn)
+>>>>>>> client
+    {
+        this->articleId=articleId;
+        this->name=name;
+        this->context=context;
+        this->createTime=createTime;
+        this->modifiedTime=modifiedTime;
+<<<<<<< HEAD
+    }
+    ~Article(){}
+};
+#endif
+=======
+        this->isSyn=isSyn;
+    }
+    Article(){}
+    ~Article(){}
+};
+#endif
+>>>>>>> client

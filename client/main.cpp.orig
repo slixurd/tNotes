@@ -1,0 +1,20 @@
+#include "tnotesmainwindow.h"
+<<<<<<< HEAD
+=======
+#include "Operation.h"
+>>>>>>> client
+#include <QApplication>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    tNotesMainWindow w;
+<<<<<<< HEAD
+
+    w.show();
+
+=======
+    w.show();
+>>>>>>> client
+    return a.exec();
+}
