@@ -1,7 +1,8 @@
-/*
-     Ä¿Â¼Àà Directory
-     °üº¬ËùĞèÒªÊı¾İ
+ï»¿/*
+     ç›®å½•ç±» Directory
+     åŒ…å«æ‰€éœ€è¦æ•°æ®
 */
+
 #include<string>
 using namespace std;
 #ifndef DIRECTORY_H
@@ -9,17 +10,20 @@ using namespace std;
 class Directory
 {
 public:
-    string nodeId;                  //Ä¿Â¼id,Óë·şÎñÆ÷Í¬²½Ê¹ÓÃ
-    string name;                    //Ä¿Â¼Ãû³Æ
-    string createTime;              //Ä¿Â¼´´½¨Ê±¼ä
-    string modifiedTime;             //Ä¿Â¼ĞŞ¸ÄÊ±¼ä
-    Directory(string nodeId,string name,string createTime,string modifiedTime)
+    string nodeId;                  //ç›®å½•id,ä¸æœåŠ¡å™¨åŒæ­¥ä½¿ç”¨
+    string name;                    //ç›®å½•åç§°
+    string createTime;              //ç›®å½•åˆ›å»ºæ—¶é—´
+    string modifiedTime;             //ç›®å½•ä¿®æ”¹æ—¶é—´
+    bool isSyn;                      //æ˜¯å¦åŒæ­¥åˆ°äº‘ç«¯
+    Directory(string nodeId,string name,string createTime,string modifiedTime,bool isSyn)
     {
     this->nodeId=nodeId;
     this->name=name;
     this->createTime=createTime;
     this->modifiedTime=modifiedTime;
+    this->isSyn=isSyn;
     }
+    Directory(){};
     ~Directory(){}
 };
 #endif

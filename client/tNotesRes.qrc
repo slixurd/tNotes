@@ -1,0 +1,63 @@
+<RCC>
+    <qresource prefix="/myres">
+        <file alias="settings.png">medias/icons/settings.png</file>
+        <file alias="sync.png">medias/icons/sync.png</file>
+        <file alias="edit.png">medias/icons/write.png</file>
+        <file alias="find.png">medias/icons/find.png</file>
+        <file alias="bold.png">medias/icons/bold.png</file>
+        <file alias="undo.png">medias/icons/undo.png</file>
+        <file alias="redo.png">medias/icons/redo.png</file>
+        <file alias="quotes.png">medias/icons/quotes-left.png</file>
+        <file alias="code.png">medias/icons/code.png</file>
+        <file alias="link.png">medias/icons/link.png</file>
+        <file alias="italic.png">medias/icons/italic.png</file>
+        <file alias="searchedit.png">medias/icons/searchEdit.png</file>
+        <file alias="notebook.png">medias/icons/notebook.png</file>
+        <file alias="titleico.png">medias/icons/titleico.png</file>
+        <file alias="login.png">medias/icons/login.png</file>
+        <file alias="loginpressed.png">medias/icons/loginpressed.png</file>
+        <file alias="loginhover.png">medias/icons/loginhover.png</file>
+        <file alias="newfile.png">medias/icons/newfile.png</file>
+        <file alias="newfilehover.png">medias/icons/newfilehover.png</file>
+        <file alias="newfilepressed.png">medias/icons/newfilepressed.png</file>
+        <file alias="newnote.png">medias/icons/newnote.png</file>
+        <file alias="newnotehover.png">medias/icons/newnotehover.png</file>
+        <file alias="newnotepressed.png">medias/icons/newnotepressed.png</file>
+        <file alias="delete.png">medias/icons/delete.png</file>
+        <file alias="deletehover.png">medias/icons/deletehover.png</file>
+        <file alias="deletepressed.png">medias/icons/deletepressed.png</file>
+        <file alias="search.png">medias/icons/search.png</file>
+        <file alias="syshover.png">medias/icons/syshover.png</file>
+        <file alias="syspressed.png">medias/icons/syspressed.png</file>
+        <file alias="sys.png">medias/icons/sys.png</file>
+        <file alias="exitButton.png">medias/icons/exitButton.png</file>
+        <file alias="exitButtonhover.png">medias/icons/exitButtonhover.png</file>
+        <file alias="exitButtonpressed.png">medias/icons/exitButtonpressed.png</file>
+        <file alias="editoressed.png">medias/icons/writepressed.png</file>
+    </qresource>
+    <qresource prefix="/libs">
+        <file alias="markdown2html.dll">libs/markdown2html.dll</file>
+    </qresource>
+    <qresource prefix="/qss">
+        <file alias="deleteFileButton.qss">medias/qss/deleteFileButton.qss</file>
+        <file alias="loginButton.qss">medias/qss/loginButton.qss</file>
+        <file alias="myedittoolbar.qss">medias/qss/myedittoolbar.qss</file>
+        <file alias="mystatusbar.qss">medias/qss/mystatusbar.qss</file>
+        <file alias="mytitlebar.qss">medias/qss/mytitlebar.qss</file>
+        <file alias="newFileButton.qss">medias/qss/newFileButton.qss</file>
+        <file alias="searchButton.qss">medias/qss/searchButton.qss</file>
+        <file alias="searchLineEdit.qss">medias/qss/searchLineEdit.qss</file>
+        <file alias="sysButton.qss">medias/qss/sysButton.qss</file>
+        <file alias="mytoolbar.qss">medias/qss/mytoolba.qss</file>
+        <file alias="tnotescontentwidget.qss">medias/qss/tnotescontentwidget.qss</file>
+        <file alias="deleteArticleButton.qss">medias/qss/deleteArticleButton.qss</file>
+        <file alias="newArticleButton.qss">medias/qss/newArticleButton.qss</file>
+        <file alias="listview1background.qss">medias/qss/listview1background.qss</file>
+        <file alias="listview2background.qss">medias/qss/listview2background.qss</file>
+        <file alias="exitButton.qss">medias/qss/exitButton.qss</file>
+        <file alias="editButton.qss">medias/qss/editButton.qss</file>
+    </qresource>
+    <qresource prefix="/cfg">
+        <file alias="Listview1.cfg">medias/cfg/Listview1.cfg</file>
+    </qresource>
+</RCC>

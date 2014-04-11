@@ -1,4 +1,4 @@
-#include <QTableView>
+﻿#include <QTableView>
 #include <QStandardItemModel>
 #include <QVBoxLayout>
 #include <QGroupBox>
@@ -18,7 +18,7 @@ tNotesCategory::tNotesCategory(QWidget *parent)
 	layout->addWidget(noteCategory, Qt::AlignTop);
 
 	noteGroupBox->setLayout(layout);
-	noteGroupBox->setMinimumSize(this->width(),
+    noteGroupBox->setMinimumSize(this->width(),
 			this->height());
 
 }

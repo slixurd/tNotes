@@ -1,0 +1,14 @@
+QPushButton{
+	min-width: 110px;
+	min-height: 30px;
+	max-width: 110px;
+	max-height: 30px;
+	color:black;
+	border-image:url(:/myres/login.png);
+}
+QPushButton:hover{
+	border-image:url(:/myres/loginhover.png);
+}
+QPushButton:pressed{
+	border-image:url(:/myres/loginpressed.png);
+}

@@ -1,19 +1,49 @@
-/*
-     ºóÌ¨²Ù×÷Àà Operation
-     °üº¬Ôö£¬É¾£¬²é²Ù×÷
+ï»¿/*
+     åå°æ“ä½œç±» Operation
+     åŒ…å«å¢ï¼Œåˆ ï¼ŒæŸ¥æ“ä½œ
 */
 #include "json/json.h"
 #include "Article.h"
 #include "Directory.h"
 #include<vector>
+#include <Qstring>
 #include<algorithm>
+#include<iostream>
+#include<mynetworker.h>
 #ifndef OPERATION_H
 #define OPERATION_H
-bool createRoot(Directory dir);        //´´½¨Ä¿Â¼£¬´«ÈëÄ¿Â¼Àà
-bool createArticle(int iRoot,Article art);     //´´½¨ÎÄÕÂ£¬´«ÈëÄ¿Â¼Ë÷ÒıºÍÎÄÕÂÀà
-bool deleteRoot(int index);         //É¾³ıÄ¿Â¼£¬´«ÈëÄ¿Â¼Ë÷Òı
-bool deleteArticle(int iRoot,int iArticle); //É¾³ıÎÄÕÂ£¬´«ÈëÄ¿Â¼ºÍÎÄÕÂË÷Òı
-vector<Directory> searchAllRoot();//²éÕÒËùÓĞÄ¿Â¼£¬·µ»ØÄ¿Â¼ÁĞ±í
-vector<Article> searchAllArticle(int iRoot);  //²éÕÒÄ³¸öÄ¿Â¼ÏÂËùÓĞÎÄÕÂ£¬´«ÈëÄ¿Â¼Ë÷Òı£¬·µ»ØÎÄÕÂÁĞ±í
-Article searchArticle(int iRoot,int iArticle);  //²éÕÒÄ³¸öÄ¿Â¼ÏÂÌØ¶¨ÎÄÕÂ£¬´«ÈëÄ¿Â¼ºÍÎÄÕÂË÷Òı£¬·µ»ØÎÄÕÂÀà
+//const string rootPath="D:/data/";
+void setupRootPath(string username);
+bool createRoot(Directory dir);        //åˆ›å»ºç›®å½•ï¼Œä¼ å…¥ç›®å½•ç±»
+bool changeRoot(string iRoot ,string name);        //ç›®å½•é‡å‘½åï¼Œä¼ å…¥ç›®å½•idå’Œæ–°ç›®å½•å
+bool createArticle(string iRoot,Article art);     //åˆ›å»ºæ–‡ç« ï¼Œä¼ å…¥ç›®å½•ç´¢å¼•å’Œæ–‡ç« ç±»ï¼Œ
+bool changeArticleName(string iRoot,string iArticle,string name);//ä¿®æ”¹æ–‡ç« æ ‡é¢˜
+bool changeArticleContent(string iRoot,string iArticle,string content); //ä¿®æ”¹æ–‡ç« å†…å®¹
+bool deleteRoot(string index);         //åˆ é™¤ç›®å½•ï¼Œä¼ å…¥ç›®å½•ç´¢å¼•
+bool deleteArticle(string iRoot,string iArticle); //åˆ é™¤æ–‡ç« ï¼Œä¼ å…¥ç›®å½•å’Œæ–‡ç« ç´¢å¼•
+vector<Directory> searchAllRoot();//æŸ¥æ‰¾æ‰€æœ‰ç›®å½•ï¼Œè¿”å›ç›®å½•åˆ—è¡¨
+vector<Article> searchRootArticle(string iRoot);  //æŸ¥æ‰¾æŸä¸ªç›®å½•ä¸‹æ‰€æœ‰æ–‡ç« ï¼Œä¼ å…¥ç›®å½•ç´¢å¼•ï¼Œè¿”å›æ–‡ç« åˆ—è¡¨
+vector<Article> searchAllArticle();  //è¿”å›æ‰€æœ‰æ–‡ç« 
+Article searchArticle(string iRoot,string iArticle);  //æŸ¥æ‰¾æŸä¸ªç›®å½•ä¸‹ç‰¹å®šæ–‡ç« ï¼Œä¼ å…¥ç›®å½•å’Œæ–‡ç« ç´¢å¼•ï¼Œè¿”å›æ–‡ç« ç±»,è‹¥æ‰¾ä¸åˆ°è¿”å›ä¸€ä¸ªç©ºå¯¹è±¡ã€‚
+Json::Value returnRoot(string path);  //è¿”å›jsonæ•´ä¸ªæ–‡ä»¶ï¼Œè‹¥æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¿”å›null
+bool writeInJson(Json::Value root,string path);         //å†™å…¥jsonæ–‡ä»¶
+void getArticlePath(string articleId);//è¿”å›æ–‡ç« è·¯å¾„
+
+struct SearchResult{
+    string dirId;
+    Article article;
+};
+vector<SearchResult> searchRequestedArticles(vector<string>); //è¿”å›æ–‡ç« æœç´¢ç»“æœ
+QString s2q(const string &s);
+string q2s(const QString &s);
+unsigned int s2i(string ss);
+string i2s(unsigned int ss);
+bool mysetFind(string id);
+void print(QString s);
+QString readFile(QString filePath);
+bool changeRootId(string oldId,string newId,string modifiedTime); //ä¿®æ”¹åŸç›®å½•idä¸æ—¶é—´æˆ³
+bool changeArticleId(string rootid,string oldId,string newId,string modifiedTime); //ä¿®æ”¹åŸæ–‡ç« idä¸æ—¶é—´æˆ³
+//void synchronous();   //åŒæ­¥æ“ä½œ
+void stdstring2charstar(std::string, char *);
+void tmpstring2charstar(std::string, char *);
 #endif

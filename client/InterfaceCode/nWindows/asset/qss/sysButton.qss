@@ -1,0 +1,12 @@
+QPushButton{
+	min-width: 30px;
+	min-height: 30px;
+	color:black;
+	border-image:url(asset/image/sys.png);
+}
+QPushButton:hover{
+	border-image:url(asset/image/syspressed.png);
+}
+QPushButton:pressed{
+	border-image:url(asset/image/syspressed.png);
+}
