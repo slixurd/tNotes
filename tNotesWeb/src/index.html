@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html class="bs-bright">
+<head>
+    <meta charset="utf-8" />
+    <title>tNotes</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/brightTheme.css">
+    <!-- build:css css/tNotes.css -->
+    <link rel="stylesheet" href="css/prettify.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/folderList.css">
+    <link rel="stylesheet" href="css/noteList.css">
+    <link rel="stylesheet" href="css/contentViewer.css">
+    <!-- /build -->
+</head>
+<body>
+
+
+    <!-- 导航栏 -->
+    <div id="navbar">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">tNotes</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                             <li>
+                            <a href="#">
+                                <span class="glyphicon" id="currentUser">离线</span>
+                                
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#synchro" id="synchro">
+                                <span class="glyphicon glyphicon-cloud-upload"></span>
+                                同步
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="login" data-toggle="modal" data-target="#loginModal">
+                                <span class="glyphicon glyphicon-user"></span>
+                                登录
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="regist" data-toggle="modal" data-target="#registModal">
+                                <span class="glyphicon glyphicon-user"></span>
+                                注册
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#settingModal">
+                                <span class="glyphicon glyphicon-cog"></span>
+                                设置
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#changeAllStyleModal">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                全局样式
+                            </a>
+                        </li>
+
+                    </ul>
+                    <form class="navbar-form navbar-right" role="search">
+                        <div class="form-group">
+                            <input id='searchContent' type="text" class="form-control" placeholder="关键词"></div>
+                        <a href="#search" type="button" class="btn btn-default">搜索</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--设置modal-->
+        <div id="settingModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="settingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 id="settingModalLabel" class="modal-title">设置</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="setting_item modal-title">同步间隔</h4>
+                        <form class="" role="search">
+                            <div class="form-group">
+                                <label>
+                                    <input type="text" placeholder="间隔时间"/>
+                                    S
+                                </label>
+                            </div>
+                        </form>
+                        <h4 id="logout" class="setting_item modal-title" data-dismiss="modal">退出账号</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="setting-confirm-btn" href="#deleteNote" type="button" class="btn btn-primary" data-dismiss="modal">更改</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--登录modal-->
+        <div id="loginModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">登录</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="" role="search" id="loginForm">
+                            <div class="form-group">
+                                <input type="text" id="login_username" class="form-control" placeholder="用户名"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="login_password" class="form-control" placeholder="密码"/>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input id="rememberme" type="checkbox" checked>记住密码</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="loginButton" type="button" class="btn btn-primary" data-dismiss="modal">登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+                <div id="registModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">注册</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="" role="search">
+                            <div class="form-group">
+                                <input type="text" id="regist_username" class="form-control" placeholder="用户名"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="regist_password" class="form-control" placeholder="密码"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="registButton" type="button" class="btn btn-primary" data-dismiss="modal">注册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--更改全局样式modal-->
+        <div id="changeAllStyleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="changeStyleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 id="changeAllStyleModalLabel" class="modal-title">更改全局样式</h4>
+                    </div>
+                    <div class="modal-body">
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div class="container">
+
+
+        <!-- 提示 -->
+        <div id="hint" class="alert display-none">
+          <button type="button" class="close">×</button>
+          <h4 id="hint-title"></h4>
+          <p id="hint-content"></p>
+        </div>
+
+
+        <div class="row">
+
+
+            <!-- 文件夹 -->
+            <div id="folder" class="col-lg-2">
+                <div class="list-group">
+                    <a href="#" class="list-group-item" data-toggle="modal" data-target="#newFolderModal"><span class="glyphicon glyphicon-plus"></span> 新建分类</a>
+                     <a id="rename-folder-button" href="#" class="list-group-item disabled" data-target="#renameFolderModal"><span class="glyphicon glyphicon-edit"></span> 重命名分类</a>
+                    <a id="delete-folder-btn" href="#" class="list-group-item disabled" data-target="#deleteFolderModal"><span class="glyphicon glyphicon-remove"></span> 删除分类</a>
+                </div>
+                <div id="folder-list" class="list-group"></div>
+                <div id="newFolderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newFolderModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 id="newFolderModalLabel" class="modal-title">新建分类</h4>
+                            </div>
+                            <div class="modal-body">
+                                <input id="new-folder-name" class="form-control" type="text" placeholder="分类名" />
+                            </div>
+                            <div class="modal-footer">
+                                <button id="new-folder-confirm-btn" type="button" class="btn btn-primary" data-dismiss="modal">新建</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="renameFolderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newFolderModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 id="renameFolderModalLabel" class="modal-title">重命名分类</h4>
+                            </div>
+                            <div class="modal-body">
+                                <input id="rename-folder-name" class="form-control" type="text" placeholder="分类名" />
+                            </div>
+                            <div class="modal-footer">
+                                <button id="rename-folder-confirm-btn" type="button" class="btn btn-primary" data-dismiss="modal">重命名</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="deleteFolderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteFolderModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 id="deleteFolderModalLabel" class="modal-title">删除分类</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-danger">删除分类将会同时删除其下的所有笔记，确定要删除吗？</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a id="delete-folder-confirm-btn" href="#deleteFolder" class="btn btn-primary">删除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script id="folder-template" type="text/template">
+                <a href="#folder/0" class="list-group-item folder" data-id="0">
+                    <span class="glyphicon glyphicon-book"></span> 最近编辑文章
+                </a>
+                <% _.each(folders, function (folder) { %>
+                    <a href="#folder/<%= folder.id %>" class="list-group-item folder" data-id="<%= folder.id %>">
+                        <span class="glyphicon glyphicon-book"></span> <%= folder.name %>
+                    </a>
+                <% }) %>
+            </script>
+
+
+            <!-- 笔记 -->
+            <div id="note" class="col-lg-2">
+                <div class="list-group">
+                    <a id="new-note-btn" href="#newNote" class="list-group-item"><span class="glyphicon glyphicon-plus"></span> 新笔记</a>
+                </div>
+                <div id="note-list" class="list-group"></div>
+            </div>
+            <script id="note-template" type="text/template" >
+                <% _.each(notes, function (note) { %>
+                    <a href="#note/<%= note.id %>" class="list-group-item note" data-id="<%= note.id %>">
+                        <span class="glyphicon glyphicon-file"></span> <%= note.title %><br />
+                        <span id="note-summary" class="note-summary"><%= note.brief %></span>
+                    </a>
+                <% }) %>
+            </script>
+
+
+            <!-- 查看编辑区 -->
+            <div id="content" class="col-lg-8">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <div id="note-title"></div>
+                            <div class="controls">
+                                <a id="save-btn" href="#saveNote"><span class="glyphicon glyphicon-save"></span> 保存</a>
+                                <a id="edit-btn" href="#editNote"><span class="glyphicon glyphicon-pencil"></span> 编辑</a>
+                                <a id="save-quit-btn" class="hidden" href="#saveAndQuitEditing"><span class="glyphicon glyphicon-ok"></span> 完成</a>
+                                <a id="delete-btn" href="#" data-target="#deleteNoteModal"><span class="glyphicon glyphicon-trash"></span> 删除</a>
+                                <a id="export-btn" href="#" download="tNotes.md"><span class="glyphicon glyphicon-export"></span> 导出</a>
+                                <a id="expand-btn" href="#toggleContentViewerSize"><span class="glyphicon glyphicon-resize-full"></span> 展开</a>
+                                <a href="#" data-toggle="modal" data-target="#changeStyleModal"><span class="glyphicon glyphicon-eye-open"></span> 样式</a>
+                                <a id="print-btn" href="#"><span class="glyphicon glyphicon-print"></span> 打印</a>
+                                <a href="#" data-toggle="modal" data-target="#markdownHelpModal"><span class="glyphicon glyphicon-question-sign"></span> 帮助</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="note-content" class="panel-body default"></div>
+                    <div id="note-footer" class="panel-footer"></div>
+                    <!-- 滚动页面用 -->
+                    <footer></footer>
+                </div>
+                <!-- 编辑工具 -->
+                <div id="edit-tool" class="popover top">
+                    <div class="arrow"></div>
+                    <div class="popover-content">
+                        <button id="bold-btn" class="btn btn-default"><span class="glyphicon glyphicon-bold"></span></button>
+                        <button id="italic-btn"class="btn btn-default"><span class="glyphicon glyphicon-italic"></span></button>
+                        <button class="btn btn-default" data-toggle="modal" data-target="#insertLinkModal"><span class="glyphicon glyphicon-link"></span></button>
+                    </div>
+                </div>
+                <!-- 插入链接模态框 -->
+                <div id="insertLinkModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="insertLinkModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 id="insertLinkModalLabel" class="modal-title">插入链接</h4>
+                            </div>
+                            <div class="modal-body">
+                                <input id="link" class="form-control" type="text" placeholder="链接地址"/>
+                                <div class="checkbox">
+                                    <label><input id="is-img-link" type="checkbox"> 图片</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="insert-link-confirm-btn" href="#" class="btn btn-primary" data-dismiss="modal">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 删除笔记模态框 -->
+                <div id="deleteNoteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteNoteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 id="deleteNoteModalLabel" class="modal-title">删除笔记</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-danger">删除笔记后将不可恢复，确定要删除吗？</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a id="delete-note-confirm-btn" href="#deleteNote" class="btn btn-primary">删除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 更改样式模态框 -->
+                <div id="changeStyleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="changeStyleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 id="changeStyleModalLabel" class="modal-title">更改样式</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="img-thumbnail change-style" src="img/style-default.jpg" data-style="default" data-dismiss="modal" /></div>
+                                <div class="img-thumbnail change-style" src="img/style-bright.jpg" data-style="bright" data-dismiss="modal" /></div>
+                                <div class="img-thumbnail change-style" src="img/style-colorful.jpg" data-style="colorful" data-dismiss="modal" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Markdown语法帮助模态框 -->
+                <div id="markdownHelpModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="markdownHelpModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 id="markdownHelpModalLabel" class="modal-title">Markdown基本语法</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-striped table-hover">
+                                    <head>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>名称</th>
+                                            <th>说明</th>
+                                            <th>范例</th>
+                                        </tr>
+                                    </head>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>段落和换行</td>
+                                            <td>段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行</td>
+                                            <td>无</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>标题</td>
+                                            <td>在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶</td>
+                                            <td># 这是 H1 <br> ## 这是 H2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>区块引用</td>
+                                            <td>在每行的最前面加上 &gt;</td>
+                                            <td>&gt; 这是一个区块引用</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>列表</td>
+                                            <td>无序列表使用星号、加号或是减号作为列表标记<br />有序列表则使用数字接着一个英文句点</td>
+                                            <td>- Red<br />- Green<br/>- Blue</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>代码区块</td>
+                                            <td>简单地缩进4个空格或是1个制表符</td>
+                                            <td>这是一个普通段落<br />&nbsp;&nbsp;&nbsp;&nbsp;这是一个代码区块</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>分隔线</td>
+                                            <td>可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西</td>
+                                            <td>-------------------------</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td>链接</td>
+                                            <td>只要在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可</td>
+                                            <td>[示例](http://example.com/ "Title")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td>强调</td>
+                                            <td>使用星号（*）和底线（_）作为标记强调字词的符号，被 * 或 _ 包围的字词会被转成用&lt;em&gt; 标签包围，用两个 * 或 _ 包起来的话，则会被转成&lt;strong&gt;</td>
+                                            <td>*强调*</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9</td>
+                                            <td>代码</td>
+                                            <td>如果要标记一小段行内代码，你可以用反引号把它包起来（`）</td>
+                                            <td>`printf()`</td>
+                                        </tr>
+                                        <tr>
+                                            <td>10</td>
+                                            <td>图片</td>
+                                            <td>跟链接相似，只不过前面还要加上叹号，并且方括号里的是Alt文字</td>
+                                            <td>![Alt text](/path/to/img.jpg "Optional title")</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <a class="btn btn-primary" href="http://wowubuntu.com/markdown/" target="_blank">详细Markdown语法</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 浏览辅助按钮 -->
+                <div id="assist-btns">
+                    <button class="btn btn-default scroll" data-target="body"><span class="glyphicon glyphicon-arrow-up"></button>
+                    <button class="btn btn-default scroll" data-target="footer"><span class="glyphicon glyphicon-arrow-down"></button>
+                </div>
+                <!-- 图片预览层 -->
+                <div id="img-preview" class="display-none">
+                    <img src="img/intro.jpg" />
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <!-- build:js js/lib.js -->
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/jquery.smooth-scroll.js"></script>
+    <script src="js/lib/bootstrap.js"></script>
+    <script src="js/lib/underscore.js"></script>
+    <script src="js/lib/backbone.js"></script>
+    <script src="js/lib/backbone-indexeddb.js"></script>
+    <script src="js/lib/backbone.localStorage.js"></script>
+    <script src="js/lib/showdown.js"></script>
+    <!-- /build -->
+    <!-- build:js js/prettify/prettify.js -->
+    <script src="js/lib/prettify/prettify.js"></script>
+    <!-- /build -->
+    <!-- build:[src] js/require.js -->
+    <script data-main="js/main" src="js/lib/require.js"></script>
+    <!-- /build -->
+</body>
+</html>
