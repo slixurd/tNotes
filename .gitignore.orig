@@ -1,6 +1,7 @@
 # executable files
 *.out
 test
+
 # Compiled Object files
 *.slo
 *.lo
@@ -14,7 +15,15 @@ test
 *.lai
 *.la
 *.a
+<<<<<<< HEAD
 *.vcxproj
 *.filters
+=======
 /tNodesServer/build/
 /tNodesServer/dist/
+<<<<<<< HEAD
+/tNotesServer/build/
+/tNotesServer/dist/
+=======
+>>>>>>> 19a259e0284b29b37f733dfbe6ccbaebfdfe3bf8
+>>>>>>> server
